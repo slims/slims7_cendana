@@ -28,15 +28,15 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
 
 function reverseAuthor($lastfirst) {
 	if ($lastfirst == "") {
@@ -235,9 +235,9 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     }
 
     // include printed settings configuration file
-    //include SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.'admin_template'.DIRECTORY_SEPARATOR.'printed_settings.inc.php';
+    //include SB.'admin'.DS.'admin_template'.DS.'printed_settings.inc.php';
     // check for custom template settings
-    //$custom_settings = SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.$sysconf['admin_template']['dir'].DIRECTORY_SEPARATOR.$sysconf['template']['theme'].DIRECTORY_SEPARATOR.'printed_settings.inc.php';
+    //$custom_settings = SB.'admin'.DS.$sysconf['admin_template']['dir'].DS.$sysconf['template']['theme'].DS.'printed_settings.inc.php';
     //if (file_exists($custom_settings)) {
     //    include $custom_settings;
     //}
@@ -273,8 +273,8 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     if ($file_write) {
         echo '<script type="text/javascript">parent.$(\'#queueCount\').html(\'0\');</script>';
         // open result in new window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SENAYAN_WEB_ROOT_DIR.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Catalog Printing').'\')</script>';
-    } else { utility::jsAlert('ERROR! Catalog card failed to generate, possibly because '.SENAYAN_BASE_DIR.FILES_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Catalog Printing').'\')</script>';
+    } else { utility::jsAlert('ERROR! Catalog card failed to generate, possibly because '.SB.FILES_DIR.' directory is not writable'); }
     exit();
 }
 
@@ -287,10 +287,10 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     </div>
 	<div class="sub_section">
     <div class="action_button">
-    <a target="blindSubmit" href="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/printed_card.php?action=clear" class="notAJAX headerText2" style="color: #FF0000;"><?php echo __('Clear Print Queue'); ?></a>
-	<a target="blindSubmit" href="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/printed_card.php?action=print" class="notAJAX headerText2"><?php echo __('Print Catalog for Selected Data'); ?></a>
+    <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/printed_card.php?action=clear" class="notAJAX headerText2" style="color: #FF0000;"><?php echo __('Clear Print Queue'); ?></a>
+	<a target="blindSubmit" href="<?php echo MWB; ?>bibliography/printed_card.php?action=print" class="notAJAX headerText2"><?php echo __('Print Catalog for Selected Data'); ?></a>
 	</div>
-    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/printed_card.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+    <form name="search" action="<?php echo MWB; ?>bibliography/printed_card.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
     <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
     </form>
@@ -312,15 +312,15 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
 // create datagrid
 $datagrid = new simbio_datagrid();
 /* BIBLIOGRAPHY LIST */
-require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_tokenizecql.inc.php';
-require LIB_DIR.'biblio_list_model.inc.php';
+require SIMBIO.'simbio_UTILS/simbio_tokenizecql.inc.php';
+require LIB.'biblio_list_model.inc.php';
 // index choice
-if ($sysconf['index']['type'] == 'index' || ($sysconf['index']['type'] == 'sphinx' && file_exists(LIB_DIR.'sphinx/sphinxapi.php'))) {
+if ($sysconf['index']['type'] == 'index' || ($sysconf['index']['type'] == 'sphinx' && file_exists(LIB.'sphinx/sphinxapi.php'))) {
     if ($sysconf['index']['type'] == 'sphinx') {
-        require LIB_DIR.'sphinx/sphinxapi.php';
-        require LIB_DIR.'biblio_list_sphinx.inc.php';
+        require LIB.'sphinx/sphinxapi.php';
+        require LIB.'biblio_list_sphinx.inc.php';
     } else {
-        require LIB_DIR.'biblio_list_index.inc.php';
+        require LIB.'biblio_list_index.inc.php';
     }
     // table spec
     $table_spec = 'search_biblio AS `index` LEFT JOIN `biblio` as b ON `index`.biblio_id=b.biblio_id';
@@ -332,7 +332,7 @@ if ($sysconf['index']['type'] == 'index' || ($sysconf['index']['type'] == 'sphin
 // FROM search_biblio AS `index` LEFT JOIN `item` ON `index`.biblio_id=`item`.biblio_id
 
 } else {
-    require LIB_DIR.'biblio_list.inc.php';
+    require LIB.'biblio_list.inc.php';
     // table spec
     $table_spec = 'biblio LEFT JOIN item as i ON biblio.biblio_id=i.biblio_id';
     if ($can_read) {

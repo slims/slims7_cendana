@@ -29,18 +29,18 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-system');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/template_parser/simbio_template_parser.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/template_parser/simbio_template_parser.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('system', 'r');
@@ -142,10 +142,10 @@ if (isset($_POST['saveData'])) {
   </div>
 	<div class="sub_section">
 	  <div class="action_button">
-      <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>system/content.php" class="headerText2"><?php echo __('Content List'); ?></a>
-      <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>system/content.php?action=detail" class="headerText2"><?php echo __('Add New Content'); ?></a>
+      <a href="<?php echo MWB; ?>system/content.php" class="headerText2"><?php echo __('Content List'); ?></a>
+      <a href="<?php echo MWB; ?>system/content.php?action=detail" class="headerText2"><?php echo __('Add New Content'); ?></a>
 	  </div>
-    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>system/content.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+    <form name="search" action="<?php echo MWB; ?>system/content.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
     <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
     </form>
@@ -208,7 +208,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,fontsizeselect,|,bullist,numlist,|,link,unlink,anchor,image,cleanup,code,forecolor",
         theme_advanced_buttons2 : "undo,redo,|,tablecontrols,|,hr,removeformat,visualaid,|,charmap,media,|,ltr,rtl,|,search,replace",
         theme_advanced_buttons3 : null, theme_advanced_toolbar_location : "top", theme_advanced_toolbar_align : "center", theme_advanced_statusbar_location : "bottom",
-        theme_advanced_resizing : false, content_css : "'.(SENAYAN_WEB_ROOT_DIR.'admin/'.$sysconf['admin_template']['css']).'",
+        theme_advanced_resizing : false, content_css : "'.(SWB.'admin/'.$sysconf['admin_template']['css']).'",
         });</script>';
     echo $form->printOut();
 } else {

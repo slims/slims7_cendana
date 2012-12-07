@@ -36,6 +36,6 @@ if (!defined('INDEX_AUTH')) {
 // no cache
 @session_cache_limiter('nocache');
 // set session name and start the session
-@session_name(SENAYAN_MEMBER_SESSION_COOKIES_NAME);
+@session_name(MEMBER_COOKIES_NAME);
 // set session cookies params
-@session_set_cookie_params(43200, SENAYAN_WEB_ROOT_DIR);
+@session_set_cookie_params(43200, SWB);

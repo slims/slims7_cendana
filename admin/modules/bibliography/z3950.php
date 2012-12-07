@@ -28,15 +28,15 @@ define('DB_ACCESS', 'fa');
 // start the session
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');
@@ -61,7 +61,7 @@ if (isset($_GET['z3950_source'])) {
 
 /* RECORD OPERATION */
 if (isset($_POST['saveZ']) AND isset($_SESSION['z3950result'])) {
-    require MODULES_BASE_DIR.'bibliography/biblio_utils.inc.php';
+    require MDLBS.'bibliography/biblio_utils.inc.php';
 
     $gmd_cache = array();
     $publ_cache = array();
@@ -175,7 +175,7 @@ if (isset($_POST['saveZ']) AND isset($_SESSION['z3950result'])) {
 
 /* SEARCH OPERATION */
 if (isset($_GET['keywords']) AND $can_read) {
-    require LIB_DIR.'marcxmlsenayan.inc.php';
+    require LIB.'marcxmlsenayan.inc.php';
     $_SESSION['z3950result'] = array();
     $keywords = trim($_GET['keywords']);
     $num_hosts = count($zserver);
@@ -233,7 +233,7 @@ if (isset($_GET['keywords']) AND $can_read) {
             // save it to session vars for retrieving later
             $_SESSION['z3950result'] = $xmlrec;
             // create list and form
-            echo '<form method="post" class="notAJAX" action="'.MODULES_WEB_ROOT_DIR.'bibliography/z3950.php" target="blindSubmit">';
+            echo '<form method="post" class="notAJAX" action="'.MWB.'bibliography/z3950.php" target="blindSubmit">';
             echo '<table align="center" id="dataList" cellpadding="5" cellspacing="0">';
             echo '<tr>';
             echo '<td colspan="3"><input type="submit" name="saveZ" value="Save Z3950 Records to Database" /></td>';
@@ -275,7 +275,7 @@ if (isset($_GET['keywords']) AND $can_read) {
 	    <h2><?php echo __('Z3950'); ?></h2>
     </div>
     <div class="sub_section">
-      <form name="search" id="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/z3950.php" loadcontainer="searchResult" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+      <form name="search" id="search" action="<?php echo MWB; ?>bibliography/z3950.php" loadcontainer="searchResult" method="get" style="display: inline;"><?php echo __('Search'); ?> :
       <input type="text" name="keywords" id="keywords" size="30" />
       <select name="field"><option value="isbn"><?php echo __('ISBN/ISSN'); ?></option><option value="ti"><?php echo __('Title/Series Title'); ?></option><option value="au"><?php echo __('Authors'); ?></option></select>
       <?php echo __('Server'); ?>: <select name="z3950_source" style="width: 20%;"><?php foreach ($sysconf['z3950_source'] as $serverid => $z3950_source) { echo '<option value="'.$z3950_source['uri'].'">'.$z3950_source['name'].'</option>';  } ?></select>

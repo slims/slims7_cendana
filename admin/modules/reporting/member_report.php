@@ -27,13 +27,13 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-reporting');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('reporting', 'r');
@@ -63,7 +63,7 @@ $report_q = $dbs->query('SELECT member_type_name, COUNT(member_id) FROM mst_memb
     LEFT JOIN member AS m ON mt.member_type_id=m.member_type_id
     WHERE TO_DAYS(expire_date)>TO_DAYS(\''.date('Y-m-d').'\')
     GROUP BY m.member_type_id ORDER BY COUNT(member_id) DESC');
-$report_d = '<div class="chartLink"><a class="notAJAX" href="#" onclick="openHTMLpop(\''.MODULES_WEB_ROOT_DIR.'reporting/charts_report.php?chart=total_member_by_type\', 700, 470, \''.__('Total Members By Membership Type').'\')">'.__('Show in chart/plot').'</a></div>';;
+$report_d = '<div class="chartLink"><a class="notAJAX" href="#" onclick="openHTMLpop(\''.MWB.'reporting/charts_report.php?chart=total_member_by_type\', 700, 470, \''.__('Total Members By Membership Type').'\')">'.__('Show in chart/plot').'</a></div>';;
 while ($data = $report_q->fetch_row()) {
     $report_d .= '<strong>'.$data[0].'</strong> : '.$data[1].', ';
 }
@@ -122,11 +122,11 @@ if (isset($_GET['print'])) {
     $html_str .= '<script type="text/javascript">self.print();</script>'."\n";
     $html_str .= '</body></html>'."\n";
     // write to file
-    $file_write = @file_put_contents(REPORT_FILE_BASE_DIR.'member_stat_print_result.html', $html_str);
+    $file_write = @file_put_contents(REPBS.'member_stat_print_result.html', $html_str);
     if ($file_write) {
         // open result in new window
-        echo '<script type="text/javascript">parent.openWin(\''.SENAYAN_WEB_ROOT_DIR.FILES_DIR.'/'.REPORT_DIR.'/member_stat_print_result.html\', \'popMemberReport\', 800, 500, true)</script>';
-    } else { utility::jsAlert('ERROR! Membership statistic report failed to generate, possibly because '.REPORT_FILE_BASE_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">parent.openWin(\''.SWB.FLS.'/'.REP.'/member_stat_print_result.html\', \'popMemberReport\', 800, 500, true)</script>';
+    } else { utility::jsAlert('ERROR! Membership statistic report failed to generate, possibly because '.REPBS.' directory is not writable'); }
     exit();
 }
 

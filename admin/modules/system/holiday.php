@@ -29,18 +29,18 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-system');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_date.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+require SIMBIO.'simbio_UTILS/simbio_date.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('system', 'r');
@@ -161,9 +161,9 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
 	<div class="sub_section">
     .
 	  <div class="action_button">
-      <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>system/holiday.php" class="headerText2"><?php echo __('Holiday Setting'); ?></a>
-      <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>system/holiday.php?mode=special" class="headerText2"><?php echo __('Special holiday'); ?></a>
-      <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>system/holiday.php?mode=special&action=detail" class="headerText2"><?php echo __('Add Special holiday'); ?></a>
+      <a href="<?php echo MWB; ?>system/holiday.php" class="headerText2"><?php echo __('Holiday Setting'); ?></a>
+      <a href="<?php echo MWB; ?>system/holiday.php?mode=special" class="headerText2"><?php echo __('Special holiday'); ?></a>
+      <a href="<?php echo MWB; ?>system/holiday.php?mode=special&action=detail" class="headerText2"><?php echo __('Add Special holiday'); ?></a>
 	  </div>
   </div>
 </div>
@@ -240,7 +240,7 @@ if (isset($_GET['mode'])) {
         }
 
         // set table and table header attributes
-        $datagrid->icon_edit = SENAYAN_WEB_ROOT_DIR.'admin/'.$sysconf['admin_template']['dir'].'/'.$sysconf['admin_template']['theme'].'/edit.gif';
+        $datagrid->icon_edit = SWB.'admin/'.$sysconf['admin_template']['dir'].'/'.$sysconf['admin_template']['theme'].'/edit.gif';
         $datagrid->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
         $datagrid->table_header_attr = 'class="dataListHeader" style="font-weight: bold;"';
         // set delete proccess URL

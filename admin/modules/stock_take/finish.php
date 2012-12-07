@@ -28,15 +28,15 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-stocktake');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('stock_take', 'r');
@@ -88,7 +88,7 @@ if (isset($_POST['confirmFinish'])) {
         define('REPORT_DIRECT_INCLUDE', true);
         // stock take general report
         echo '<h3>'.$stk_take_d[0].' - Stock Take Report</h3><hr />';
-        include MODULES_BASE_DIR.'stock_take/st_report.php';
+        include MDLBS.'stock_take/st_report.php';
 
         // cell row class
         $cellClass = 'alterCell';
@@ -139,7 +139,7 @@ if (isset($_POST['confirmFinish'])) {
         $file_write = @file_put_contents(REPORT_FILE_BASE_DIR.$stk_take_report_filename, $html_str);
         if ($file_write) {
             // open result in new window
-            echo '<script type="text/javascript">parent.openWin(\''.SENAYAN_WEB_ROOT_DIR.'/'.FILES_DIR.'/'.REPORT_DIR.'/'.$stk_take_report_filename.'\', \'popMemberReport\', 800, 500, true)</script>';
+            echo '<script type="text/javascript">parent.openWin(\''.SWB.'/'.FILES_DIR.'/'.REPORT_DIR.'/'.$stk_take_report_filename.'\', \'popMemberReport\', 800, 500, true)</script>';
         } else { utility::jsAlert('ERROR! Stock take report failed to generate, possibly because '.REPORT_FILE_BASE_DIR.' directory is not writable'); }
         // update
         $update_st_q = $dbs->query("UPDATE stock_take SET report_file='$stk_take_report_filename' WHERE is_active=1");
@@ -152,7 +152,7 @@ if (isset($_POST['confirmFinish'])) {
         // send an alert
         echo '<script type="text/javascript">';
         echo 'alert(\''.__('Stock Take Proccess Finished!').'\');';
-        echo 'parent.location.href = \''.SENAYAN_WEB_ROOT_DIR.'admin/index.php?mod=stock_take\';';
+        echo 'parent.location.href = \''.SWB.'admin/index.php?mod=stock_take\';';
         echo '</script>';
     }
     exit();

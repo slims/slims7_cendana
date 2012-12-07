@@ -29,7 +29,7 @@ if (!defined('INDEX_AUTH')) {
 }
 
 // required file
-require LIB_DIR.'member_logon.inc.php';
+require LIB.'member_logon.inc.php';
 // check if member already logged in
 $is_member_login = utility::isMemberLogin();
 
@@ -43,10 +43,10 @@ if (!$is_member_login) {
     function showLoanHist($num_recs_show = 1000000)
     {
         global $dbs;
-        require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-        require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-        require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-        require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_date.inc.php';
+        require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+        require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+        require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+        require SIMBIO.'simbio_UTILS/simbio_date.inc.php';
 
         // table spec
         $_table_spec = 'loan AS l

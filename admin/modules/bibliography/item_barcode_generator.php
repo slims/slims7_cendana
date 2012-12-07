@@ -27,16 +27,16 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');
@@ -65,7 +65,7 @@ if (isset($_POST['itemID']) AND !empty($_POST['itemID']) AND isset($_POST['itemA
     // barcode size
     $size = 2;
     // create AJAX request
-    echo '<script type="text/javascript" src="'.JS_WEB_ROOT_DIR.'jquery.js"></script>';
+    echo '<script type="text/javascript" src="'.JWB.'jquery.js"></script>';
     echo '<script type="text/javascript">';
     // loop array
     foreach ($_POST['itemID'] as $itemID) {
@@ -83,7 +83,7 @@ if (isset($_POST['itemID']) AND !empty($_POST['itemID']) AND isset($_POST['itemA
             /* replace invalid characters */
             $barcode_text = str_replace(array(':', ',', '*', '@'), '', $barcode_text);
             // send ajax request
-            echo 'jQuery.ajax({ url: \''.SENAYAN_WEB_ROOT_DIR.'lib/phpbarcode/barcode.php?code='.$itemID.'&encoding='.$sysconf['barcode_encoding'].'&scale='.$size.'&mode=png\', type: \'GET\', error: function() { alert(\'Error creating barcode!\'); } });'."\n";
+            echo 'jQuery.ajax({ url: \''.SWB.'lib/phpbarcode/barcode.php?code='.$itemID.'&encoding='.$sysconf['barcode_encoding'].'&scale='.$size.'&mode=png\', type: \'GET\', error: function() { alert(\'Error creating barcode!\'); } });'."\n";
             // add to sessions
             $_SESSION['barcodes'][$itemID] = $itemID;
             $print_count++;
@@ -142,17 +142,17 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     }
 
     // include printed settings configuration file
-    require SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.'admin_template'.DIRECTORY_SEPARATOR.'printed_settings.inc.php';
+    require SB.'admin'.DS.'admin_template'.DS.'printed_settings.inc.php';
     // check for custom template settings
-    $custom_settings = SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.$sysconf['admin_template']['dir'].DIRECTORY_SEPARATOR.$sysconf['template']['theme'].DIRECTORY_SEPARATOR.'printed_settings.inc.php';
+    $custom_settings = SB.'admin'.DS.$sysconf['admin_template']['dir'].DS.$sysconf['template']['theme'].DS.'printed_settings.inc.php';
     if (file_exists($custom_settings)) {
         include $custom_settings;
     }
     // chunk barcode array
     $chunked_barcode_arrays = array_chunk($item_data_array, $barcode_items_per_row);
     // create html ouput
-    $html_str = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n";
-    $html_str .= '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Item Barcode Label Print Result</title>'."\n";
+    $html_str = '<!DOCTYPE html>'."\n";
+    $html_str .= '<html><head><title>Item Barcode Label Print Result</title>'."\n";
     $html_str .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
     $html_str .= '<meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0" /><meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT" />';
     $html_str .= '<style type="text/css">'."\n";
@@ -177,7 +177,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
                 $html_str .= substr($barcode[0], 0, $barcode_cut_title).'...';
             } else { $html_str .= $barcode[0]; }
             $html_str .= '</div>';
-            $html_str .= '<img src="'.SENAYAN_WEB_ROOT_DIR.IMAGES_DIR.'/barcodes/'.str_replace(array(' '), '_', $barcode[1]).'.png" style="width: '.$barcode_scale.'%;" border="0" />';
+            $html_str .= '<img src="'.SWB.IMG.'/barcodes/'.str_replace(array(' '), '_', $barcode[1]).'.png" style="width: '.$barcode_scale.'%;" border="0" />';
             $html_str .= '</div>';
             $html_str .= '</td>';
         }
@@ -195,8 +195,8 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
         // update print queue count object
         echo '<script type="text/javascript">parent.$(\'#queueCount\').html(\'0\');</script>';
         // open result in window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SENAYAN_WEB_ROOT_DIR.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Item Barcodes Printing').'\')</script>';
-    } else { utility::jsAlert('ERROR! Item barcodes failed to generate, possibly because '.SENAYAN_BASE_DIR.FILES_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Item Barcodes Printing').'\')</script>';
+    } else { utility::jsAlert('ERROR! Item barcodes failed to generate, possibly because '.SB.FILES_DIR.' directory is not writable'); }
     exit();
 }
 
@@ -208,10 +208,10 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     </div>
     <div class="sub_section">
 	    <div class="action_button">
-       <a target="blindSubmit" href="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/item_barcode_generator.php?action=clear" class="notAJAX headerText2" style="color: #f00;"><?php echo __('Clear Print Queue'); ?></a>
-       <a target="blindSubmit" href="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/item_barcode_generator.php?action=print" class="notAJAX headerText2"><?php echo __('Print Barcodes for Selected Data');?></a>
+       <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/item_barcode_generator.php?action=clear" class="notAJAX headerText2" style="color: #f00;"><?php echo __('Clear Print Queue'); ?></a>
+       <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/item_barcode_generator.php?action=print" class="notAJAX headerText2"><?php echo __('Print Barcodes for Selected Data');?></a>
 	    </div>
-      <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/item_barcode_generator.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+      <form name="search" action="<?php echo MWB; ?>bibliography/item_barcode_generator.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
       <input type="text" name="keywords" size="30" />
       <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
       </form>
@@ -233,15 +233,15 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
 // create datagrid
 $datagrid = new simbio_datagrid();
 /* ITEM LIST */
-require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_tokenizecql.inc.php';
-require LIB_DIR.'biblio_list_model.inc.php';
+require SIMBIO.'simbio_UTILS/simbio_tokenizecql.inc.php';
+require LIB.'biblio_list_model.inc.php';
 // index choice
-if ($sysconf['index']['type'] == 'index' || ($sysconf['index']['type'] == 'sphinx' && file_exists(LIB_DIR.'sphinx/sphinxapi.php'))) {
+if ($sysconf['index']['type'] == 'index' || ($sysconf['index']['type'] == 'sphinx' && file_exists(LIB.'sphinx/sphinxapi.php'))) {
     if ($sysconf['index']['type'] == 'sphinx') {
-        require LIB_DIR.'sphinx/sphinxapi.php';
-        require LIB_DIR.'biblio_list_sphinx.inc.php';
+        require LIB.'sphinx/sphinxapi.php';
+        require LIB.'biblio_list_sphinx.inc.php';
     } else {
-        require LIB_DIR.'biblio_list_index.inc.php';
+        require LIB.'biblio_list_index.inc.php';
     }
     // table spec
     $table_spec = 'item LEFT JOIN search_biblio AS `index` ON item.biblio_id=`index`.biblio_id';
@@ -249,7 +249,7 @@ if ($sysconf['index']['type'] == 'index' || ($sysconf['index']['type'] == 'sphin
         'item.item_code AS \''.__('Item Code').'\'',
         'index.title AS \''.__('Title').'\'');
 } else {
-    require LIB_DIR.'biblio_list.inc.php';
+    require LIB.'biblio_list.inc.php';
     // table spec
     $table_spec = 'item LEFT JOIN biblio ON item.biblio_id=biblio.biblio_id';
     $datagrid->setSQLColumn('item.item_code',

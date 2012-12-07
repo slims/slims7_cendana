@@ -27,13 +27,13 @@ define('INDEX_AUTH', '1');
 require '../../../sysconfig.inc.php';
 
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-system');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('system', 'r');
@@ -47,10 +47,10 @@ $max_print = 50;
 // barcode pdf download
 if (isset($_SESSION['barcodes'])) {
     // include printed settings configuration file
-    require SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.'admin_template'.DIRECTORY_SEPARATOR.'printed_settings.inc.php';
+    require SB.'admin'.DS.'admin_template'.DS.'printed_settings.inc.php';
 
     // check for custom template settings
-    $custom_settings = SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.$sysconf['admin_template']['dir'].DIRECTORY_SEPARATOR.$sysconf['template']['theme'].DIRECTORY_SEPARATOR.'printed_settings.inc.php';
+    $custom_settings = SB.'admin'.DS.$sysconf['admin_template']['dir'].DS.$sysconf['template']['theme'].DS.'printed_settings.inc.php';
 
     if (file_exists($custom_settings)) {
       include $custom_settings;
@@ -76,7 +76,7 @@ if (isset($_SESSION['barcodes'])) {
         $html_str .= '<div style="clear: both;">';
         foreach ($barcode_rows as $barcode) {
             $html_str .= '<div class="labelStyle">';
-            $html_str .= '<img src="'.SENAYAN_WEB_ROOT_DIR.'images/barcodes/'.str_replace(array(' '), '_', $barcode).'.png" style="width: 90%" border="0" />';
+            $html_str .= '<img src="'.SWB.'images/barcodes/'.str_replace(array(' '), '_', $barcode).'.png" style="width: 90%" border="0" />';
             $html_str .= '</div>';
         }
 
@@ -95,8 +95,8 @@ if (isset($_SESSION['barcodes'])) {
 
     if ($file_write) {
         // open result in window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SENAYAN_WEB_ROOT_DIR.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Barcode Generator').'\')</script>';
-    } else { utility::jsAlert('ERROR! Barcodes failed to generate, possibly because '.SENAYAN_BASE_DIR.FILES_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Barcode Generator').'\')</script>';
+    } else { utility::jsAlert('ERROR! Barcodes failed to generate, possibly because '.SB.FILES_DIR.' directory is not writable'); }
     exit();
 }
 
@@ -105,12 +105,12 @@ if (isset($_POST['saveData']) AND $can_write) {
   if (count($_POST['barcode']) > 0) {
     $size = intval($_POST['size']);
     // create AJAX request
-    echo '<script type="text/javascript" src="'.JS_WEB_ROOT_DIR.'jquery.js"></script>';
+    echo '<script type="text/javascript" src="'.JWB.'jquery.js"></script>';
     echo '<script type="text/javascript">';
     foreach ($_POST['barcode'] as $barcode_text) {
       if (!empty($barcode_text)) {
         $barcode_text = trim($barcode_text);
-        echo '$.ajax({url: \''.SENAYAN_WEB_ROOT_DIR.'lib/phpbarcode/barcode.php?code='.$barcode_text.'&encoding='.$sysconf['barcode_encoding'].'&scale='.$size.'&mode=png\', type: \'GET\', error: function() { alert(\''.__('Error creating barcode!').'\'); } });'."\n";
+        echo '$.ajax({url: \''.SWB.'lib/phpbarcode/barcode.php?code='.$barcode_text.'&encoding='.$sysconf['barcode_encoding'].'&scale='.$size.'&mode=png\', type: \'GET\', error: function() { alert(\''.__('Error creating barcode!').'\'); } });'."\n";
         // add to sessions
         $_SESSION['barcodes'][] = $barcode_text;
       }

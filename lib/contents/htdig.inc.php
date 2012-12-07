@@ -67,7 +67,7 @@ if ($handle) {
     while (!feof($handle)) {
         $buffer = fgets($handle, 4096);
         if (preg_match('/PAGING_SEARCH_RESULT/i', $buffer)) {
-            $buffer = preg_replace('/cgi-bin/i', str_replace('/', '', SENAYAN_WEB_ROOT_DIR), $buffer);
+            $buffer = preg_replace('/cgi-bin/i', str_replace('/', '', SWB), $buffer);
             $buffer = preg_replace('/htsearch/', 'index.php', $buffer);
             $buffer = preg_replace('/\?/', '', $buffer);
             $buffer = preg_replace('/index.php/', 'index.php?p=htdig&', $buffer);
@@ -77,4 +77,3 @@ if ($handle) {
     }
     fclose($handle);
 }
-?>

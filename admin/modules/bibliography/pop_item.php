@@ -26,14 +26,14 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+require SB.'admin/default/session.inc.php';
 
 // included js
-$js = '<script type="text/javascript" src="'.JS_WEB_ROOT_DIR.'calendar.js"></script>';
+$js = '<script type="text/javascript" src="'.JWB.'calendar.js"></script>';
 
 // ajax action
 $content = '<script type="text/javascript">'."\n";
@@ -50,4 +50,4 @@ $content .= '</script>';
 $page_title = 'Bibliography Items';
 
 // include the page template
-require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
+require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';

@@ -25,25 +25,25 @@ define('INDEX_AUTH', '1');
 // key to get full database access
 define('DB_ACCESS', 'fa');
 
-if (!defined('SENAYAN_BASE_DIR')) {
+if (!defined('SB')) {
     // main system configuration
     require '../../../sysconfig.inc.php';
     // start the session
-    require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+    require SB.'admin/default/session.inc.php';
 }
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-membership');
 
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_date.inc.php';
-require SIMBIO_BASE_DIR.'simbio_FILE/simbio_file_upload.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+require SIMBIO.'simbio_UTILS/simbio_date.inc.php';
+require SIMBIO.'simbio_FILE/simbio_file_upload.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('membership', 'r');
@@ -69,8 +69,8 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     } else {
 
         // include custom fields file
-        if (file_exists(MODULES_BASE_DIR.'membership/member_custom_fields.inc.php')) {
-            include MODULES_BASE_DIR.'membership/member_custom_fields.inc.php';
+        if (file_exists(MDLBS.'membership/member_custom_fields.inc.php')) {
+            include MDLBS.'membership/member_custom_fields.inc.php';
         }
 
         /**
@@ -231,7 +231,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
         utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'membership', $_SESSION['realname'].' extends membership for member ('.$mtype_d[1].') with ID ('.$memberID.')');
         $num_extended++;
     }
-    header('Location: '.MODULES_WEB_ROOT_DIR.'membership/index.php?expire=true&numExtended='.$num_extended);
+    header('Location: '.MWB.'membership/index.php?expire=true&numExtended='.$num_extended);
     exit();
 } else if (isset($_POST['itemID']) AND !empty($_POST['itemID']) AND isset($_POST['itemAction'])) {
     if (!($can_read AND $can_write)) {
@@ -296,11 +296,11 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     </div>
     <div class="sub_section">
 	<div class="action_button">
-    <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>membership/index.php" class="headerText2"><?php echo __('Member List'); ?></a>
-    <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>membership/index.php?expire=true" class="headerText2" style="color: #FF0000;"><?php echo __('View Expired Member'); ?></a>
-    <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>membership/index.php?action=detail" class="headerText2"><?php echo __('Add New Member'); ?></a>
+    <a href="<?php echo MWB; ?>membership/index.php" class="headerText2"><?php echo __('Member List'); ?></a>
+    <a href="<?php echo MWB; ?>membership/index.php?expire=true" class="headerText2" style="color: #FF0000;"><?php echo __('View Expired Member'); ?></a>
+    <a href="<?php echo MWB; ?>membership/index.php?action=detail" class="headerText2"><?php echo __('Add New Member'); ?></a>
 	</div>
-    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>membership/index.php" id="search" method="get" style="display: inline;"><?php echo __('Member Search'); ?> :
+    <form name="search" action="<?php echo MWB; ?>membership/index.php" id="search" method="get" style="display: inline;"><?php echo __('Member Search'); ?> :
 	    <input type="text" name="keywords" size="30" /><?php if (isset($_GET['expire'])) { echo '<input type="hidden" name="expire" value="true" />'; } ?>
 	    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
 	</form>
@@ -355,12 +355,12 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     }
 
     // include custom fields file
-    if (file_exists(MODULES_BASE_DIR.'membership/member_custom_fields.inc.php')) {
-        include MODULES_BASE_DIR.'membership/member_custom_fields.inc.php';
+    if (file_exists(MDLBS.'membership/member_custom_fields.inc.php')) {
+        include MDLBS.'membership/member_custom_fields.inc.php';
     }
 
     // member code
-    $str_input = simbio_form_element::textField('text', 'memberID', $rec_d['member_id'], 'id="memberID" onblur="ajaxCheckID(\''.SENAYAN_WEB_ROOT_DIR.'admin/AJAX_check_id.php\', \'member\', \'member_id\', \'msgBox\', \'memberID\')" style="width: 30%;"');
+    $str_input = simbio_form_element::textField('text', 'memberID', $rec_d['member_id'], 'id="memberID" onblur="ajaxCheckID(\''.SWB.'admin/AJAX_check_id.php\', \'member\', \'member_id\', \'msgBox\', \'memberID\')" style="width: 30%;"');
     $str_input .= ' &nbsp; <span id="msgBox">&nbsp;</span>';
     $form->addAnything(__('Member ID').'*', $str_input);
     // member name
@@ -445,15 +445,15 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     // member photo
     $str_input = '';
     if ($rec_d['member_image']) {
-        $str_input = '<a href="'.SENAYAN_WEB_ROOT_DIR.'images/persons/'.$rec_d['member_image'].'" target="_blank"><strong>'.$rec_d['member_image'].'</strong></a><br />';
+        $str_input = '<a href="'.SWB.'images/persons/'.$rec_d['member_image'].'" target="_blank"><strong>'.$rec_d['member_image'].'</strong></a><br />';
     }
     $str_input .= simbio_form_element::textField('file', 'image');
     $str_input .= ' '.__('Maximum').' '.$sysconf['max_image_upload'].' KB';
     $str_input .= '<p>'.__('or take a photo').'</p>';
     $str_input .= '<textarea id="base64picstring" name="base64picstring" style="display: none;"></textarea>';
     $str_input .= '<object id="flash_video" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" height="280px" width="100%">';
-    $str_input .= '<param name="src" value="'.SENAYAN_WEB_ROOT_DIR.'lib/flex/ShotSLiMSMemberPicture.swf"/>';
-    $str_input .= '<embed name="src" src="'.SENAYAN_WEB_ROOT_DIR.'lib/flex/ShotSLiMSMemberPicture.swf" height="280px" width="100%"/>';
+    $str_input .= '<param name="src" value="'.SWB.'lib/flex/ShotSLiMSMemberPicture.swf"/>';
+    $str_input .= '<embed name="src" src="'.SWB.'lib/flex/ShotSLiMSMemberPicture.swf" height="280px" width="100%"/>';
     $str_input .= '</object>';
     $form->addAnything(__('Photo'), $str_input);
     
@@ -515,7 +515,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     $datagrid->setSQLCriteria($criteria);
 
     // set table and table header attributes
-    $datagrid->icon_edit = SENAYAN_WEB_ROOT_DIR.'admin/'.$sysconf['admin_template']['dir'].'/'.$sysconf['admin_template']['theme'].'/edit.gif';
+    $datagrid->icon_edit = SWB.'admin/'.$sysconf['admin_template']['dir'].'/'.$sysconf['admin_template']['theme'].'/edit.gif';
     $datagrid->table_name = 'memberList';
     $datagrid->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
     $datagrid->table_header_attr = 'class="dataListHeader" style="font-weight: bold;"';
@@ -528,7 +528,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         echo '<div class="infoBox">';
         if (isset($_GET['expire'])) {
             echo '<b style="color: #FF0000;">'.__('Expired Member List').'</b><hr size="1" />';
-            echo '<div><input type="button" value="'.__('Extend Selected Member(s)').'" onclick="javascript: if (confirm(\''.__('Are you sure to EXTEND membership for selected members?').'\')) { $(\'#mainContent\').simbioAJAX(\''.MODULES_WEB_ROOT_DIR.'membership/index.php?expire=1\', { method: \'post\', addData: $(\'#memberList\').serialize() + \'&batchExtend=true\' } ); }" class="button" /></div>';
+            echo '<div><input type="button" value="'.__('Extend Selected Member(s)').'" onclick="javascript: if (confirm(\''.__('Are you sure to EXTEND membership for selected members?').'\')) { $(\'#mainContent\').simbioAJAX(\''.MWB.'membership/index.php?expire=1\', { method: \'post\', addData: $(\'#memberList\').serialize() + \'&batchExtend=true\' } ); }" class="button" /></div>';
             if (isset($_GET['numExtended']) AND $_GET['numExtended'] > 0) {
                 echo '<div><strong>'.$_GET['numExtended'].'</strong> '.__('members extended!').'</div>'; //mfc
             }

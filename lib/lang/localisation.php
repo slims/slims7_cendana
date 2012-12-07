@@ -44,7 +44,7 @@ if (!defined('INDEX_AUTH')) {
 }
 
 // set php-gettext library
-require LANGUAGES_BASE_DIR.'php-gettext'.DIRECTORY_SEPARATOR.'gettext.inc';
+require LANG.'php-gettext'.DS.'gettext.inc';
 
 // gettext setup
 $locale = $sysconf['default_lang'];
@@ -54,7 +54,7 @@ $encoding = 'UTF-8';
 // set language to use
 T_setlocale(LC_ALL, $locale);
 // set locales dictionary location
-_bindtextdomain($domain, LANGUAGES_BASE_DIR.'locale');
+_bindtextdomain($domain, LANG.'locale');
 // codeset
 _bind_textdomain_codeset($domain, $encoding);
 // set .mo filename to use

@@ -90,8 +90,7 @@ $social = array (
 
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
+<html><head>
  <title><?php echo $page_title; ?></title>
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  <meta name="description" content="SLiMS (Senayan Library Management System) is an open source Library Management System. It is build on Open source technology like PHP and MySQL">
@@ -103,14 +102,14 @@ $social = array (
  <link href="template/core.style.css" rel="stylesheet" type="text/css" />
  <link href="<?php echo $sysconf['template']['css']; ?>" rel="stylesheet" type="text/css" />
  <!--[if IE]>
- <link type="text/css" rel="stylesheet" media="all" href="template/default/ie.css"/>
+ <link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie.css"/>
  <![endif]-->
  <!--[if IE 6]>
- <link type="text/css" rel="stylesheet" media="all" href="template/default/ie6.css"/>
+ <link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie6.css"/>
  <![endif]-->
- <script type="text/javascript" src="js/jquery.js"></script>
- <script type="text/javascript" src="js/form.js"></script>
- <script type="text/javascript" src="js/gui.js"></script>
+ <script type="text/javascript" src="<?php echo JWB; ?>jquery.js"></script>
+ <script type="text/javascript" src="<?php echo JWB; ?>form.js"></script>
+ <script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
 
 </head>
 

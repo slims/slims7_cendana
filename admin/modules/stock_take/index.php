@@ -23,23 +23,23 @@
 // key to authenticate
 define('INDEX_AUTH', '1');
 
-if (!defined('SENAYAN_BASE_DIR')) {
+if (!defined('SB')) {
     // main system configuration
     require '../../../sysconfig.inc.php';
     // start the session
-    require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+    require SB.'admin/default/session.inc.php';
 }
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-stocktake');
 
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('stock_take', 'r');
@@ -55,7 +55,7 @@ if (!$can_read) {
 	  <h2><?php echo __('Stock Take'); ?></h2>
   </div>
 	<div class="sub_section">
-    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>stock_take/index.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+    <form name="search" action="<?php echo MWB; ?>stock_take/index.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
     <input type="submit" value="<?php echo __('Search'); ?>" class="button" />
     </form>
@@ -118,7 +118,7 @@ if (isset($_POST['itemID']) AND !empty($_POST['itemID'])) {
         'st.stock_take_name AS \''.__('Stock Take Name').'\'',
         'st.start_date AS \''.__('Start Date').'\'',
         'st.end_date AS \''.__('End Date').'\'',
-        'CONCAT(\'<a class="notAJAX" href="'.SENAYAN_WEB_ROOT_DIR.FILES_DIR.'/'.REPORT_DIR.'/\', st.report_file, \'" target="_blank">\', st.report_file, \'</a>\') AS \''.__('Report').'\'');
+        'CONCAT(\'<a class="notAJAX" href="'.SWB.FILES_DIR.'/'.REPORT_DIR.'/\', st.report_file, \'" target="_blank">\', st.report_file, \'</a>\') AS \''.__('Report').'\'');
     $datagrid->setSQLorder('st.start_date DESC');
     $datagrid->disableSort('Report');
 

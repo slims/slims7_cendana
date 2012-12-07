@@ -56,59 +56,62 @@ if ((bool) ini_get('safe_mode')) {
 @date_default_timezone_set('Asia/Jakarta');
 
 // senayan version
-define('SENAYAN_VERSION', 'SLiMS 5 (Meranti)');
+define('SENAYAN_VERSION', 'SLiMS 7 (Cendana)');
 
 // senayan session cookies name
-define('SENAYAN_SESSION_COOKIES_NAME', 'SenayanAdmin');
-define('SENAYAN_MEMBER_SESSION_COOKIES_NAME', 'SenayanMember');
+define('COOKIES_NAME', 'SenayanAdmin');
+define('MEMBER_COOKIES_NAME', 'SenayanMember');
+
+// alias for DIRECTORY_SEPARATOR
+define('DS', DIRECTORY_SEPARATOR);
 
 // senayan base dir
-define('SENAYAN_BASE_DIR', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
+define('SB', realpath(dirname(__FILE__)).DS);
 
 // absolute path for simbio platform
-define('SIMBIO_BASE_DIR', SENAYAN_BASE_DIR.'simbio2'.DIRECTORY_SEPARATOR);
+define('SIMBIO', SB.'simbio2'.DS);
 
 // senayan library base dir
-define('LIB_DIR', SENAYAN_BASE_DIR.'lib'.DIRECTORY_SEPARATOR);
+define('LIB', SB.'lib'.DS);
 
 // document, member and barcode images base dir
-define('IMAGES_DIR', 'images');
-define('IMAGES_BASE_DIR', SENAYAN_BASE_DIR.IMAGES_DIR.DIRECTORY_SEPARATOR);
+define('IMG', 'images');
+define('IMGBS', SB.IMG.DS);
 
 // library automation module base dir
-define('MODULES_DIR', 'modules');
-define('MODULES_BASE_DIR', SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.MODULES_DIR.DIRECTORY_SEPARATOR);
+define('MDL', 'modules');
+define('MDLBS', SB.'admin'.DS.MDL.DS);
 
 // files upload dir
-define('FILES_DIR', 'files');
-define('FILES_UPLOAD_DIR', SENAYAN_BASE_DIR.FILES_DIR.DIRECTORY_SEPARATOR);
+define('FLS', 'files');
+define('UPLOAD', SB.FLS.DS);
 
 // repository dir
-define('REPO_DIR', 'repository');
-define('REPO_BASE_DIR', SENAYAN_BASE_DIR.REPO_DIR.DIRECTORY_SEPARATOR);
+define('REPO', 'repository');
+define('REPOBS', SB.REPO.DS);
 
 // file attachment dir
-define('ATT_DIR', 'att');
-define('FILE_ATT_DIR', FILES_UPLOAD_DIR.ATT_DIR);
+define('ATC', 'att');
+define('FILE_ATC', UPLOAD.ATC);
 
 // printed report dir
-define('REPORT_DIR', 'reports');
-define('REPORT_FILE_BASE_DIR', FILES_UPLOAD_DIR.REPORT_DIR.DIRECTORY_SEPARATOR);
+define('REP', 'reports');
+define('REPBS', UPLOAD.REP.DS);
 
 // languages base dir
-define('LANGUAGES_BASE_DIR', LIB_DIR.'lang'.DIRECTORY_SEPARATOR);
+define('LANG', LIB.'lang'.DS);
 
 // senayan web doc root dir
 /* Custom base URL */
 $sysconf['baseurl'] = '';
 $temp_senayan_web_root_dir = preg_replace('@admin.*@i', '', dirname($_SERVER['PHP_SELF']));
-define('SENAYAN_WEB_ROOT_DIR', $sysconf['baseurl'].$temp_senayan_web_root_dir.(preg_match('@\/$@i', $temp_senayan_web_root_dir)?'':'/'));
+define('SWB', $sysconf['baseurl'].$temp_senayan_web_root_dir.(preg_match('@\/$@i', $temp_senayan_web_root_dir)?'':'/'));
 
 // javascript library web root dir
-define('JS_WEB_ROOT_DIR', SENAYAN_WEB_ROOT_DIR.'js/');
+define('JWB', SWB.'js/');
 
 // library automation module web root dir
-define('MODULES_WEB_ROOT_DIR', SENAYAN_WEB_ROOT_DIR.'admin/'.MODULES_DIR.'/');
+define('MWB', SWB.'admin/'.MDL.'/');
 
 // item status rules
 define('NO_LOAN_TRANSACTION', 1);
@@ -121,11 +124,11 @@ define('COMMAND_SUCCESS', 0);
 define('COMMAND_FAILED', 2);
 
 // simbio main class inclusion
-require SIMBIO_BASE_DIR.'simbio.inc.php';
+require SIMBIO.'simbio.inc.php';
 // simbio security class
-require SIMBIO_BASE_DIR.'simbio_UTILS'.DIRECTORY_SEPARATOR.'simbio_security.inc.php';
+require SIMBIO.'simbio_UTILS'.DS.'simbio_security.inc.php';
 // we must include utility library first
-require LIB_DIR.'utility.inc.php';
+require LIB.'utility.inc.php';
 
 // check if we are in mobile browser mode
 if (utility::isMobileBrowser()) { define('LIGHTWEIGHT_MODE', 1); }
@@ -180,7 +183,7 @@ $sysconf['enable_xml_result'] = true;
 $sysconf['mysqldump'] = '/usr/bin/mysqldump';
 // backup location (make sure it is accessible and rewritable to webserver!)
 $sysconf['temp_dir'] = '/tmp';
-$sysconf['backup_dir'] = FILES_UPLOAD_DIR.'backup'.DIRECTORY_SEPARATOR;
+$sysconf['backup_dir'] = UPLOAD.'backup'.DS;
 
 /* FILE DOWNLOAD */
 $sysconf['allow_file_download'] = false;
@@ -414,14 +417,14 @@ $sysconf['index']['sphinx_opts'] = array(
 $sysconf['captcha']['smc']['enable'] = false; // value can be 'true' or 'false'
 $sysconf['captcha']['smc']['type'] = 'recaptcha'; // value can be 'recaptcha' (at this time)
 if ($sysconf['captcha']['smc']['enable']) {
-    include_once LIB_DIR.$sysconf['captcha']['smc']['type'].DIRECTORY_SEPARATOR.'smc_settings.inc.php';
+    include_once LIB.$sysconf['captcha']['smc']['type'].DS.'smc_settings.inc.php';
 }
 
 // Captcha settings for Member Login
 $sysconf['captcha']['member']['enable'] = false; // value can be 'true' or 'false'
 $sysconf['captcha']['member']['type'] = 'recaptcha'; // value can be 'recaptcha' (at this time)
 if ($sysconf['captcha']['member']['enable']) {
-    include_once LIB_DIR.$sysconf['captcha']['member']['type'].DIRECTORY_SEPARATOR.'member_settings.inc.php';
+    include_once LIB.$sysconf['captcha']['member']['type'].DS.'member_settings.inc.php';
 }
 
 /**
@@ -465,7 +468,7 @@ $sysconf['ipaccess']['smc-serialcontrol'] = 'all';
 // OAI-PMH settings
 $sysconf['OAI']['enable'] = false;
 $sysconf['OAI']['identifierPrefix'] = 'oai:slims/';
-$sysconf['OAI']['Identify']['baseURL'] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].SENAYAN_WEB_ROOT_DIR.'oai.php';
+$sysconf['OAI']['Identify']['baseURL'] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].SWB.'oai.php';
 $sysconf['OAI']['Identify']['repositoryName'] = 'SLiMS Senayan Library Management System OAI-PMh';
 $sysconf['OAI']['Identify']['adminEmail'] = 'admin@slims.web.id';
 $sysconf['OAI']['Identify']['granularity'] = 'YYYY-MM-DDThh:mm:ssZ';
@@ -485,12 +488,12 @@ if ($is_auto = @ini_get('session.auto_start')) { define('SESSION_AUTO_STARTED', 
 if (defined('SESSION_AUTO_STARTED')) { @session_destroy(); }
 
 // check for local sysconfig For Admin (fa) file
-if (defined('DB_ACCESS') && DB_ACCESS == 'fa' && file_exists(SENAYAN_BASE_DIR.'sysconfig.local.fa.inc.php')) {
-  include SENAYAN_BASE_DIR.'sysconfig.local.fa.inc.php';
+if (defined('DB_ACCESS') && DB_ACCESS == 'fa' && file_exists(SB.'sysconfig.local.fa.inc.php')) {
+  include SB.'sysconfig.local.fa.inc.php';
 } else {
   // check for local sysconfig file
-  if (file_exists(SENAYAN_BASE_DIR.'sysconfig.local.inc.php')) {
-    include SENAYAN_BASE_DIR.'sysconfig.local.inc.php';
+  if (file_exists(SB.'sysconfig.local.inc.php')) {
+    include SB.'sysconfig.local.inc.php';
   } else {
 	  header("location: install/index.php");
 	  exit;
@@ -514,7 +517,7 @@ if (extension_loaded('mysqli')) {
 } else {
     /* MYSQL */
     // require the simbio mysql class
-    include SIMBIO_BASE_DIR.'simbio_DB/mysql/simbio_mysql.inc.php';
+    include SIMBIO.'simbio_DB/mysql/simbio_mysql.inc.php';
     // make a new connection object that will be used by all applications
     $dbs = @new simbio_mysql(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_PORT);
 }
@@ -531,10 +534,10 @@ if (stripos($_SERVER['PHP_SELF'], '/admin') === false) {
         $select_lang = trim(strip_tags($_GET['select_lang']));
         // delete previous language cookie
         if (isset($_COOKIE['select_lang'])) {
-            @setcookie('select_lang', $select_lang, time()-14400, SENAYAN_WEB_ROOT_DIR);
+            @setcookie('select_lang', $select_lang, time()-14400, SWB);
         }
         // create language cookie
-        @setcookie('select_lang', $select_lang, time()+14400, SENAYAN_WEB_ROOT_DIR);
+        @setcookie('select_lang', $select_lang, time()+14400, SWB);
         $sysconf['default_lang'] = $select_lang;
     } else if (isset($_COOKIE['select_lang'])) {
         $sysconf['default_lang'] = trim(strip_tags($_COOKIE['select_lang']));
@@ -546,7 +549,7 @@ if (stripos($_SERVER['PHP_SELF'], '/admin') === false) {
 }
 
 // Apply language settings
-require LANGUAGES_BASE_DIR.'localisation.php';
+require LANG.'localisation.php';
 
 /* AUTHORITY TYPE */
 $sysconf['authority_type']['p'] = __('Personal Name');
@@ -575,8 +578,8 @@ $sysconf['authority_level'][10] = __('Contributor');
 
 // redirect to mobile template on mobile mode
 if (defined('LIGHTWEIGHT_MODE') AND ! isset($_COOKIE['FULLSITE_MODE'])) {
-    $sysconf['template']['theme'] = 'lightweight';
-    $sysconf['template']['css'] = $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/style.css';
-    $sysconf['enable_xml_detail'] = false;
-    $sysconf['enable_xml_result'] = false;
+  $sysconf['template']['theme'] = 'lightweight';
+  $sysconf['template']['css'] = $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/style.css';
+  $sysconf['enable_xml_detail'] = false;
+  $sysconf['enable_xml_result'] = false;
 }

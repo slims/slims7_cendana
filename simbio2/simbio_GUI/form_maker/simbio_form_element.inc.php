@@ -38,6 +38,7 @@ abstract class abs_simbio_form_element
     public $element_attr = '';
     public $element_css_class = '';
     public $element_disabled = false;
+    public $element_helptext = '';
 
     /**
      * Below method must be inherited
@@ -60,12 +61,15 @@ class simbio_fe_text extends abs_simbio_form_element
         if ($this->element_disabled) {
             $_disabled = ' disabled="disabled"';
         } else { $_disabled = ''; }
+        if ($this->element_helptext) {
+            $this->element_attr .= ' title="'.$this->element_helptext.'"';
+        }
         // maxlength attribute
         if (!stripos($this->element_attr, 'maxlength')) {
             if ($this->element_type == 'text') {
-                $this->element_attr .= 'maxlength="256"';
+                $this->element_attr .= ' maxlength="256"';
             } else if ($this->element_type == 'textarea') {
-                $this->element_attr .= 'maxlength="'.(30*1024).'"';
+                $this->element_attr .= ' maxlength="'.(30*1024).'"';
             }
         }
 
@@ -102,6 +106,9 @@ class simbio_fe_select extends abs_simbio_form_element
         if ($this->element_disabled) {
             $_disabled = ' disabled="disabled"';
         } else { $_disabled = ''; }
+        if ($this->element_helptext) {
+            $this->element_attr .= ' title="'.$this->element_helptext.'"';
+        }
         $_buffer = '<select name="'.$this->element_name.'" id="'.$this->element_name.'" '.$this->element_attr.''.$_disabled.'>'."\n";
         foreach ($this->element_options as $option) {
             if (is_string($option)) {
@@ -174,23 +181,25 @@ class simbio_fe_checkbox extends abs_simbio_form_element
         if ($this->element_disabled) {
             $_disabled = ' disabled="disabled"';
         } else { $_disabled = ''; }
-
+        if ($this->element_helptext) {
+            $_helptext .= ' title="'.$this->element_helptext.'"';
+        }
         $_buffer = '';
         if ($_elmnt_num <= $_row_column) {
             foreach ($this->element_options as $_cbox) {
                 if (is_array($this->element_value)) {
-                    $_buffer .= '<div><input type="checkbox" name="'.$this->element_name.'[]"'
+                    $_buffer .= '<div '.$_helptext.'><input type="checkbox" name="'.$this->element_name.'[]"'
                         .' value="'.$_cbox[0].'" style="border: 0;" '.(in_array($_cbox[0], $this->element_value)?'checked':'').$_disabled.' />'
                         .' '.$_cbox[1]."</div>\n";
                 } else {
-                    $_buffer .= '<div><input type="checkbox" name="'.$this->element_name.'[]"'
+                    $_buffer .= '<div '.$_helptext.'><input type="checkbox" name="'.$this->element_name.'[]"'
                         .' value="'.$_cbox[0].'" style="border: 0;" '.(($_cbox[0] == $this->element_value)?'checked':'').$_disabled.' />'
                         .' '.$_cbox[1]."</div>\n";
                 }
             }
         } else {
             $_column_array = array_chunk($this->element_options, $_row_column);
-            $_buffer = '<table>'."\n";
+            $_buffer = '<table '.$_helptext.'>'."\n";
             $_buffer .= '<tr>'."\n";
             foreach ($_column_array as $_chunked_options) {
                 $_buffer .= '<td valign="top">'."\n";
@@ -235,10 +244,14 @@ class simbio_fe_radio extends abs_simbio_form_element
             $_elmnt_each_column = 2;
         }
 
+        if ($this->element_helptext) {
+            $_helptext .= ' title="'.$this->element_helptext.'"';
+        }
+        
         // chunk the array into pieces of array
         $_chunked_array = array_chunk($this->element_options, $_elmnt_each_column, true);
 
-        $_buffer .= '<table>'."\n";
+        $_buffer .= '<table '.$_helptext.'>'."\n";
         $_buffer .= '<tr>'."\n";
         foreach ($_chunked_array as $_chunk) {
             $_buffer .= '<td valign="top">';

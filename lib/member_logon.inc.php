@@ -130,7 +130,7 @@ class member_logon
                 $this->user_info['last_update'] = $_curr_date;
 
                 // include database operation library
-                require_once SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+                require_once SIMBIO.'simbio_DB/simbio_dbop.inc.php';
                 $_dbop = new simbio_dbop($this->obj_db);
                 $_insert = $_dbop->insert('member', $this->user_info);
                 if (!$_insert) {
@@ -211,7 +211,7 @@ class member_logon
         $_SESSION['m_can_reserve'] = $this->user_info['enable_reserve'];
         $_SESSION['m_reserve_limit'] = $this->user_info['reserve_limit'];
         // check member expiry date
-        require_once SIMBIO_BASE_DIR.'simbio_UTILS/simbio_date.inc.php';
+        require_once SIMBIO.'simbio_UTILS/simbio_date.inc.php';
         $_curr_date = date('Y-m-d');
         if (simbio_date::compareDates($this->user_info['expire_date'], $_curr_date) == $_curr_date) {
             $_SESSION['m_is_expired'] = true;

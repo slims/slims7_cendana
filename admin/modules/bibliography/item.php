@@ -29,17 +29,17 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');
@@ -109,7 +109,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
                     utility::jsAlert(__('Item Data Successfully Updated'));
 			    }
                 if ($in_pop_up) {
-                    echo '<script type="text/javascript">top.setIframeContent(\'itemIframe\', \''.MODULES_WEB_ROOT_DIR.'bibliography/iframe_item_list.php?biblioID='.$data['biblio_id'].'\');</script>';
+                    echo '<script type="text/javascript">top.setIframeContent(\'itemIframe\', \''.MWB.'bibliography/iframe_item_list.php?biblioID='.$data['biblio_id'].'\');</script>';
                     echo '<script type="text/javascript">top.closeHTMLpop();</script>';
                 } else {
                     echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(parent.jQuery.ajaxHistory[0].url);</script>';
@@ -125,7 +125,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
                 utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'bibliography', $_SESSION['realname'].' insert item data ('.$data['item_code'].') with title ('.$title.')');
                 utility::jsAlert(__('New Item Data Successfully Saved'));
                 if ($in_pop_up) {
-                    echo '<script type="text/javascript">top.setIframeContent(\'itemIframe\', \''.MODULES_WEB_ROOT_DIR.'bibliography/iframe_item_list.php?biblioID='.$data['biblio_id'].'\');</script>';
+                    echo '<script type="text/javascript">top.setIframeContent(\'itemIframe\', \''.MWB.'bibliography/iframe_item_list.php?biblioID='.$data['biblio_id'].'\');</script>';
                     echo '<script type="text/javascript">top.closeHTMLpop();</script>';
                 } else {
                     echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(\''.$_SERVER['PHP_SELF'].'\');</script>';
@@ -202,7 +202,7 @@ if (!$in_pop_up) {
     	<h2><?php echo __('Items'); ?></h2>
 	</div>
 	<div class="sub_section">
-	    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/item.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+	    <form name="search" action="<?php echo MWB; ?>bibliography/item.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
 		    <input type="text" name="keywords" id="keywords" size="30" />
 		    <select name="searchby"><option value="item">Item</option><option value="others"><?php echo __('Others'); ?> </option></select>
 		    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
@@ -275,13 +275,13 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     // title
     if (!$in_pop_up) {
         $str_input = $b_title;
-        $str_input .= '<div class="makeHidden"><a title="Edit Bibliographic Data" class="notAJAX" style="font-weight: bold; color: #f90;" href="javascript: openHTMLpop(\''.MODULES_WEB_ROOT_DIR.'bibliography/pop_biblio.php?inPopUp=true&action=detail&itemID='.$rec_d['biblio_id'].'&itemCollID='.$rec_d['item_id'].'\', 650, 500, \''.__('Edit Biblographic data').'\')">'.__('Edit Biblographic data').'</a></div>';
+        $str_input .= '<div class="makeHidden"><a title="Edit Bibliographic Data" class="notAJAX" style="font-weight: bold; color: #f90;" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_biblio.php?inPopUp=true&action=detail&itemID='.$rec_d['biblio_id'].'&itemCollID='.$rec_d['item_id'].'\', 650, 500, \''.__('Edit Biblographic data').'\')">'.__('Edit Biblographic data').'</a></div>';
     } else { $str_input = $b_title; }
     $form->addAnything(__('Title'), $str_input);
     $form->addHidden('biblioTitle', $b_title);
     $form->addHidden('biblioID', $b_id);
     // item code
-    $str_input = simbio_form_element::textField('text', 'itemCode', $rec_d['item_code'], 'onblur="ajaxCheckID(\''.SENAYAN_WEB_ROOT_DIR.'admin/AJAX_check_id.php\', \'item\', \'item_code\', \'msgBox\', \'itemCode\')" style="width: 40%;"');
+    $str_input = simbio_form_element::textField('text', 'itemCode', $rec_d['item_code'], 'onblur="ajaxCheckID(\''.SWB.'admin/AJAX_check_id.php\', \'item\', \'item_code\', \'msgBox\', \'itemCode\')" style="width: 40%;"');
     $str_input .= ' &nbsp; <span id="msgBox">&nbsp;</span>';
     $form->addAnything(__('Item Code'), $str_input);
     // call number
@@ -350,11 +350,11 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     // print out the form object
     echo $form->printOut();
 } else {
-    require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_tokenizecql.inc.php';
-    require LIB_DIR.'biblio_list_model.inc.php';
+    require SIMBIO.'simbio_UTILS/simbio_tokenizecql.inc.php';
+    require LIB.'biblio_list_model.inc.php';
 
     if ($sysconf['index']['type'] == 'default' || (isset($_GET['searchby']) && $_GET['searchby'] == 'item')) {
-        require LIB_DIR.'biblio_list.inc.php';
+        require LIB.'biblio_list.inc.php';
         $title_field_idx = 1;
         // callback function to show title and authors in datagrid
         function showTitleAuthors($obj_db, $array_data)
@@ -406,7 +406,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         }
         $datagrid->setSQLorder('item.last_update DESC');
     } else {
-        require LIB_DIR.'biblio_list_index.inc.php';
+        require LIB.'biblio_list_index.inc.php';
 
         // callback function to show title and authors in datagrid
         function showTitleAuthors($obj_db, $array_data)

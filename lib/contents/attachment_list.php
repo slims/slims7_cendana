@@ -81,7 +81,7 @@ if (($ajaxsec_user == $sysconf['ajaxsec_user']) AND ($ajaxsec_passwd == $sysconf
                     echo '<li style="list-style-image: url(images/labels/url.png)"><strong><a href="'.trim($attachment_d['file_url']).'" title="Click to open link" target="_blank">'.$attachment_d['file_title'].'</a><div>'.$attachment_d['file_desc'].'</div></strong></li>';
                 } else if (preg_match('@(image)/.+@i', $attachment_d['mime_type'])) {
                     #echo '<li style="list-style-image: url(images/labels/ebooks.png)"><strong><a title="Click To View File" href="index.php?p=fstream&fid='.$attachment_d['file_id'].'&bid='.$attachment_d['biblio_id'].'" target="_blank">'.$attachment_d['file_title'].'</a></strong>';
-                    $file_loc = REPO_BASE_DIR.'/'.$attachment_d['file_dir'].'/'.$attachment_d['file_name'];
+                    $file_loc = REPOBS.'/'.$attachment_d['file_dir'].'/'.$attachment_d['file_name'];
                     $imgsize = GetImageSize($file_loc);
                     $imgwidth = $imgsize[0] + 16;
                     if ($imgwidth > 600) {
@@ -105,4 +105,3 @@ if (($ajaxsec_user == $sysconf['ajaxsec_user']) AND ($ajaxsec_passwd == $sysconf
         }
     }
 }
-?>

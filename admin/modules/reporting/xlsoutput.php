@@ -27,8 +27,8 @@ define('INDEX_AUTH', '1');
 require '../../../sysconfig.inc.php';
 
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
 // privileges checking
 $can_read = utility::havePrivilege('reporting', 'r');
 $can_write = utility::havePrivilege('reporting', 'w');
@@ -200,4 +200,3 @@ if (isset($_SESSION["xlsquery"])) {
 	xlsEOF();
 	exit();
 }
-?>

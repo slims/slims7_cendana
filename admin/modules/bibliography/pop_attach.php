@@ -28,17 +28,17 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-require SIMBIO_BASE_DIR.'simbio_FILE/simbio_file_upload.inc.php';
-require SIMBIO_BASE_DIR.'simbio_FILE/simbio_directory.inc.php';
+require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+require SIMBIO.'simbio_FILE/simbio_file_upload.inc.php';
+require SIMBIO.'simbio_FILE/simbio_directory.inc.php';
 
 // page title
 $page_title = 'File Attachment Upload';
@@ -71,7 +71,7 @@ if (isset($_POST['upload']) AND trim(strip_tags($_POST['fileTitle'])) != '') {
     $file_upload = new simbio_file_upload();
     $file_upload->setAllowableFormat($sysconf['allowed_file_att']);
     $file_upload->setMaxSize($sysconf['max_upload']*1024);
-    $file_upload->setUploadDir(REPO_BASE_DIR.DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, $file_dir));
+    $file_upload->setUploadDir(REPO_BASE_DIR.DS.str_replace('/', DS, $file_dir));
     $file_upload_status = $file_upload->doUpload('file2attach');
     if ($file_upload_status === UPLOAD_SUCCESS) {
         $file_ext = substr($file_upload->new_filename, strrpos($file_upload->new_filename, '.')+1);
@@ -140,7 +140,7 @@ if (isset($_POST['upload']) AND trim(strip_tags($_POST['fileTitle'])) != '') {
       if ($update1) {
         echo '<script type="text/javascript">';
         echo 'alert(\''.__('File Attachment data updated!').'\');';
-        echo 'parent.setIframeContent(\'attachIframe\', \''.MODULES_WEB_ROOT_DIR.'bibliography/iframe_attach.php?biblioID='.$updateBiblioID.'\');';
+        echo 'parent.setIframeContent(\'attachIframe\', \''.MWB.'bibliography/iframe_attach.php?biblioID='.$updateBiblioID.'\');';
         echo '</script>';
       } else {
           utility::jsAlert(''.__('File Attachment data FAILED to update!').''."\n".$sql_op->error);
@@ -149,7 +149,7 @@ if (isset($_POST['upload']) AND trim(strip_tags($_POST['fileTitle'])) != '') {
       if ($sql_op->insert('biblio_attachment', $data)) {
         echo '<script type="text/javascript">';
         echo 'alert(\''.__('File Attachment uploaded succesfully!').'\');';
-        echo 'parent.setIframeContent(\'attachIframe\', \''.MODULES_WEB_ROOT_DIR.'bibliography/iframe_attach.php?biblioID='.$data['biblio_id'].'\');';
+        echo 'parent.setIframeContent(\'attachIframe\', \''.MWB.'bibliography/iframe_attach.php?biblioID='.$data['biblio_id'].'\');';
         echo '</script>';
       } else {
         utility::jsAlert(''.__('File Attachment data FAILED to save!').''."\n".$sql_op->error);
@@ -164,7 +164,7 @@ if (isset($_POST['upload']) AND trim(strip_tags($_POST['fileTitle'])) != '') {
       $_SESSION['biblioAttach'][$uploaded_file_id] = $fdata;
       echo '<script type="text/javascript">';
       echo 'alert(\''.__('File Attachment uploaded succesfully!').'\');';
-      echo 'parent.setIframeContent(\'attachIframe\', \''.MODULES_WEB_ROOT_DIR.'bibliography/iframe_attach.php\');';
+      echo 'parent.setIframeContent(\'attachIframe\', \''.MWB.'bibliography/iframe_attach.php\');';
       echo '</script>';
     }
   }
@@ -240,4 +240,4 @@ echo $form->printOut();
 /* main content end */
 $content = ob_get_clean();
 // include the page template
-require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
+require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';

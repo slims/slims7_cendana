@@ -87,4 +87,3 @@ if (($ajaxsec_user == $sysconf['ajaxsec_user']) AND ($ajaxsec_passwd == $sysconf
         }
     }
 }
-?>

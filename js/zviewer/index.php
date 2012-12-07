@@ -24,7 +24,7 @@ define('INDEX_AUTH', '1');
 /* Zviewer */
 
 require '../../sysconfig.inc.php';
-LIB_DIR.'member_session.inc.php';
+LIB.'member_session.inc.php';
 session_start();
 
 if (!isset($_GET['swf'])) {
@@ -45,7 +45,7 @@ $file_q = $dbs->query($sql_q);
 $file_d = $file_q->fetch_assoc();
 
 if ($file_q->num_rows > 0) {
-    $file_loc = REPO_BASE_DIR.str_ireplace('/', DIRECTORY_SEPARATOR, $file_d['file_dir']).DIRECTORY_SEPARATOR.$file_d['file_name'];
+    $file_loc = REPOBS.str_ireplace('/', DS, $file_d['file_dir']).DS.$file_d['file_name'];
     if (file_exists($file_loc)) {
         if ($file_d['access_limit']) {
             if (utility::isMemberLogin()) {
@@ -127,5 +127,3 @@ if ($file_q->num_rows > 0) {
 } else {
     header('location:../../index.php');
 }
-
-?>

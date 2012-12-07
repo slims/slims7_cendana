@@ -27,13 +27,13 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-reporting');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('reporting', 'r');
@@ -58,7 +58,7 @@ $report_q = $dbs->query('SELECT gmd_name, COUNT(loan_id) FROM loan AS l
     INNER JOIN biblio AS b ON i.biblio_id=b.biblio_id
     INNER JOIN mst_gmd AS gmd ON b.gmd_id=gmd.gmd_id
     GROUP BY b.gmd_id ORDER BY COUNT(loan_id) DESC');
-$report_d = '<div class="chartLink"><a class="notAJAX" href="#" onclick="openHTMLpop(\''.MODULES_WEB_ROOT_DIR.'reporting/charts_report.php?chart=total_loan_gmd\', 700, 470, \''.__('Total Loan By GMD/Medium').'\')">'.__('Show in chart/plot').'</a></div>';
+$report_d = '<div class="chartLink"><a class="notAJAX" href="#" onclick="openHTMLpop(\''.MWB.'reporting/charts_report.php?chart=total_loan_gmd\', 700, 470, \''.__('Total Loan By GMD/Medium').'\')">'.__('Show in chart/plot').'</a></div>';
 while ($data = $report_q->fetch_row()) {
     $report_d .= '<strong>'.$data[0].'</strong> : '.$data[1].', ';
 }
@@ -69,7 +69,7 @@ $report_q = $dbs->query('SELECT coll_type_name, COUNT(loan_id) FROM loan AS l
     INNER JOIN item AS i ON l.item_code=i.item_code
     INNER JOIN mst_coll_type AS ct ON i.coll_type_id=ct.coll_type_id
     GROUP BY i.coll_type_id ORDER BY COUNT(loan_id) DESC');
-$report_d = '<div class="chartLink"><a class="notAJAX" href="#" onclick="openHTMLpop(\''.MODULES_WEB_ROOT_DIR.'reporting/charts_report.php?chart=total_loan_colltype\', 700, 470, \''.__('Total Loan By Collection Type').'\')">'.__('Show in chart/plot').'</a></div>';
+$report_d = '<div class="chartLink"><a class="notAJAX" href="#" onclick="openHTMLpop(\''.MWB.'reporting/charts_report.php?chart=total_loan_colltype\', 700, 470, \''.__('Total Loan By Collection Type').'\')">'.__('Show in chart/plot').'</a></div>';
 while ($data = $report_q->fetch_row()) {
     $report_d .= '<strong>'.$data[0].'</strong> : '.$data[1].', ';
 }
@@ -146,11 +146,11 @@ if (isset($_GET['print'])) {
     $html_str .= '<script type="text/javascript">self.print();</script>'."\n";
     $html_str .= '</body></html>';
     // write to file
-    $file_write = @file_put_contents(REPORT_FILE_BASE_DIR.'loan_stat_print_result.html', $html_str);
+    $file_write = @file_put_contents(REPBS.'loan_stat_print_result.html', $html_str);
     if ($file_write) {
         // open result in new window
-        echo '<script type="text/javascript">parent.openWin(\''.SENAYAN_WEB_ROOT_DIR.FILES_DIR.'/'.REPORT_DIR.'/loan_stat_print_result.html\', \'popMemberReport\', 800, 500, true)</script>';
-    } else { utility::jsAlert('ERROR! Loan statistic report failed to generate, possibly because '.REPORT_FILE_BASE_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">parent.openWin(\''.SWB.FLS.'/'.REP.'/loan_stat_print_result.html\', \'popMemberReport\', 800, 500, true)</script>';
+    } else { utility::jsAlert('ERROR! Loan statistic report failed to generate, possibly because '.REPBS.' directory is not writable'); }
     exit();
 }
 

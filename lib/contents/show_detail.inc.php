@@ -34,7 +34,7 @@ if (isset($_GET['inXML']) AND !empty($_GET['inXML'])) {
     // filter the ID
     $detail_id = intval($_GET['id']);
     // include detail library and template
-    include LIB_DIR.'detail.inc.php';
+    include LIB.'detail.inc.php';
     // create detail object
     $detail = new detail($dbs, $detail_id, 'mods');
     $output = $detail->showDetail();
@@ -49,7 +49,7 @@ if (isset($_GET['inXML']) AND !empty($_GET['inXML'])) {
     // filter the ID
     $detail_id = intval($_GET['id']);
     // include detail library and template
-    include LIB_DIR.'detail.inc.php';
+    include LIB.'detail.inc.php';
     include $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/detail_template.php';
     // create detail object
     $detail = new detail($dbs, $detail_id);
@@ -68,4 +68,3 @@ if (isset($_GET['inXML']) AND !empty($_GET['inXML'])) {
     $metadata = $detail->metadata;
     echo '<br />'."\n";
 }
-?>

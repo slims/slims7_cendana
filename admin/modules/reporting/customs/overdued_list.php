@@ -27,12 +27,12 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-circulation');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
 // privileges checking
 $can_read = utility::havePrivilege('circulation', 'r') || utility::havePrivilege('reporting', 'r');
 $can_write = utility::havePrivilege('circulation', 'w') || utility::havePrivilege('reporting', 'w');
@@ -41,11 +41,11 @@ if (!$can_read) {
     die('<div class="errorBox">'.__('You don\'t have enough privileges to access this area!').'</div>');
 }
 
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_element.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require MODULES_BASE_DIR.'reporting/report_dbgrid.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_element.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require MDLBS.'reporting/report_dbgrid.inc.php';
 
 $page_title = 'Overdued List Report';
 $reportView = false;
@@ -176,7 +176,7 @@ if (!$reportView) {
           WHERE (l.is_lent=1 AND l.is_return=0 AND TO_DAYS(due_date) < TO_DAYS(\''.date('Y-m-d').'\')) AND l.member_id=\''.$array_data[0].'\''.( !empty($date_criteria)?$date_criteria:'' ));
       $_buffer = '<div style="font-weight: bold; color: black; font-size: 10pt; margin-bottom: 3px;">'.$member_name.' ('.$array_data[0].')</div>';
       $_buffer .= '<div style="color: black; font-size: 10pt; margin-bottom: 3px;">'.$member_mail_address.'</div>';
-      $_buffer .= '<div style="font-size: 10pt; margin-bottom: 3px;"><div id="'.$array_data[0].'emailStatus"></div>'.__('E-mail').': <a href="mailto:'.$member_d[1].'">'.$member_d[1].'</a> - <a class="usingAJAX" href="'.MODULES_WEB_ROOT_DIR.'membership/overdue_mail.php'.'" postdata="memberID='.$array_data[0].'" loadcontainer="'.$array_data[0].'emailStatus">Send Notification e-mail</a> - '.__('Phone Number').': '.$member_d[2].'</div>';
+      $_buffer .= '<div style="font-size: 10pt; margin-bottom: 3px;"><div id="'.$array_data[0].'emailStatus"></div>'.__('E-mail').': <a href="mailto:'.$member_d[1].'">'.$member_d[1].'</a> - <a class="usingAJAX" href="'.MWB.'membership/overdue_mail.php'.'" postdata="memberID='.$array_data[0].'" loadcontainer="'.$array_data[0].'emailStatus">Send Notification e-mail</a> - '.__('Phone Number').': '.$member_d[2].'</div>';
       $_buffer .= '<table width="100%" cellspacing="0">';
       while ($ovd_title_d = $ovd_title_q->fetch_assoc()) {
           $_buffer .= '<tr>';
@@ -196,8 +196,8 @@ if (!$reportView) {
   echo $reportgrid->createDataGrid($dbs, $table_spec, $num_recs_show);
 
   ?>
-  <script type="text/javascript" src="<?php echo JS_WEB_ROOT_DIR.'jquery.js'; ?>"></script>
-  <script type="text/javascript" src="<?php echo JS_WEB_ROOT_DIR.'updater.js'; ?>"></script>
+  <script type="text/javascript" src="<?php echo JWB.'jquery.js'; ?>"></script>
+  <script type="text/javascript" src="<?php echo JWB.'updater.js'; ?>"></script>
   <script type="text/javascript">
   // registering event for send email button
   $(document).ready(function() {
@@ -223,5 +223,5 @@ if (!$reportView) {
 
   $content = ob_get_clean();
   // include the page template
-  require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/printed_page_tpl.php';
+  require SB.'/admin/'.$sysconf['admin_template']['dir'].'/printed_page_tpl.php';
 }

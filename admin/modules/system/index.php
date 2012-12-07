@@ -26,28 +26,28 @@ define('INDEX_AUTH', '1');
 // key to get full database access
 define('DB_ACCESS', 'fa');
 
-if (!defined('SENAYAN_BASE_DIR')) {
+if (!defined('SB')) {
     // main system configuration
     require '../../../sysconfig.inc.php';
     // start the session
-    require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+    require SB.'admin/default/session.inc.php';
 }
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-system');
 
 // only administrator have privileges to change global settings
 if ($_SESSION['uid'] != 1) {
-    header('Location: '.MODULES_WEB_ROOT_DIR.'system/content.php');
+    header('Location: '.MWB.'system/content.php');
     die();
 }
 
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_FILE/simbio_directory.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_FILE/simbio_directory.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 ?>
 <fieldset class="menuBox">
@@ -173,7 +173,7 @@ $form->addTextField('text', 'library_subname', __('Library Subname'), $sysconf['
 /* Form Element(s) */
 // public template
 // scan template directory
-$template_dir = SENAYAN_BASE_DIR.$sysconf['template']['dir'];
+$template_dir = SB.$sysconf['template']['dir'];
 $dir = new simbio_directory($template_dir);
 $dir_tree = $dir->getDirectoryTree(1);
 // sort array by index
@@ -186,7 +186,7 @@ $form->addSelectList('template', __('Public Template'), $tpl_options, $sysconf['
 
 // admin template
 // scan admin template directory
-$admin_template_dir = SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.$sysconf['admin_template']['dir'];
+$admin_template_dir = SB.'admin'.DS.$sysconf['admin_template']['dir'];
 $dir = new simbio_directory($admin_template_dir);
 $dir_tree = $dir->getDirectoryTree(1);
 // sort array by index
@@ -198,7 +198,7 @@ foreach ($dir_tree as $dir) {
 $form->addSelectList('admin_template', __('Admin Template'), $admin_tpl_options, $sysconf['admin_template']['theme']);
 
 // application language
-require_once(LANGUAGES_BASE_DIR.'localisation.php');
+require_once(LANG.'localisation.php');
 $form->addSelectList('default_lang', __('Default App. Language'), $available_languages, $sysconf['default_lang']);
 
 // opac result list number

@@ -31,17 +31,17 @@ if (!defined('DIRECT_INCLUDE')) {
     // main system configuration
     require '../../../sysconfig.inc.php';
     // start the session
-    require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+    require SB.'admin/default/session.inc.php';
 }
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-circulation');
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_date.inc.php';
-require MODULES_BASE_DIR.'membership/member_base_lib.inc.php';
-require MODULES_BASE_DIR.'circulation/circulation_base_lib.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+require SIMBIO.'simbio_UTILS/simbio_date.inc.php';
+require MDLBS.'membership/member_base_lib.inc.php';
+require MDLBS.'circulation/circulation_base_lib.inc.php';
 
 // transaction is finished
 if (isset($_POST['finish'])) {
@@ -67,9 +67,9 @@ if (isset($_POST['finish'])) {
         // print receipt only if enabled and $_SESSION['receipt_record'] not empty
         if ($sysconf['circulation_receipt'] && isset($_SESSION['receipt_record'])) {
             // open receipt windows
-            echo 'parent.openWin(\''.MODULES_WEB_ROOT_DIR.'circulation/pop_loan_receipt.php\', \'popReceipt\', 350, 500, true);';
+            echo 'parent.openWin(\''.MWB.'circulation/pop_loan_receipt.php\', \'popReceipt\', 350, 500, true);';
         }
-        echo 'parent.$(\'#mainContent\').simbioAJAX(\''.MODULES_WEB_ROOT_DIR.'circulation/index.php\', {method: \'post\', addData: \'finishID='.$memberID.'\'});';
+        echo 'parent.$(\'#mainContent\').simbioAJAX(\''.MWB.'circulation/index.php\', {method: \'post\', addData: \'finishID='.$memberID.'\'});';
         echo '</script>';
     }
     exit();
@@ -139,7 +139,7 @@ if (isset($_POST['tempLoanID'])) {
         echo '<body>';
         if ($sysconf['loan_limit_override']) {
             // hidden form holding item code
-            echo '<form method="post" name="overrideForm" action="'.MODULES_WEB_ROOT_DIR.'circulation/circulation_action.php"><input type="hidden" name="overrideID" value="'.$_POST['tempLoanID'].'" /></form>';
+            echo '<form method="post" name="overrideForm" action="'.MWB.'circulation/circulation_action.php"><input type="hidden" name="overrideID" value="'.$_POST['tempLoanID'].'" /></form>';
             echo '<script type="text/javascript">';
             echo 'var confOverride = confirm(\''.__('Loan Limit Reached!').'\' + "\n" + \''.__('Do You Want To Overide This?').'\');';
             echo 'if (confOverride) { ';
@@ -159,7 +159,7 @@ if (isset($_POST['tempLoanID'])) {
         // hidden form holding item code
         echo '<html>';
         echo '<body>';
-        echo '<form method="post" name="overrideForm" action="'.MODULES_WEB_ROOT_DIR.'circulation/circulation_action.php">';
+        echo '<form method="post" name="overrideForm" action="'.MWB.'circulation/circulation_action.php">';
         echo '<input type="hidden" name="overrideID" value="'.$_POST['tempLoanID'].'" /></form>';
         echo '<script type="text/javascript">';
         echo 'var confOverride = confirm(\''.__('WARNING! This Item is reserved by another member').'\' + "\n" + \''.__('Do You Want To Overide This?').'\');';
@@ -283,7 +283,7 @@ if (isset($_POST['quickReturnID']) AND $_POST['quickReturnID']) {
         // write log
         utility::writeLogs($dbs, 'member', $loan_d['member_id'], 'circulation', $_SESSION['realname'].' return item ('.$_POST['quickReturnID'].') with title ('.$loan_d['title'].') with Quick Return method');
         // show loan information
-        include SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
+        include SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
         // create table object
         $table = new simbio_table();
         $table->table_attr = 'class="border" style="width: 100%; margin-bottom: 5px;" cellpadding="5" cellspacing="0"';
@@ -457,7 +457,7 @@ if (isset($_POST['memberID']) OR isset($_SESSION['memberID'])) {
         echo '<tr>'."\n";
         echo '<td class="dataListHeader" colspan="5">';
         // hidden form for transaction finish
-        echo '<form id="finishForm" method="post" target="blindSubmit" action="'.MODULES_WEB_ROOT_DIR.'circulation/circulation_action.php" style="display: inline;"><input type="button" accesskey="T" value="'.__('Finish Transaction').' (T)" onclick="confSubmit(\'finishForm\', \''.__('Are you sure want to finish current transaction?').'\')" /><input type="hidden" name="finish" value="true" /></form>';
+        echo '<form id="finishForm" method="post" target="blindSubmit" action="'.MWB.'circulation/circulation_action.php" style="display: inline;"><input type="button" accesskey="T" value="'.__('Finish Transaction').' (T)" onclick="confSubmit(\'finishForm\', \''.__('Are you sure want to finish current transaction?').'\')" /><input type="hidden" name="finish" value="true" /></form>';
         echo '</td>';
         echo '</tr>'."\n";
         echo '<tr>'."\n";
@@ -465,9 +465,9 @@ if (isset($_POST['memberID']) OR isset($_SESSION['memberID'])) {
         echo '<td class="alterCell" width="15%"><strong>'.__('Member ID').'</strong></td><td class="alterCell2" width="30%">'.$member->member_id.'</td>';
         // member photo
         if ($member->member_image) {
-          if (file_exists(IMAGES_BASE_DIR.'persons/'.$member->member_image)) {
+          if (file_exists(IMGBS.'persons/'.$member->member_image)) {
             echo '<td class="alterCell2" valign="top" rowspan="3">';
-            echo '<img src="'.SENAYAN_WEB_ROOT_DIR.'lib/phpthumb/phpThumb.php?src=../../images/persons/'.urlencode($member->member_image).'&w=90" style="border: 1px solid #999999" />';
+            echo '<img src="'.SWB.'lib/phpthumb/phpThumb.php?src=../../images/persons/'.urlencode($member->member_image).'&w=90" style="border: 1px solid #999999" />';
             echo '</td>';
           }
         }
@@ -500,13 +500,13 @@ if (isset($_POST['memberID']) OR isset($_SESSION['memberID'])) {
         }
         echo '</table>'."\n";
         // tab and iframe
-        echo '<input type="button" accesskey="L" style="width: 19%;" class="tab'.$add_style.'" value="'.__('Loans').' (L)" src="'.MODULES_WEB_ROOT_DIR.'circulation/loan.php" '.$disabled.' />';
-        echo '<input type="button" accesskey="C" style="width: 19%;" class="tab tabSelected" value="'.__('Current Loans').' (C)" src="'.MODULES_WEB_ROOT_DIR.'circulation/loan_list.php" />';
+        echo '<input type="button" accesskey="L" style="width: 19%;" class="tab'.$add_style.'" value="'.__('Loans').' (L)" src="'.MWB.'circulation/loan.php" '.$disabled.' />';
+        echo '<input type="button" accesskey="C" style="width: 19%;" class="tab tabSelected" value="'.__('Current Loans').' (C)" src="'.MWB.'circulation/loan_list.php" />';
         if ($member_type_d['enable_reserve']) {
-          echo '<input type="button" accesskey="R" style="width: 19%;" class="tab'.$add_style.'" value="'.__('Reserve').' (R)" src="'.MODULES_WEB_ROOT_DIR.'circulation/reserve_list.php" '.$disabled.' />';
+          echo '<input type="button" accesskey="R" style="width: 19%;" class="tab'.$add_style.'" value="'.__('Reserve').' (R)" src="'.MWB.'circulation/reserve_list.php" '.$disabled.' />';
         }
-        echo '<input type="button" accesskey="F" style="width: 19%;" class="tab" value="'.__('Fines').' (F)" src="'.MODULES_WEB_ROOT_DIR.'circulation/fines_list.php" />';
-        echo '<input type="button" accesskey="H" style="width: 19%;" class="tab" value="'.__('Loan History').' (H)" src="'.MODULES_WEB_ROOT_DIR.'circulation/member_loan_hist.php" /><br />'."\n";
+        echo '<input type="button" accesskey="F" style="width: 19%;" class="tab" value="'.__('Fines').' (F)" src="'.MWB.'circulation/fines_list.php" />';
+        echo '<input type="button" accesskey="H" style="width: 19%;" class="tab" value="'.__('Loan History').' (H)" src="'.MWB.'circulation/member_loan_hist.php" /><br />'."\n";
         echo '<iframe src="modules/circulation/loan_list.php" id="listsFrame" class="expandable border"></iframe>'."\n";
     }
     exit();

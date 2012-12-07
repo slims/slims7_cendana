@@ -28,16 +28,16 @@ define('DB_ACCESS', 'fa');
 // start the session
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-require LIB_DIR.'modsxmlsenayan.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+require LIB.'modsxmlsenayan.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');
@@ -49,7 +49,7 @@ if (!$can_read) {
 
 /* RECORD OPERATION */
 if (isset($_POST['saveResults']) && isset($_POST['p2precord']) && isset($_POST['p2pserver_save'])) {
-  require MODULES_BASE_DIR.'bibliography/biblio_utils.inc.php';
+  require MDLBS.'bibliography/biblio_utils.inc.php';
 
   $p2pserver = trim($_POST['p2pserver_save']);
   $gmd_cache = array();
@@ -183,7 +183,7 @@ if (isset($_GET['keywords']) && $can_read && isset($_GET['p2pserver']))  {
     # echo '<br />';
     if ($data['records']) {
         echo '<div class="infoBox">Found '.$data['result_num'].' records from <strong>'.$p2pserver_name.'</strong> Server</div>';
-        echo '<form method="post" class="notAJAX" action="'.MODULES_WEB_ROOT_DIR.'bibliography/p2p.php" target="blindSubmit">';
+        echo '<form method="post" class="notAJAX" action="'.MWB.'bibliography/p2p.php" target="blindSubmit">';
         echo '<table align="center" id="dataList" cellpadding="5" cellspacing="0">';
         echo '<tr><td colspan="3"><input type="submit" name="saveResults" value="Save P2P Records to Database" /></td></tr>';
         $row = 1;
@@ -223,7 +223,7 @@ if (isset($_GET['keywords']) && $can_read && isset($_GET['p2pserver']))  {
 	    <h2><?php echo __('P2P Service'); ?></h2>
     </div>
     <div class="sub_section">
-      <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/p2p.php" loadcontainer="searchResult" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+      <form name="search" action="<?php echo MWB; ?>bibliography/p2p.php" loadcontainer="searchResult" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
       <input type="text" name="keywords" id="keywords" size="30" />
       <?php echo __('Server'); ?>: <select name="p2pserver" style="width: 20%;"><?php foreach ($sysconf['p2pserver'] as $serverid => $p2pserver) { echo '<option value="'.$serverid.'">'.$p2pserver['name'].'</option>';  } ?></select>
       <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />

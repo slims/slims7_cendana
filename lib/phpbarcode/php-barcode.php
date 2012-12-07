@@ -305,4 +305,3 @@ function barcode_print($code, $encoding = '128B', $scale = 2 ,$mode = 'png' )
     // output the image
     barcode_outimage($bars['text'], $bars['bars'], $scale, $mode);
 }
-?>

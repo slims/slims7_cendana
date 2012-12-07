@@ -55,4 +55,3 @@ if (!function_exists('json_encode')) {
     die();
 }
 echo json_encode($json_array);
-?>

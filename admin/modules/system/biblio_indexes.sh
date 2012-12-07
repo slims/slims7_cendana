@@ -23,8 +23,8 @@
 
 // main system configuration
 require 'sysconfig.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-require MODULES_BASE_DIR.'system/biblio_indexer.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+require MDLBS.'system/biblio_indexer.inc.php';
 
 if ($argc < 2) {
     echo "Usage: \n";
@@ -104,4 +104,3 @@ if ($argv[1] == 'reindex') {
         exit(0);
 	}
 }
-?>

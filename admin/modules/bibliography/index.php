@@ -25,25 +25,25 @@ define('INDEX_AUTH', '1');
 // key to get full database access
 define('DB_ACCESS', 'fa');
 
-if (!defined('SENAYAN_BASE_DIR')) {
+if (!defined('SB')) {
     // main system configuration
     require '../../../sysconfig.inc.php';
     // start the session
-    require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+    require SB.'admin/default/session.inc.php';
 }
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-require SIMBIO_BASE_DIR.'simbio_FILE/simbio_file_upload.inc.php';
-require MODULES_BASE_DIR.'system/biblio_indexer.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+require SIMBIO.'simbio_FILE/simbio_file_upload.inc.php';
+require MDLBS.'system/biblio_indexer.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');
@@ -68,8 +68,8 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
         exit();
     } else {
         // include custom fields file
-        if (file_exists(MODULES_BASE_DIR.'bibliography/custom_fields.inc.php')) {
-            include MODULES_BASE_DIR.'bibliography/custom_fields.inc.php';
+        if (file_exists(MDLBS.'bibliography/custom_fields.inc.php')) {
+            include MDLBS.'bibliography/custom_fields.inc.php';
         }
 
         // create biblio_indexer class instance
@@ -170,7 +170,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
             $image_upload = new simbio_file_upload();
             $image_upload->setAllowableFormat($sysconf['allowed_images']);
             $image_upload->setMaxSize($sysconf['max_image_upload']*1024);
-            $image_upload->setUploadDir(IMAGES_BASE_DIR.'docs');
+            $image_upload->setUploadDir(IMGBS.'docs');
             // upload the file and change all space characters to underscore
             $img_upload_status = $image_upload->doUpload('image', preg_replace('@\s+@i', '_', $_FILES['image']['name']));
             if ($img_upload_status == UPLOAD_SUCCESS) {
@@ -214,7 +214,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
 			    }
                 // auto insert catalog to UCS if enabled
                 if ($sysconf['ucs']['enable']) {
-                    echo '<script type="text/javascript">parent.ucsUpload(\''.MODULES_WEB_ROOT_DIR.'bibliography/ucs_upload.php\', \'itemID[]='.$updateRecordID.'\', false);</script>';
+                    echo '<script type="text/javascript">parent.ucsUpload(\''.MWB.'bibliography/ucs_upload.php\', \'itemID[]='.$updateRecordID.'\', false);</script>';
                 }
                 // write log
                 utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'bibliography', $_SESSION['realname'].' update bibliographic data ('.$data['title'].') with biblio_id ('.$_POST['itemID'].')');
@@ -274,7 +274,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
                 $indexer->makeIndex($last_biblio_id);
                 // auto insert catalog to UCS if enabled
                 if ($sysconf['ucs']['enable'] && $sysconf['ucs']['auto_insert']) {
-                  echo '<script type="text/javascript">parent.ucsUpload(\''.MODULES_WEB_ROOT_DIR.'bibliography/ucs_upload.php\', \'itemID[]='.$last_biblio_id.'\');</script>';
+                  echo '<script type="text/javascript">parent.ucsUpload(\''.MWB.'bibliography/ucs_upload.php\', \'itemID[]='.$last_biblio_id.'\');</script>';
                 }
             } else { utility::jsAlert(__('Bibliography Data FAILED to Save. Please Contact System Administrator')."\n".$sql_op->error); }
         }
@@ -300,7 +300,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
           }
         }
 
-        echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(\''.MODULES_WEB_ROOT_DIR.'bibliography/index.php\', {method: \'post\', addData: \'itemID='.$last_biblio_id.'&detail=true\'});</script>';
+        echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(\''.MWB.'bibliography/index.php\', {method: \'post\', addData: \'itemID='.$last_biblio_id.'&detail=true\'});</script>';
         exit();
     }
     exit();
@@ -359,7 +359,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     }
     // auto delete data on UCS if enabled
     if ($http_query && $sysconf['ucs']['enable'] && $sysconf['ucs']['auto_delete']) {
-        echo '<script type="text/javascript">parent.ucsUpdate(\''.MODULES_WEB_ROOT_DIR.'bibliography/ucs_update.php\', \'nodeOperation=delete&'.$http_query.'\');</script>';
+        echo '<script type="text/javascript">parent.ucsUpdate(\''.MWB.'bibliography/ucs_update.php\', \'nodeOperation=delete&'.$http_query.'\');</script>';
     }
     // error alerting
     if ($error_num == 0) {
@@ -383,10 +383,10 @@ if (!$in_pop_up) {
     </div>
     <div class="sub_section">
 	    <div class="action_button">
-		    <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/index.php" class="headerText2"><?php echo __('Bibliographic List'); ?></a>
-		    <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/index.php?action=detail" class="headerText2"><?php echo __('Add New Bibliography'); ?></a>
+		    <a href="<?php echo MWB; ?>bibliography/index.php" class="headerText2"><?php echo __('Bibliographic List'); ?></a>
+		    <a href="<?php echo MWB; ?>bibliography/index.php?action=detail" class="headerText2"><?php echo __('Add New Bibliography'); ?></a>
 	    </div>
-	    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/index.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+	    <form name="search" action="<?php echo MWB; ?>bibliography/index.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
 		    <input type="text" name="keywords" id="keywords" size="30" />
 		    <select name="field"><option value="0"><?php echo __('All Fields'); ?></option><option value="title"><?php echo __('Title/Series Title'); ?> </option><option value="subject"><?php echo __('Topics'); ?></option><option value="author"><?php echo __('Authors'); ?></option><option value="isbn"><?php echo __('ISBN/ISSN'); ?></option><option value="publisher"><?php echo __('Publisher'); ?></option></select>
 		    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
@@ -395,7 +395,7 @@ if (!$in_pop_up) {
 		    // enable UCS?
 			if ($sysconf['ucs']['enable']) {
 		    ?>
-		    <a href="#" onclick="ucsUpload('<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/ucs_upload.php', serializeChbox('dataList'))" class="notAJAX"><div class="button"><?php echo __('Upload Selected Bibliographic data to Union Catalog Server*'); ?></div></a>
+		    <a href="#" onclick="ucsUpload('<?php echo MWB; ?>bibliography/ucs_upload.php', serializeChbox('dataList'))" class="notAJAX"><div class="button"><?php echo __('Upload Selected Bibliographic data to Union Catalog Server*'); ?></div></a>
 		    <?php
 		    }
 		    ?>
@@ -455,14 +455,20 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     }
 
     // include custom fields file
-    if (file_exists(MODULES_BASE_DIR.'bibliography/custom_fields.inc.php')) {
-        include MODULES_BASE_DIR.'bibliography/custom_fields.inc.php';
+    if (file_exists(MDLBS.'bibliography/custom_fields.inc.php')) {
+        include MDLBS.'bibliography/custom_fields.inc.php';
     }
 
     /* Form Element(s) */
     // biblio title
-    $form->addTextField('textarea', 'title', __('Title').'*', $rec_d['title'], 'rows="1" style="width: 100%; overflow: auto;"');
+    $form->addTextField('textarea', 'title', __('Title').'*', $rec_d['title'], 'rows="1" style="width: 100%; overflow: auto;"',
+        __('Main title of collection. Separate child title with colon and pararel title with equal (=) sign.'));
 
+    // biblio authors
+        $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_author.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Authors/Roles').'\')">'.__('Add Author(s)').'</a></div>';
+        $str_input .= '<iframe name="authorIframe" id="authorIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_author.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
+    $form->addAnything(__('Author(s)'), $str_input);
+    
     // modified by hendro wicaksono
     // biblio sor statement of responsibility
     $form->addTextField('text', 'sor', __('Statement of Responsibility'), $rec_d['sor'], 'style="width: 40%;"');
@@ -478,14 +484,10 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     $form->addAnything(__('Item(s) code batch generator'), $str_input);
     // biblio item add
     if (!$in_pop_up AND $form->edit_mode) {
-        $str_input = '<div class="makeHidden"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MODULES_WEB_ROOT_DIR.'bibliography/pop_item.php?inPopUp=true&action=detail&biblioID='.$rec_d['biblio_id'].'\', 650, 400, \''.__('Items/Copies').'\')">'.__('Add New Items').'</a></div>';
-        $str_input .= '<iframe name="itemIframe" id="itemIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MODULES_WEB_ROOT_DIR.'bibliography/iframe_item_list.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>'."\n";
+        $str_input = '<div class="makeHidden"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_item.php?inPopUp=true&action=detail&biblioID='.$rec_d['biblio_id'].'\', 650, 400, \''.__('Items/Copies').'\')">'.__('Add New Items').'</a></div>';
+        $str_input .= '<iframe name="itemIframe" id="itemIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_item_list.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>'."\n";
         $form->addAnything(__('Item(s) Data'), $str_input);
     }
-    // biblio authors
-        $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MODULES_WEB_ROOT_DIR.'bibliography/pop_author.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Authors/Roles').'\')">'.__('Add Author(s)').'</a></div>';
-        $str_input .= '<iframe name="authorIframe" id="authorIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MODULES_WEB_ROOT_DIR.'bibliography/iframe_author.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
-    $form->addAnything(__('Author(s)'), $str_input);
     // biblio gmd
         // get gmd data related to this record from database
         $gmd_q = $dbs->query('SELECT gmd_id, gmd_name FROM mst_gmd');
@@ -508,8 +510,9 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     // biblio ISBN/ISSN
     $form->addTextField('text', 'isbn_issn', __('ISBN/ISSN'), $rec_d['isbn_issn'], 'style="width: 40%;"');
     // biblio publisher
+        /**
         // AJAX expression
-        $ajax_exp = "ajaxFillSelect('".SENAYAN_WEB_ROOT_DIR."admin/AJAX_lookup_handler.php', 'mst_publisher', 'publisher_id:publisher_name', 'publisherID', $('#publ_search_str').val())";
+        $ajax_exp = "ajaxFillSelect('".SWB."admin/AJAX_lookup_handler.php', 'mst_publisher', 'publisher_id:publisher_name', 'publisherID', $('#publ_search_str').val())";
         if ($rec_d['publisher_name']) {
             $publ_options[] = array($rec_d['publisher_id'], $rec_d['publisher_name']);
         }
@@ -518,12 +521,15 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         $str_input = simbio_form_element::selectList('publisherID', $publ_options, '', 'style="width: 50%;"');
         $str_input .= '&nbsp;';
         $str_input .= simbio_form_element::textField('text', 'publ_search_str', $rec_d['publisher_name'], 'style="width: 45%;" onkeyup="'.$ajax_exp.'"');
-    $form->addAnything(__('Publisher'), $str_input);
+        $form->addAnything(__('Publisher'), $str_input);
+        **/
+    $form->addSelectList('publisherID', __('Publisher'), $gmd_options, $rec_d['publisher_id'], 'class="select2"');
     // biblio publish year
     $form->addTextField('text', 'year', __('Publishing Year'), $rec_d['publish_year'], 'style="width: 40%;"');
     // biblio publish place
+        /**
         // AJAX expression
-        $ajax_exp = "ajaxFillSelect('".SENAYAN_WEB_ROOT_DIR."admin/AJAX_lookup_handler.php', 'mst_place', 'place_id:place_name', 'placeID', $('#plc_search_str').val())";
+        $ajax_exp = "ajaxFillSelect('".SWB."admin/AJAX_lookup_handler.php', 'mst_place', 'place_id:place_name', 'placeID', $('#plc_search_str').val())";
         // string element
         if ($rec_d['place_name']) {
             $plc_options[] = array($rec_d['publish_place_id'], $rec_d['place_name']);
@@ -532,7 +538,9 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         $str_input = simbio_form_element::selectList('placeID', $plc_options, '', 'style="width: 50%;"');
         $str_input .= '&nbsp;';
         $str_input .= simbio_form_element::textField('text', 'plc_search_str', $rec_d['place_name'], 'style="width: 45%;" onkeyup="'.$ajax_exp.'"');
-    $form->addAnything(__('Publishing Place'), $str_input);
+        $form->addAnything(__('Publishing Place'), $str_input);
+        **/
+    $form->addSelectList('placeID', __('Publishing Place'), $gmd_options, $rec_d['publish_place_id'], 'class="select2" ajaxurl="'.SWB.'admin/AJAX_lookup_handler.php'.'"');
     // biblio collation
     $form->addTextField('text', 'collation', __('Collation'), $rec_d['collation'], 'style="width: 40%;"');
     // biblio series title
@@ -540,13 +548,13 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     // biblio call_number
     $form->addTextField('text', 'callNumber', __('Call Number'), $rec_d['call_number'], 'style="width: 40%;"');
     // biblio topics
-        $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MODULES_WEB_ROOT_DIR.'bibliography/pop_topic.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Subjects/Topics').'\')">'.__('Add Subject(s)').'</a></div>';
-        $str_input .= '<iframe name="topicIframe" id="topicIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MODULES_WEB_ROOT_DIR.'bibliography/iframe_topic.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
+        $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_topic.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Subjects/Topics').'\')">'.__('Add Subject(s)').'</a></div>';
+        $str_input .= '<iframe name="topicIframe" id="topicIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_topic.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
     $form->addAnything(__('Subject(s)'), $str_input);
     // biblio classification
 		$cls_options = array();
         // AJAX expression
-        $ajax_exp = "ajaxFillSelect('".SENAYAN_WEB_ROOT_DIR."admin/AJAX_lookup_handler.php', 'mst_topic', 'classification:classification:topic', 'class', $('#class_search_str').val())";
+        $ajax_exp = "ajaxFillSelect('".SWB."admin/AJAX_lookup_handler.php', 'mst_topic', 'classification:classification:topic', 'class', $('#class_search_str').val())";
         // string element
         if ($rec_d['classification']) {
             $cls_options[] = array($rec_d['classification'], $rec_d['classification']);
@@ -572,14 +580,14 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         $str_input .= ' Maximum '.$sysconf['max_image_upload'].' KB';
         $form->addAnything(__('Image'), $str_input);
     } else {
-        $str_input = '<a href="'.SENAYAN_WEB_ROOT_DIR.'images/docs/'.$rec_d['image'].'" target="_blank"><strong>'.$rec_d['image'].'</strong></a><br />';
+        $str_input = '<a href="'.SWB.'images/docs/'.$rec_d['image'].'" target="_blank"><strong>'.$rec_d['image'].'</strong></a><br />';
         $str_input .= simbio_form_element::textField('file', 'image');
         $str_input .= ' Maximum '.$sysconf['max_image_upload'].' KB';
         $form->addAnything(__('Image'), $str_input);
     }
     // biblio file attachment
-    $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MODULES_WEB_ROOT_DIR.'bibliography/pop_attach.php?biblioID='.$rec_d['biblio_id'].'\', 600, 300, \''.__('File Attachments').'\')">'.__('Add Attachment').'</a></div>';
-    $str_input .= '<iframe name="attachIframe" id="attachIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MODULES_WEB_ROOT_DIR.'bibliography/iframe_attach.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
+    $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_attach.php?biblioID='.$rec_d['biblio_id'].'\', 600, 300, \''.__('File Attachments').'\')">'.__('Add Attachment').'</a></div>';
+    $str_input .= '<iframe name="attachIframe" id="attachIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_attach.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
     $form->addAnything(__('File Attachment'), $str_input);
 
     /**
@@ -633,7 +641,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
             $checked = isset($arr_labels[$label_d['label_name']])?' checked':'';
             $url = isset($arr_labels[$label_d['label_name']])?$arr_labels[$label_d['label_name']]:'';
             $str_input .= '<div '
-                .'style="background: url('.SENAYAN_WEB_ROOT_DIR.IMAGES_DIR.'/labels/'.$label_d['label_image'].') left center no-repeat; padding-left: 30px; height: 45px;"> '
+                .'style="background: url('.SWB.IMG.'/labels/'.$label_d['label_image'].') left center no-repeat; padding-left: 30px; height: 45px;"> '
                 .'<input type="checkbox" name="labels[]" value="'.$label_d['label_name'].'"'.$checked.' /> '.$label_d['label_desc']
                 .'<div>URL : <input type="text" title="Enter a website link/URL to make this label clickable" '
                 .'name="label_urls['.$label_d['label_name'].']" size="50" maxlength="300" value="'.$url.'" /></div></div>';
@@ -646,7 +654,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         echo '<div class="infoBox" style="overflow: auto;">'
             .'<div style="float: left; width: 80%;">'.__('You are going to edit biblio data').' : <b>'.$rec_d['title'].'</b>  <br />'.__('Last Updated').'&nbsp;'. $rec_d['last_update'].'</div>'; //mfc
             if ($rec_d['image']) {
-                if (file_exists(IMAGES_BASE_DIR.'docs/'.$rec_d['image'])) {
+                if (file_exists(IMGBS.'docs/'.$rec_d['image'])) {
                     $upper_dir = '';
                     if ($in_pop_up) {
                         $upper_dir = '../../';
@@ -659,9 +667,9 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     // print out the form object
     echo $form->printOut();
 } else {
-    require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_tokenizecql.inc.php';
-    require MODULES_BASE_DIR.'bibliography/biblio_utils.inc.php';
-    require LIB_DIR.'biblio_list_model.inc.php';
+    require SIMBIO.'simbio_UTILS/simbio_tokenizecql.inc.php';
+    require MDLBS.'bibliography/biblio_utils.inc.php';
+    require LIB.'biblio_list_model.inc.php';
 
     // number of records to show in list
     $biblio_result_num = ($sysconf['biblio_result_num']>100)?100:$sysconf['biblio_result_num'];
@@ -672,10 +680,10 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     // index choice
     if ($sysconf['index']['type'] == 'index' ||  $sysconf['index']['type'] == 'sphinx' ) {
         if ($sysconf['index']['type'] == 'sphinx') {
-            require LIB_DIR.'sphinx/sphinxapi.php';
-            require LIB_DIR.'biblio_list_sphinx.inc.php';
+            require LIB.'sphinx/sphinxapi.php';
+            require LIB.'biblio_list_sphinx.inc.php';
         } else {
-            require LIB_DIR.'biblio_list_index.inc.php';
+            require LIB.'biblio_list_index.inc.php';
         }
 
         // table spec
@@ -702,7 +710,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         $datagrid->sql_group_by = 'index.biblio_id';
 
     } else {
-        require LIB_DIR.'biblio_list.inc.php';
+        require LIB.'biblio_list.inc.php';
 
         // table spec
         $table_spec = 'biblio LEFT JOIN item ON biblio.biblio_id=item.biblio_id';

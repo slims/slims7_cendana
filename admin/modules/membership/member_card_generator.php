@@ -26,17 +26,17 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-membership');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('membership', 'r');
@@ -74,7 +74,7 @@ if (isset($_POST['itemID']) AND !empty($_POST['itemID']) AND isset($_POST['itemA
     // card size
     $size = 2;
     // create AJAX request
-    echo '<script type="text/javascript" src="'.JS_WEB_ROOT_DIR.'jquery.js"></script>';
+    echo '<script type="text/javascript" src="'.JWB.'jquery.js"></script>';
     echo '<script type="text/javascript">';
     // loop array
     foreach ($_POST['itemID'] as $itemID) {
@@ -87,7 +87,7 @@ if (isset($_POST['itemID']) AND !empty($_POST['itemID']) AND isset($_POST['itemA
         }
         if (!empty($itemID)) {
             $card_text = trim($itemID);
-            echo '$.ajax({url: \''.SENAYAN_WEB_ROOT_DIR.'lib/phpbarcode/barcode.php?code='.$card_text.'&encoding='.$sysconf['barcode_encoding'].'&scale='.$size.'&mode=png\', type: \'GET\', error: function() { alert(\'Error creating member card!\'); } });'."\n";
+            echo '$.ajax({url: \''.SWB.'lib/phpbarcode/barcode.php?code='.$card_text.'&encoding='.$sysconf['barcode_encoding'].'&scale='.$size.'&mode=png\', type: \'GET\', error: function() { alert(\'Error creating member card!\'); } });'."\n";
             // add to sessions
             $_SESSION['card'][$itemID] = $itemID;
             $print_count++;
@@ -135,9 +135,9 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     }
 
     // include printed settings configuration file
-    include SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.'admin_template'.DIRECTORY_SEPARATOR.'printed_settings.inc.php';
+    include SB.'admin'.DS.'admin_template'.DS.'printed_settings.inc.php';
     // check for custom template settings
-    $custom_settings = SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.$sysconf['admin_template']['dir'].DIRECTORY_SEPARATOR.$sysconf['template']['theme'].DIRECTORY_SEPARATOR.'printed_settings.inc.php';
+    $custom_settings = SB.'admin'.DS.$sysconf['admin_template']['dir'].DS.$sysconf['template']['theme'].DS.'printed_settings.inc.php';
     if (file_exists($custom_settings)) {
         include $custom_settings;
     }
@@ -168,13 +168,13 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
             $html_str .= '<div class="labelStyle">';
             if (trim($card_header_text) != '') { $html_str .= '<div class="labelHeaderStyle">'.$card_header_text.'</div>'; }
             $html_str .= '<div id="photo">';
-            $html_str .= '<img src="'.SENAYAN_WEB_ROOT_DIR.IMAGES_DIR.'/persons/'.$card['member_image'].'" border="0" />';
+            $html_str .= '<img src="'.SWB.IMAGES_DIR.'/persons/'.$card['member_image'].'" border="0" />';
             $html_str .= '</div>';
             $html_str .= '<div id="bio">';
             $html_str .= '<div>'.( $card_include_field_label?__('Member ID').' : ':'' ).'<strong>'.$card['member_id'].'</strong></div>';
             $html_str .= '<div>'.( $card_include_field_label?__('Member Name').' : ':'' ).'<strong>'.$card['member_name'].'</strong></div>';
             $html_str .= '<div>'.( $card_include_field_label?__('Membership Type').' : ':'' ).'<strong>'.$card['member_type_name'].'</strong></div>';
-            $html_str .= '<div style="text-align: center;"><img src="'.SENAYAN_WEB_ROOT_DIR.IMAGES_DIR.'/barcodes/'.str_replace(array(' '), '_', $card['member_id']).'.png" style="width: '.$card_barcode_scale.'%; margin-top: 10px;" border="0" /></div>';
+            $html_str .= '<div style="text-align: center;"><img src="'.SWB.IMAGES_DIR.'/barcodes/'.str_replace(array(' '), '_', $card['member_id']).'.png" style="width: '.$card_barcode_scale.'%; margin-top: 10px;" border="0" /></div>';
             $html_str .= '</div>';
             $html_str .= '</div>';
             $html_str .= '</td>';
@@ -193,8 +193,8 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
         // update print queue count object
         echo '<script type="text/javascript">parent.$(\'#queueCount\').html(\'0\');</script>';
         // open result in window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SENAYAN_WEB_ROOT_DIR.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Member Card Printing').'\')</script>';
-    } else { utility::jsAlert('ERROR! Cards failed to generate, possibly because '.SENAYAN_BASE_DIR.FILES_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FLS.'/'.$print_file_name.'\', 800, 500, \''.__('Member Card Printing').'\')</script>';
+    } else { utility::jsAlert('ERROR! Cards failed to generate, possibly because '.SB.FLS.' directory is not writable'); }
     exit();
 }
 
@@ -206,10 +206,10 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     </div>
 	<div class="sub_section">
 		<div class="action_button">
-		<a target="blindSubmit" href="<?php echo MODULES_WEB_ROOT_DIR; ?>membership/member_card_generator.php?action=clear" class="notAJAX headerText2" style="color: #f00;"><?php echo __('Clear Print Queue'); ?></a>
-		<a target="blindSubmit" href="<?php echo MODULES_WEB_ROOT_DIR; ?>membership/member_card_generator.php?action=print" class="notAJAX headerText2"><?php echo __('Print Member Cards for Selected Data'); ?></a>
+		<a target="blindSubmit" href="<?php echo MWB; ?>membership/member_card_generator.php?action=clear" class="notAJAX headerText2" style="color: #f00;"><?php echo __('Clear Print Queue'); ?></a>
+		<a target="blindSubmit" href="<?php echo MWB; ?>membership/member_card_generator.php?action=print" class="notAJAX headerText2"><?php echo __('Print Member Cards for Selected Data'); ?></a>
 		</div>
-	    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>membership/member_card_generator.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?>:
+	    <form name="search" action="<?php echo MWB; ?>membership/member_card_generator.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?>:
 	    <input type="text" name="keywords" size="30" />
 	    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
 	    </form>

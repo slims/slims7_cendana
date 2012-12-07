@@ -29,8 +29,8 @@ define('INDEX_AUTH', '1');
 
 require_once '../sysconfig.inc.php';
 // session checking
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
 
 // list limit
 $limit = 20;
@@ -58,25 +58,20 @@ $sql_string = "SELECT $fields ";
 
 // append table name
 $sql_string .= " FROM $table_name ";
-if ($criteria) {
-    $sql_string .= " WHERE $criteria LIMIT $limit";
-}
+if ($criteria) { $sql_string .= " WHERE $criteria LIMIT $limit"; }
 
 // send query to database
 $query = $dbs->query($sql_string);
 $error = $dbs->error;
-if ($error) {
-    die('<option value="0">SQL ERROR : '.$error.'</option>');
-}
+$data = array();
+if ($error) { echo json_encode(array('error' => $error)); }
 
 if ($query->num_rows > 0) {
-    while ($row = $query->fetch_row()) {
-        echo '<option value="'.$row[0].'">'.$row[1].(isset($row[2])?' - '.$row[2]:'').(isset($row[3])?' - '.$row[3]:'').'</option>'."\n";
-    }
-    echo '<option value="0">NONE</option>'."\n";
+  while ($row = $query->fetch_row()) {
+    $data[] = array('id' => $row[0], 'text' => $row[1].(isset($row[2])?' - '.$row[2]:'').(isset($row[3])?' - '.$row[3]:''));
+  }
 } else {
-    // output the SQL string
-    // echo '<option value="0">'.$sql_string.'</option>';
-    echo '<option value="0">NO DATA FOUND</option>';
+  $data[] = array('id' => 0, 'text' => 'NO DATA FOUND');
 }
-?>
+echo json_encode($data);
+exit();

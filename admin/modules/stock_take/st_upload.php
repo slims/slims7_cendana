@@ -28,12 +28,12 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-stocktake');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('stock_take', 'r');
@@ -52,7 +52,7 @@ if ($stk_query->num_rows < 1) {
 
 // file upload
 if (isset($_POST['stUpload']) && isset($_FILES['stFile'])) {
-    require SIMBIO_BASE_DIR.'simbio_FILE/simbio_file_upload.inc.php';
+    require SIMBIO.'simbio_FILE/simbio_file_upload.inc.php';
     // create upload object
     $upload = new simbio_file_upload();
     $upload->setAllowableFormat(array('.txt'));
@@ -127,7 +127,7 @@ if (isset($_POST['stUpload']) && isset($_FILES['stFile'])) {
   </div>
   <div class="infoBox"><?php echo __('Upload a plain text file (.txt) containing list of Item Code to stock take. Each Item Code separated by line.'); ?></div>
   <div class="sub_section">
-    <form name="uploadForm" class="notAJAX" method="post" enctype="multipart/form-data" action="<?php echo MODULES_WEB_ROOT_DIR.'stock_take/st_upload.php'; ?>" target="uploadAction" style="display: inline;">
+    <form name="uploadForm" class="notAJAX" method="post" enctype="multipart/form-data" action="<?php echo MWB.'stock_take/st_upload.php'; ?>" target="uploadAction" style="display: inline;">
     <?php echo __('File'); ?>: <input type="file" name="stFile" id="stFile" /> Maximum <?php echo $sysconf['max_upload']; ?> KB
     <div style="margin: 3px;"><input type="submit" name="stUpload" id="stUpload" value="<?php echo __('Upload File'); ?>" class="button" />
     <iframe name="uploadAction" style="width: 0; height: 0; visibility: hidden;"></iframe>

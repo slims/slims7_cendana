@@ -22,23 +22,23 @@
 // key to authenticate
 define('INDEX_AUTH', '1');
 
-if (!defined('SENAYAN_BASE_DIR')) {
+if (!defined('SB')) {
     // main system configuration
     require '../../../sysconfig.inc.php';
     // start the session
-    require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+    require SB.'admin/default/session.inc.php';
 }
 
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-reporting');
 
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
 // PHPLOT Library
-if (file_exists(LIB_DIR.'phplot'.DIRECTORY_SEPARATOR.'phplot.php')) {
-    require LIB_DIR.'phplot'.DIRECTORY_SEPARATOR.'phplot.php';
+if (file_exists(LIB.'phplot'.DIRECTORY_SEPARATOR.'phplot.php')) {
+    require LIB.'phplot'.DIRECTORY_SEPARATOR.'phplot.php';
 } else {
     die();
 }

@@ -1069,3 +1069,23 @@ input.small_input {
 {
 	background-color:#ffde5a !important;
 }
+
+.formElementInfo {
+	display: none;
+}
+
+.tooltipsy {
+  padding: 5px;
+  max-width: 200px;
+  color: #303030;
+  background-color: #f5f5b5;
+  border: 1px solid #deca7e;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-opera-border-radius: 5px;
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  text-shadow: none;
+}

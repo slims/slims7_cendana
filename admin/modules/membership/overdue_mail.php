@@ -23,18 +23,18 @@ define('INDEX_AUTH', '1');
 
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-membership');
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+require SB.'admin/default/session.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('membership', 'r');
 if (!$can_read) { die(); }
 
-require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_date.inc.php';
-require MODULES_BASE_DIR.'membership/member_base_lib.inc.php';
-require LIB_DIR.'phpmailer/class.phpmailer.php';
+require SIMBIO.'simbio_UTILS/simbio_date.inc.php';
+require MDLBS.'membership/member_base_lib.inc.php';
+require LIB.'phpmailer/class.phpmailer.php';
 
 // get data
 $memberID = $dbs->escape_string(trim($_POST['memberID']));

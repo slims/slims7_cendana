@@ -19,13 +19,9 @@
  */
 
 // Check if search clustering enabled
-if (!$sysconf['enable_search_clustering']) {
-  exit();
-}
-
-if ($sysconf['index']['type'] != 'index') {
-  exit();
-}
+if (!$sysconf['enable_search_clustering']) { exit(); }
+// only run on "index" type index
+if ($sysconf['index']['type'] != 'index') { exit(); }
 
 if (!isset($_GET['q'])) {
   echo "No Cluster Found!";
@@ -36,17 +32,17 @@ if (!isset($_GET['q'])) {
 
   $criteria = trim(strip_tags($_GET['q']));
 
-  require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_tokenizecql.inc.php';
-  require LIB_DIR.'biblio_list_model.inc.php';
+  require SIMBIO.'simbio_UTILS/simbio_tokenizecql.inc.php';
+  require LIB.'biblio_list_model.inc.php';
   // index choice
   if ($sysconf['index']['type'] == 'index') {
-    require LIB_DIR.'biblio_list_index.inc.php';
-  } else if ($sysconf['index']['type'] == 'sphinx' && file_exists(LIB_DIR.'sphinx/sphinxapi.php')) {
-    require LIB_DIR.'sphinx/sphinxapi.php';
-    require LIB_DIR.'biblio_list_sphinx.inc.php';
+    require LIB.'biblio_list_index.inc.php';
+  } else if ($sysconf['index']['type'] == 'sphinx' && file_exists(LIB.'sphinx/sphinxapi.php')) {
+    require LIB.'sphinx/sphinxapi.php';
+    require LIB.'biblio_list_sphinx.inc.php';
     $sysconf['opac_result_num'] = (int)$sysconf['opac_result_num'];
   } else {
-    require LIB_DIR.'biblio_list.inc.php';
+    require LIB.'biblio_list.inc.php';
   }
 
   // create biblio list object

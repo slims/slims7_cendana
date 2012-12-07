@@ -33,15 +33,13 @@ $server_addr = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : (isset
 if ($server_addr == '') {
 
     include ('../../sysconfig.inc.php');
-    mysql_connect(DB_HOST, DB_USERNAME, DB_PASSWORD);
-    mysql_select_db(DB_NAME);
     $sql = "SELECT files.file_id,files.file_dir,files.file_name FROM files,biblio_attachment WHERE mime_type='application/pdf' AND biblio_attachment.file_id=files.file_id";
-    $query = mysql_query($sql);
+    $query = $dbs->query($sql);
 
-    while ($data = mysql_fetch_array($query)) {
+    while ($data = $query->fetch_assoc()) {
         $sha1_name = sha1($data['file_name']);
         $swf = $sha1_name.'.swf';
-        $file_loc = REPO_BASE_DIR.str_ireplace('/', DIRECTORY_SEPARATOR, $data['file_dir']).DIRECTORY_SEPARATOR.$data['file_name'];
+        $file_loc = REPOBS.str_ireplace('/', DS, $data['file_dir']).DS.$data['file_name'];
         $file_loc = preg_replace("/\/\//i", "/", $file_loc);
 
         echo 'Processing ...'."\n\n";
@@ -66,5 +64,3 @@ if ($server_addr == '') {
 } else {
     header ("location:index.php");
 }
-
-?>

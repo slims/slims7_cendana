@@ -28,13 +28,13 @@ if (!defined('REPORT_DIRECT_INCLUDE')) {
     // main system configuration
     require '../../../sysconfig.inc.php';
     // start the session
-    require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-    require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-    include SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-    include SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+    require SB.'admin/default/session.inc.php';
+    require SB.'admin/default/session_check.inc.php';
+    include SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+    include SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 }
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-stocktake');
 
@@ -216,7 +216,7 @@ if ($stk_query->num_rows < 1) {
         $file_write = @file_put_contents(REPORT_FILE_BASE_DIR.'stock_take_print_result.html', $html_str);
         if ($file_write) {
             // open result in new window
-            echo '<script type="text/javascript">parent.openWin(\''.SENAYAN_WEB_ROOT_DIR.'/'.FILES_DIR.'/'.REPORT_DIR.'/stock_take_print_result.html\', \'popMemberReport\', 800, 500, true)</script>';
+            echo '<script type="text/javascript">parent.openWin(\''.SWB.'/'.FILES_DIR.'/'.REPORT_DIR.'/stock_take_print_result.html\', \'popMemberReport\', 800, 500, true)</script>';
         } else { utility::jsAlert('ERROR! Membership statistic report failed to generate, possibly because '.REPORT_FILE_BASE_DIR.' directory is not writable'); }
         exit();
     } else {

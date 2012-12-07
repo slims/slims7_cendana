@@ -28,14 +28,14 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_FILE/simbio_file_upload.inc.php';
+require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_FILE/simbio_file_upload.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');
@@ -66,7 +66,7 @@ if (isset($_POST['doImport'])) {
     $upload = new simbio_file_upload();
     // get system temporary directory location
     $temp_dir = sys_get_temp_dir();
-    $uploaded_file = $temp_dir.DIRECTORY_SEPARATOR.$_FILES['importFile']['name'];
+    $uploaded_file = $temp_dir.DS.$_FILES['importFile']['name'];
     unlink($uploaded_file);
     // set max size
     $max_size = $sysconf['max_upload']*1024;
@@ -79,7 +79,7 @@ if (isset($_POST['doImport'])) {
         exit();
     }
     // uploaded file path
-    $uploaded_file = $temp_dir.DIRECTORY_SEPARATOR.$_FILES['importFile']['name'];
+    $uploaded_file = $temp_dir.DS.$_FILES['importFile']['name'];
     $row_count = 0;
     // check for import setting
     $record_num = intval($_POST['recordNum']);

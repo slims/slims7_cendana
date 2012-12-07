@@ -29,13 +29,13 @@ define('INDEX_AUTH', '1');
 require '../../../sysconfig.inc.php';
 
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-system');
 
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('system', 'r');
@@ -61,7 +61,7 @@ if (isset($_POST['start']) && isset($_POST['tkn']) && $_POST['tkn'] === $_SESSIO
             // time string to append to filename
             $time2append = (date('Ymd_His'));
             // execute the backup process
-            exec($sysconf['mysqldump'].' -B '.DB_NAME.' --no-create-db --quick --user='.DB_USERNAME.' --password='.DB_PASSWORD.' > '.$sysconf['backup_dir'].DIRECTORY_SEPARATOR.'backup_'.$time2append.'.sql', $outputs, $status);
+            exec($sysconf['mysqldump'].' -B '.DB_NAME.' --no-create-db --quick --user='.DB_USERNAME.' --password='.DB_PASSWORD.' > '.$sysconf['backup_dir'].DS.'backup_'.$time2append.'.sql', $outputs, $status);
 			if ($status == COMMAND_SUCCESS || $status == 1) {
                 $data['user_id'] = $_SESSION['uid'];
                 $data['backup_time'] = date('Y-m-d H:i"s');
@@ -100,7 +100,7 @@ if (isset($_POST['start']) && isset($_POST['tkn']) && $_POST['tkn'] === $_SESSIO
     // remove token
     unset($_SESSION['token']);
     echo '<script type="text/javascript">top.alert(\''.$output.'\');</script>';
-    echo '<script type="text/javascript">top.$(\'#mainContent\').simbioAJAX(\''.MODULES_WEB_ROOT_DIR.'system/backup.php\');</script>';
+    echo '<script type="text/javascript">top.$(\'#mainContent\').simbioAJAX(\''.MWB.'system/backup.php\');</script>';
     exit();
 }
 ?>

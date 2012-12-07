@@ -414,6 +414,23 @@ $('document').ready(function() {
         $('#filterForm').children('.divRow:gt(0)').wrapAll('<div class="hiddenFilter"></div>');
         var hiddenFilter = $('.hiddenFilter').hide();
         $('[name=moreFilter]').toggle(function() { hiddenFilter.fadeIn(); }, function() { hiddenFilter.hide(); });
+        // tooltip
+        $('input[title], textarea[title]').tooltipsy({
+            offset: [-10, 0],
+            show: function (e, $el) {
+                $el.css({
+                    'left': parseInt($el[0].style.left.replace(/[a-z]/g, '')) - 50 + 'px',
+                    'opacity': '0.0',
+                    'display': 'block'
+                }).animate({
+                    'left': parseInt($el[0].style.left.replace(/[a-z]/g, '')) + 50 + 'px',
+                    'opacity': '1.0'
+                }, 300);
+            },
+            hide: function (e, $el) { $el.slideUp(100); }
+        });
+        // select 2
+        $('select.select2').select2();
     });
 
     // disable form with class "disabled"

@@ -40,8 +40,7 @@ $file_q = $dbs->query($sql_q);
 $file_d = $file_q->fetch_assoc();
 
 if ($file_q->num_rows > 0) {
-    #$file_loc = REPO_BASE_DIR.str_ireplace('/', DIRECTORY_SEPARATOR, $file_d['file_dir']).$file_d['file_name'];
-    $file_loc = REPO_BASE_DIR.'/'.$file_d['file_dir'].'/'.$file_d['file_name'];
+    $file_loc = REPOBS.'/'.$file_d['file_dir'].'/'.$file_d['file_name'];
     if (file_exists($file_loc)) {
         // check access limit
         if ($file_d['access_limit']) {
@@ -114,4 +113,3 @@ if ($file_q->num_rows > 0) {
 } else {
     die('<div class="errorBox">File Not Found!</div>');
 }
-?>

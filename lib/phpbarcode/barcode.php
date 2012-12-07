@@ -38,7 +38,7 @@
 
 define('INDEX_AUTH', '1');
 
-if (!defined('SENAYAN_BASE_DIR')) {
+if (!defined('SB')) {
     require '../../sysconfig.inc.php';
 }
 
@@ -171,5 +171,3 @@ if ($sysconf['zend_barcode_engine'] === true) {
     require "php-barcode.php";
     barcode_print($code, $encoding, $scale, $mode);
 }
-
-?>

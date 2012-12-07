@@ -42,18 +42,18 @@ if ($file_q->num_rows < 1) {
 }
 // check if file exists
 $file_d = $file_q->fetch_assoc();
-$file_loc = REPO_BASE_DIR.str_ireplace('/', DIRECTORY_SEPARATOR, $file_d['file_dir']).DIRECTORY_SEPARATOR.$file_d['file_name'];
+$file_loc = REPOBS.str_ireplace('/', DS, $file_d['file_dir']).DS.$file_d['file_name'];
 if (!file_exists($file_loc)) {
     die();
 }
 // multimedia URL
-$multimedia_url = REPO_DIR.'/'.$file_d['file_dir'].'/'.$file_d['file_name'];
+$multimedia_url = REPO.'/'.$file_d['file_dir'].'/'.$file_d['file_name'];
 
 // flowplayer settings
-$splash = SENAYAN_WEB_ROOT_DIR.IMAGES_DIR.'/senayan-player-splash.png';
-$flowplayer_core = JS_WEB_ROOT_DIR.'flowplayer/flowplayer-3.1.0.swf';
-$flowplayer_api = JS_WEB_ROOT_DIR.'flowplayer/flowplayer-3.1.0.min.js';
-$flowplayer_audio_plugin = JS_WEB_ROOT_DIR.'flowplayer/flowplayer.audio-3.1.0.swf';
+$splash = SWB.IMG.'/senayan-player-splash.png';
+$flowplayer_core = JWB.'flowplayer/flowplayer-3.1.0.swf';
+$flowplayer_api = JWB.'flowplayer/flowplayer-3.1.0.min.js';
+$flowplayer_audio_plugin = JWB.'flowplayer/flowplayer.audio-3.1.0.swf';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

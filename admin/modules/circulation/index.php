@@ -25,19 +25,19 @@ define('INDEX_AUTH', '1');
 // key to get full database access
 define('DB_ACCESS', 'fa');
 
-if (!defined('SENAYAN_BASE_DIR')) {
+if (!defined('SB')) {
     // main system configuration
     require '../../../sysconfig.inc.php';
     // start the session
-    require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+    require SB.'admin/default/session.inc.php';
 }
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-circulation');
 
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_element.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_element.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('circulation', 'r');
@@ -49,7 +49,7 @@ if (!($can_read AND $can_write)) {
 // check if there is transaction running
 if (isset($_SESSION['memberID']) AND !empty($_SESSION['memberID'])) {
     define('DIRECT_INCLUDE', true);
-    include MODULES_BASE_DIR.'circulation/circulation_action.php';
+    include MDLBS.'circulation/circulation_action.php';
 } else {
 ?>
 <fieldset class="menuBox">
@@ -61,14 +61,14 @@ if (isset($_SESSION['memberID']) AND !empty($_SESSION['memberID'])) {
 	    <div class="action_button">
 		    <?php echo __('CIRCULATION - Insert a member ID to start transaction with keyboard or barcode reader'); ?>
 	    </div>
-      <form id="startCirc" action="<?php echo MODULES_WEB_ROOT_DIR; ?>circulation/circulation_action.php" method="post" style="display: inline;">
+      <form id="startCirc" action="<?php echo MWB; ?>circulation/circulation_action.php" method="post" style="display: inline;">
       <?php echo __('Member ID'); ?> :
       <?php
       // create AJAX drop down
       $ajaxDD = new simbio_fe_AJAX_select();
       $ajaxDD->element_name = 'memberID';
       $ajaxDD->element_css_class = 'ajaxInputField';
-      $ajaxDD->handler_URL = MODULES_WEB_ROOT_DIR.'membership/member_AJAX_response.php';
+      $ajaxDD->handler_URL = MWB.'membership/member_AJAX_response.php';
       echo $ajaxDD->out();
       ?>
       <input type="submit" value="<?php echo __('Start Transaction'); ?>" name="start" id="start" class="button" />
@@ -78,7 +78,7 @@ if (isset($_SESSION['memberID']) AND !empty($_SESSION['memberID'])) {
 </fieldset>
 <?php
     if (isset($_POST['finishID'])) {
-        $msg = str_ireplace('{member_id}', $_POST['finishID'], __('Transaction with member {member_id} is completed'));
-        echo '<div class="infoBox">'.$msg.'</div>';
+      $msg = str_ireplace('{member_id}', $_POST['finishID'], __('Transaction with member {member_id} is completed'));
+      echo '<div class="infoBox">'.$msg.'</div>';
     }
 }

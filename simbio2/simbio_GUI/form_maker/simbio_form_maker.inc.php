@@ -125,6 +125,7 @@ class simbio_form_maker
         $_form_element->element_name = $str_elmnt_name;
         $_form_element->element_value = $str_elmnt_value;
         $_form_element->element_attr = $str_elmnt_attr;
+        $_form_element->element_helptext = $str_elmnt_info;
         $this->elements[$str_elmnt_name] = array('label' => $str_elmnt_label, 'element' => $_form_element, 'info' => $str_elmnt_info);
     }
 
@@ -149,6 +150,7 @@ class simbio_form_maker
         $_form_element->element_options = $array_option;
         $_form_element->element_value = $str_default_selected;
         $_form_element->element_attr = $str_elmnt_attr;
+        $_form_element->element_helptext = $str_elmnt_info;
         $this->elements[$str_elmnt_name] = array('label' => $str_elmnt_label, 'element' => $_form_element, 'info' => $str_elmnt_info);
     }
 
@@ -171,6 +173,7 @@ class simbio_form_maker
         $_form_element->element_name = $str_elmnt_name;
         $_form_element->element_options = $array_chbox;
         $_form_element->element_value = $default_checked;
+        $_form_element->element_helptext = $str_elmnt_info;
         $this->elements[$str_elmnt_name] = array('label' => $str_elmnt_label, 'element' => $_form_element, 'info' => $str_elmnt_info);
     }
 
@@ -193,6 +196,7 @@ class simbio_form_maker
         $_form_element->element_name = $str_elmnt_name;
         $_form_element->element_options = $array_option;
         $_form_element->element_value = $default_checked;
+        $_form_element->element_helptext = $str_elmnt_info;
         $this->elements[$str_elmnt_name] = array('label' => $str_elmnt_label, 'element' => $_form_element, 'info' => $str_elmnt_info);
     }
 
@@ -258,4 +262,3 @@ class simbio_form_maker
         $this->elements[$obj_simbio_fe->element_name] = array('label' => $str_elmnt_label, 'element' => $obj_simbio_fe, 'info' => $str_elmnt_info);
     }
 }
-?>

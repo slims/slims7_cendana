@@ -29,16 +29,16 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-system');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('system', 'r');
@@ -64,7 +64,7 @@ if (isset($_POST['saveLogs']) AND $can_write AND $_SESSION['uid'] == 1) {
 if (isset($_POST['clearLogs']) AND $can_write AND $_SESSION['uid'] == 1) {
     $dbs->query('TRUNCATE TABLE system_log');
     utility::jsAlert(__('System Log data completely cleared!'));
-    echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(\''.MODULES_WEB_ROOT_DIR.'system/sys_log.php\');</script>';
+    echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(\''.MWB.'system/sys_log.php\');</script>';
     exit();
 }
 
@@ -82,14 +82,14 @@ if (isset($_POST['clearLogs']) AND $can_write AND $_SESSION['uid'] == 1) {
       <a href="#" onclick="confSubmit('saveLogsForm', '<?php echo __('Save Logs record to file?'); ?>')" class="notAJAX headerText2"><?php echo __('Save Logs To File'); ?></a>
 	  </div>
     <?php } ?>
-    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>system/sys_log.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+    <form name="search" action="<?php echo MWB; ?>system/sys_log.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
     <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
     </form>
     <!-- LOG CLEARANCE FORM -->
     <?php if ($_SESSION['uid'] == 1) { ?>
-    <form action="<?php echo MODULES_WEB_ROOT_DIR; ?>system/sys_log.php" id="clearLogsForm" target="blindSubmit" method="post" style="display: inline;"><input type="hidden" name="clearLogs" value="true" /></form>
-    <form action="<?php echo MODULES_WEB_ROOT_DIR; ?>system/sys_log.php" id="saveLogsForm" target="blindSubmit" method="post" style="display: inline;"><input type="hidden" name="saveLogs" value="true" /></form>
+    <form action="<?php echo MWB; ?>system/sys_log.php" id="clearLogsForm" target="blindSubmit" method="post" style="display: inline;"><input type="hidden" name="clearLogs" value="true" /></form>
+    <form action="<?php echo MWB; ?>system/sys_log.php" id="saveLogsForm" target="blindSubmit" method="post" style="display: inline;"><input type="hidden" name="saveLogs" value="true" /></form>
     <?php } ?>
     <!-- LOG CLEARANCE FORM END -->
   </div>

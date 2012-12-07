@@ -255,7 +255,7 @@ class biblio_list extends biblio_list_model
 			biblio.publish_year, pbl.publisher_name AS `publisher`, pplc.place_name AS `publish_place`, biblio.labels';
 
         // checking custom frontpage fields file
-        $custom_frontpage_record_file = SENAYAN_BASE_DIR.$sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/custom_frontpage_record.inc.php';
+        $custom_frontpage_record_file = SB.$sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/custom_frontpage_record.inc.php';
         if (file_exists($custom_frontpage_record_file)) {
             include $custom_frontpage_record_file;
             $this->enable_custom_frontpage = true;

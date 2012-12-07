@@ -80,5 +80,3 @@ $receipt_border = '1px dashed #000';
 $receipt_fontSize = '7pt';
 $receipt_header_fontSize = '8pt';
 $receipt_titleLength = 100;
-
-?>
