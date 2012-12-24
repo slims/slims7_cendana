@@ -28,14 +28,14 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB.'ip_based_access.inc.php';
+require LIB_DIR.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SB.'admin/default/session.inc.php';
-require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO.'simbio_FILE/simbio_file_upload.inc.php';
+require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO_BASE_DIR.'simbio_FILE/simbio_file_upload.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');
@@ -66,7 +66,7 @@ if (isset($_POST['doImport'])) {
     $upload = new simbio_file_upload();
     // get system temporary directory location
     $temp_dir = sys_get_temp_dir();
-    $uploaded_file = $temp_dir.DS.$_FILES['importFile']['name'];
+    $uploaded_file = $temp_dir.DIRECTORY_SEPARATOR.$_FILES['importFile']['name'];
     unlink($uploaded_file);
     // set max size
     $max_size = $sysconf['max_upload']*1024;
@@ -79,7 +79,7 @@ if (isset($_POST['doImport'])) {
         exit();
     }
     // uploaded file path
-    $uploaded_file = $temp_dir.DS.$_FILES['importFile']['name'];
+    $uploaded_file = $temp_dir.DIRECTORY_SEPARATOR.$_FILES['importFile']['name'];
     $row_count = 0;
     // check for import setting
     $record_num = intval($_POST['recordNum']);
@@ -137,7 +137,7 @@ if (isset($_POST['doImport'])) {
               $classification = $field[11]?'\''.$field[11].'\'':'NULL';;
               $notes = $field[12]?'\''.$field[12].'\'':'NULL';;
               $image = $field[13]?'\''.$field[13].'\'':'NULL';
-              $file_att = $field[14]?'\''.$field[14].'\'':'NULL';
+              $sor = $field[14]?'\''.$field[14].'\'':'NULL';
               // $authors = preg_replace('@\\\s*'.$field_enc.'$@i', '', $field[15]);
               $authors = trim($field[15]);
               $subjects = trim($field[16]);
@@ -147,12 +147,12 @@ if (isset($_POST['doImport'])) {
                   isbn_issn, publisher_id, publish_year,
                   collation, series_title, call_number,
                   language_id, publish_place_id, classification,
-                  notes, image, file_att, input_date, last_update)
+                  notes, image, sor, input_date, last_update)
                       VALUES ($title, $gmd_id, $edition,
                       $isbn_issn, $publisher_id, $publish_year,
                       $collation, $series_title, $call_number,
                       $language_id, $publish_place_id, $classification,
-                      $notes, $image, $file_att, $curr_datetime, $curr_datetime)";
+                      $notes, $image, $sor, $curr_datetime, $curr_datetime)";
               // send query
               $dbs->query($sql_str);
               $biblio_id = $dbs->insert_id;

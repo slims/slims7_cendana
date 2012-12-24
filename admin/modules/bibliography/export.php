@@ -27,14 +27,14 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB.'ip_based_access.inc.php';
+require LIB_DIR.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SB.'admin/default/session.inc.php';
-require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');
@@ -88,7 +88,7 @@ if (isset($_POST['doExport'])) {
         b.isbn_issn, publ.publisher_name, b.publish_year,
         b.collation, b.series_title, b.call_number,
         lang.language_name, pl.place_name, b.classification,
-        b.notes, b.image, b.file_att
+        b.notes, b.image, b.sor
         FROM biblio AS b
         LEFT JOIN mst_gmd AS gmd ON b.gmd_id=gmd.gmd_id
         LEFT JOIN mst_publisher AS publ ON b.publisher_id=publ.publisher_id
