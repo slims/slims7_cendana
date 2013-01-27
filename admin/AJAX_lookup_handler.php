@@ -64,14 +64,31 @@ if ($criteria) { $sql_string .= " WHERE $criteria LIMIT $limit"; }
 $query = $dbs->query($sql_string);
 $error = $dbs->error;
 $data = array();
-if ($error) { echo json_encode(array('error' => $error)); }
 
-if ($query->num_rows > 0) {
-  while ($row = $query->fetch_row()) {
-    $data[] = array('id' => $row[0], 'text' => $row[1].(isset($row[2])?' - '.$row[2]:'').(isset($row[3])?' - '.$row[3]:''));
+if (isset($_GET['format'])) {
+  if ($_GET['format'] == 'json') {
+	if ($error) { echo json_encode(array('id' => 0, 'text' => $error)); }
+	if ($query->num_rows > 0) {
+	  while ($row = $query->fetch_row()) {
+		$data[] = array('id' => $row[0], 'text' => $row[1].(isset($row[2])?' - '.$row[2]:'').(isset($row[3])?' - '.$row[3]:''));
+	  }
+	} else {
+	  $data[] = array('id' => 0, 'text' => 'NO DATA FOUND');
+	}
+	echo json_encode($data);
+	exit();  
   }
 } else {
-  $data[] = array('id' => 0, 'text' => 'NO DATA FOUND');
+	if ($error) { echo '<option value="0">'.$error.'</option>'; }
+	if ($query->num_rows > 0) {
+	  while ($row = $query->fetch_row()) {
+	  	echo '<option value="'.$row[0].'">'.$row[1].(isset($row[2])?' - '.$row[2]:'').(isset($row[3])?' - '.$row[3]:'').'</option>'."\n";
+	  }
+	} else {
+	  // output the SQL string
+	  // echo '<option value="0">'.$sql_string.'</option>';
+	  echo '<option value="0">NO DATA FOUND</option>';
+	}
+	exit();
 }
-echo json_encode($data);
-exit();
+
