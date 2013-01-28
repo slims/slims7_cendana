@@ -431,9 +431,7 @@ $('document').ready(function() {
       hide: function (e, $el) { $el.slideUp(100); }
     });
     // select 2
-    $('.select2').select2({
-      placeholder: "Select a State"
-    });
+    $('.select2').select2();
 	$('.select2-container').each( function() {
 	  var selectToFill = $(this).next();
 	  var selectToFillID = selectToFill.attr('id');
@@ -441,9 +439,10 @@ $('document').ready(function() {
 	  var dataSourceTable = selectToFill.attr('datasourcetable');
 	  var dataSourceCols = selectToFill.attr('datasourcecols');
 	  if (dataSourceURL) {
-	    var selectSearch = $(this).find('.select2-input').keypress( function() {
-	      ajaxFillSelect(dataSourceURL, dataSourceTable, dataSourceCols, selectToFillID, $(this).val());
-	    });	  
+	    var selectSearch = $(this).find('.select2-input').keypress( function(e) {
+		  var textInputVal = $(this).val();
+	      var ajaxFilled = ajaxFillSelect(dataSourceURL, dataSourceTable, dataSourceCols, selectToFillID, textInputVal);
+	    } );	  
 	  }
 	  return true;
 	});

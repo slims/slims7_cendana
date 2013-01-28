@@ -9,6 +9,7 @@
 /* function to fill select list with AJAX */
 var ajaxFillSelect = function(str_handler_file, str_table_name, str_table_fields, str_container_ID) {
   var additionalParams = '';
+  var result = '';
   if (arguments[4] != undefined) {
     additionalParams = '&keywords=' + arguments[4];
   }
@@ -16,7 +17,12 @@ var ajaxFillSelect = function(str_handler_file, str_table_name, str_table_fields
   // fill the select list
   jQuery.ajax({ url: str_handler_file, type: 'POST',
     data: 'tableName=' + str_table_name + '&tableFields=' + str_table_fields + additionalParams,
-    success: function(ajaxRespond) { $('#'+str_container_ID).html(ajaxRespond); } });
+    success: function(ajaxRespond) { result = jQuery.trim(ajaxRespond); $('#'+str_container_ID).html(ajaxRespond); } });
+  
+  if (result) {
+    return true;
+  }
+  return false;
 }
 
 /* AJAX check ID */

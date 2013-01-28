@@ -511,11 +511,23 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   $form->addTextField('text', 'isbn_issn', __('ISBN/ISSN'), $rec_d['isbn_issn'], 'style="width: 40%;"');
   // biblio publisher
   $publ_options = array();
+  if ($rec_d['publisher_id']) {
+    $publ_q = $dbs->query(sprintf('SELECT publisher_id, publisher_name FROM mst_publisher WHERE publisher_id=%d', $rec_d['publisher_id']));
+    while ($publ_d = $publ_q->fetch_row()) {
+      $publ_options[] = array($publ_d[0], $publ_d[1]);
+    }  
+  }
   $form->addSelectList('publisherID', __('Publisher'), $publ_options, $rec_d['publisher_id'], 'class="select2" datasource="'.SWB.'admin/AJAX_lookup_handler.php" datasourcetable="mst_publisher" datasourcecols="publisher_id:publisher_name"');
   // biblio publish year
   $form->addTextField('text', 'year', __('Publishing Year'), $rec_d['publish_year'], 'style="width: 40%;"');
   // biblio publish place
   $plc_options = array();
+  if ($rec_d['publish_place_id']) {
+    $plc_q = $dbs->query(sprintf('SELECT place_id, place_name FROM mst_place WHERE place_id=%d', $rec_d['publish_place_id']));
+    while ($plc_d = $plc_q->fetch_row()) {
+      $plc_options[] = array($plc_d[0], $plc_d[1]);
+    }  
+  }
   $form->addSelectList('placeID', __('Publishing Place'), $plc_options, $rec_d['publish_place_id'], 'class="select2" datasource="'.SWB.'admin/AJAX_lookup_handler.php" datasourcetable="mst_place" datasourcecols="place_id:place_name"');
   // biblio collation
   $form->addTextField('text', 'collation', __('Collation'), $rec_d['collation'], 'style="width: 40%;"');
