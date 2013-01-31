@@ -73,7 +73,11 @@ if (isset($_GET['format'])) {
 	  	$data[] = array('id' => $row[0], 'text' => $row[1].(isset($row[2])?' - '.$row[2]:'').(isset($row[3])?' - '.$row[3]:''));
 	    }
 	  } else {
-	    $data[] = array('id' => 0, 'text' => 'NO DATA FOUND');
+		  if (isset($_GET['allowNew'])) {
+			  $data[] = array('id' => 'NEW', 'text' => $keywords.' &lt;'.__('Add New').'&gt;');	
+			} else {
+		    $data[] = array('id' => 'NONE', 'text' => 'NO DATA FOUND');
+			}
 	  }
 	  echo json_encode($data);
   }

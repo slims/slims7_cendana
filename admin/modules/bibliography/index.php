@@ -517,7 +517,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
       $publ_options[] = array($publ_d[0], $publ_d[1]);
     }  
   }
-  $form->addSelectList('publisherID', __('Publisher'), $publ_options, $rec_d['publisher_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json" data-src-table="mst_publisher" data-src-cols="publisher_id:publisher_name"');
+  $form->addSelectList('publisherID', __('Publisher'), $publ_options, $rec_d['publisher_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_publisher" data-src-cols="publisher_id:publisher_name"');
   // biblio publish year
   $form->addTextField('text', 'year', __('Publishing Year'), $rec_d['publish_year'], 'style="width: 40%;"');
   // biblio publish place
@@ -528,7 +528,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
       $plc_options[] = array($plc_d[0], $plc_d[1]);
     }  
   }
-  $form->addSelectList('placeID', __('Publishing Place'), $plc_options, $rec_d['publish_place_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json" data-src-table="mst_place" data-src-cols="place_id:place_name"');
+  $form->addSelectList('placeID', __('Publishing Place'), $plc_options, $rec_d['publish_place_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_place" data-src-cols="place_id:place_name"');
   // biblio collation
   $form->addTextField('text', 'collation', __('Collation'), $rec_d['collation'], 'style="width: 40%;"');
   // biblio series title
