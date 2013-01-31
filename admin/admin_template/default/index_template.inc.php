@@ -8,15 +8,15 @@
 <link rel="shortcut icon" href="<?php echo SWB; ?>webicon.ico" type="image/x-icon" />
 <link href="<?php echo SWB; ?>template/core.style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $sysconf['admin_template']['css']; ?>" rel="stylesheet" type="text/css" />
-<link href="<?php echo JWB; ?>tooltips/bootstrap.tooltips.css" rel="stylesheet" type="text/css" />
-<link href="<?php echo JWB; ?>select2/select2.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo JWB; ?>chosen/chosen.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo JWB; ?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>updater.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>form.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>calendar.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>tiny_mce/tiny_mce.js"></script>
-<script type="text/javascript" src="<?php echo JWB; ?>select2/select2.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>chosen/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>chosen/ajax-chosen.min.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>tooltipsy.js"></script>
 <!-- new them for Meranti by Eddy Subratha -->
 </head>

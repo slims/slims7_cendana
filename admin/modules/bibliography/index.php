@@ -510,25 +510,25 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   // biblio ISBN/ISSN
   $form->addTextField('text', 'isbn_issn', __('ISBN/ISSN'), $rec_d['isbn_issn'], 'style="width: 40%;"');
   // biblio publisher
-  $publ_options = array();
+  $publ_options[] = array('NONE', '');
   if ($rec_d['publisher_id']) {
     $publ_q = $dbs->query(sprintf('SELECT publisher_id, publisher_name FROM mst_publisher WHERE publisher_id=%d', $rec_d['publisher_id']));
     while ($publ_d = $publ_q->fetch_row()) {
       $publ_options[] = array($publ_d[0], $publ_d[1]);
     }  
   }
-  $form->addSelectList('publisherID', __('Publisher'), $publ_options, $rec_d['publisher_id'], 'class="select2" datasource="'.SWB.'admin/AJAX_lookup_handler.php" datasourcetable="mst_publisher" datasourcecols="publisher_id:publisher_name"');
+  $form->addSelectList('publisherID', __('Publisher'), $publ_options, $rec_d['publisher_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json" data-src-table="mst_publisher" data-src-cols="publisher_id:publisher_name"');
   // biblio publish year
   $form->addTextField('text', 'year', __('Publishing Year'), $rec_d['publish_year'], 'style="width: 40%;"');
   // biblio publish place
-  $plc_options = array();
+  $plc_options[] = array('NONE', '');
   if ($rec_d['publish_place_id']) {
     $plc_q = $dbs->query(sprintf('SELECT place_id, place_name FROM mst_place WHERE place_id=%d', $rec_d['publish_place_id']));
     while ($plc_d = $plc_q->fetch_row()) {
       $plc_options[] = array($plc_d[0], $plc_d[1]);
     }  
   }
-  $form->addSelectList('placeID', __('Publishing Place'), $plc_options, $rec_d['publish_place_id'], 'class="select2" datasource="'.SWB.'admin/AJAX_lookup_handler.php" datasourcetable="mst_place" datasourcecols="place_id:place_name"');
+  $form->addSelectList('placeID', __('Publishing Place'), $plc_options, $rec_d['publish_place_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json" data-src-table="mst_place" data-src-cols="place_id:place_name"');
   // biblio collation
   $form->addTextField('text', 'collation', __('Collation'), $rec_d['collation'], 'style="width: 40%;"');
   // biblio series title
@@ -540,7 +540,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   $str_input .= '<iframe name="topicIframe" id="topicIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_topic.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
   $form->addAnything(__('Subject(s)'), $str_input);
   // biblio classification
-		$cls_options = array();
+  $cls_options = array();
   // AJAX expression
   $ajax_exp = "ajaxFillSelect('".SWB."admin/AJAX_lookup_handler.php', 'mst_topic', 'classification:classification:topic', 'class', $('#class_search_str').val())";
   // string element
@@ -654,6 +654,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   }
   // print out the form object
   echo $form->printOut();
+  exit();
 } else {
   require SIMBIO.'simbio_UTILS/simbio_tokenizecql.inc.php';
   require MDLBS.'bibliography/biblio_utils.inc.php';

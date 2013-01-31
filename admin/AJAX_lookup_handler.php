@@ -67,17 +67,17 @@ $data = array();
 
 if (isset($_GET['format'])) {
   if ($_GET['format'] == 'json') {
-	if ($error) { echo json_encode(array('id' => 0, 'text' => $error)); }
-	if ($query->num_rows > 0) {
-	  while ($row = $query->fetch_row()) {
-		$data[] = array('id' => $row[0], 'text' => $row[1].(isset($row[2])?' - '.$row[2]:'').(isset($row[3])?' - '.$row[3]:''));
+	  if ($error) { echo json_encode(array('id' => 0, 'text' => $error)); }
+	  if ($query->num_rows > 0) {
+	    while ($row = $query->fetch_row()) {
+	  	$data[] = array('id' => $row[0], 'text' => $row[1].(isset($row[2])?' - '.$row[2]:'').(isset($row[3])?' - '.$row[3]:''));
+	    }
+	  } else {
+	    $data[] = array('id' => 0, 'text' => 'NO DATA FOUND');
 	  }
-	} else {
-	  $data[] = array('id' => 0, 'text' => 'NO DATA FOUND');
-	}
-	echo json_encode($data);
-	exit();  
+	  echo json_encode($data);
   }
+	exit();
 } else {
 	if ($error) { echo '<option value="0">'.$error.'</option>'; }
 	if ($query->num_rows < 1) {

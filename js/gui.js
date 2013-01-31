@@ -193,7 +193,7 @@ jQuery.fn.registerAdminEvents = function(params) {
   var container = $(this);
 
   // avoid conflict with tinyMCE
-  container.find('.mceEditor a').addClass('notAJAX');
+  container.find('.mceEditor a, .chzn-container a').addClass('notAJAX');
 
   if (options.ajaxifyLink) {
     // change all anchor behaviour to AJAX in main content
@@ -430,22 +430,33 @@ $('document').ready(function() {
       },
       hide: function (e, $el) { $el.slideUp(100); }
     });
+    
     // select 2
-    $('.select2').select2();
-	$('.select2-container').each( function() {
-	  var selectToFill = $(this).next();
-	  var selectToFillID = selectToFill.attr('id');
-	  var dataSourceURL = selectToFill.attr('datasource');
-	  var dataSourceTable = selectToFill.attr('datasourcetable');
-	  var dataSourceCols = selectToFill.attr('datasourcecols');
-	  if (dataSourceURL) {
-	    var selectSearch = $(this).find('.select2-input').keypress( function(e) {
-		  var textInputVal = $(this).val();
-	      var ajaxFilled = ajaxFillSelect(dataSourceURL, dataSourceTable, dataSourceCols, selectToFillID, textInputVal);
-	    } );	  
-	  }
-	  return true;
-	});
+    $('.select2').each( function(idx) {
+      var selectObj = $(this);
+      var ajaxHandler = selectObj.attr('data-src')
+      if (ajaxHandler) {
+        var dataSourceTable = selectObj.attr('data-src-table');
+        var dataSourceCols = selectObj.attr('data-src-cols');
+        selectObj.ajaxChosen({
+          jsonTermKey: 'keywords',
+          type: 'POST',
+          url: ajaxHandler,
+          // data: 'tableName='+dataSourceTable+'&tableFields='+dataSourceCols,
+          data: {tableName:dataSourceTable, tableFields:dataSourceCols},
+          dataType: 'json' },
+          function (data) {
+            var results = [];
+            $.each(data, function (i, val) {
+              results.push({ value: val.id, text: val.text });
+            });
+            return results;
+          });
+      } else {
+        selectObj.chosen();
+      }
+    });
+
   });
 
   // disable form with class "disabled"
