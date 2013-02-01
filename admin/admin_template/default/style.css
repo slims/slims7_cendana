@@ -1066,3 +1066,7 @@ input.small_input {
 .select2 {
   min-width: 150px;
 }
+
+.member_notes {
+  color: #ff0000;
+}
