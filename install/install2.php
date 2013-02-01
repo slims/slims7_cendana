@@ -166,9 +166,9 @@
 			$error_mg[] = "<li>Database username can not be empty</li>";	
 		}
 		
-		if (empty($database_password)){
+		/*if (empty($database_password)){
 			$error_mg[] = "<li>Database password can not be empty</li>";	
-		}
+		}*/
 		
 		if(empty($error_mg)){
 		
