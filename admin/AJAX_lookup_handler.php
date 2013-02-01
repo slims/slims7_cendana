@@ -74,7 +74,7 @@ if (isset($_GET['format'])) {
 	    }
 	  } else {
 		  if (isset($_GET['allowNew'])) {
-			  $data[] = array('id' => 'NEW', 'text' => $keywords.' &lt;'.__('Add New').'&gt;');	
+			  $data[] = array('id' => 'NEW:'.$keywords, 'text' => $keywords.' &lt;'.__('Add New').'&gt;');	
 			} else {
 		    $data[] = array('id' => 'NONE', 'text' => 'NO DATA FOUND');
 			}
