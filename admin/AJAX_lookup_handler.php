@@ -39,7 +39,7 @@ $table_name = $dbs->escape_string(trim($_POST['tableName']));
 $table_fields = trim($_POST['tableFields']);
 
 if (isset($_POST['keywords']) AND !empty($_POST['keywords'])) {
-    $keywords = $dbs->escape_string(urldecode(trim($_POST['keywords'])));
+    $keywords = $dbs->escape_string(urldecode(ltrim($_POST['keywords'])));
 } else {
     $keywords = '';
 }

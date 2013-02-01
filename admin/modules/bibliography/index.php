@@ -109,20 +109,12 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     }
 
     // check publisher
-    if ($_POST['publisherID'] != '0') {
-      $data['publisher_id'] = intval($_POST['publisherID']);
+    if (stripos('NEW:', $_POST['publisherID']) === true) {
+      $new_publisher = str_ireplace('NEW:', '', trim(strip_tags($_POST['publisherID'])));
+      $new_id = utility::getID($dbs, 'mst_publisher', 'publisher_id', 'publisher_name', $new_publisher);
+      $data['publisher_id'] = $new_id;
     } else {
-      if (!empty($_POST['publ_search_str'])) {
-        $new_publisher = trim(strip_tags($_POST['publ_search_str']));
-        $new_id = utility::getID($dbs, 'mst_publisher', 'publisher_id', 'publisher_name', $new_publisher);
-        if ($new_id) {
-          $data['publisher_id'] = $new_id;
-        } else {
-          $data['publisher_id'] = 'literal{NULL}';
-        }
-      } else {
-        $data['publisher_id'] = 'literal{NULL}';
-      }
+      $data['publisher_id'] = (integer)$_POST['publisherID'];
     }
     $data['publish_year'] = trim($dbs->escape_string(strip_tags($_POST['year'])));
     $data['collation'] = trim($dbs->escape_string(strip_tags($_POST['collation'])));
@@ -130,20 +122,12 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     $data['call_number'] = trim($dbs->escape_string(strip_tags($_POST['callNumber'])));
     $data['language_id'] = trim($dbs->escape_string(strip_tags($_POST['languageID'])));
     // check place
-    if ($_POST['placeID'] != '0') {
-      $data['publish_place_id'] = intval($_POST['placeID']);
+    if (stripos('NEW:', $_POST['placeID']) === true) {
+      $new_place = trim(strip_tags($_POST['placeID']));
+      $new_id = utility::getID($dbs, 'mst_place', 'place_id', 'place_name', $new_place);
+      $data['publish_place_id'] = $new_id;
     } else {
-      if (!empty($_POST['plc_search_str'])) {
-        $new_place = trim(strip_tags($_POST['plc_search_str']));
-        $new_id = utility::getID($dbs, 'mst_place', 'place_id', 'place_name', $new_place);
-        if ($new_id) {
-          $data['publish_place_id'] = $new_id;
-        } else {
-          $data['publish_place_id'] = 'literal{NULL}';
-        }
-      } else {
-        $data['publish_place_id'] = 'literal{NULL}';
-      }
+      $data['publish_place_id'] = (integer)$_POST['placeID'];
     }
     $data['notes'] = trim($dbs->escape_string(strip_tags($_POST['notes'], '<br><p><div><span><i><em><strong><b><code>s')));
     $data['opac_hide'] = ($_POST['opacHide'] == '0')?'literal{0}':'1';
@@ -503,7 +487,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   while ($freq_d = $freq_q->fetch_row()) {
     $freq_options[] = array($freq_d[0], $freq_d[1]);
   }
-  $str_input = simbio_form_element::selectList('frequencyID', $freq_options, $rec_d['frequency_id']);
+  $str_input = simbio_form_element::selectList('frequencyID', $freq_options, $rec_d['frequency_id'], 'class="select2"');
   $str_input .= '&nbsp;';
   $str_input .= ' '.__('Use this for Serial publication');
   $form->addAnything(__('Frequency'), $str_input);
@@ -540,18 +524,12 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   $str_input .= '<iframe name="topicIframe" id="topicIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_topic.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
   $form->addAnything(__('Subject(s)'), $str_input);
   // biblio classification
-  $cls_options = array();
-  // AJAX expression
-  $ajax_exp = "ajaxFillSelect('".SWB."admin/AJAX_lookup_handler.php', 'mst_topic', 'classification:classification:topic', 'class', $('#class_search_str').val())";
+  $cls_options[] = array('NONE', '');
   // string element
   if ($rec_d['classification']) {
     $cls_options[] = array($rec_d['classification'], $rec_d['classification']);
   }
-  $plc_options[] = array('0', __('Classification'));
-  $str_input = simbio_form_element::selectList('class', $cls_options, '', 'style="width: 50%;"');
-  $str_input .= '&nbsp;';
-  $str_input .= simbio_form_element::textField('text', 'class_search_str', $rec_d['classification'], 'style="width: 45%;" onkeyup="'.$ajax_exp.'"');
-  $form->addAnything(__('Classification'), $str_input);
+  $form->addSelectList('class', __('Classification'), $cls_options, $rec_d['classification'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_topic" data-src-cols="classification:classification:topic"');
   // biblio language
   // get language data related to this record from database
   $lang_q = $dbs->query("SELECT language_id, language_name FROM mst_language");
