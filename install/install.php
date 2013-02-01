@@ -61,7 +61,7 @@ require 'settings.php';
             <tr>
                 <td>&nbsp;Database Password</td>
                 <td>
-                    <input type="text" class="form_text" name="database_password" size="30" value="">
+                    <input type="password" class="form_text" name="database_password" size="30" value="">
                 </td>
             </tr>
             <tr>
