@@ -490,7 +490,7 @@ if (isset($_POST['memberID']) OR isset($_SESSION['memberID'])) {
           echo '<tr>'."\n";
           echo '<td class="alterCell" width="15%"><strong>Notes</strong></td><td class="alterCell2" colspan="4">';
           if ($member->member_notes) {
-              echo '<div>'.$member->member_notes.'</div>';
+              echo '<div class=\'member_notes\'>'.$member->member_notes.'</div>';
           }
           if ($_SESSION['is_pending']) {
               echo '<div class="error">('.__('Membership currently in pending state, loan transaction is locked.').')</div>';
