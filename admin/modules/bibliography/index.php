@@ -517,19 +517,18 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   $form->addTextField('text', 'collation', __('Collation'), $rec_d['collation'], 'style="width: 40%;"');
   // biblio series title
   $form->addTextField('textarea', 'seriesTitle', __('Series Title'), $rec_d['series_title'], 'rows="1" style="width: 100%;"');
+  // biblio classification
+  $cls_options[] = array('NONE', '');
+  if ($rec_d['classification']) {
+    $cls_options[] = array($rec_d['classification'], $rec_d['classification']);
+  }
+  $form->addSelectList('class', __('Classification'), $cls_options, $rec_d['classification'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_topic" data-src-cols="classification:classification:topic"');
   // biblio call_number
   $form->addTextField('text', 'callNumber', __('Call Number'), $rec_d['call_number'], 'style="width: 40%;"');
   // biblio topics
   $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_topic.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Subjects/Topics').'\')">'.__('Add Subject(s)').'</a></div>';
   $str_input .= '<iframe name="topicIframe" id="topicIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_topic.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
   $form->addAnything(__('Subject(s)'), $str_input);
-  // biblio classification
-  $cls_options[] = array('NONE', '');
-  // string element
-  if ($rec_d['classification']) {
-    $cls_options[] = array($rec_d['classification'], $rec_d['classification']);
-  }
-  $form->addSelectList('class', __('Classification'), $cls_options, $rec_d['classification'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_topic" data-src-cols="classification:classification:topic"');
   // biblio language
   // get language data related to this record from database
   $lang_q = $dbs->query("SELECT language_id, language_name FROM mst_language");
@@ -632,6 +631,16 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   }
   // print out the form object
   echo $form->printOut();
+  // javascript
+  ?>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $('#class').change(function() {
+      $('#callNumber').val($(this).val());
+    });
+  });
+  </script>
+  <?php
   exit();
 } else {
   require SIMBIO.'simbio_UTILS/simbio_tokenizecql.inc.php';
