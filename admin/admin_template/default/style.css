@@ -1069,4 +1069,5 @@ input.small_input {
 
 .member_notes {
   color: #ff0000;
+  text-decoration: blink;
 }
