@@ -55,12 +55,12 @@ jQuery.fn.simbioTable = function(params) {
       this.highlighted = false;
       currRow.removeClass('highlighted last-highlighted').css({'background-color': this.originColor}).find('td');
       // uncheck the checkbox on row if exists
-      currRow.find('input:checkbox[name=itemID\[\]]').removeAttr('checked');
+      currRow.find('input:checkbox:first').removeAttr('checked');
     } else {
       // set highlighted flag
       this.highlighted = true;
       // check the checkbox on row if exists
-      currRow.find('input:checkbox[name=itemID\[\]]').attr('checked', 'checked');
+      currRow.find('input:checkbox:first').attr('checked', 'checked');
       currRow.find('input:text,textarea,select').first().focus();
 
       // get parent table of row

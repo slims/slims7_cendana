@@ -91,12 +91,12 @@ if (isset($_SESSION['barcodes'])) {
 
     // write to file
     $print_file_name = 'barcode_gen_print_result_'.strtolower(str_replace(' ', '_', $_SESSION['uname'])).'.html';
-    $file_write = @file_put_contents(FILES_UPLOAD_DIR.$print_file_name, $html_str);
+    $file_write = @file_put_contents(UPLOAD.$print_file_name, $html_str);
 
     if ($file_write) {
         // open result in window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Barcode Generator').'\')</script>';
-    } else { utility::jsAlert('ERROR! Barcodes failed to generate, possibly because '.SB.FILES_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FLS.'/'.$print_file_name.'\', 800, 500, \''.__('Barcode Generator').'\')</script>';
+    } else { utility::jsAlert('ERROR! Barcodes failed to generate, possibly because '.SB.FLS.' directory is not writable'); }
     exit();
 }
 

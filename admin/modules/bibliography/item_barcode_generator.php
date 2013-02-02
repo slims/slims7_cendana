@@ -190,13 +190,13 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     unset($_SESSION['barcodes']);
     // write to file
     $print_file_name = 'item_barcode_gen_print_result_'.strtolower(str_replace(' ', '_', $_SESSION['uname'])).'.html';
-    $file_write = @file_put_contents(FILES_UPLOAD_DIR.$print_file_name, $html_str);
+    $file_write = @file_put_contents(UPLOAD.$print_file_name, $html_str);
     if ($file_write) {
         // update print queue count object
         echo '<script type="text/javascript">parent.$(\'#queueCount\').html(\'0\');</script>';
         // open result in window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Item Barcodes Printing').'\')</script>';
-    } else { utility::jsAlert('ERROR! Item barcodes failed to generate, possibly because '.SB.FILES_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FLS.'/'.$print_file_name.'\', 800, 500, \''.__('Item Barcodes Printing').'\')</script>';
+    } else { utility::jsAlert('ERROR! Item barcodes failed to generate, possibly because '.SB.FLS.' directory is not writable'); }
     exit();
 }
 
