@@ -132,7 +132,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
             $upload = new simbio_file_upload();
             $upload->setAllowableFormat($sysconf['allowed_images']);
             $upload->setMaxSize($sysconf['max_image_upload']*1024); // approx. 100 kb
-            $upload->setUploadDir(IMAGES_BASE_DIR.'persons');
+            $upload->setUploadDir(IMGBS.'persons');
             // give new name for upload file
             $new_filename = 'member_'.$data['member_id'];
             $upload_status = $upload->doUpload('image', $new_filename);
@@ -143,7 +143,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
 			list($filedata, $filedom) = explode('#image/type#', $_POST['base64picstring']);
 			$new_filename = 'member_'.$data['member_id'].'.'.strtolower($filedom);
 
-			if (file_put_contents(IMAGES_BASE_DIR.'persons/'.$new_filename, base64_decode($filedata))) {
+			if (file_put_contents(IMGBS.'persons/'.$new_filename, base64_decode($filedata))) {
 				$data['member_image'] = $dbs->escape_string($new_filename);
 				if (!defined('UPLOAD_SUCCESS')) define('UPLOAD_SUCCESS', 1);
 				$upload_status = UPLOAD_SUCCESS;
@@ -471,7 +471,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
             .'<div>'.__('Leave Password field blank if you don\'t want to change the password').'</div>'
             .'</div>';
             if ($rec_d['member_image']) {
-                if (file_exists(IMAGES_BASE_DIR.'persons/'.$rec_d['member_image'])) {
+                if (file_exists(IMGBS.'persons/'.$rec_d['member_image'])) {
                     echo '<div style="float: right;"><img src="../lib/phpthumb/phpThumb.php?src=../../images/persons/'.urlencode($rec_d['member_image']).'&w=53&timestamp='.date('his').'" style="border: 1px solid #999999" /></div>';
                 }
             }

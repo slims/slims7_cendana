@@ -109,20 +109,12 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     }
 
     // check publisher
-    if ($_POST['publisherID'] != '0') {
-      $data['publisher_id'] = intval($_POST['publisherID']);
+    if (stripos('NEW:', $_POST['publisherID']) === true) {
+      $new_publisher = str_ireplace('NEW:', '', trim(strip_tags($_POST['publisherID'])));
+      $new_id = utility::getID($dbs, 'mst_publisher', 'publisher_id', 'publisher_name', $new_publisher);
+      $data['publisher_id'] = $new_id;
     } else {
-      if (!empty($_POST['publ_search_str'])) {
-        $new_publisher = trim(strip_tags($_POST['publ_search_str']));
-        $new_id = utility::getID($dbs, 'mst_publisher', 'publisher_id', 'publisher_name', $new_publisher);
-        if ($new_id) {
-          $data['publisher_id'] = $new_id;
-        } else {
-          $data['publisher_id'] = 'literal{NULL}';
-        }
-      } else {
-        $data['publisher_id'] = 'literal{NULL}';
-      }
+      $data['publisher_id'] = (integer)$_POST['publisherID'];
     }
     $data['publish_year'] = trim($dbs->escape_string(strip_tags($_POST['year'])));
     $data['collation'] = trim($dbs->escape_string(strip_tags($_POST['collation'])));
@@ -130,20 +122,12 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     $data['call_number'] = trim($dbs->escape_string(strip_tags($_POST['callNumber'])));
     $data['language_id'] = trim($dbs->escape_string(strip_tags($_POST['languageID'])));
     // check place
-    if ($_POST['placeID'] != '0') {
-      $data['publish_place_id'] = intval($_POST['placeID']);
+    if (stripos('NEW:', $_POST['placeID']) === true) {
+      $new_place = trim(strip_tags($_POST['placeID']));
+      $new_id = utility::getID($dbs, 'mst_place', 'place_id', 'place_name', $new_place);
+      $data['publish_place_id'] = $new_id;
     } else {
-      if (!empty($_POST['plc_search_str'])) {
-        $new_place = trim(strip_tags($_POST['plc_search_str']));
-        $new_id = utility::getID($dbs, 'mst_place', 'place_id', 'place_name', $new_place);
-        if ($new_id) {
-          $data['publish_place_id'] = $new_id;
-        } else {
-          $data['publish_place_id'] = 'literal{NULL}';
-        }
-      } else {
-        $data['publish_place_id'] = 'literal{NULL}';
-      }
+      $data['publish_place_id'] = (integer)$_POST['placeID'];
     }
     $data['notes'] = trim($dbs->escape_string(strip_tags($_POST['notes'], '<br><p><div><span><i><em><strong><b><code>s')));
     $data['opac_hide'] = ($_POST['opacHide'] == '0')?'literal{0}':'1';
@@ -471,13 +455,13 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   
   // modified by hendro wicaksono
   // biblio sor statement of responsibility
-  $form->addTextField('text', 'sor', __('Statement of Responsibility'), $rec_d['sor'], 'style="width: 40%;"');
+  $form->addTextField('text', 'sor', __('Statement of Responsibility'), $rec_d['sor'], 'style="width: 40%;"', __('Main source of information to show who has written, composed, illustrated, or in other ways contributed to the existence of the item.'));
   // end of modification
 
   // biblio edition
-  $form->addTextField('text', 'edition', __('Edition'), $rec_d['edition'], 'style="width: 40%;"');
+  $form->addTextField('text', 'edition', __('Edition'), $rec_d['edition'], 'style="width: 40%;"', __('A version of publication having substantial changes or additions.'));
   // biblio specific detail info/area
-  $form->addTextField('textarea', 'specDetailInfo', __('Specific Detail Info'), $rec_d['spec_detail_info'], 'rows="2" style="width: 100%"');
+  $form->addTextField('textarea', 'specDetailInfo', __('Specific Detail Info'), $rec_d['spec_detail_info'], 'rows="2" style="width: 100%"', __('explain more details about an item e.g. scale within a map, running time in a movie dvd.'));
   // biblio item batch add
   $str_input = __('Pattern').': <input type="text" class="small_input" name="itemCodePattern" value="'.$sysconf['batch_item_code_pattern'].'" /> &nbsp;&nbsp;';
   $str_input .= __('From').': <input type="text" class="small_input" name="itemCodeStart" value="0" /> '.__('To').' <input type="text" class="small_input" name="itemCodeEnd" value="0" />';
@@ -495,7 +479,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   while ($gmd_d = $gmd_q->fetch_row()) {
     $gmd_options[] = array($gmd_d[0], $gmd_d[1]);
   }
-  $form->addSelectList('gmdID', __('GMD'), $gmd_options, $rec_d['gmd_id'], 'class="select2"');
+  $form->addSelectList('gmdID', __('GMD'), $gmd_options, $rec_d['gmd_id'], 'class="select2"', __('General material designation. The physical form of publication.'));
   // biblio publish frequencies
   // get frequency data related to this record from database
   $freq_q = $dbs->query('SELECT frequency_id, frequency FROM mst_frequency');
@@ -503,12 +487,12 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   while ($freq_d = $freq_q->fetch_row()) {
     $freq_options[] = array($freq_d[0], $freq_d[1]);
   }
-  $str_input = simbio_form_element::selectList('frequencyID', $freq_options, $rec_d['frequency_id']);
+  $str_input = simbio_form_element::selectList('frequencyID', $freq_options, $rec_d['frequency_id'], 'class="select2"');
   $str_input .= '&nbsp;';
   $str_input .= ' '.__('Use this for Serial publication');
   $form->addAnything(__('Frequency'), $str_input);
   // biblio ISBN/ISSN
-  $form->addTextField('text', 'isbn_issn', __('ISBN/ISSN'), $rec_d['isbn_issn'], 'style="width: 40%;"');
+  $form->addTextField('text', 'isbn_issn', __('ISBN/ISSN'), $rec_d['isbn_issn'], 'style="width: 40%;"', __('Unique publishing number for each title of publication.'));
   // biblio publisher
   $publ_options[] = array('NONE', '');
   if ($rec_d['publisher_id']) {
@@ -519,7 +503,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   }
   $form->addSelectList('publisherID', __('Publisher'), $publ_options, $rec_d['publisher_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_publisher" data-src-cols="publisher_id:publisher_name"');
   // biblio publish year
-  $form->addTextField('text', 'year', __('Publishing Year'), $rec_d['publish_year'], 'style="width: 40%;"');
+  $form->addTextField('text', 'year', __('Publishing Year'), $rec_d['publish_year'], 'style="width: 40%;"', __('Year of publication'));
   // biblio publish place
   $plc_options[] = array('NONE', '');
   if ($rec_d['publish_place_id']) {
@@ -530,28 +514,21 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   }
   $form->addSelectList('placeID', __('Publishing Place'), $plc_options, $rec_d['publish_place_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_place" data-src-cols="place_id:place_name"');
   // biblio collation
-  $form->addTextField('text', 'collation', __('Collation'), $rec_d['collation'], 'style="width: 40%;"');
+  $form->addTextField('text', 'collation', __('Collation'), $rec_d['collation'], 'style="width: 40%;"', __('Physical description of a publication e.g. publication length, width, page numbers, etc.'));
   // biblio series title
   $form->addTextField('textarea', 'seriesTitle', __('Series Title'), $rec_d['series_title'], 'rows="1" style="width: 100%;"');
+  // biblio classification
+  $cls_options[] = array('NONE', '');
+  if ($rec_d['classification']) {
+    $cls_options[] = array($rec_d['classification'], $rec_d['classification']);
+  }
+  $form->addSelectList('class', __('Classification'), $cls_options, $rec_d['classification'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_topic" data-src-cols="classification:classification:topic"');
   // biblio call_number
-  $form->addTextField('text', 'callNumber', __('Call Number'), $rec_d['call_number'], 'style="width: 40%;"');
+  $form->addTextField('text', 'callNumber', __('Call Number'), $rec_d['call_number'], 'style="width: 40%;"', __('Sets of ID that put in the book spine.'));
   // biblio topics
   $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_topic.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Subjects/Topics').'\')">'.__('Add Subject(s)').'</a></div>';
   $str_input .= '<iframe name="topicIframe" id="topicIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_topic.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
   $form->addAnything(__('Subject(s)'), $str_input);
-  // biblio classification
-  $cls_options = array();
-  // AJAX expression
-  $ajax_exp = "ajaxFillSelect('".SWB."admin/AJAX_lookup_handler.php', 'mst_topic', 'classification:classification:topic', 'class', $('#class_search_str').val())";
-  // string element
-  if ($rec_d['classification']) {
-    $cls_options[] = array($rec_d['classification'], $rec_d['classification']);
-  }
-  $plc_options[] = array('0', __('Classification'));
-  $str_input = simbio_form_element::selectList('class', $cls_options, '', 'style="width: 50%;"');
-  $str_input .= '&nbsp;';
-  $str_input .= simbio_form_element::textField('text', 'class_search_str', $rec_d['classification'], 'style="width: 45%;" onkeyup="'.$ajax_exp.'"');
-  $form->addAnything(__('Classification'), $str_input);
   // biblio language
   // get language data related to this record from database
   $lang_q = $dbs->query("SELECT language_id, language_name FROM mst_language");
@@ -559,9 +536,9 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   while ($lang_d = $lang_q->fetch_row()) {
     $lang_options[] = array($lang_d[0], $lang_d[1]);
   }
-  $form->addSelectList('languageID', __('Language'), $lang_options, $rec_d['language_id'], 'class="select2"');
+  $form->addSelectList('languageID', __('Language'), $lang_options, $rec_d['language_id'], 'class="select2"', __('Language use by publication.'));
   // biblio note
-  $form->addTextField('textarea', 'notes', __('Abstract/Notes'), $rec_d['notes'], 'style="width: 100%;" rows="2"');
+  $form->addTextField('textarea', 'notes', __('Abstract/Notes'), $rec_d['notes'], 'style="width: 100%;" rows="2"', __('Insert here any abstract or notes from the publication.'));
   // biblio cover image
   if (!trim($rec_d['image'])) {
   $str_input = simbio_form_element::textField('file', 'image');
@@ -654,6 +631,16 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   }
   // print out the form object
   echo $form->printOut();
+  // javascript
+  ?>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $('#class').change(function() {
+      $('#callNumber').val($(this).val());
+    });
+  });
+  </script>
+  <?php
   exit();
 } else {
   require SIMBIO.'simbio_UTILS/simbio_tokenizecql.inc.php';

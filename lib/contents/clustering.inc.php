@@ -29,6 +29,7 @@ if (!isset($_GET['q'])) {
 } else {
   sleep(3);
   $cluster_limit = 30;
+  $cluster_num_show = 5;
 
   $criteria = trim(strip_tags($_GET['q']));
 
@@ -41,8 +42,6 @@ if (!isset($_GET['q'])) {
     require LIB.'sphinx/sphinxapi.php';
     require LIB.'biblio_list_sphinx.inc.php';
     $sysconf['opac_result_num'] = (int)$sysconf['opac_result_num'];
-  } else {
-    require LIB.'biblio_list.inc.php';
   }
 
   // create biblio list object
@@ -54,65 +53,101 @@ if (!isset($_GET['q'])) {
 
   $sql_criteria = $biblio_list->setSQLcriteria($criteria);
 
-  // join with item table if search on colltype
-  if (stripos($sql_criteria['sql_criteria'], 'item.coll_type_id IN', 0) !== false) {
-    $join_item = 'LEFT JOIN item ON biblio.biblio_id=item.biblio_id';
-  }
-
   // cluster by GMD
-  $gmd_cluster_q = $dbs->query('SELECT gmd.gmd_name AS `Cluster Name`, COUNT(biblio.biblio_id) AS `Cluster Count` FROM mst_gmd AS gmd
-    LEFT JOIN biblio ON gmd.gmd_id=biblio.gmd_id
-    '.( isset($join_item)?$join_item:'' ).( $criteria?' WHERE '.$sql_criteria['sql_criteria']:'' ).' GROUP BY `Cluster Name` LIMIT '.$cluster_limit);
+  $gmd_cluster_q = $dbs->query('SELECT TRIM(gmd) AS `Cluster Name`, COUNT(biblio_id) AS `Cluster Count` FROM search_biblio AS `index` '
+    .( isset($join_item)?$join_item:'' ).( $criteria?' WHERE '.$sql_criteria['sql_criteria']:'' ).' GROUP BY `Cluster Name` LIMIT '.$cluster_limit);
   if ($gmd_cluster_q->num_rows > 0) {
     echo '<h3 class="cluster-title">'.__('GMD').'</h3>'."\n";
     echo '<ul class="cluster-list">'."\n";
+    $i = 0;
     while ($cluster_data = $gmd_cluster_q->fetch_assoc()) {
-      echo '<li class="cluster-item"><a href="index.php?gmd='.urlencode($cluster_data['Cluster Name']).'&search=Search&fromcluster=1">'.$cluster_data['Cluster Name'].' ('.$cluster_data['Cluster Count'].')</a></li>'."\n";
+      if (trim($cluster_data['Cluster Name']) == '') continue;
+      $hidden = '';
+      if ($i > $cluster_num_show) {
+        $hidden = ' cluster-hidden';  
+      }
+      $criteria .= ' gmd=';
+      echo '<li class="cluster-item'.$hidden.'"><a href="index.php?keywords='.urlencode($criteria).'&search=Search&fromcluster=1">'.$cluster_data['Cluster Name'].' ('.$cluster_data['Cluster Count'].')</a></li>'."\n";
+      $i++;
     }
     echo '</ul>'."\n";
   }
 
   // cluster by Collection type
-  $coll_type_cluster_q = $dbs->query('SELECT ct.coll_type_name AS `Cluster Name`, COUNT(biblio.biblio_id) AS `Cluster Count` FROM mst_coll_type AS ct
-    LEFT JOIN item ON ct.coll_type_id=item.coll_type_id
-    LEFT JOIN biblio ON item.biblio_id=biblio.biblio_id'.( $criteria?' WHERE '.$sql_criteria['sql_criteria']:'' ).' GROUP BY `Cluster Name` LIMIT '.$cluster_limit);
+  $coll_type_cluster_q = $dbs->query('SELECT TRIM(collection_types) AS `Cluster Name`, COUNT(biblio_id) AS `Cluster Count` FROM search_biblio AS `index` '
+    .( $criteria?' WHERE '.$sql_criteria['sql_criteria']:'' ).' GROUP BY `Cluster Name` LIMIT '.$cluster_limit);
   if ($coll_type_cluster_q->num_rows > 0) {
     echo '<h3 class="cluster-title">'.__('Collection Type').'</h3>'."\n";
     echo '<ul class="cluster-list">'."\n";
+    $i = 0;
     while ($cluster_data = $coll_type_cluster_q->fetch_assoc()) {
+      if (trim($cluster_data['Cluster Name']) == '') continue;
+      $hidden = '';
+      if ($i > $cluster_num_show) {
+        $hidden = ' cluster-hidden';  
+      }
       echo '<li class="cluster-item"><a href="index.php?colltype='.urlencode($cluster_data['Cluster Name']).'&search=Search&fromcluster=1">'.$cluster_data['Cluster Name'].' ('.$cluster_data['Cluster Count'].')</a></li>'."\n";
+      $i++;
     }
     echo '</ul>'."\n";
   }
 
-
   // cluster by subject
-  $subj_cluster_q = $dbs->query('SELECT t.topic AS `Cluster Name`, COUNT(bt.biblio_id) AS `Cluster Count` FROM mst_topic AS t
-    LEFT JOIN biblio_topic AS bt ON t.topic_id=bt.topic_id
-    LEFT JOIN biblio ON bt.biblio_id=biblio.biblio_id
-    '.( isset($join_item)?$join_item:'' ).( $criteria?' WHERE '.$sql_criteria['sql_criteria']:'' ).' GROUP BY `Cluster Name` LIMIT '.$cluster_limit);
+  $subj_cluster_q = $dbs->query('SELECT TRIM(topic) AS `Cluster Name`, COUNT(biblio_id) AS `Cluster Count` FROM search_biblio AS `index` '
+    .( isset($join_item)?$join_item:'' ).( $criteria?' WHERE '.$sql_criteria['sql_criteria']:'' ).' GROUP BY `Cluster Name` LIMIT '.$cluster_limit);
   if ($subj_cluster_q->num_rows > 0) {
     echo '<h3 class="cluster-title">'.__('Subject(s)').'</h3>'."\n";
     echo '<ul class="cluster-list">'."\n";
+    $i = 0;
     while ($cluster_data = $subj_cluster_q->fetch_assoc()) {
+      if (trim($cluster_data['Cluster Name']) == '') continue;
+      $hidden = '';
+      if ($i > $cluster_num_show) {
+        $hidden = ' cluster-hidden';  
+      }
       echo '<li class="cluster-item"><a href="index.php?subject='.urlencode('"'.$cluster_data['Cluster Name'].'"').'&search=Search&fromcluster=1">'.$cluster_data['Cluster Name'].' ('.$cluster_data['Cluster Count'].')</a></li>'."\n";
+      $i++;
+    }
+    if ($i > $cluster_num_show) {
+      echo '<li class="cluster-item"><a href="#" class="cluster-more">'.__('More result').'...</a></li>';
     }
     echo '</ul>'."\n";
   }
 
   // cluster by author
-  $auth_cluster_q = $dbs->query('SELECT a.author_name AS `Cluster Name`, COUNT(ba.biblio_id) AS `Cluster Count` FROM mst_author AS a
-    LEFT JOIN biblio_author AS ba ON a.author_id=ba.author_id
-    LEFT JOIN biblio ON ba.biblio_id=biblio.biblio_id
-    '.( isset($join_item)?$join_item:'' ).( $criteria?' WHERE '.$sql_criteria['sql_criteria']:'' ).' GROUP BY `Cluster Name` LIMIT '.$cluster_limit);
+  $auth_cluster_q = $dbs->query('SELECT TRIM(author) AS `Cluster Name`, COUNT(biblio_id) AS `Cluster Count` FROM search_biblio AS `index` '
+    .( isset($join_item)?$join_item:'' ).( $criteria?' WHERE '.$sql_criteria['sql_criteria']:'' ).' GROUP BY `Cluster Name` LIMIT '.$cluster_limit);
   if ($auth_cluster_q->num_rows > 0) {
     echo '<h3 class="cluster-title">'.__('Author(s)').'</h3>'."\n";
     echo '<ul class="cluster-list">'."\n";
+    $i = 0;
     while ($cluster_data = $auth_cluster_q->fetch_assoc()) {
-      echo '<li class="cluster-item"><a href="index.php?author='.urlencode('"'.$cluster_data['Cluster Name'].'"').'&search=Search&fromcluster=1">'.$cluster_data['Cluster Name'].' ('.$cluster_data['Cluster Count'].')</a></li>'."\n";
+      if (trim($cluster_data['Cluster Name']) == '') continue;
+      $hidden = '';
+      if ($i > $cluster_num_show) {
+        $hidden = ' cluster-hidden';  
+      }
+      echo '<li class="cluster-item'.$hidden.'"><a href="index.php?author='.urlencode('"'.$cluster_data['Cluster Name'].'"').'&search=Search&fromcluster=1">'.$cluster_data['Cluster Name'].' ('.$cluster_data['Cluster Count'].')</a></li>'."\n";
+      $i++;
+    }
+    if ($i > $cluster_num_show) {
+      echo '<li class="cluster-item"><a href="#" class="cluster-more">'.__('More result').'...</a></li>';
     }
     echo '</ul>'."\n";
   }
 }
+?>
+<script type="text/javascript">
+$(document).ready( function() {
+ $('.cluster-more').toggle( function(evt) {
+  evt.preventDefault();
+  $(this).parents('.cluster-list').find('.cluster-hidden').show();
+ }, function(evt) {
+  evt.preventDefault();
+  $(this).parents('.cluster-list').find('.cluster-hidden').hide();
+ })
+})
+</script>
+<?php
 
 exit();

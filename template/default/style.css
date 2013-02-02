@@ -18,8 +18,7 @@
   font-family: 'Karla';
   font-style: normal;
   font-weight: 400;
-  src: 	local('Karla-Regular'),
-  		url('Karla-Regular.ttf') format('ttf');
+  src: local('Karla-Regular'), url('Karla-Regular.ttf') format('ttf');
 }
 
 /*----------------------------------------------------------------*/
@@ -231,7 +230,7 @@ p.strip {
 {
 	z-index: 999;
 	padding-bottom: 60px;
-    
+  
 }
 
 .content
@@ -321,8 +320,8 @@ p.strip {
 
 .searchButton
 {
-    border-radius: 3px;
-    height:40px;
+  border-radius: 3px;
+  height:40px;
 }
 
 /*----------------------------------------------------------------*/
@@ -746,8 +745,8 @@ p.strip {
 
 .alterCell, .alterCell2, .memberLoanListInfo, .memberLoanHistInfo
 {
-      background-color: rgba(0,0,0,0.9) !important;
-      padding: 10px !important;
+    background-color: rgba(0,0,0,0.9) !important;
+    padding: 10px !important;
 }
 
 .memberDetail, .memberLoanList
@@ -808,10 +807,10 @@ p.strip {
 }
 
 #htmlPop {
-    background: whitesmoke;
-    position: fixed;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+  background: whitesmoke;
+  position: fixed;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
 	box-shadow: outset 0px 0px 5px #ccc;
 	-moz-box-shadow: outset 0px 0px 5px #ccc;
 	-webkit-box-shadow: outset 0px 0px 5px #ccc;
@@ -819,17 +818,17 @@ p.strip {
 }
 
 #htmlPopTitle {
-    background-color: #000;
-    color: #666;
-    font-weight: bold;
+  background-color: #000;
+  color: #666;
+  font-weight: bold;
 }
 
 #htmlPopFrame {
-    width: 100% !important;
+  width: 100% !important;
 }
 
 /*-----------------------------------*/
-/* Popup				 		     */
+/* Popup				 		   */
 /*-----------------------------------*/
 #fade {
 	display: none;
@@ -870,7 +869,7 @@ img.btn_close {
 }
 
 /*-----------------------------------*/
-/* Popup			     */
+/* Popup			   */
 /*-----------------------------------*/
 #guestbookForm p
 {
@@ -947,23 +946,23 @@ img.btn_close {
 -------------------------------------------*/
 .captchaMember
 {
-    padding: 0px 0px 10px 125px;
+  padding: 0px 0px 10px 125px;
 }
 
 .captchaAdmin
 {
-    padding: 0px 0px 10px 0px;
-    clear: both;
+  padding: 0px 0px 10px 0px;
+  clear: both;
 
 }
 .errorBox
 {
-    background-color: #ca453b;
-    padding:10px !important;
-    color: #ffffff;
-    margin:0 !important;
-    font-size: 14px;
-    border: none !important;
+  background-color: #ca453b;
+  padding:10px !important;
+  color: #ffffff;
+  margin:0 !important;
+  font-size: 14px;
+  border: none !important;
 }
 
 .content-padding {
@@ -1009,18 +1008,16 @@ img.btn_close {
 }
 
 #visitorCounterWrap .info {
-    font-weight: normal;
-    border: none;
-    background: rgba(137,193,219,0.9);
-    margin: 0;
-    padding:20px;
+  font-weight: normal;
+  border: none;
+  background: rgba(137,193,219,0.9);
+  margin: 0;
+  padding:20px;
 }
 
-
-
 #visitorCounterForm {
-    float: left;
-    padding-top:25px;
+  float: left;
+  padding-top:25px;
 }
 
 #visitorCounterForm input[type="text"]
@@ -1046,10 +1043,10 @@ img.btn_close {
 }
 
 #visitorCounterPhoto {
-    padding: 20px;
-    float: left;
-    width: 100px;
-    height: 120px;
+  padding: 20px;
+  float: left;
+  width: 100px;
+  height: 120px;
 }
 
 :-moz-placeholder {
@@ -1080,4 +1077,9 @@ img.btn_close {
   display: block;
   margin-left: 20px
 }
+
+.cluster-hidden {
+  display: none;
+}
+
 
