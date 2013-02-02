@@ -1059,4 +1059,25 @@ img.btn_close {
   color: #999999;
 }
 
+.comment-input {
+  display: block;
+  padding: 5px; 
+}
+
+.comment-found {
+  display: block;
+  padding: 5px;
+  text-align: right;
+}
+
+.comment-member {
+  display: block;
+  padding: 2px;
+  margin-left: 5px
+}
+
+.comment-content {
+  display: block;
+  margin-left: 20px
+}
 

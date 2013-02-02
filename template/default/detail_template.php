@@ -101,6 +101,7 @@ ob_start(); /* <- DONT REMOVE THIS COMMAND */
           <td class="value">{availability}</td>
          </tr>
        </table>
+       <?php echo showComment($detail_id); ?>
        </div>
        <div class="clear">&nbsp;</div>       
       </div>

@@ -50,6 +50,27 @@ if (isset($_GET['inXML']) AND !empty($_GET['inXML'])) {
     $detail_id = intval($_GET['id']);
     // include detail library and template
     include LIB.'detail.inc.php';
+    if ($sysconf['comment']['enable']) {
+//		die('It\'s true');
+		include LIB.'comment.inc.php';
+    }
+	if (isset($_POST['comment']) && $_POST['comment']<>"" && ISSET($_SESSION['mid'])) {
+		require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+		$data['comment'] = trim(strip_tags($_POST['comment']));
+		$data['biblio_id'] = $detail_id;
+		$data['member_id'] = $_SESSION['mid'];
+		
+		$data['input_date'] = date('Y-m-d H:i:s');
+        $data['last_update'] = date('Y-m-d H:i:s');
+
+		/* INSERT RECORD MODE */
+		// insert the data
+		$sql_op = new simbio_dbop($dbs);
+		$insert = $sql_op->insert('comment', $data);
+		if ($insert) {
+			utility::jsAlert(__('Thank you for your comment.'));
+		} else { utility::jsAlert(__('FAILED to strore you comment. Please Contact System Administrator')."\nDEBUG : ".$sql_op->error); }
+	}
     include $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/detail_template.php';
     // create detail object
     $detail = new detail($dbs, $detail_id);
@@ -66,5 +87,7 @@ if (isset($_GET['inXML']) AND !empty($_GET['inXML'])) {
     echo $detail->showDetail();
     $page_title = $detail->record_title;
     $metadata = $detail->metadata;
+
     echo '<br />'."\n";
+
 }
