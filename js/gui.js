@@ -250,7 +250,7 @@ jQuery.fn.registerAdminEvents = function(params) {
     $('.makeHidden').removeClass('makeHidden');
     // enable hidden delete form
     container.find('#deleteForm').enableForm();
-	container.find('.select2').select2('enable');
+	  container.find('.select2').attr('disabled', false).trigger("liszt:updated");
   });
 
   if (options.ajaxifyForm) {

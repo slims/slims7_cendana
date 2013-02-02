@@ -69,7 +69,7 @@ function confirmProcess(int_biblio_id, int_file_id, str_file_name)
 if (isset($_GET['removesess'])) {
   $idx = (integer)$_GET['removesess'];
   // remove file from filesystem
-  @unlink(REPO_BASE_DIR.str_replace('/', DS, $_SESSION['biblioAttach'][$idx]['file_dir']).DS.$_SESSION['biblioAttach'][$idx]['file_name']);
+  @unlink(REPOBS.str_replace('/', DS, $_SESSION['biblioAttach'][$idx]['file_dir']).DS.$_SESSION['biblioAttach'][$idx]['file_name']);
   // remove session array
   unset($_SESSION['biblioAttach'][$idx]);
   echo '<script type="text/javascript">';
@@ -91,7 +91,7 @@ if (isset($_POST['bid']) AND isset($_POST['remove'])) {
   echo '<script type="text/javascript">';
   if ($_POST['alsoDeleteFile'] == '1') {
       // remove file from repository and filesystem
-      @unlink(REPO_BASE_DIR.str_replace('/', DS, $file_d['file_dir']).DS.$file_d['file_name']);
+      @unlink(REPOBS.str_replace('/', DS, $file_d['file_dir']).DS.$file_d['file_name']);
       echo 'alert(\'Attachment '.$file_d['file_name'].' succesfully removed!\');';
   }
   echo 'location.href = \'iframe_attach.php?biblioID='.$bid.'\';';
