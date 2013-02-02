@@ -176,6 +176,7 @@ class simbio_fe_checkbox extends abs_simbio_form_element
 
     $_elmnt_num = count($this->element_options);
     $_row_column = 5;
+    $_helptext = '';
 
     // check if disabled
     if ($this->element_disabled) {
