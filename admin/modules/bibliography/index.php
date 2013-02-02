@@ -471,13 +471,13 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   
   // modified by hendro wicaksono
   // biblio sor statement of responsibility
-  $form->addTextField('text', 'sor', __('Statement of Responsibility'), $rec_d['sor'], 'style="width: 40%;"');
+  $form->addTextField('text', 'sor', __('Statement of Responsibility'), $rec_d['sor'], 'style="width: 40%;"', __('Main source of information to show who has written, composed, illustrated, or in other ways contributed to the existence of the item.'));
   // end of modification
 
   // biblio edition
-  $form->addTextField('text', 'edition', __('Edition'), $rec_d['edition'], 'style="width: 40%;"');
+  $form->addTextField('text', 'edition', __('Edition'), $rec_d['edition'], 'style="width: 40%;"', __('A version of publication having substantial changes or additions.'));
   // biblio specific detail info/area
-  $form->addTextField('textarea', 'specDetailInfo', __('Specific Detail Info'), $rec_d['spec_detail_info'], 'rows="2" style="width: 100%"');
+  $form->addTextField('textarea', 'specDetailInfo', __('Specific Detail Info'), $rec_d['spec_detail_info'], 'rows="2" style="width: 100%"', __('explain more details about an item e.g. scale within a map, running time in a movie dvd.'));
   // biblio item batch add
   $str_input = __('Pattern').': <input type="text" class="small_input" name="itemCodePattern" value="'.$sysconf['batch_item_code_pattern'].'" /> &nbsp;&nbsp;';
   $str_input .= __('From').': <input type="text" class="small_input" name="itemCodeStart" value="0" /> '.__('To').' <input type="text" class="small_input" name="itemCodeEnd" value="0" />';
@@ -495,7 +495,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   while ($gmd_d = $gmd_q->fetch_row()) {
     $gmd_options[] = array($gmd_d[0], $gmd_d[1]);
   }
-  $form->addSelectList('gmdID', __('GMD'), $gmd_options, $rec_d['gmd_id'], 'class="select2"');
+  $form->addSelectList('gmdID', __('GMD'), $gmd_options, $rec_d['gmd_id'], 'class="select2"', __('General material designation. The physical form of publication.'));
   // biblio publish frequencies
   // get frequency data related to this record from database
   $freq_q = $dbs->query('SELECT frequency_id, frequency FROM mst_frequency');
@@ -508,7 +508,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   $str_input .= ' '.__('Use this for Serial publication');
   $form->addAnything(__('Frequency'), $str_input);
   // biblio ISBN/ISSN
-  $form->addTextField('text', 'isbn_issn', __('ISBN/ISSN'), $rec_d['isbn_issn'], 'style="width: 40%;"');
+  $form->addTextField('text', 'isbn_issn', __('ISBN/ISSN'), $rec_d['isbn_issn'], 'style="width: 40%;"', __('Unique publishing number for each title of publication.'));
   // biblio publisher
   $publ_options[] = array('NONE', '');
   if ($rec_d['publisher_id']) {
@@ -519,7 +519,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   }
   $form->addSelectList('publisherID', __('Publisher'), $publ_options, $rec_d['publisher_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_publisher" data-src-cols="publisher_id:publisher_name"');
   // biblio publish year
-  $form->addTextField('text', 'year', __('Publishing Year'), $rec_d['publish_year'], 'style="width: 40%;"');
+  $form->addTextField('text', 'year', __('Publishing Year'), $rec_d['publish_year'], 'style="width: 40%;"', __('Year of publication'));
   // biblio publish place
   $plc_options[] = array('NONE', '');
   if ($rec_d['publish_place_id']) {
@@ -530,11 +530,11 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   }
   $form->addSelectList('placeID', __('Publishing Place'), $plc_options, $rec_d['publish_place_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_place" data-src-cols="place_id:place_name"');
   // biblio collation
-  $form->addTextField('text', 'collation', __('Collation'), $rec_d['collation'], 'style="width: 40%;"');
+  $form->addTextField('text', 'collation', __('Collation'), $rec_d['collation'], 'style="width: 40%;"', __('Physical description of a publication e.g. publication length, width, page numbers, etc.'));
   // biblio series title
-  $form->addTextField('textarea', 'seriesTitle', __('Series Title'), $rec_d['series_title'], 'rows="1" style="width: 100%;"');
+  $form->addTextField('textarea', 'seriesTitle', __('Series Title'), $rec_d['series_title'], 'rows="1" style="width: 100%;"', __('Complete title of mixed publications title.'));
   // biblio call_number
-  $form->addTextField('text', 'callNumber', __('Call Number'), $rec_d['call_number'], 'style="width: 40%;"');
+  $form->addTextField('text', 'callNumber', __('Call Number'), $rec_d['call_number'], 'style="width: 40%;"', __('Sets of ID that put in the book spine.'));
   // biblio topics
   $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_topic.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Subjects/Topics').'\')">'.__('Add Subject(s)').'</a></div>';
   $str_input .= '<iframe name="topicIframe" id="topicIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_topic.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
@@ -559,9 +559,9 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   while ($lang_d = $lang_q->fetch_row()) {
     $lang_options[] = array($lang_d[0], $lang_d[1]);
   }
-  $form->addSelectList('languageID', __('Language'), $lang_options, $rec_d['language_id'], 'class="select2"');
+  $form->addSelectList('languageID', __('Language'), $lang_options, $rec_d['language_id'], 'class="select2"', __('Language use by publication.'));
   // biblio note
-  $form->addTextField('textarea', 'notes', __('Abstract/Notes'), $rec_d['notes'], 'style="width: 100%;" rows="2"');
+  $form->addTextField('textarea', 'notes', __('Abstract/Notes'), $rec_d['notes'], 'style="width: 100%;" rows="2"', __('Insert here any abstract or notes from the publication.'));
   // biblio cover image
   if (!trim($rec_d['image'])) {
   $str_input = simbio_form_element::textField('file', 'image');
