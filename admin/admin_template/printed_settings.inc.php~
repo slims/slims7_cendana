@@ -108,12 +108,24 @@ $card_bio_font_weight = "bold";
 $card_bio_label_width = "100";
 
 // Stamp Settings
-$card_city = "Makassar";
-$card_title = "Direktur";
-$card_officials = "Jushadi Arman Saz";
-$card_officials_id = "NIP. 19871002 201210 1 001";
-$card_stamp_file = "stempel.png"; // stamp image, use transparent image
-$card_signature_file = "ttd.png"; // sign picture, use transparent image
+$card_lokasi_stempel = "Makassar";
+$card_jabatan_stempel = "Direktur";
+$card_pejabat_stempel = "Jushadi Arman Saz";
+$card_nip_pejabat_stempel = "NIP. 19871002 201210 1 001";
+$card_gambar_stempel = "stempel.png"; // stamp image, use transparent image
+$card_gambar_ttd_stempel = "ttd.png"; // sign picture, use transparent image
+$card_stamp_left = "";
+$card_stamp_top = "";
+$card_stamp_width = "";
+$card_stamp_height = "";
+
+// Stamp Settings
+$card_lokasi_stempel = "Makassar";
+$card_jabatan_stempel = "Direktur";
+$card_pejabat_stempel = "Jushadi Arman Saz";
+$card_nip_pejabat_stempel = "NIP. 19871002 201210 1 001";
+$card_gambar_stempel = "stempel.png"; // stamp image, use transparent image
+$card_gambar_ttd_stempel = "ttd.png"; // sign picture, use transparent image
 $card_stamp_left = "";
 $card_stamp_top = "";
 $card_stamp_width = "";
