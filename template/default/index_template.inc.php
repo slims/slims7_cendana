@@ -169,21 +169,21 @@ $social = array (
     </div>	    
     <?php } ?>
 
-      <?php if ($sysconf['enable_search_clustering']) { ?>
+      <?php if ($sysconf['enable_search_clustering'] && !isset($_GET['fromcluster'])) { ?>
       <div class="tagline">
        <?php echo __('Search Cluster'); ?>
       </div>
         <div id="search-cluster"><div class="cluster-loading"><?php echo __('Generating search cluster...');  ?></div></div>
-       <script type="text/javascript">
-       $('document').ready( function() {
-        $.ajax({
-          url: 'index.php?p=clustering&q=<?php echo urlencode($criteria); ?>',
-          type: 'GET',
-          success: function(data, status, jqXHR) {
-                      $('#search-cluster').html(data);
+        <script type="text/javascript">
+        $('document').ready( function() {
+         $.ajax({
+           url: 'index.php?p=clustering&q=<?php echo isset($_GET['keywords'])?urlencode(trim($_GET['keywords'])):''; ?>',
+           type: 'GET',
+           success: function(data, status, jqXHR) {
+             $('#search-cluster').html(data);
            }
+         });
         });
-       });
        </script>
       <?php } ?>
      </div>

@@ -84,14 +84,14 @@ class biblio_list extends biblio_list_model
             $_add_sql_str .= ' ('.$this->criteria['sql_criteria'].') ';
         } else {
             $_add_sql_str .= ' `index`.`opac_hide`=0';
-	}
+	      }
         // promoted flag
         if ($this->only_promoted) { $_add_sql_str .= ' AND promoted=1'; }
 
         $_sql_str .= ' FROM `search_biblio` AS `index` '.$_add_sql_str.' ORDER BY `index`.`last_update` DESC LIMIT '.$_offset.', '.$this->num2show;
         // for debugging purpose only
         // echo "<div style=\"border: 1px solid navy; padding: 5px; color: navy; margin: 5px;\">$_sql_str</div>";
-	return $_sql_str;
+	      return $_sql_str;
     }
 
 
@@ -117,18 +117,18 @@ class biblio_list extends biblio_list_model
             return null;
         }
         // loop each query
-		// echo '<pre>'; var_dump($_queries); echo '</pre>';
+		    // echo '<pre>'; var_dump($_queries); echo '</pre>';
         foreach ($_queries as $_num => $_query) {
             // field
             $_field = $_query['f'];
-	    $_is_phrase = isset($_query['is_phrase']);
+	          $_is_phrase = isset($_query['is_phrase']);
             //  break the loop if we meet `cql_end` field
             if ($_field == 'cql_end') { break; }
-		// if field is boolean
-		if ($_field == 'boolean') {
-			if ($_query['b'] == '*') { $_boolean = 'OR'; } else { $_boolean = 'AND'; }
-			continue;
-		} else {
+		        // if field is boolean
+		        if ($_field == 'boolean') {
+			        if ($_query['b'] == '*') { $_boolean = 'OR'; } else { $_boolean = 'AND'; }
+			        continue;
+		        } else {
                     if ($_boolean) {
                         $_sql_criteria .= " $_boolean ";
                     } else {
@@ -145,7 +145,7 @@ class biblio_list extends biblio_list_model
                         }
                     }
                     $_boolean = '';
-		}
+		       }
             // for debugging purpose only
             // echo "<p>$_num. $_field -> $_boolean -> $_sql_criteria</p><p>&nbsp;</p>";
 
@@ -214,6 +214,12 @@ class biblio_list extends biblio_list_model
                     if ($_b == '-') {
                         $_sql_criteria .= " NOT (MATCH (index.notes) AGAINST ('".$_q."' IN BOOLEAN MODE))";
                     } else { $_sql_criteria .= " (MATCH (index.notes) AGAINST ('".$_q."' IN BOOLEAN MODE))"; }
+                    break;
+                case 'opengroup' :
+                    $_sql_criteria .= "(";
+                    break;
+                case 'closegroup' :
+                    $_sql_criteria .= ")";
                     break;
                 default :
                     if ($_b == '-') { $_sql_criteria .= " NOT (MATCH (index.title, index.series_title) AGAINST ('$_q' IN BOOLEAN MODE))";

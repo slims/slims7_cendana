@@ -67,7 +67,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     $keywords = trim(strip_tags(urldecode($_GET['keywords'])));
   }
   if ($keywords && !preg_match('@[a-z0-9_.]+=[^=]+\s+@i', $keywords.' ')) {
-    $criteria = 'title='.$keywords.' OR author='.$keywords.' OR subject='.$keywords.' OR notes='.$keywords;
+    $criteria = 'title='.$keywords.' OR author='.$keywords.' OR subject='.$keywords;
     $biblio_list->setSQLcriteria($criteria);
   } else {
     $biblio_list->setSQLcriteria($keywords);
@@ -131,8 +131,9 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
   }
 
   // search result info construction
+  $keywords_info = (strlen($keywords)>30)?substr($keywords, 0, 30).'...':$keywords;
   if ($is_adv) {
-    $search_result_info .= '<div style="clear: both;">'.__('Found  <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords.'</cite></strong></div>  '; //mfc
+    $search_result_info .= '<div style="clear: both;">'.__('Found  <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords_info.'</cite></strong></div>  '; //mfc
     if ($title) { $search_result_info .= 'Title : <strong><cite>'.$title.'</cite></strong>, '; }
     if ($author) { $search_result_info .= 'Author : <strong><cite>'.$author.'</cite></strong>, '; }
     if ($subject) { $search_result_info .= 'Subject : <strong><cite>'.$subject.'</cite></strong>, '; }
@@ -145,7 +146,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     // strip last comma
     $search_result_info = substr_replace($search_result_info, '', -2);
   } else {
-    $search_result_info .= '<div style="clear: both;">'.__('Found  <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords.'</cite></strong></div>'; //mfc
+    $search_result_info .= '<div style="clear: both;">'.__('Found  <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords_info.'</cite></strong></div>'; //mfc
   }
 
   // show promoted titles

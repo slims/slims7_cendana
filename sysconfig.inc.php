@@ -576,6 +576,9 @@ $sysconf['authority_level'][8] = __('Illustrator');
 $sysconf['authority_level'][9] = __('Creator');
 $sysconf['authority_level'][10] = __('Contributor');
 
+// comment
+$sysconf['comment']['enable'] =  true;
+
 // redirect to mobile template on mobile mode
 if (defined('LIGHTWEIGHT_MODE') AND ! isset($_COOKIE['FULLSITE_MODE'])) {
   $sysconf['template']['theme'] = 'lightweight';
