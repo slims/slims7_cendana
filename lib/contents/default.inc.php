@@ -1,22 +1,22 @@
 <?php
 /**
- * Copyright (C) 2007,2008  Arie Nugraha (dicarve@yahoo.com)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- */
+* Copyright (C) 2007,2008 Arie Nugraha (dicarve@yahoo.com)
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+*
+*/
 
 // be sure that this file not accessed directly
 if (!defined('INDEX_AUTH')) {
@@ -133,7 +133,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
   // search result info construction
   $keywords_info = (strlen($keywords)>30)?substr($keywords, 0, 30).'...':$keywords;
   if ($is_adv) {
-    $search_result_info .= '<div style="clear: both;">'.__('Found  <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords_info.'</cite></strong></div>  '; //mfc
+    $search_result_info .= '<div style="clear: both;">'.__('Found <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords_info.'</cite></strong></div> '; //mfc
     if ($title) { $search_result_info .= 'Title : <strong><cite>'.$title.'</cite></strong>, '; }
     if ($author) { $search_result_info .= 'Author : <strong><cite>'.$author.'</cite></strong>, '; }
     if ($subject) { $search_result_info .= 'Subject : <strong><cite>'.$subject.'</cite></strong>, '; }
@@ -146,7 +146,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     // strip last comma
     $search_result_info = substr_replace($search_result_info, '', -2);
   } else {
-    $search_result_info .= '<div style="clear: both;">'.__('Found  <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords_info.'</cite></strong></div>'; //mfc
+    $search_result_info .= '<div style="clear: both;">'.__('Found <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords_info.'</cite></strong></div>'; //mfc
   }
 
   // show promoted titles
@@ -181,6 +181,22 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     $_SERVER['QUERY_STRING'] = '';
   }
   $search_result_info .= '<div>'.__('Query took').' <b>'.$biblio_list->query_time.'</b> '.__('second(s) to complete').'</div>';
+  // word suggestion with enchant
+  if (function_exists('enchant_broker_init')) {
+    $enc = enchant_broker_init();
+    if (enchant_broker_dict_exists($enc,$sysconf['default_lang'])) {
+      $dict = enchant_broker_request_dict($enc,$sysconf['default_lang']);
+    } else {
+      $dict = enchant_broker_request_dict($enc,'en_US');
+    }
+    $wordcorrect = enchant_dict_check($dict, $keywords);
+    if (!$wordcorrect) {
+        $wordsuggest = enchant_dict_suggest($dict, $keywords);
+        $search_result_info .= '<div>'.__('Did you mean:').' <b>'.implode(' or ', $wordsuggest).'</b>?</div>';
+    }
+    enchant_broker_free_dict($dict);
+  }
+
   if (isset($biblio_list) && isset($sysconf['enable_xml_result']) && $sysconf['enable_xml_result']) {
     $search_result_info .= '<div><a href="index.php?resultXML=true&'.$_SERVER['QUERY_STRING'].'" class="xmlResultLink" target="_blank" title="View Result in XML Format" style="clear: both;">XML Result</a></div>';
   }
@@ -197,7 +213,7 @@ if ( (isset($_GET['RSS']) || isset($_GET['resultXML'])) && $sysconf['enable_xml_
     if (isset($_GET['RSS'])) {
       echo $biblio_list->RSSresult();
     } else {
-      echo $biblio_list->XMLresult();   
+      echo $biblio_list->XMLresult();
     }
   }
   exit();
