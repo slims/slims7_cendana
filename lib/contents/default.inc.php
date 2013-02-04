@@ -146,7 +146,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     // strip last comma
     $search_result_info = substr_replace($search_result_info, '', -2);
   } else {
-    $search_result_info .= '<div style="clear: both;">'.__('Found <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords_info.'</cite></strong></div>'; //mfc
+    $search_result_info .= '<div class="search-found-info">'.__('Found <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords_info.'</cite></strong></div>'; //mfc
   }
 
   // show promoted titles
@@ -180,21 +180,23 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
   if (!isset($_SERVER['QUERY_STRING'])) {
     $_SERVER['QUERY_STRING'] = '';
   }
-  $search_result_info .= '<div>'.__('Query took').' <b>'.$biblio_list->query_time.'</b> '.__('second(s) to complete').'</div>';
-  // word suggestion with enchant
-  if (function_exists('enchant_broker_init')) {
-    $enc = enchant_broker_init();
-    if (enchant_broker_dict_exists($enc,$sysconf['default_lang'])) {
-      $dict = enchant_broker_request_dict($enc,$sysconf['default_lang']);
-    } else {
-      $dict = enchant_broker_request_dict($enc,'en_US');
-    }
-    $wordcorrect = enchant_dict_check($dict, $keywords);
-    if (!$wordcorrect) {
-        $wordsuggest = enchant_dict_suggest($dict, $keywords);
-        $search_result_info .= '<div>'.__('Did you mean:').' <b>'.implode(' or ', $wordsuggest).'</b>?</div>';
-    }
-    enchant_broker_free_dict($dict);
+  $search_result_info .= '<div class="search-query-time">'.__('Query took').' <b>'.$biblio_list->query_time.'</b> '.__('second(s) to complete').'</div>';
+  if ($biblio_list->num_rows < 1 && $keywords != '') {
+    // word suggestion with enchant
+    if (function_exists('enchant_broker_init')) {
+      $enc = enchant_broker_init();
+      if (enchant_broker_dict_exists($enc,$sysconf['default_lang'])) {
+        $dict = enchant_broker_request_dict($enc,$sysconf['default_lang']);
+      } else {
+        $dict = enchant_broker_request_dict($enc,'en_US');
+      }
+      $wordcorrect = enchant_dict_check($dict, $keywords);
+      if (!$wordcorrect) {
+          $wordsuggest = enchant_dict_suggest($dict, $keywords);
+          $search_result_info .= '<div>'.__('Did you mean:').' <b>'.$wordsuggest[0].'</b>?</div>';
+      }
+      enchant_broker_free_dict($dict);
+    }  
   }
 
   if (isset($biblio_list) && isset($sysconf['enable_xml_result']) && $sysconf['enable_xml_result']) {
