@@ -1,6 +1,6 @@
 <?php
 /**
-* Copyright (C) 2007,2008 Arie Nugraha (dicarve@yahoo.com)
+* Copyright (C) 2013 Arie Nugraha (dicarve@yahoo.com)
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     $biblio_list->setSQLcriteria($keywords);
   }
   // advanced search
-  $is_adv = isset($_GET['search']) || isset($_GET['title']) || isset($_GET['author']) || isset($_GET['isbn'])
+  $is_adv = isset($_GET['title']) || isset($_GET['author']) || isset($_GET['isbn'])
     || isset($_GET['subject']) || isset($_GET['location'])
     || isset($_GET['gmd']) || isset($_GET['colltype']) || isset($_GET['publisher']) || isset($_GET['callnumber']);
   if ($is_adv) {
@@ -131,9 +131,10 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
   }
 
   // search result info construction
-  $keywords_info = (strlen($keywords)>30)?substr($keywords, 0, 30).'...':$keywords;
+  $keywords_info = '<span class="search-keyword-info" title="'.htmlentities($keywords).'">'.((strlen($keywords)>30)?substr($keywords, 0, 30).'...':$keywords).'</span>';
+  $search_result_info .= '<div class="search-found-info">';
   if ($is_adv) {
-    $search_result_info .= '<div style="clear: both;">'.__('Found <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords_info.'</cite></strong></div> '; //mfc
+    $search_result_info .= __('Found <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong class="search-found-info-keywords">'.$keywords_info.'</strong>  ';
     if ($title) { $search_result_info .= 'Title : <strong><cite>'.$title.'</cite></strong>, '; }
     if ($author) { $search_result_info .= 'Author : <strong><cite>'.$author.'</cite></strong>, '; }
     if ($subject) { $search_result_info .= 'Subject : <strong><cite>'.$subject.'</cite></strong>, '; }
@@ -146,8 +147,9 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     // strip last comma
     $search_result_info = substr_replace($search_result_info, '', -2);
   } else {
-    $search_result_info .= '<div style="clear: both;">'.__('Found <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong><cite>'.$keywords_info.'</cite></strong></div>'; //mfc
+    $search_result_info .= __('Found <strong>{biblio_list->num_rows}</strong> from your keywords').': <strong class="search-found-info-keywords">'.$keywords_info.'</strong>';
   }
+  $search_result_info .= '</div>';
 
   // show promoted titles
   if (isset($sysconf['enable_promote_titles']) && $sysconf['enable_promote_titles']) {
@@ -171,7 +173,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     $page = intval($_GET['page']);
     $msg = str_replace('{page}', $page, __('You currently on page <strong>{page}</strong> of <strong>{total_pages}</strong> page(s)')); //mfc
     $msg = str_replace('{total_pages}', $total_pages, $msg);
-    $search_result_info .= '<div style="clear: both;">'.$msg.'</div>';
+    $search_result_info .= '<div class="search-page-info">'.$msg.'</div>';
   } else {
     $page = 1;
   }
@@ -180,9 +182,9 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
   if (!isset($_SERVER['QUERY_STRING'])) {
     $_SERVER['QUERY_STRING'] = '';
   }
-  $search_result_info .= '<div>'.__('Query took').' <b>'.$biblio_list->query_time.'</b> '.__('second(s) to complete').'</div>';
-  // word suggestion with enchant
-  if ($biblio_list->num_rows < 1) {
+  $search_result_info .= '<div class="search-query-time">'.__('Query took').' <b>'.$biblio_list->query_time.'</b> '.__('second(s) to complete').'</div>';
+  if ($biblio_list->num_rows < 1 && $keywords != '') {
+    // word suggestion with enchant
     if (function_exists('enchant_broker_init')) {
       $enc = enchant_broker_init();
       if (enchant_broker_dict_exists($enc,$sysconf['default_lang'])) {
@@ -190,16 +192,74 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
       } else {
         $dict = enchant_broker_request_dict($enc,'en_US');
       }
+      $search_result_info .= '<div class="search-suggestions">'.__('Did you mean:').' ';
+      // loop through keywords
+      /**
       $wordcorrect = enchant_dict_check($dict, $keywords);
       if (!$wordcorrect) {
-          $wordsuggests = enchant_dict_suggest($dict, $keywords);
-          if ($wordsuggests) {
-
+        $wordsuggest = enchant_dict_suggest($dict, $keywords);
+        $shortest = -1;
+        // loop through words to find the closest with levenshtein
+        foreach ($wordsuggest as $wordsg) {
+          $lev = levenshtein($keywords, $wordsg);
+          if ($lev == 0) {
+            $closest = $wordsg;
+            $shortest = 0;
+            break;
           }
-          $search_result_info .= '<div>'.__('Did you mean:').' <b>'.implode(' or ', $wordsuggest).'</b>?</div>';
+
+          if ($lev <= $shortest || $shortest < 0) {
+            // set the closest match, and shortest distance
+            $closest  = $wordsg;
+            $shortest = $lev;
+          }
+        }
+
+        $search_result_info .= '<b class="search-word-suggest">'.$closest.'</b>';
       }
+      **/
+      $word = strtok($keywords, " \t\n");
+      $keywords_suggest = array();
+      while ($word !== false) {
+		// check if we are inside quote
+		if (stripos($word, '"', 0) === true) {
+          $search_result_info .= preg_replace('@[a-z]@i', '', $word);
+          $word = str_replace('"', '', $word);
+		}
+        $wordcorrect = enchant_dict_check($dict, $word);
+        if (!$wordcorrect) {
+          $wordsuggest = enchant_dict_suggest($dict, $word);
+		  $shortest = -1;
+		  // loop through words to find the closest with levenshtein
+		  foreach ($wordsuggest as $wordsg) {
+		  	$lev = levenshtein($word, $wordsg);
+		  	if ($lev == 0) {
+		  	  $closest = $wordsg;
+		  	  $shortest = 0;
+		  	  break;
+		  	}
+
+		  	if ($lev <= $shortest || $shortest < 0) {
+		  	  // set the closest match, and shortest distance
+		  	  $closest  = $wordsg;
+		  	  $shortest = $lev;
+		  	}
+		  }
+
+          $keywords_suggest[] = '<b class="search-word-suggest">'.$closest.'</b>';
+          $keywords_suggest_plain[] = $closest;
+        } else {
+		  $keywords_suggest[] = '<b class="search-word-correct">'.$word.'</b>';
+		  $keywords_suggest_plain[] = $word;
+		}
+		$word = strtok(" \t\n");
+	  }
+	  $keywords_suggest_plain_str = implode(' ', $keywords_suggest_plain);
+      $search_result_info .= '<a class="search-suggestion-link" href="./index.php?keywords='.urlencode($keywords_suggest_plain_str).'&search=Search">';
+      $search_result_info .= implode(' ', $keywords_suggest);
+      $search_result_info .= '</a>?</div>';
       enchant_broker_free_dict($dict);
-    }
+    }  
   }
 
 

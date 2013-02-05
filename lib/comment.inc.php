@@ -36,6 +36,8 @@ function showComment($_detail_id)
 		$_list_comment = '';
 		$_recs_each_page = 3;
 		$_pages_each_set = 10;
+		$_all_recs = 0;
+		
 		if (ISSET($_GET['page']) && $_GET['page']>1) {
 			$page = $_GET['page'];
 		} else {
@@ -47,7 +49,9 @@ function showComment($_detail_id)
 		 WHERE b.biblio_id =".$_detail_id.
 		 " ORDER BY c.last_update DESC";
 		$commlist = $dbs->query($_sql);
-		$_all_recs = $commlist->num_rows;
+		if ($commlist) {
+			$_all_recs = $commlist->num_rows;
+		}
 		if ($_all_recs >0) {
 			$_page = ($page -1) * $_recs_each_page;
 			$_sql .= " Limit " . $_page. ", " . $_recs_each_page;

@@ -1082,4 +1082,10 @@ img.btn_close {
   display: none;
 }
 
+.search-suggestion-link {
+  font-size: 120%;
+  color: #ffffff;
+  font-style: italic;
+  text-decoration: underline;
+}
 
