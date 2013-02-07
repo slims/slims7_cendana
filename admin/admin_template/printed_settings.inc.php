@@ -20,147 +20,160 @@
  *
  */
 
+/**
+ * Function to load and override print settings from database
+ */
+function loadPrintSettings($dbs, $type) {
+  global $sysconf; 
+  $barcode_settings_q = $dbs->query("SELECT setting_value FROM setting WHERE setting_name='".$type."_print_settings'");
+  if ($barcode_settings_q->num_rows) {
+    $barcode_settings_d = $barcode_settings_q->fetch_row();
+    if ($barcode_settings_d[0]) {
+      $barcode_settings = unserialize($barcode_settings_d[0]);
+      foreach ($barcode_settings as $setting_name => $val) {
+        $sysconf['print'][$type][$setting_name] = $val;
+      }
+    }
+  }
+}
+
 // label print settings
 /* measurement in cm */
-$page_margin = 0.2;
-$items_per_row = 3;
-$items_margin = 0.05;
-$box_width = 8;
-$box_height = 3.3;
-$include_header_text = 1; // change to 0 if dont want to use header in each label
-$header_text = ''; // keep empty if you want to use Library Name as a header text
-$fonts = "Arial, Verdana, Helvetica, 'Trebuchet MS'";
-$font_size = 11;
-$border_size = 1; // in pixels
+$sysconf['print']['label']['page_margin'] = 0.2;
+$sysconf['print']['label']['items_per_row'] = 3;
+$sysconf['print']['label']['items_margin'] = 0.05;
+$sysconf['print']['label']['box_width'] = 8;
+$sysconf['print']['label']['box_height'] = 3.3;
+$sysconf['print']['label']['include_header_text'] = 1; // change to 0 if dont want to use header in each label
+$sysconf['print']['label']['header_text'] = ''; // keep empty if you want to use Library Name as a header text
+$sysconf['print']['label']['fonts'] = "Arial, Verdana, Helvetica, 'Trebuchet MS'";
+$sysconf['print']['label']['font_size'] = 11;
+$sysconf['print']['label']['border_size'] = 1; // in pixels
 
 // item barcode print settings
 /* measurement in cm */
-$barcode_page_margin = 0.2;
-$barcode_items_per_row = 3;
-$barcode_items_margin = 0.1;
-$barcode_box_width = 7;
-$barcode_box_height = 5;
-$barcode_include_header_text = 1; // change to 0 if dont want to use header in each barcode
-$barcode_cut_title = 50; // maximum characters in title to appear in each barcode. change to 0 if you dont want the title cutted
-$barcode_header_text = ''; // keep empty if you want to use Library Name as a header text
-$barcode_fonts = "Arial, Verdana, Helvetica, 'Trebuchet MS'"; // font to use
-$barcode_font_size = 11;
-$barcode_scale = 70; // barcode scale in percent relative to box width and height
-$barcode_border_size = 1; // in pixels
+$sysconf['print']['barcode']['barcode_page_margin'] = 0.2;
+$sysconf['print']['barcode']['barcode_items_per_row'] = 3;
+$sysconf['print']['barcode']['barcode_items_margin'] = 0.1;
+$sysconf['print']['barcode']['barcode_box_width'] = 7;
+$sysconf['print']['barcode']['barcode_box_height'] = 5;
+$sysconf['print']['barcode']['barcode_include_header_text'] = 1; // change to 0 if dont want to use header in each barcode
+$sysconf['print']['barcode']['barcode_cut_title'] = 50; // maximum characters in title to appear in each barcode. change to 0 if you dont want the title cutted
+$sysconf['print']['barcode']['barcode_header_text'] = ''; // keep empty if you want to use Library Name as a header text
+$sysconf['print']['barcode']['barcode_fonts'] = "Arial, Verdana, Helvetica, 'Trebuchet MS'"; // font to use
+$sysconf['print']['barcode']['barcode_font_size'] = 11;
+$sysconf['print']['barcode']['barcode_scale'] = 70; // barcode scale in percent relative to box width and height
+$sysconf['print']['barcode']['barcode_border_size'] = 1; // in pixels
+
+// barcode generator print settings
+$sysconf['print']['barcodegen']['barcodegen_box_width'] = 6;
+$sysconf['print']['barcodegen']['barcodegen_page_margin'] = 0.2;
+$sysconf['print']['barcodegen']['barcodegen_items_margin'] = 0.05;
+$sysconf['print']['barcodegen']['barcodegen_include_border'] = 0;
+
+/* Receipt Printing */
+$sysconf['print']['receipt']['receipt_width'] = '15cm';
+$sysconf['print']['receipt']['receipt_font'] = 'serif';
+$sysconf['print']['receipt']['receipt_color'] = '#000';
+$sysconf['print']['receipt']['receipt_margin'] = '5px';
+$sysconf['print']['receipt']['receipt_padding'] = '5px';
+$sysconf['print']['receipt']['receipt_border'] = '1px dashed #000';
+$sysconf['print']['receipt']['receipt_fontSize'] = '7pt';
+$sysconf['print']['receipt']['receipt_header_fontSize'] = '8pt';
+$sysconf['print']['receipt']['receipt_titleLength'] = 100;
 
 // member card print settings
 /* measurement in cm */
-$card_page_margin = 0.2;
-$card_items_margin = 0.1;
-$card_items_per_row = 1; //
+$sysconf['print']['membercard']['card_page_margin'] = 0.2;
+$sysconf['print']['membercard']['card_items_margin'] = 0.1;
+$sysconf['print']['membercard']['card_items_per_row'] = 1; //
 
-//Jushadi Arman Saz
+// by Jushadi Arman Saz
 /* measurement in cm*/
-$card_factor = "37.795275591"; //cm to px
+$sysconf['print']['membercard']['card_factor'] = "37.795275591"; //cm to px
 
 // Items Settings
 // change to 0 if dont want to use selected items 
-$card_include_id_label = 1; // no anggota
-$card_include_name_label = 1; // nama anggota
-$card_include_pin_label = 1; // no identitas
-$card_include_inst_label = 0; // institusi
-$card_include_email_label = 0; // email
-$card_include_address_label = 1; // alamat
-$card_include_barcode_label = 1; // barcode
-$card_include_expired_label = 1; // expired
+$sysconf['print']['membercard']['card_include_id_label'] = 1; // no anggota
+$sysconf['print']['membercard']['card_include_name_label'] = 1; // nama anggota
+$sysconf['print']['membercard']['card_include_pin_label'] = 1; // no identitas
+$sysconf['print']['membercard']['card_include_inst_label'] = 0; // institusi
+$sysconf['print']['membercard']['card_include_email_label'] = 0; // email
+$sysconf['print']['membercard']['card_include_address_label'] = 1; // alamat
+$sysconf['print']['membercard']['card_include_barcode_label'] = 1; // barcode
+$sysconf['print']['membercard']['card_include_expired_label'] = 1; // expired
 
 // Cardbox Settings
-$card_box_width = 8.6;
-$card_box_height = 5.4;
+$sysconf['print']['membercard']['card_box_width'] = 8.6;
+$sysconf['print']['membercard']['card_box_height'] = 5.4;
 
 // Logo Setting  
-$card_logo = "logo.png";
-$card_front_logo_width = "";
-$card_front_logo_height = "";
-$card_front_logo_left = "";
-$card_front_logo_top = "";
-$card_back_logo_width = "";
-$card_back_logo_height = "";
-$card_back_logo_left = "";
-$card_back_logo_top = "";
+$sysconf['print']['membercard']['card_logo'] = "logo.png";
+$sysconf['print']['membercard']['card_front_logo_width'] = "";
+$sysconf['print']['membercard']['card_front_logo_height'] = "";
+$sysconf['print']['membercard']['card_front_logo_left'] = "";
+$sysconf['print']['membercard']['card_front_logo_top'] = "";
+$sysconf['print']['membercard']['card_back_logo_width'] = "";
+$sysconf['print']['membercard']['card_back_logo_height'] = "";
+$sysconf['print']['membercard']['card_back_logo_left'] = "";
+$sysconf['print']['membercard']['card_back_logo_top'] = "";
 
 // Photo Settings
-$card_photo_left = "";
-$card_photo_top = "";
-$card_photo_width = 1.5;
-$card_photo_height = 1.8;
-
+$sysconf['print']['membercard']['card_photo_left'] = "";
+$sysconf['print']['membercard']['card_photo_top'] = "";
+$sysconf['print']['membercard']['card_photo_width'] = 1.5;
+$sysconf['print']['membercard']['card_photo_height'] = 1.8;
 
 // Header Settings
-$card_front_header1_text = "KARTU ANGGOTA PERPUSTAKAAN<br />PROGRAM PASCASARJANA"; // use <br /> tag to make another line
-$card_front_header1_font_size = "12";
-$card_front_header2_text = "UNIVERSITAS NEGERI MAKASSAR";
-$card_front_header2_font_size = "12";
-$card_back_header1_text = "PROGRAM PASCASARJANA<br />UNIVERSITAS NEGERI MAKASSAR";
-$card_back_header1_font_size = "12";
-$card_back_header2_text = "Kampus UNM Gunung Sari Baru, Jl. Bonto Langkasa, Makassar - 90222<br />Telp. (0411) 830368, Fax. (0411) 855288, e-mail: pasca@unm.ac.id, website: pps.unm.ac.id";
-$card_back_header2_font_size = "5";
-$card_header_color = "#0066FF"; //e.g. :#0066FF, green, etc.
+$sysconf['print']['membercard']['card_front_header1_text'] = 'Library Member Card'; // use <br /> tag to make another line
+$sysconf['print']['membercard']['card_front_header1_font_size'] = '12';
+$sysconf['print']['membercard']['card_front_header2_text'] = 'My Library';
+$sysconf['print']['membercard']['card_front_header2_font_size'] = '12';
+$sysconf['print']['membercard']['card_back_header1_text'] = 'My Library';
+$sysconf['print']['membercard']['card_back_header1_font_size'] = "12";
+$sysconf['print']['membercard']['card_back_header2_text'] = 'My Library Full Address and Website';
+$sysconf['print']['membercard']['card_back_header2_font_size'] = "5";
+$sysconf['print']['membercard']['card_header_color'] = "#0066FF"; //e.g. :#0066FF, green, etc.
 
 //biodata settings
-$card_bio_font_size = "11";
-$card_bio_font_weight = "bold";
-$card_bio_label_width = "100";
+$sysconf['print']['membercard']['card_bio_font_size'] = "11";
+$sysconf['print']['membercard']['card_bio_font_weight'] = "bold";
+$sysconf['print']['membercard']['card_bio_label_width'] = "100";
 
 // Stamp Settings
-$card_city = "Makassar";
-$card_title = "Direktur";
-$card_officials = "Jushadi Arman Saz";
-$card_officials_id = "NIP. 19871002 201210 1 001";
-$card_stamp_file = "stempel.png"; // stamp image, use transparent image
-$card_signature_file = "ttd.png"; // sign picture, use transparent image
-$card_stamp_left = "";
-$card_stamp_top = "";
-$card_stamp_width = "";
-$card_stamp_height = "";
+$sysconf['print']['membercard']['card_city'] = "City Name";
+$sysconf['print']['membercard']['card_title'] = "Library Manager";
+$sysconf['print']['membercard']['card_officials'] = "Librarian Name";
+$sysconf['print']['membercard']['card_officials_id'] = "Librarian ID";
+$sysconf['print']['membercard']['card_stamp_file'] = "stamp.png"; // stamp image, use transparent image
+$sysconf['print']['membercard']['card_signature_file'] = "signature.png"; // sign picture, use transparent image
+$sysconf['print']['membercard']['card_stamp_left'] = "";
+$sysconf['print']['membercard']['card_stamp_top'] = "";
+$sysconf['print']['membercard']['card_stamp_width'] = "";
+$sysconf['print']['membercard']['card_stamp_height'] = "";
 
 //expired
-$card_exp_left = "";
-$card_exp_top = "";
-$card_exp_width = "";
-$card_exp_height = "";
+$sysconf['print']['membercard']['card_exp_left'] = "";
+$sysconf['print']['membercard']['card_exp_top'] = "";
+$sysconf['print']['membercard']['card_exp_width'] = "";
+$sysconf['print']['membercard']['card_exp_height'] = "";
 
 // Barcode Setting
-$card_barcode_scale = 100; // barcode scale in percent relative to box width and height
-$card_barcode_left = "";
-$card_barcode_top = "";
-$card_barcode_width = "";
-$card_barcode_height = "";
+$sysconf['print']['membercard']['card_barcode_scale'] = 100; // barcode scale in percent relative to box width and height
+$sysconf['print']['membercard']['card_barcode_left'] = "";
+$sysconf['print']['membercard']['card_barcode_top'] = "";
+$sysconf['print']['membercard']['card_barcode_width'] = "";
+$sysconf['print']['membercard']['card_barcode_height'] = "";
 
 // Rules
-$card_rules = "<ul>
-<li>Kartu ini diterbitkan oleh Perpustakaan PPs UNM. Segala penggunaan kartu diatur oleh Perpustakaan PPs UNM sesuai ketentuan dan syarat yang berlaku.</li>
-<li>Bila menemukan kartu ini mohon mengembalikan ke Perpustakaan Program Pascasarjana UNM.</li>
+$sysconf['print']['membercard']['card_rules'] = "<ul>
+<li>This card is published by Library.</li>
+<li>Please return this card to its owner if you found it.</li>
 </ul>";
-$card_rules_font_size = "8";
+$sysconf['print']['membercard']['card_rules_font_size'] = "8";
 
 // address
-$card_address = "Perpustakaan Program Pascasarjana UNM<br />website: http://dlibpps.unm.ac.id, email : pustakawan@unm.ac.id";
-$card_address_font_size = "7";
-$card_address_left = "";
-$card_address_top = "";
-
-
-// barcode generator print settings
-$barcodegen_box_width = 6;
-$barcodegen_page_margin = 0.2;
-$barcodegen_items_margin = 0.05;
-$barcodegen_include_border = 0;
-
-/* Receipt Printing */
-$receipt_width = '15cm';
-$receipt_font = 'serif';
-$receipt_color = '#000';
-$receipt_margin = '5px';
-$receipt_padding = '5px';
-$receipt_border = '1px dashed #000';
-$receipt_fontSize = '7pt';
-$receipt_header_fontSize = '8pt';
-$receipt_titleLength = 100;
-
-?>
+$sysconf['print']['membercard']['card_address'] = 'My Library<br />website: http://slims.web.id, email : librarian@slims.web.id';
+$sysconf['print']['membercard']['card_address_font_size'] = "7";
+$sysconf['print']['membercard']['card_address_left'] = "";
+$sysconf['print']['membercard']['card_address_top'] = "";

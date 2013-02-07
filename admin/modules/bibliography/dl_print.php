@@ -158,16 +158,20 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     if (file_exists($custom_settings)) {
         include $custom_settings;
     }
+
+	// load print settings from database to override value from printed_settings file
+    loadPrintSettings($dbs, $type);
+  
     // chunk label array
-    $chunked_label_arrays = array_chunk($label_data_array, $items_per_row);
+    $chunked_label_arrays = array_chunk($label_data_array, $sysconf['print']['label']['items_per_row']);
     // create html ouput of images
     $html_str = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n";
     $html_str .= '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Document Label Print Result</title>'."\n";
     $html_str .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
     $html_str .= '<meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0" /><meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT" />';
     $html_str .= '<style type="text/css">'."\n";
-    $html_str .= 'body { padding: 0; margin: 1cm; font-family: '.$fonts.'; font-size: '.$font_size.'pt; background: #fff; }'."\n";
-    $html_str .= '.labelStyle { width: '.$box_width.'cm; height: '.$box_height.'cm; text-align: center; margin: '.$items_margin.'cm; padding: 0; border: '.$border_size.'px solid #000000; }'."\n";
+    $html_str .= 'body { padding: 0; margin: 1cm; font-family: '.$sysconf['print']['label']['fonts'].'; font-size: '.$sysconf['print']['label']['font_size'].'pt; background: #fff; }'."\n";
+    $html_str .= '.labelStyle { width: '.$sysconf['print']['label']['box_width'].'cm; height: '.$sysconf['print']['label']['box_height'].'cm; text-align: center; margin: '.$sysconf['print']['label']['items_margin'].'cm; padding: 0; border: '.$sysconf['print']['label']['border_size'].'px solid #000000; }'."\n";
     $html_str .= '.labelHeaderStyle { background-color: #CCCCCC; font-weight: bold; padding: 5px; margin-bottom: 5px; }'."\n";
     $html_str .= '</style>'."\n";
     $html_str .= '</head>'."\n";
@@ -180,7 +184,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
         foreach ($label_data as $label) {
             $html_str .= '<td valign="top">';
             $html_str .= '<div class="labelStyle" valign="top">';
-            if ($include_header_text) { $html_str .= '<div class="labelHeaderStyle">'.($header_text?$header_text:$sysconf['library_name']).'</div>'; }
+            if ($sysconf['print']['label']['include_header_text']) { $html_str .= '<div class="labelHeaderStyle">'.($sysconf['print']['label']['header_text']?$sysconf['print']['label']['header_text']:$sysconf['library_name']).'</div>'; }
             // explode label data by space
             $sliced_label = explode(' ', $label, 5);
             foreach ($sliced_label as $slice_label_item) {
@@ -198,12 +202,12 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     unset($_SESSION['labels']);
     // write to file
     $print_file_name = 'label_print_result_'.strtolower(str_replace(' ', '_', $_SESSION['uname'])).'.html';
-    $file_write = @file_put_contents(FILES_UPLOAD_DIR.$print_file_name, $html_str);
+    $file_write = @file_put_contents(UPLOAD.$print_file_name, $html_str);
     if ($file_write) {
         echo '<script type="text/javascript">parent.$(\'#queueCount\').html(\'0\');</script>';
         // open result in new window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Labels Printing').'\')</script>';
-    } else { utility::jsAlert('ERROR! Label failed to generate, possibly because '.SB.FILES_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FLS.'/'.$print_file_name.'\', 800, 500, \''.__('Labels Printing').'\')</script>';
+    } else { utility::jsAlert('ERROR! Label failed to generate, possibly because '.SB.FLS.' directory is not writable'); }
     exit();
 }
 
@@ -216,8 +220,9 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     </div>
 	<div class="sub_section">
     <div class="action_button">
-    <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/dl_print.php?action=clear" class="notAJAX headerText2" style="color: #FF0000;"><?php echo __('Clear Print Queue'); ?></a>
-    <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/dl_print.php?action=print" class="notAJAX headerText2"><?php echo __('Print Labels for Selected Data'); ?></a>
+      <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/dl_print.php?action=clear" class="notAJAX headerText2" style="color: #FF0000;"><?php echo __('Clear Print Queue'); ?></a>
+      <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/dl_print.php?action=print" class="notAJAX headerText2"><?php echo __('Print Labels for Selected Data'); ?></a>
+	  <a href="javascript: openHTMLpop('<?php echo MWB; ?>bibliography/pop_print_settings.php?type=label', 600, 500, 'Print label settings')" class="notAJAX headerText2 input-icon" title="<?php echo __('Change print barcode settings'); ?>"><div class="icon-setting"></div>&nbsp;</a>
 	</div>
     <form name="search" action="<?php echo MWB; ?>bibliography/dl_print.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />

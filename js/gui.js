@@ -339,12 +339,12 @@ var openHTMLpop = function(strURL, intWidth, intHeight, strPopTitle) {
       + '<div id="htmlPop">'
       + '<div id="htmlPopTitle" style="float: left; width: 70%">' + strPopTitle + '</div>'
       + '<div style="float: right; width: 20%; text-align: right;">'
-      + '<a href="#" id="closePop" style="color: red; font-weight: bold;">Close</a>'
+      + '<a href="#" class="button button-danger" id="closePop">Close</a>'
       + '</div>'
       + '<div id="htmlPopContainer">' + popContent + '</div>'
       + '</div>').hide().appendTo('body');
     htmlPopFrame = $('iframe#htmlPopFrame');
-    htmlPop = $('#htmlPop').css({'position': 'fixed', 'top': yPos+'px', 'left': xPos+'px', 'margin': 'auto', 'width': intWidth+'px', 'z-index': 99}).fadeIn();
+    htmlPop = $('#htmlPop').css({'position': 'fixed', 'top': 20+yPos+'px', 'left': xPos+'px', 'margin': 'auto', 'width': intWidth+'px', 'z-index': 1000}).fadeIn();
     blocker = $('#blocker').css({'top': 0, 'left': 0, 'width': '100%', 'height': screen.height+'px', 'position': 'fixed', 'background-color': '#000', 'opacity': 0.5, 'z-index': 98}).fadeIn();
   }
   if (htmlPopFrame.length) { htmlPopFrame.css({'width': '100%', 'height': intHeight+'px'}); }
