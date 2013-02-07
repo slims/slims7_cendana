@@ -109,8 +109,7 @@ CREATE TABLE IF NOT EXISTS `files` (
   PRIMARY KEY  (`file_id`),
   FULLTEXT KEY `file_name` (`file_name`),
   FULLTEXT KEY `file_dir` (`file_dir`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `fines` (
@@ -122,8 +121,7 @@ CREATE TABLE IF NOT EXISTS `fines` (
   `description` varchar(255) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`fines_id`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `group_access` (
@@ -132,8 +130,7 @@ CREATE TABLE IF NOT EXISTS `group_access` (
   `r` int(1) NOT NULL default '0',
   `w` int(1) NOT NULL default '0',
   PRIMARY KEY  (`group_id`,`module_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
 $sql['insert'][] = "
 INSERT INTO `group_access` (`group_id`, `module_id`, `r`, `w`) VALUES
@@ -144,8 +141,7 @@ INSERT INTO `group_access` (`group_id`, `module_id`, `r`, `w`) VALUES
 (1, 5, 1, 1),
 (1, 6, 1, 1),
 (1, 7, 1, 1),
-(1, 8, 1, 1);
-";
+(1, 8, 1, 1);";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `holiday` (
@@ -155,8 +151,7 @@ CREATE TABLE IF NOT EXISTS `holiday` (
   `description` varchar(100) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`holiday_id`),
   UNIQUE KEY `holiday_dayname` (`holiday_dayname`,`holiday_date`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
-";
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;";
 
 $sql['insert'][] = "
 INSERT INTO `holiday` (`holiday_id`, `holiday_dayname`, `holiday_date`, `description`) VALUES
@@ -165,8 +160,7 @@ INSERT INTO `holiday` (`holiday_id`, `holiday_dayname`, `holiday_date`, `descrip
 (3, 'Wed', '2009-06-03', 'Tes Libur'),
 (4, 'Thu', '2009-06-04', 'Tes Libur'),
 (5, 'Fri', '2009-06-05', 'Tes Libur'),
-(6, 'Sat', '2009-06-06', 'Tes Libur');
-";
+(6, 'Sat', '2009-06-06', 'Tes Libur');";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `item` (
@@ -194,8 +188,7 @@ CREATE TABLE IF NOT EXISTS `item` (
   UNIQUE KEY `item_code` (`item_code`),
   KEY `item_references_idx` (`coll_type_id`,`location_id`,`item_status_id`),
   KEY `biblio_id_idx` (`biblio_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `kardex` (
@@ -209,8 +202,7 @@ CREATE TABLE IF NOT EXISTS `kardex` (
   `last_update` date NOT NULL,
   PRIMARY KEY  (`kardex_id`),
   KEY `fk_serial` (`serial_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `loan` (
@@ -228,8 +220,7 @@ CREATE TABLE IF NOT EXISTS `loan` (
   PRIMARY KEY  (`loan_id`),
   KEY `item_code` (`item_code`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `member` (
@@ -261,8 +252,7 @@ CREATE TABLE IF NOT EXISTS `member` (
   PRIMARY KEY  (`member_id`),
   KEY `member_name` (`member_name`),
   KEY `member_type_id` (`member_type_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_author` (
@@ -275,8 +265,7 @@ CREATE TABLE IF NOT EXISTS `mst_author` (
   `last_update` date default NULL,
   PRIMARY KEY  (`author_id`),
   UNIQUE KEY `author_name` (`author_name`, `authority_type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_coll_type` (
@@ -286,15 +275,13 @@ CREATE TABLE IF NOT EXISTS `mst_coll_type` (
   `last_update` date default NULL,
   PRIMARY KEY  (`coll_type_id`),
   UNIQUE KEY `coll_type_name` (`coll_type_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
-";
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;";
 
 $sql['insert'][] = "
 INSERT INTO `mst_coll_type` (`coll_type_id`, `coll_type_name`, `input_date`, `last_update`) VALUES
 (1, 'Reference', '2007-11-29', '2007-11-29'),
 (2, 'Textbook', '2007-11-29', '2007-11-29'),
-(3, 'Fiction', '2007-11-29', '2007-11-29');
-";
+(3, 'Fiction', '2007-11-29', '2007-11-29');";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_frequency` (
@@ -306,8 +293,7 @@ CREATE TABLE IF NOT EXISTS `mst_frequency` (
   `input_date` date NOT NULL,
   `last_update` date NOT NULL,
   PRIMARY KEY  (`frequency_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
-";
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;";
 
 $sql['insert'][] = "
 INSERT INTO `mst_frequency` (`frequency_id`, `frequency`, `language_prefix`, `time_increment`, `time_unit`, `input_date`, `last_update`) VALUES
@@ -318,8 +304,7 @@ INSERT INTO `mst_frequency` (`frequency_id`, `frequency`, `language_prefix`, `ti
 (5, 'Bi-Monthly', 'en', 2, 'month', '2009-05-23', '2009-05-23'),
 (6, 'Quarterly', 'en', 3, 'month', '2009-05-23', '2009-05-23'),
 (7, '3 Times a Year', 'en', 4, 'month', '2009-05-23', '2009-05-23'),
-(8, 'Annualy', 'en', 1, 'year', '2009-05-23', '2009-05-23');
-";
+(8, 'Annualy', 'en', 1, 'year', '2009-05-23', '2009-05-23');";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_gmd` (
@@ -332,8 +317,7 @@ CREATE TABLE IF NOT EXISTS `mst_gmd` (
   PRIMARY KEY  (`gmd_id`),
   UNIQUE KEY `gmd_name` (`gmd_name`),
   UNIQUE KEY `gmd_code` (`gmd_code`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=32 ;
-";
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=32 ;";
 
 $sql['insert'][] = "
 INSERT INTO `mst_gmd` (`gmd_id`, `gmd_code`, `gmd_name`, `icon_image`, `input_date`, `last_update`) VALUES
@@ -367,8 +351,7 @@ INSERT INTO `mst_gmd` (`gmd_id`, `gmd_code`, `gmd_name`, `icon_image`, `input_da
 (28, 'CD', 'CD-ROM', NULL, DATE(NOW()), DATE(NOW())),
 (29, 'MV', 'Multimedia', NULL, DATE(NOW()), DATE(NOW())),
 (30, 'ER', 'Electronic Resource', NULL, DATE(NOW()), DATE(NOW())),
-(31, 'DVD', 'Digital Versatile Disc', NULL, DATE(NOW()), DATE(NOW()));
-";
+(31, 'DVD', 'Digital Versatile Disc', NULL, DATE(NOW()), DATE(NOW()));";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_item_status` (
@@ -381,14 +364,12 @@ CREATE TABLE IF NOT EXISTS `mst_item_status` (
   `last_update` date default NULL,
   PRIMARY KEY  (`item_status_id`),
   UNIQUE KEY `item_status_name` (`item_status_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
 $sql['insert'][] = 'INSERT INTO `mst_item_status` (`item_status_id`, `item_status_name`, `rules`, `input_date`, `last_update`, `no_loan`, `skip_stock_take`) VALUES
 (\'R\', \'Repair\', \'a:1:{i:0;s:1:"1";}\', DATE(NOW()), DATE(NOW()), \'1\', \'0\'),
 (\'NL\', \'No Loan\', \'a:1:{i:0;s:1:"1";}\', DATE(NOW()), DATE(NOW()), \'1\', \'0\'),
-(\'MIS\', \'Missing\', NULL, DATE(NOW()), DATE(NOW()), \'1\', \'1\');
-';
+(\'MIS\', \'Missing\', NULL, DATE(NOW()), DATE(NOW()), \'1\', \'1\');';
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_label` (
@@ -400,15 +381,13 @@ CREATE TABLE IF NOT EXISTS `mst_label` (
   `last_update` date NOT NULL,
   PRIMARY KEY  (`label_id`),
   UNIQUE KEY `label_name` (`label_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC AUTO_INCREMENT=4 ;
-";
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC AUTO_INCREMENT=4 ;";
 
 $sql['insert'][] = "
 INSERT INTO `mst_label` (`label_id`, `label_name`, `label_desc`, `label_image`, `input_date`, `last_update`) VALUES
 (1, 'label-new', 'New Title', 'label-new.png', DATE(NOW()), DATE(NOW())),
 (2, 'label-favorite', 'Favorite Title', 'label-favorite.png', DATE(NOW()), DATE(NOW())),
-(3, 'label-multimedia', 'Multimedia', 'label-multimedia.png', DATE(NOW()), DATE(NOW()));
-";
+(3, 'label-multimedia', 'Multimedia', 'label-multimedia.png', DATE(NOW()), DATE(NOW()));";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_language` (
@@ -418,14 +397,12 @@ CREATE TABLE IF NOT EXISTS `mst_language` (
   `last_update` date default NULL,
   PRIMARY KEY  (`language_id`),
   UNIQUE KEY `language_name` (`language_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
 $sql['insert'][] = "
 INSERT INTO `mst_language` (`language_id`, `language_name`, `input_date`, `last_update`) VALUES
 ('id', 'Indonesia', DATE(NOW()), DATE(NOW())),
-('en', 'English', DATE(NOW()), DATE(NOW()));
-";
+('en', 'English', DATE(NOW()), DATE(NOW()));";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_loan_rules` (
@@ -441,8 +418,7 @@ CREATE TABLE IF NOT EXISTS `mst_loan_rules` (
   `input_date` date default NULL,
   `last_update` date default NULL,
   PRIMARY KEY  (`loan_rules_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_location` (
@@ -452,13 +428,11 @@ CREATE TABLE IF NOT EXISTS `mst_location` (
   `last_update` date NOT NULL,
   PRIMARY KEY  (`location_id`),
   UNIQUE KEY `location_name` (`location_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
 $sql['insert'][] = "
 INSERT INTO `mst_location` (`location_id`, `location_name`, `input_date`, `last_update`) VALUES
-('SL', 'My Library', DATE(NOW()), DATE(NOW()));
-";
+('SL', 'My Library', DATE(NOW()), DATE(NOW()));";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_member_type` (
@@ -476,13 +450,11 @@ CREATE TABLE IF NOT EXISTS `mst_member_type` (
   `last_update` date default NULL,
   PRIMARY KEY  (`member_type_id`),
   UNIQUE KEY `member_type_name` (`member_type_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
-";
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;";
 
 $sql['insert'][] = "
 INSERT INTO `mst_member_type` (`member_type_id`, `member_type_name`, `loan_limit`, `loan_periode`, `enable_reserve`, `reserve_limit`, `member_periode`, `reborrow_limit`, `fine_each_day`, `grace_periode`, `input_date`, `last_update`) VALUES
-(1, 'Standard', 2, 7, 1, 2, 365, 1, 0, 0, DATE(NOW()), DATE(NOW()));
-";
+(1, 'Standard', 2, 7, 1, 2, 365, 1, 0, 0, DATE(NOW()), DATE(NOW()));";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_module` (
@@ -492,8 +464,7 @@ CREATE TABLE IF NOT EXISTS `mst_module` (
   `module_desc` varchar(255) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`module_id`),
   UNIQUE KEY `module_name` (`module_name`,`module_path`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC AUTO_INCREMENT=9 ;
-";
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC AUTO_INCREMENT=9 ;";
 
 $sql['insert'][] = "
 INSERT INTO `mst_module` (`module_id`, `module_name`, `module_path`, `module_desc`) VALUES
@@ -504,8 +475,7 @@ INSERT INTO `mst_module` (`module_id`, `module_name`, `module_path`, `module_des
 (5, 'stock_take', 'stock_take', 'Ease your pain in doing library stock opname process'),
 (6, 'system', 'system', 'Configure system behaviour, user and backups'),
 (7, 'reporting', 'reporting', 'Real time and dynamic report about library collections and circulation'),
-(8, 'serial_control', 'serial_control', 'Serial publication management');
-";
+(8, 'serial_control', 'serial_control', 'Serial publication management');";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_place` (
@@ -515,8 +485,7 @@ CREATE TABLE IF NOT EXISTS `mst_place` (
   `last_update` date default NULL,
   PRIMARY KEY  (`place_id`),
   UNIQUE KEY `place_name` (`place_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_publisher` (
@@ -526,8 +495,7 @@ CREATE TABLE IF NOT EXISTS `mst_publisher` (
   `last_update` date default NULL,
   PRIMARY KEY  (`publisher_id`),
   UNIQUE KEY `publisher_name` (`publisher_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_supplier` (
@@ -544,8 +512,7 @@ CREATE TABLE IF NOT EXISTS `mst_supplier` (
   `last_update` date default NULL,
   PRIMARY KEY  (`supplier_id`),
   UNIQUE KEY `supplier_name` (`supplier_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `mst_topic` (
@@ -558,8 +525,7 @@ CREATE TABLE IF NOT EXISTS `mst_topic` (
   `last_update` date default NULL,
   PRIMARY KEY  (`topic_id`),
   UNIQUE KEY `topic` (`topic`, `topic_type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `reserve` (
@@ -571,8 +537,7 @@ CREATE TABLE IF NOT EXISTS `reserve` (
   PRIMARY KEY  (`reserve_id`),
   KEY `references_idx` (`member_id`,`biblio_id`),
   KEY `item_code_idx` (`item_code`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `serial` (
@@ -588,8 +553,7 @@ CREATE TABLE IF NOT EXISTS `serial` (
   PRIMARY KEY  (`serial_id`),
   KEY `fk_serial_biblio` (`biblio_id`),
   KEY `fk_serial_gmd` (`gmd_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `setting` (
@@ -598,28 +562,30 @@ CREATE TABLE IF NOT EXISTS `setting` (
   `setting_value` text collate utf8_unicode_ci,
   PRIMARY KEY  (`setting_id`),
   UNIQUE KEY `setting_name` (`setting_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
-";
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;";
 
-$sql['insert'][] = 'INSERT INTO `setting` (`setting_id`, `setting_name`, `setting_value`) VALUES
-(1, \'library_name\', \'s:7:"Senayan";\'),
-(2, \'library_subname\', \'s:37:"Open Source Library Management System";\'),
-(3, \'template\', \'a:2:{s:5:"theme";s:7:"default";s:3:"css";s:26:"template/default/style.css";}\'),
-(4, \'admin_template\', \'a:2:{s:5:"theme";s:7:"default";s:3:"css";s:32:"admin_template/default/style.css";}\'),
-(5, \'default_lang\', \'s:5:"en_US";\'),
-(6, \'opac_result_num\', \'s:2:"10";\'),
-(7, \'enable_promote_titles\', \'N;\'),
-(8, \'quick_return\', \'b:1;\'),
-(9, \'allow_loan_date_change\', \'b:0;\'),
-(10, \'loan_limit_override\', \'b:0;\'),
-(11, \'enable_xml_detail\', \'b:1;\'),
-(12, \'enable_xml_result\', \'b:1;\'),
-(13, \'allow_file_download\', \'b:1;\'),
-(14, \'session_timeout\', \'s:4:"7200";\'),
-(15, \'circulation_receipt\', \'b:0;\'),
-(16, \'barcode_encoding\', \'s:4:"128B";\'),
-(17, \'ignore_holidays_fine_calc\', \'b:0;\');
-';
+$sql['insert'][] = "INSERT IGNORE INTO `setting` (`setting_id`, `setting_name`, `setting_value`) VALUES
+(1, 'library_name', 's:7:\"Senayan\";'),
+(2, 'library_subname', 's:37:\"Open Source Library Management System\";'),
+(3, 'template', 'a:2:{s:5:\"theme\";s:7:\"default\";s:3:\"css\";s:26:\"template/default/style.css\";}'),
+(4, 'admin_template', 'a:2:{s:5:\"theme\";s:7:\"default\";s:3:\"css\";s:32:\"admin_template/default/style.css\";}'),
+(5, 'default_lang', 's:5:\"en_US\";'),
+(6, 'opac_result_num', 's:2:\"10\";'),
+(7, 'enable_promote_titles', 'N;'),
+(8, 'quick_return', 'b:1;'),
+(9, 'allow_loan_date_change', 'b:0;'),
+(10, 'loan_limit_override', 'b:0;'),
+(11, 'enable_xml_detail', 'b:1;'),
+(12, 'enable_xml_result', 'b:1;'),
+(13, 'allow_file_download', 'b:1;'),
+(14, 'session_timeout', 's:4:\"7200\";'),
+(15, 'circulation_receipt', 'b:0;'),
+(16, 'barcode_encoding', 's:4:\"128B\";'),
+(17, 'ignore_holidays_fine_calc', 'b:0;'),
+(18, 'barcode_print_settings', 'a:12:{s:19:\"barcode_page_margin\";d:0.200000000000000011102230246251565404236316680908203125;s:21:\"barcode_items_per_row\";i:3;s:20:\"barcode_items_margin\";d:0.1000000000000000055511151231257827021181583404541015625;s:17:\"barcode_box_width\";i:7;s:18:\"barcode_box_height\";i:5;s:27:\"barcode_include_header_text\";i:1;s:17:\"barcode_cut_title\";i:50;s:19:\"barcode_header_text\";s:0:\"\";s:13:\"barcode_fonts\";s:41:\"Arial, Verdana, Helvetica, ''Trebuchet MS''\";s:17:\"barcode_font_size\";i:11;s:13:\"barcode_scale\";i:70;s:19:\"barcode_border_size\";i:1;}'), 
+(19, 'label_print_settings', 'a:10:{s:11:\"page_margin\";d:0.200000000000000011102230246251565404236316680908203125;s:13:\"items_per_row\";i:3;s:12:\"items_margin\";d:0.05000000000000000277555756156289135105907917022705078125;s:9:\"box_width\";i:8;s:10:\"box_height\";d:3.29999999999999982236431605997495353221893310546875;s:19:\"include_header_text\";i:1;s:11:\"header_text\";s:0:\"\";s:5:\"fonts\";s:41:\"Arial, Verdana, Helvetica, ''Trebuchet MS''\";s:9:\"font_size\";i:11;s:11:\"border_size\";i:1;}'),
+(20, 'membercard_print_settings', 'a:1:{s:5:\"print\";a:1:{s:10:\"membercard\";a:61:{s:11:\"card_factor\";s:12:\"37.795275591\";s:21:\"card_include_id_label\";i:1;s:23:\"card_include_name_label\";i:1;s:22:\"card_include_pin_label\";i:1;s:23:\"card_include_inst_label\";i:0;s:24:\"card_include_email_label\";i:0;s:26:\"card_include_address_label\";i:1;s:26:\"card_include_barcode_label\";i:1;s:26:\"card_include_expired_label\";i:1;s:14:\"card_box_width\";d:8.5999999999999996447286321199499070644378662109375;s:15:\"card_box_height\";d:5.4000000000000003552713678800500929355621337890625;s:9:\"card_logo\";s:8:\"logo.png\";s:21:\"card_front_logo_width\";s:0:\"\";s:22:\"card_front_logo_height\";s:0:\"\";s:20:\"card_front_logo_left\";s:0:\"\";s:19:\"card_front_logo_top\";s:0:\"\";s:20:\"card_back_logo_width\";s:0:\"\";s:21:\"card_back_logo_height\";s:0:\"\";s:19:\"card_back_logo_left\";s:0:\"\";s:18:\"card_back_logo_top\";s:0:\"\";s:15:\"card_photo_left\";s:0:\"\";s:14:\"card_photo_top\";s:0:\"\";s:16:\"card_photo_width\";d:1.5;s:17:\"card_photo_height\";d:1.8000000000000000444089209850062616169452667236328125;s:23:\"card_front_header1_text\";s:19:\"Library Member Card\";s:28:\"card_front_header1_font_size\";s:2:\"12\";s:23:\"card_front_header2_text\";s:10:\"My Library\";s:28:\"card_front_header2_font_size\";s:2:\"12\";s:22:\"card_back_header1_text\";s:10:\"My Library\";s:27:\"card_back_header1_font_size\";s:2:\"12\";s:22:\"card_back_header2_text\";s:35:\"My Library Full Address and Website\";s:27:\"card_back_header2_font_size\";s:1:\"5\";s:17:\"card_header_color\";s:7:\"#0066FF\";s:18:\"card_bio_font_size\";s:2:\"11\";s:20:\"card_bio_font_weight\";s:4:\"bold\";s:20:\"card_bio_label_width\";s:3:\"100\";s:9:\"card_city\";s:9:\"City Name\";s:10:\"card_title\";s:15:\"Library Manager\";s:14:\"card_officials\";s:14:\"Librarian Name\";s:17:\"card_officials_id\";s:12:\"Librarian ID\";s:15:\"card_stamp_file\";s:9:\"stamp.png\";s:19:\"card_signature_file\";s:13:\"signature.png\";s:15:\"card_stamp_left\";s:0:\"\";s:14:\"card_stamp_top\";s:0:\"\";s:16:\"card_stamp_width\";s:0:\"\";s:17:\"card_stamp_height\";s:0:\"\";s:13:\"card_exp_left\";s:0:\"\";s:12:\"card_exp_top\";s:0:\"\";s:14:\"card_exp_width\";s:0:\"\";s:15:\"card_exp_height\";s:0:\"\";s:18:\"card_barcode_scale\";i:100;s:17:\"card_barcode_left\";s:0:\"\";s:16:\"card_barcode_top\";s:0:\"\";s:18:\"card_barcode_width\";s:0:\"\";s:19:\"card_barcode_height\";s:0:\"\";s:10:\"card_rules\";s:120:\"<ul><li>This card is published by Library.</li><li>Please return this card to its owner if you found it.</li></ul>\";s:20:\"card_rules_font_size\";s:1:\"8\";s:12:\"card_address\";s:76:\"My Library<br />website: http://slims.web.id, email : librarian@slims.web.id\";s:22:\"card_address_font_size\";s:1:\"7\";s:17:\"card_address_left\";s:0:\"\";s:16:\"card_address_top\";s:0:\"\";}}}')
+;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `stock_take` (
@@ -636,8 +602,7 @@ CREATE TABLE IF NOT EXISTS `stock_take` (
   `is_active` int(1) NOT NULL default '0',
   `report_file` varchar(255) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`stock_take_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `stock_take_item` (
@@ -657,8 +622,7 @@ CREATE TABLE IF NOT EXISTS `stock_take_item` (
   UNIQUE KEY `item_code` (`item_code`),
   KEY `status` (`status`),
   KEY `item_properties_idx` (`gmd_name`,`classification`,`coll_type_name`,`location`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `system_log` (
@@ -671,8 +635,7 @@ CREATE TABLE IF NOT EXISTS `system_log` (
   PRIMARY KEY  (`log_id`),
   KEY `log_type` (`log_type`),
   KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `user` (
@@ -688,8 +651,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY  (`user_id`),
   UNIQUE KEY `username` (`username`),
   KEY `realname` (`realname`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
-";
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;";
 
 $sql['insert'][] = 'INSERT INTO `user` (`user_id`, `username`, `realname`, `passwd`, `last_login`, `last_login_ip`, `groups`, `input_date`, `last_update`) VALUES
 (1, \'admin\', \'Administrator\', \'21232f297a57a5a743894a0e4a801fc3\', null, \'127.0.0.1\', \'a:1:{i:0;s:1:"1";}\', DATE(NOW()), DATE(NOW()));';
@@ -702,13 +664,11 @@ CREATE TABLE IF NOT EXISTS `user_group` (
   `last_update` date default NULL,
   PRIMARY KEY  (`group_id`),
   UNIQUE KEY `group_name` (`group_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
-";
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;";
 
 $sql['insert'][] = "
 INSERT INTO `user_group` (`group_id`, `group_name`, `input_date`, `last_update`) VALUES
-(1, 'Administrator', DATE(NOW()), DATE(NOW()));
-";
+(1, 'Administrator', DATE(NOW()), DATE(NOW()));";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `visitor_count` (
@@ -719,15 +679,13 @@ CREATE TABLE IF NOT EXISTS `visitor_count` (
   `checkin_date` datetime NOT NULL,
   PRIMARY KEY (`visitor_id`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-";
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `biblio_custom` (
 `biblio_id` INT NOT NULL ,
 PRIMARY KEY ( `biblio_id` )
-) ENGINE = MYISAM COMMENT = 'one to one relation with real biblio table';
-";
+) ENGINE = MYISAM COMMENT = 'one to one relation with real biblio table';";
 
 $sql['create'][] = "
 CREATE TABLE IF NOT EXISTS `search_biblio` (
@@ -767,11 +725,20 @@ CREATE TABLE IF NOT EXISTS `search_biblio` (
   FULLTEXT `items` (`items`),
   FULLTEXT `collection_types` (`collection_types`),
   FULLTEXT `labels` (`labels`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='index table for advance searching technique for SLiMS';
-";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='index table for advance searching technique for SLiMS';";
 
 $sql['create'][] = "CREATE TABLE IF NOT EXISTS `member_custom` (
 `member_id` VARCHAR(20) NOT NULL ,
 PRIMARY KEY ( `member_id` )
-) ENGINE = MYISAM COMMENT = 'one to one relation with real member table';
-";
+) ENGINE = MYISAM COMMENT = 'one to one relation with real member table';";
+
+$sql['create'][] = "
+CREATE TABLE IF NOT EXISTS `comment` (
+  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `biblio_id` int(11) NOT NULL,
+  `member_id` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `comment` text COLLATE utf8_unicode_ci NOT NULL,
+  `input_date` datetime DEFAULT NULL,
+  `last_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`comment_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;";
