@@ -176,6 +176,7 @@ class biblio_list extends biblio_list_model
       $_searched_fields = array();
       $_previous_field = '';
       $_boolean = '';
+			$_b = '';
       // parse query
       $this->orig_query = $str_criteria;
       $_queries = simbio_tokenizeCQL($str_criteria, $this->searchable_fields, $this->stop_words, $this->queries_word_num_allowed);
@@ -186,82 +187,89 @@ class biblio_list extends biblio_list_model
       foreach ($_queries as $_num => $_query) {
         // field
         $_field = $_query['f'];
+				if ($_previous_field <> $_field) {
+						if ($_field != 'boolean') {
+						  $_query_str .= '';
+						} else {
+						  $_query_str .= ')';
+						}
+				}
+
         //  break the loop if we meet `cql_end` field
-        if ($_field == 'cql_end') { break; }
+        if ($_field == 'cql_end') { continue; }
 	      // if field is boolean
 	      if ($_field == 'boolean') {
 		      if ($_query['b'] == '*') { $_query_str .= ' | '; } else { $_query_str .= ' & '; }
 		      continue;
 	      } else {
-		      if ($_query['b'] == '*') { $_b = ''; } else { $_b = $_query['b']; }
+		      if ($_query['b'] == '-') {
+						$_query_str .= ' -';
+				  } else if ($_query['b'] == '*') {
+						$_query_str .= ' | ';
+				  } else {
+						$_query_str .= ' ';
+					}
 		      $_q = @$this->obj_db->escape_string($_query['q']);
 		      $_q = isset($_query['is_phrase'])?'"'.$_q.'"':$_q;
 		      $_boolean = '';
 	      }
+				if ($_previous_field == $_field) {
+          $_query_str .= $_q;
+					continue;
+				}
+				$_previous_field = $_field;
         // for debugging purpose only
         // echo "<p>$_num. $_field -> $_boolean -> $_query_str</p><p>&nbsp;</p>";
 
 	      // check fields
+				$_q = $_b.$_q;
         switch ($_field) {
           case 'author' :
-		      $_q = $_b.$_q;
-		      $_query_str .= " @author $_q";
+		      $_query_str .= " (@author $_q";
           break;
           case 'subject' :
-		      $_q = $_b.$_q;
-		      $_query_str .= " @topic $_q";
+		      $_query_str .= " (@topic $_q";
           break;
           case 'location' :
-		      $_q = $_b.$_q;
 		      $_query_str .= " @location $_q";
           break;
           case 'colltype' :
-		      $_q = $_b.$_q;
 		      $_query_str .= " @collection_types $_q";
           break;
           case 'itemcode' :
-		      $_q = $_b.$_q;
 		      $_query_str .= " @items $_q";
           break;
           case 'callnumber' :
-		      $_q = $_b.$_q;
 		      $_query_str .= " @call_number $_q";
           break;
           case 'itemcallnumber' :
-		      $_q = $_b.$_q;
 		      $_query_str .= " @item_call_number $_q";
           break;
           case 'class' :
-		      $_q = $_b.$_q;
 		      $_query_str .= " @classification $_q";
           break;
           case 'isbn' :
-		      $_q = $_b.$_q;
 		      $_query_str .= " @isbn_issn $_q";
           break;
           case 'publisher' :
-		      $_q = $_b.$_q;
 		      $_query_str .= " @publisher $_q";
           break;
           case 'publishyear' :
-		      $_q = $_b.$_q;
 		      $_query_str .= " @publish_year $_q";
           break;
           case 'gmd' :
-		      $_q = $_b.$_q;
 		      $_query_str .= " @gmd $_q";
           break;
           case 'notes' :
-		      $_q = $_b.$_q;
 		      $_query_str .= " @notes $_q";
           break;
           default :
-		      $_q = $_b.$_q;
-		      $_query_str .= " @(title,series_title) $_q";
+		      $_query_str .= " (@title $_q";
           break;
         }
       }
 
+      $_query_str .= ')';
 	    // check if query is empty
 	    if (!$_query_str) {
 	      $this->no_query = true;
