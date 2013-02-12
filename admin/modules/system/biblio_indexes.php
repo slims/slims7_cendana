@@ -42,16 +42,26 @@ $can_read = utility::havePrivilege('bibliography', 'r');
 $can_write = utility::havePrivilege('bibliography', 'w');
 
 if (!$can_read) {
-    die('<div class="errorBox">'.__('You don\'t have enough privileges to view this section').'</div>');
+  die('<div class="errorBox">'.__('You don\'t have enough privileges to view this section').'</div>');
+}
+
+if ($sysconf['index']['type'] == 'mongodb') {
+  if (!class_exists('MongoClient')) {
+    throw new Exception('PHP Mongodb extension library is not installed yet!');
+  } else {
+	  $Mongo = new MongoClient();
+		// select index
+		$biblio = $Mongo->slims->biblio;
+	}
 }
 
 /* main content */
 if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'detail')) {
     if (!($can_read AND $can_write)) {
-        die('<div class="errorBox">'.__('You don\'t have enough privileges to view this section').'</div>');
+      die('<div class="errorBox">'.__('You don\'t have enough privileges to view this section').'</div>');
     }
 
-	/* empty table */
+   /* empty table */
 	if ($_GET['detail'] == 'empty') {
 		$indexer = new biblio_indexer($dbs);
 		$empty = $indexer->emptyingIndex();
@@ -69,8 +79,8 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
 		set_time_limit(0);
 		$indexer = new biblio_indexer($dbs);
 		$indexer->updateFullIndex();
-        $finish_minutes = $indexer->indexing_time/60;
-        $finish_sec = $indexer->indexing_time%60;
+    $finish_minutes = $indexer->indexing_time/60;
+    $finish_sec = $indexer->indexing_time%60;
 		// message
 		$message = sprintf(__('<strong>%d</strong> records (from total of <strong>%d</strong>) re-indexed. Finished in %d minutes %d second(s)'), $indexer->indexed, $indexer->total_records, $finish_minutes, $finish_sec);
 		if ($indexer->failed) {
@@ -126,9 +136,13 @@ echo '<div class="infoBox">'."\n";
 $rec_bib_q = $dbs->query('SELECT COUNT(*) FROM biblio');
 $rec_bib_d = $rec_bib_q->fetch_row();
 $bib_total = $rec_bib_d[0];
-$idx_bib_q = $dbs->query('SELECT COUNT(*) FROM search_biblio');
-$idx_bib_d = $idx_bib_q->fetch_row();
-$idx_total = $idx_bib_d[0];
+if ($biblio) {
+  $idx_total = $biblio->count();
+} else {
+  $idx_bib_q = $dbs->query('SELECT COUNT(*) FROM search_biblio');
+  $idx_bib_d = $idx_bib_q->fetch_row();
+  $idx_total = $idx_bib_d[0];
+}
 $unidx_total = $bib_total - $idx_total;
 
 echo '<div>Total data on biblio: ' . $bib_total . ' records.</div>';

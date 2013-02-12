@@ -176,8 +176,7 @@ abstract class biblio_list_model
       return '<div class="errorBox">Query error : '.$this->query_error.'</div>';
     }
 
-    while ($_biblio_d = $this->resultset->fetch_assoc())
-    {
+    while ($_biblio_d = $this->resultset->fetch_assoc()) {
       $_biblio_d['title'] = '<a href="'.$sysconf['baseurl'].'index.php?p=show_detail&id='.$_biblio_d['biblio_id'].'" class="titleField" title="'.__('Record Detail').'">'.$_biblio_d['title'].'</a>';
       // label
       if ($this->show_labels AND !empty($_biblio_d['labels'])) {

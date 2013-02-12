@@ -34,6 +34,8 @@ require LIB.'biblio_list_model.inc.php';
 // index choice
 if ($sysconf['index']['type'] == 'index') {
   require LIB.'biblio_list_index.inc.php';
+} else if ($sysconf['index']['type'] == 'mongodb' && class_exists('MongoClient')) {
+  require LIB.'biblio_list_mongodb.inc.php';
 } else if ($sysconf['index']['type'] == 'sphinx' && file_exists(LIB.'sphinx/sphinxapi.php')) {
   require LIB.'sphinx/sphinxapi.php';
   require LIB.'biblio_list_sphinx.inc.php';
@@ -259,7 +261,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
       $search_result_info .= implode(' ', $keywords_suggest);
       $search_result_info .= '</a>?</div>';
       enchant_broker_free_dict($dict);
-    }  
+    }
   }
 
 
