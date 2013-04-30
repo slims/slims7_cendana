@@ -58,18 +58,18 @@ function getAuthorID($str_author_name, $str_author_type, &$arr_cache = false)
 /**
  * Utility function to get subject ID
  **/
-function getSubjectID($str_subject, $str_subject_type, &$arr_cache = false)
+function getSubjectID($str_subject, $str_subject_type, &$arr_cache = false, $str_class_number = '')
 {
   global $dbs;
   $str_value = trim($str_subject);
   if ($arr_cache) {
-      if (isset($arr_cache[$str_value])) {
-          return $arr_cache[$str_value];
-      }
+    if (isset($arr_cache[$str_value])) {
+      return $arr_cache[$str_value];
+    }
   }
 
   $str_value = $dbs->escape_string($str_value);
-  $_sql_id_q = sprintf('SELECT topic_id FROM mst_topic WHERE topic=\'%s\'', $str_value);
+  $_sql_id_q = sprintf('SELECT topic_id FROM mst_topic WHERE topic=\'%s\' OR classification=\'%s\'', $str_value, $str_class_number);
   $id_q = $dbs->query($_sql_id_q);
   if ($id_q->num_rows > 0) {
       $id_d = $id_q->fetch_row();
@@ -80,8 +80,8 @@ function getSubjectID($str_subject, $str_subject_type, &$arr_cache = false)
   } else {
       $_curr_date = date('Y-m-d');
       // if not found then we insert it as new value
-      $_sql_insert_topic = sprintf('INSERT IGNORE INTO mst_topic (topic, topic_type, input_date, last_update)'
-          .' VALUES (\'%s\', \'%s\', \'%s\', \'%s\')', $str_value, $str_subject_type, $_curr_date, $_curr_date);
+      $_sql_insert_topic = sprintf('INSERT IGNORE INTO mst_topic (topic, topic_type, classification, input_date, last_update)'
+          .' VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')', $str_value, $str_subject_type, $str_class_number, $_curr_date, $_curr_date);
       $dbs->query($_sql_insert_topic);
       if (!$dbs->error) {
           // cache

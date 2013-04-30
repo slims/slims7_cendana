@@ -39,9 +39,9 @@ $table_name = $dbs->escape_string(trim($_POST['tableName']));
 $table_fields = trim($_POST['tableFields']);
 
 if (isset($_POST['keywords']) AND !empty($_POST['keywords'])) {
-    $keywords = $dbs->escape_string(urldecode(ltrim($_POST['keywords'])));
+  $keywords = $dbs->escape_string(urldecode(ltrim($_POST['keywords'])));
 } else {
-    $keywords = '';
+  $keywords = '';
 }
 
 // explode table fields data
@@ -74,7 +74,7 @@ if (isset($_GET['format'])) {
 	    }
 	  } else {
 		  if (isset($_GET['allowNew'])) {
-			  $data[] = array('id' => 'NEW:'.$keywords, 'text' => $keywords.' &lt;'.__('Add New').'&gt;');	
+			  $data[] = array('id' => 'NEW:'.$keywords, 'text' => $keywords.' &lt;'.__('Add New').'&gt;');
 			} else {
 		    $data[] = array('id' => 'NONE', 'text' => 'NO DATA FOUND');
 			}

@@ -9,6 +9,7 @@
 <link href="<?php echo SWB; ?>template/core.style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $sysconf['admin_template']['css']; ?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>chosen/chosen.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo JWB; ?>colorbox/colorbox.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo JWB; ?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>updater.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
@@ -18,6 +19,7 @@
 <script type="text/javascript" src="<?php echo JWB; ?>chosen/chosen.jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>chosen/ajax-chosen.min.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>tooltipsy.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>colorbox/jquery.colorbox-min.js"></script>
 <!-- new them for Meranti by Eddy Subratha -->
 </head>
 <body>

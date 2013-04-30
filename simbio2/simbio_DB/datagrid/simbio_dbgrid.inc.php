@@ -376,7 +376,7 @@ class simbio_datagrid extends simbio_table
             $_button_grp = '<table cellspacing="0" cellpadding="5" class="datagrid-action-bar" style="width: 100%;"><tr>';
             // if checkbox is include then show button
             if ($this->chbox_property) {
-                $_button_grp .= '<td><input type="button" onclick="chboxFormSubmit(\''.$this->table_name.'\', \''.$this->chbox_confirm_msg.'\')" value="'.$this->chbox_action_button.'" class="button" /> '
+                $_button_grp .= '<td><input type="button" onclick="chboxFormSubmit(\''.$this->table_name.'\', \''.$this->chbox_confirm_msg.'\')" value="'.$this->chbox_action_button.'" class="button btn btn-danger btn-delete" /> '
                     .'<input type="button" value="'.$_check_all.'" class="check-all button" /> '
                     .'<input type="button" value="'.$_uncheck_all.'" class="uncheck-all button" /> '
                     .'</td>';

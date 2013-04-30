@@ -102,28 +102,28 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     $data['edition'] = trim($dbs->escape_string(strip_tags($_POST['edition'])));
     $data['gmd_id'] = $_POST['gmdID'];
     $data['isbn_issn'] = trim($dbs->escape_string(strip_tags($_POST['isbn_issn'])));
-    if (trim($_POST['class']) != '0' && trim($_POST['class']) != '') {
-      $data['classification'] = trim($dbs->escape_string(strip_tags($_POST['class'])));
-    } else {
-      $data['classification'] = trim($dbs->escape_string(strip_tags($_POST['class_search_str'])));
-    }
+
+    $class = str_ireplace('NEW:', '', trim(strip_tags($_POST['class'])));
+    $data['classification'] = trim($dbs->escape_string(strip_tags($class)));
 
     // check publisher
-    if (stripos('NEW:', $_POST['publisherID']) === true) {
+    // echo stripos($_POST['publisherID'], 'NEW:');
+    if (stripos($_POST['publisherID'], 'NEW:') == 0) {
       $new_publisher = str_ireplace('NEW:', '', trim(strip_tags($_POST['publisherID'])));
       $new_id = utility::getID($dbs, 'mst_publisher', 'publisher_id', 'publisher_name', $new_publisher);
       $data['publisher_id'] = $new_id;
     } else {
       $data['publisher_id'] = (integer)$_POST['publisherID'];
     }
+
     $data['publish_year'] = trim($dbs->escape_string(strip_tags($_POST['year'])));
     $data['collation'] = trim($dbs->escape_string(strip_tags($_POST['collation'])));
     $data['series_title'] = trim($dbs->escape_string(strip_tags($_POST['seriesTitle'])));
     $data['call_number'] = trim($dbs->escape_string(strip_tags($_POST['callNumber'])));
     $data['language_id'] = trim($dbs->escape_string(strip_tags($_POST['languageID'])));
     // check place
-    if (stripos('NEW:', $_POST['placeID']) === true) {
-      $new_place = trim(strip_tags($_POST['placeID']));
+    if (stripos($_POST['placeID'], 'NEW:') == 0) {
+      $new_place = str_ireplace('NEW:', '', trim(strip_tags($_POST['placeID'])));
       $new_id = utility::getID($dbs, 'mst_place', 'place_id', 'place_name', $new_place);
       $data['publish_place_id'] = $new_id;
     } else {
@@ -449,10 +449,11 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     __('Main title of collection. Separate child title with colon and pararel title with equal (=) sign.'));
 
   // biblio authors
-  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_author.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Authors/Roles').'\')">'.__('Add Author(s)').'</a></div>';
+  // $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_author.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Authors/Roles').'\')">'.__('Add Author(s)').'</a></div>';
+  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button openPopUp" href="'.MWB.'bibliography/pop_author.php?biblioID='.$rec_d['biblio_id'].'" title="'.__('Authors/Roles').'">'.__('Add Author(s)').'</a></div>';
   $str_input .= '<iframe name="authorIframe" id="authorIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_author.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
   $form->addAnything(__('Author(s)'), $str_input);
-  
+
   // modified by hendro wicaksono
   // biblio sor statement of responsibility
   $form->addTextField('text', 'sor', __('Statement of Responsibility'), $rec_d['sor'], 'style="width: 40%;"', __('Main source of information to show who has written, composed, illustrated, or in other ways contributed to the existence of the item.'));
@@ -499,7 +500,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     $publ_q = $dbs->query(sprintf('SELECT publisher_id, publisher_name FROM mst_publisher WHERE publisher_id=%d', $rec_d['publisher_id']));
     while ($publ_d = $publ_q->fetch_row()) {
       $publ_options[] = array($publ_d[0], $publ_d[1]);
-    }  
+    }
   }
   $form->addSelectList('publisherID', __('Publisher'), $publ_options, $rec_d['publisher_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_publisher" data-src-cols="publisher_id:publisher_name"');
   // biblio publish year
@@ -510,7 +511,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     $plc_q = $dbs->query(sprintf('SELECT place_id, place_name FROM mst_place WHERE place_id=%d', $rec_d['publish_place_id']));
     while ($plc_d = $plc_q->fetch_row()) {
       $plc_options[] = array($plc_d[0], $plc_d[1]);
-    }  
+    }
   }
   $form->addSelectList('placeID', __('Publishing Place'), $plc_options, $rec_d['publish_place_id'], 'class="select2" data-src="'.SWB.'admin/AJAX_lookup_handler.php?format=json&allowNew=true" data-src-table="mst_place" data-src-cols="place_id:place_name"');
   // biblio collation
@@ -526,7 +527,8 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   // biblio call_number
   $form->addTextField('text', 'callNumber', __('Call Number'), $rec_d['call_number'], 'style="width: 40%;"', __('Sets of ID that put in the book spine.'));
   // biblio topics
-  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_topic.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Subjects/Topics').'\')">'.__('Add Subject(s)').'</a></div>';
+  // $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_topic.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Subjects/Topics').'\')">'.__('Add Subject(s)').'</a></div>';
+  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button openPopUp" href="'.MWB.'bibliography/pop_topic.php?biblioID='.$rec_d['biblio_id'].'" title="'.__('Subjects/Topics').'">'.__('Add Subject(s)').'</a></div>';
   $str_input .= '<iframe name="topicIframe" id="topicIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_topic.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
   $form->addAnything(__('Subject(s)'), $str_input);
   // biblio language
@@ -541,17 +543,18 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   $form->addTextField('textarea', 'notes', __('Abstract/Notes'), $rec_d['notes'], 'style="width: 100%;" rows="2"', __('Insert here any abstract or notes from the publication.'));
   // biblio cover image
   if (!trim($rec_d['image'])) {
-  $str_input = simbio_form_element::textField('file', 'image');
-  $str_input .= ' Maximum '.$sysconf['max_image_upload'].' KB';
-  $form->addAnything(__('Image'), $str_input);
+    $str_input = simbio_form_element::textField('file', 'image');
+    $str_input .= ' Maximum '.$sysconf['max_image_upload'].' KB';
+    $form->addAnything(__('Image'), $str_input);
   } else {
-  $str_input = '<a href="'.SWB.'images/docs/'.$rec_d['image'].'" target="_blank"><strong>'.$rec_d['image'].'</strong></a><br />';
-  $str_input .= simbio_form_element::textField('file', 'image');
-  $str_input .= ' Maximum '.$sysconf['max_image_upload'].' KB';
-  $form->addAnything(__('Image'), $str_input);
+    $str_input = '<a href="'.SWB.'images/docs/'.$rec_d['image'].'" target="_blank"><strong>'.$rec_d['image'].'</strong></a><br />';
+    $str_input .= simbio_form_element::textField('file', 'image');
+    $str_input .= ' Maximum '.$sysconf['max_image_upload'].' KB';
+    $form->addAnything(__('Image'), $str_input);
   }
   // biblio file attachment
-  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_attach.php?biblioID='.$rec_d['biblio_id'].'\', 600, 300, \''.__('File Attachments').'\')">'.__('Add Attachment').'</a></div>';
+  // $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_attach.php?biblioID='.$rec_d['biblio_id'].'\', 600, 300, \''.__('File Attachments').'\')">'.__('Add Attachment').'</a></div>';
+  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button openPopUp" href="'.MWB.'bibliography/pop_attach.php?biblioID='.$rec_d['biblio_id'].'" title="'.__('File Attachments').'">'.__('Add Attachment').'</a></div>';
   $str_input .= '<iframe name="attachIframe" id="attachIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_attach.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
   $form->addAnything(__('File Attachment'), $str_input);
 
@@ -636,8 +639,9 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   <script type="text/javascript">
   $(document).ready(function() {
     $('#class').change(function() {
-      $('#callNumber').val($(this).val());
+      $('#callNumber').val($(this).val().replace('NEW:',''));
     });
+    $('.openPopUp').colorbox({iframe:true, innerWidth:600, innerHeight:300, title: function() { return $(this).attr('title'); } });
   });
   </script>
   <?php
