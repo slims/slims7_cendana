@@ -187,7 +187,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
   $search_result_info .= '<div class="search-query-time">'.__('Query took').' <b>'.$biblio_list->query_time.'</b> '.__('second(s) to complete').'</div>';
   if ($biblio_list->num_rows < 1 && $keywords != '') {
     // word suggestion with enchant
-    if (function_exists('enchant_broker_init')) {
+    if (function_exists('enchant_broker_init') && $sysconf['spellchecker_enabled']) {
       $enc = enchant_broker_init();
       if (enchant_broker_dict_exists($enc,$sysconf['default_lang'])) {
         $dict = enchant_broker_request_dict($enc,$sysconf['default_lang']);

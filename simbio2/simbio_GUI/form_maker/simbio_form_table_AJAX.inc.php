@@ -57,98 +57,98 @@ class simbio_form_table_AJAX extends simbio_form_maker
     # return : string
     public function printOut()
     {
-        // create table object
-        $_table = new simbio_table();
-        // set the table attr
-        $_table->table_attr = $this->table_attr;
-		if ($this->edit_mode) {
-			$this->disable = true;
-		}
+      // create table object
+      $_table = new simbio_table();
+      // set the table attr
+      $_table->table_attr = $this->table_attr;
+		  if ($this->edit_mode) {
+			  $this->disable = true;
+		  }
 
-        // initialize result buffer
-        $_buffer = '';
+      // initialize result buffer
+      $_buffer = '';
 
-        // check if form tag is included
-        if ($this->with_form_tag) {
-            $this->submit_target = 'submitExec';
-            $_buffer .= $this->startForm()."\n";
-        }
+      // check if form tag is included
+      if ($this->with_form_tag) {
+          $this->submit_target = 'submitExec';
+          $_buffer .= $this->startForm()."\n";
+      }
 
-        // loop the form element
-        $_row_num = 0;
-        foreach ($this->elements as $row) {
-           $_form_element = $row['element']->out();
-           if ($_form_element_info = trim($row['info'])) {
-               $_form_element .= '<div class="formElementInfo">'.$_form_element_info.'</div>';
-           }
-           // append row
-           $_table->appendTableRow(array($row['label'], ':', $_form_element));
-           // set the column header attr
-           $_table->setCellAttr($_row_num+1, 0, 'width="20%" valign="top"'.$this->table_header_attr);
-           $_table->setCellAttr($_row_num+1, 1, 'width="1%" valign="top"'.$this->table_header_attr);
-           // set the form element column attr
-           $_table->setCellAttr($_row_num+1, 2, 'width="79%" '.$this->table_content_attr);
-           $_row_num++;
-        }
+      // loop the form element
+      $_row_num = 0;
+      foreach ($this->elements as $row) {
+         $_form_element = $row['element']->out();
+         if ($_form_element_info = trim($row['info'])) {
+             $_form_element .= '<div class="formElementInfo">'.$_form_element_info.'</div>';
+         }
+         // append row
+         $_table->appendTableRow(array($row['label'], ':', $_form_element));
+         // set the column header attr
+         $_table->setCellAttr($_row_num+1, 0, 'width="20%" valign="top"'.$this->table_header_attr);
+         $_table->setCellAttr($_row_num+1, 1, 'width="1%" valign="top"'.$this->table_header_attr);
+         // set the form element column attr
+         $_table->setCellAttr($_row_num+1, 2, 'width="79%" '.$this->table_content_attr);
+         $_row_num++;
+      }
 
-        // link and buttons
-        $_edit_link = '';
-        $_delete_button = '';
-        $_back_button = '';
-        $_del_value = __('Delete Record');
-        $_cancel_value = __('Cancel');
+      // link and buttons
+      $_edit_link = '';
+      $_delete_button = '';
+      $_back_button = '';
+      $_del_value = __('Delete Record');
+      $_cancel_value = __('Cancel');
 
-        // check if we are on edit form mode
-        if ($this->edit_mode) {
-            $_edit_link .= '<a href="#" class="notAJAX editFormLink">EDIT</a>';
-            // delete button exists if the record_id properties exists
-            if ($this->record_id && $this->delete_button) {
-                // create delete button
-                $_delete_button = '<input type="button" value="'.$_del_value.'" class="button confirmSubmit" onclick="confSubmit(\'deleteForm\', \'Are you sure to delete '.addslashes($this->record_title).'?\nOnce Deleted it cant be restored again\')" style="color: red; font-weight: bold;" />';
-            }
-            // back button
-            if ($this->back_button) {
-                $_back_button = '<input type="button" class="cancelButton button" value="'.$_cancel_value.'" />';
-            }
-        }
+      // check if we are on edit form mode
+      if ($this->edit_mode) {
+          $_edit_link .= '<a href="#" class="notAJAX editFormLink">EDIT</a>';
+          // delete button exists if the record_id properties exists
+          if ($this->record_id && $this->delete_button) {
+              // create delete button
+              $_delete_button = '<input type="button" value="'.$_del_value.'" class="button btn btn-danger btn-delete confirmSubmit" onclick="confSubmit(\'deleteForm\', \'Are you sure to delete '.addslashes($this->record_title).'?\nOnce Deleted it cant be restored again\')" style="color: red; font-weight: bold;" />';
+          }
+          // back button
+          if ($this->back_button) {
+              $_back_button = '<input type="button" class="cancelButton button" value="'.$_cancel_value.'" />';
+          }
+      }
 
-        $_buttons = '';
-        // check if form tag is included
-        if ($this->with_form_tag) {
-            $_buttons = '<table cellspacing="0" cellpadding="3" style="width: 100%; background-color: #dcdcdc;">'
-                .'<tr><td><input type="submit" '.$this->submit_button_attr.' /> '.$_back_button.' '.$_delete_button.'</td><td align="right">'.$_edit_link.'</td>'
-                .'</tr></table>'."\n";
-        }
-        // get the table result
-        $_buffer .= $_buttons;
-        $_buffer .= $_table->printTable();
-        $_buffer .= $_buttons;
+      $_buttons = '';
+      // check if form tag is included
+      if ($this->with_form_tag) {
+          $_buttons = '<table cellspacing="0" cellpadding="3" style="width: 100%; background-color: #dcdcdc;">'
+              .'<tr><td><input type="submit" '.$this->submit_button_attr.' /> '.$_back_button.' '.$_delete_button.'</td><td align="right">'.$_edit_link.'</td>'
+              .'</tr></table>'."\n";
+      }
+      // get the table result
+      $_buffer .= $_buttons;
+      $_buffer .= $_table->printTable();
+      $_buffer .= $_buttons;
 
-        // extract all hidden elements here
-        foreach ($this->hidden_elements as $_hidden) {
-            $_buffer .= $_hidden->out();
-        }
-        // update ID hidden elements
-        if ($this->edit_mode AND $this->record_id) {
-            // add hidden form element flag for detail editing purpose
-            $_buffer .= '<input type="hidden" name="updateRecordID" value="'.$this->record_id.'" />';
-        }
+      // extract all hidden elements here
+      foreach ($this->hidden_elements as $_hidden) {
+          $_buffer .= $_hidden->out();
+      }
+      // update ID hidden elements
+      if ($this->edit_mode AND $this->record_id) {
+          // add hidden form element flag for detail editing purpose
+          $_buffer .= '<input type="hidden" name="updateRecordID" value="'.$this->record_id.'" />';
+      }
 
-        // check if form tag is included
-        if ($this->with_form_tag) {
-            $_buffer .= $this->endForm()."\n";
-        }
+      // check if form tag is included
+      if ($this->with_form_tag) {
+          $_buffer .= $this->endForm()."\n";
+      }
 
-        if ($this->edit_mode) {
-            // hidden form for deleting records
-            $_buffer .= '<form action="'.preg_replace('/\?.+/i', '', $this->form_action).'" id="deleteForm" target="submitExec" method="post" style="display: inline;">'
-                .'<input type="hidden" name="itemID" value="'.$this->record_id.'" /><input type="hidden" name="itemAction" value="true" /></form>';
-        }
-        // for debugging purpose only
-        // $_buffer .= '<iframe name="submitExec" style="visibility: visible; width: 100%; height: 500px;"></iframe>';
-        // hidden iframe for form executing
-        $_buffer .= '<iframe name="submitExec" class="noBlock" style="visibility: hidden; width: 100%; height: 0;"></iframe>';
+      if ($this->edit_mode) {
+          // hidden form for deleting records
+          $_buffer .= '<form action="'.preg_replace('/\?.+/i', '', $this->form_action).'" id="deleteForm" target="submitExec" method="post" style="display: inline;">'
+              .'<input type="hidden" name="itemID" value="'.$this->record_id.'" /><input type="hidden" name="itemAction" value="true" /></form>';
+      }
+      // for debugging purpose only
+      // $_buffer .= '<iframe name="submitExec" style="visibility: visible; width: 100%; height: 500px;"></iframe>';
+      // hidden iframe for form executing
+      $_buffer .= '<iframe name="submitExec" class="noBlock" style="visibility: hidden; width: 100%; height: 0;"></iframe>';
 
-        return $_buffer;
+      return $_buffer;
     }
 }

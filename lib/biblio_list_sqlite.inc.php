@@ -1,7 +1,7 @@
 <?php
 /**
  * biblio_list class
- * Class for generating list of bibliographic records
+ * Class for generating list of bibliographic records from sqlite
  *
  * Copyright (C) 2009 Arie Nugraha (dicarve@yahoo.com)
  *
@@ -29,12 +29,6 @@ if (!defined('INDEX_AUTH')) {
 }
 
 class biblio_list extends biblio_list_model {
-  protected $searchable_fields = array('title', 'author', 'subject', 'isbn',
-		'publisher', 'gmd', 'notes', 'colltype', 'publishyear',
-		'location', 'itemcode', 'callnumber', 'itemcallnumber', 'notes');
-  protected $field_join_type = array('title' => 'OR', 'author' => 'OR', 'subject' => 'OR');
-
-
   /**
    * Class Constructor
    *
@@ -53,8 +47,7 @@ class biblio_list extends biblio_list_model {
    * @return  void
    */
   public function setSQLcriteria($str_criteria) {
-    if (!$str_criteria)
-      return null;
+    if (!$str_criteria) return null;
     // defaults
     $_sql_criteria = '';
     $_searched_fields = array();
@@ -72,19 +65,9 @@ class biblio_list extends biblio_list_model {
     foreach ($_queries as $_num => $_query) {
       // field
       $_field = $_query['f'];
-      // for debugging purpose only
-      // echo "<p>$_num. $_field -> $_boolean -> $_sql_criteria</p><p>&nbsp;</p>";
       // boolean
       if ($_title_buffer == '' && $_field != 'boolean') {
         $_sql_criteria .= " $_boolean ";
-      }
-      // $_sql_criteria .= " $_boolean ";
-      // flush title string concatenation
-      if ($_field != 'title' && $_title_buffer != '') {
-        $_title_buffer = trim($_title_buffer);
-        $_sql_criteria .= " biblio.biblio_id IN(SELECT DISTINCT biblio_id FROM biblio WHERE MATCH (title, series_title) AGAINST ('$_title_buffer' IN BOOLEAN MODE)) ";
-        // reset title buffer
-        $_title_buffer = '';
       }
       //  break the loop if we meet `cql_end` field
       if ($_field == 'cql_end') { break; }
@@ -98,76 +81,34 @@ class biblio_list extends biblio_list_model {
       // searched fields flag set
       $_searched_fields[$_field] = 1;
       $_previous_field = $_field;
-      // check field
-      if ($_field == 'title') {
-        if (strlen($_q) < 4) {
-          $_previous_field = 'title_short';
-          $_sql_criteria .= " biblio.title LIKE '%$_q%' ";
-          $_title_buffer = '';
-        } else {
-          if (isset($_query['is_phrase'])) {
-            $_title_buffer .= ' '.$_b.'"'.$_q.'"';
-          } else {
-            $_title_buffer .= ' '.$_b.$_q;
-          }
-        }
-      } else if ($_field == 'author') {
-        if ($_b == '-') {
-          $_sql_criteria .= " biblio.biblio_id NOT IN(SELECT ba.biblio_id FROM biblio_author AS ba"
-            ." LEFT JOIN mst_author AS a ON ba.author_id=a.author_id"
-            ." WHERE author_name LIKE '%$_q%')";
-        } else {
-          $_sql_criteria .= " biblio.biblio_id IN(SELECT ba.biblio_id FROM biblio_author AS ba"
-            ." LEFT JOIN mst_author AS a ON ba.author_id=a.author_id"
-            ." WHERE author_name LIKE '%$_q%')";
-        }
-      } else if ($_field == 'subject') {
-        if ($_b == '-') {
-          $_sql_criteria .= " biblio.biblio_id NOT IN(SELECT bt.biblio_id FROM biblio_topic AS bt"
-            ." LEFT JOIN mst_topic AS t ON bt.topic_id=t.topic_id"
-            ." WHERE topic LIKE '%$_q%')";
-        } else {
-          $_sql_criteria .= " biblio.biblio_id IN(SELECT bt.biblio_id FROM biblio_topic AS bt"
-            ." LEFT JOIN mst_topic AS t ON bt.topic_id=t.topic_id"
-            ." WHERE topic LIKE '%$_q%')";
-        }
-        // reset title buffer
-        $_title_buffer = '';
-      } else {
-        switch ($_field) {
-          case 'location' :
-			if (!$this->disable_item_data) {
-			  $_subquery = 'SELECT location_id FROM mst_location WHERE location_name=\''.$_q.'\'';
-			  if ($_b == '-') {
-				  $_sql_criteria .= " item.location_id NOT IN ($_subquery)";
-			  } else { $_sql_criteria .= " item.location_id IN ($_subquery)"; }
-			} else {
-			  if ($_b == '-') {
-				  $_sql_criteria .= " biblio.node_id !='$_q'";
-			  } else { $_sql_criteria .= " biblio.node_id = '$_q'"; }
-			}
-            break;
-          case 'colltype' :
-			if (!$this->disable_item_data) {
-			  $_subquery = 'SELECT coll_type_id FROM mst_coll_type WHERE coll_type_name=\''.$_q.'\'';
-			  if ($_b == '-') {
-				  $_sql_criteria .= " item.coll_type_id NOT IN ($_subquery)";
-			  } else { $_sql_criteria .= " item.coll_type_id IN ($_subquery)"; }
-			}
-            break;
-          case 'itemcode' :
-			if (!$this->disable_item_data) {
-			  if ($_b == '-') {
-				$_sql_criteria .= " item.item_code != '$_q'";
-			  } else { $_sql_criteria .= " item.item_code LIKE '$_q%'"; }
-			}
-            break;
-          case 'callnumber' :
+      switch ($_field) {
+      case 'location' :
+			  if (!$this->disable_item_data) {
+			    if ($_b == '-') {
+			  	  $_sql_criteria .= " biblio.location NOT LIKE '%$_q%'";
+			    } else { $_sql_criteria .= " biblio.location LIKE '%$_q%'"; }
+			  }
+        break;
+      case 'colltype' :
+			  if (!$this->disable_item_data) {
+			    if ($_b == '-') {
+			  	  $_sql_criteria .= " biblio.collection_types NOT LIKE '%$_q%'";
+			    } else { $_sql_criteria .= " biblio.collection_types NOT LIKE ($_subquery)"; }
+			  }
+        break;
+      case 'itemcode' :
+			  if (!$this->disable_item_data) {
+			    if ($_b == '-') {
+			  	$_sql_criteria .= " biblio.items NOT LIKE '%$_q%'";
+			    } else { $_sql_criteria .= " biblio.items LIKE '%$_q%'"; }
+			  }
+        break;
+      case 'callnumber' :
             if ($_b == '-') {
               $_sql_criteria .= ' biblio.call_number NOT LIKE \''.$_q.'%\'';
             } else { $_sql_criteria .= ' biblio.call_number LIKE \''.$_q.'%\''; }
             break;
-          case 'itemcallnumber' :
+      case 'itemcallnumber' :
 			if (!$this->disable_item_data) {
 			  if ($_b == '-') {
 				  $_sql_criteria .= ' item.call_number NOT LIKE \''.$_q.'%\'';
@@ -208,7 +149,6 @@ class biblio_list extends biblio_list_model {
             } else { $_sql_criteria .= " (MATCH (biblio.notes) AGAINST ('".$_q."' IN BOOLEAN MODE))"; }
             break;
         }
-      }
     }
 
     // remove boolean's logic symbol prefix and suffix

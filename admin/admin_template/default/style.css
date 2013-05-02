@@ -423,7 +423,8 @@ a.printReport:active {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
-#pageContent{
+#pageContent
+{
   height: 100% !important;
 }
 
@@ -491,6 +492,23 @@ input[type=file]:focus, input[type=checkbox]:focus, select:focus {
   outline: 1px dotted #4fc8fa;
 }
 
+input.btn-danger {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #da4f49;
+  *background-color: #bd362f;
+  background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
+  background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
+  background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
+  background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);
+  background-repeat: repeat-x;
+  border-color: #bd362f #bd362f #802420;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffbd362f', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
 select {
   font-size: 13px;
   color:#808080;
@@ -546,7 +564,8 @@ table, tr, td, th {
 #mainForm table td,
 #memberList table td,
 .border td,
-#pageContent td{
+#pageContent td
+{
   padding:5px;
   border-top: dotted 1px #ddd !important;
   border-bottom: dotted 1px #ddd !important;
@@ -600,8 +619,9 @@ table, tr, td, th {
   width: 100%;
 }
 
-.mceToolbar tr td{
-  
+.mceToolbar tr td
+{
+
   padding:0px !important;
   margin:0px !important;
   border-top: none !important;
@@ -998,11 +1018,13 @@ icon
   border: none;
 }
 
-.message li{
+.message li
+{
   margin-bottom:1px;
 }
 
-.warning, .error, .errorBox{
+.warning, .error, .errorBox
+{
   padding:10px;
   background-color: #c43c35;
   background-repeat: repeat-x;
@@ -1012,7 +1034,8 @@ icon
   color:#ffffff;
 }
 
-.action_button{
+.action_button
+{
   float: right;
   padding:0;
   margin:0;

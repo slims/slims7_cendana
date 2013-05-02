@@ -144,6 +144,7 @@ $sysconf['session_timeout'] = 7200;
 
 /* default application language */
 $sysconf['default_lang'] = 'en_US';
+$sysconf['spellchecker_enabled'] = false;
 
 /* HTTP header */
 header('Content-type: text/html; charset=UTF-8');

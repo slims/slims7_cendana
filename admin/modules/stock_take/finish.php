@@ -171,7 +171,7 @@ if (isset($_POST['confirmFinish'])) {
 <?php
     // create new instance
     $form = new simbio_form_table_AJAX('stockTakeForm', $_SERVER['PHP_SELF'], 'post');
-    $form->submit_button_attr = 'value="'.__('Finish Stock Take').'" class="button" style="color: #f00; border-color: #f00;"';
+    $form->submit_button_attr = 'value="'.__('Finish Stock Take').'" class="button btn btn-delete btn-danger"';
 
     // form table attributes
     $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';

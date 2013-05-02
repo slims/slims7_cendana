@@ -260,7 +260,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     $html_str .= '<body>'."\n";
     $html_str .= '<a href="#" class="doNotPrint" onclick="window.print()">Print Again</a>'."\n";
     $html_str .= '<table border=0 cellpadding=0 cellspacing=5>'."\n";
-	$html_str .= $katalog;
+	  $html_str .= $katalog;
     $html_str .= '</table>'."\n";
     $html_str .= '<script type="text/javascript">self.print();</script>'."\n";
     $html_str .= '</body></html>'."\n";
@@ -299,9 +299,9 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
         <?php
         echo __('Maximum').' <font style="color: #FF0000">'.$max_print.'</font> '.__('records can be printed at once. Currently there is').' '; //mfc
         if (isset($_SESSION['cards'])) {
-            echo '<font id="queueCount" style="color: #FF0000">'.count($_SESSION['cards']).'</font>';
+          echo '<font id="queueCount" style="color: #FF0000">'.count($_SESSION['cards']).'</font>';
         } else { echo '<font id="queueCount" style="color: #FF0000">0</font>'; }
-        echo ' '.__('in queue waiting to be printed.'); //mfc
+          echo ' '.__('in queue waiting to be printed.'); //mfc
         ?>
     </div>
 </div>
@@ -323,9 +323,9 @@ if ($sysconf['index']['type'] == 'index' || ($sysconf['index']['type'] == 'sphin
         require LIB.'biblio_list_index.inc.php';
     }
     // table spec
-    $table_spec = 'search_biblio AS `index` LEFT JOIN `biblio` as b ON `index`.biblio_id=b.biblio_id';
+    $table_spec = 'search_biblio AS `index` LEFT JOIN `biblio` ON `index`.biblio_id=`biblio`.biblio_id';
     if ($can_read) {
-        $datagrid->setSQLColumn('index.biblio_id, index.title, index.author');
+        $datagrid->setSQLColumn('index.biblio_id, index.title as '.__('Title').', index.author as '.__('Author'));
     }
 
 // SELECT IF(item.item_id IS NOT NULL, item.item_id, CONCAT('b', biblio.biblio_id)), biblio.title AS Title, IF(item.call_number<>'', item.call_number, biblio.call_number) AS 'Call Number'
@@ -361,9 +361,9 @@ if (isset($_GET['keywords']) AND $_GET['keywords']) {
     $criteria = $biblio_list->setSQLcriteria($search_str);
 }
 if (isset($criteria)) {
-    $datagrid->setSQLcriteria('('.$criteria['sql_criteria'].')');
+  $datagrid->setSQLcriteria('('.$criteria['sql_criteria'].')');
 }
-	$datagrid->sql_group_by = "biblio.biblio_id";
+$datagrid->sql_group_by = "biblio.biblio_id";
 
 // set table and table header attributes
 $datagrid->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
