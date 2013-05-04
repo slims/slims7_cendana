@@ -91,19 +91,20 @@ if (isset($_GET['p']))
       )
     );
 
-    ?>
-    <!DOCTYPE html>
-    <html><head>
-    <title><?php echo $page_title; ?></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="description" content="SLiMS (Senayan Library Management System) is an open source Library Management System. It is build on Open source technology like PHP and MySQL">
-    <meta name="keywords" content="senayan,slims,library automation,free library application, library, perpustakaan, aplikasi perpustakaan">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="robots" content="index, nofollow">
-    <!-- load style -->
-    <link rel="shortcut icon" href="webicon.ico" type="image/x-icon" />
-    <link href="template/core.style.css" rel="stylesheet" type="text/css" />
-    <link href="<?php echo $sysconf['template']['css']; ?>" rel="stylesheet" type="text/css" />
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $page_title; ?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="SLiMS (Senayan Library Management System) is an open source Library Management System. It is build on Open source technology like PHP and MySQL">
+<meta name="keywords" content="senayan,slims,library automation,free library application, library, perpustakaan, aplikasi perpustakaan">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index, nofollow">
+<!-- load style -->
+<link rel="shortcut icon" href="webicon.ico" type="image/x-icon" />
+<link href="template/core.style.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $sysconf['template']['css']; ?>" rel="stylesheet" type="text/css" />
 <!--[if IE]>
 <link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie.css"/>
 <![endif]-->
@@ -120,7 +121,6 @@ if (isset($_GET['p']))
 </head>
 <body>
   <div id="masking"></div>
-
   <!--// Social Button //-->
   <div class="navbar navbar-social navbar-fixed-top">
     <div class="navbar-inner">
@@ -154,64 +154,42 @@ if (isset($_GET['p']))
         <a class="brand" href="index.php">
          <div class="sitename"><?php echo $sysconf['library_name']; ?></div>
          <div class="subname"><?php echo $sysconf['library_subname']; ?></div>
-       </a>
-       <div class="nav-collapse collapse">
-        <ul class="nav nav-pills pull-right">
-         <?php foreach ($menus as $path => $menu) { ?>
-         <li <?php if ($p == $path) {echo ' class="active"';} ?>><a href="<?php echo $menu['url']; ?>" title="<?php echo $menu['text']; ?>"><?php echo ucwords($menu['text']); ?></a></li>
-         <?php } ?>
-       </ul>
-     </div>
-   </div>
- </div>
-</div>  <!--// End Menu //-->
+        </a>
+        <div class="nav-collapse collapse">
+          <ul class="nav nav-pills pull-right">
+          <?php foreach ($menus as $path => $menu) { ?>
+          <li <?php if ($p == $path) {echo ' class="active"';} ?>><a href="<?php echo $menu['url']; ?>" title="<?php echo $menu['text']; ?>"><?php echo ucwords($menu['text']); ?></a></li>
+          <?php } ?>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>  <!--// End Menu //-->
 
 <!--// Content Ouput //-->
 <div class="content">
   <div class="container">
-    <div class="row-fluid">
-
-      <!--// Check For Query //-->
+    <div class="row">
+      <!--// Check For No Query //-->
       <?php if(isset($_GET['search']) || isset($_GET['title']) || isset($_GET['keywords']) || isset($_GET['p'])) { ?>                       
-
-      <!--// Collection List //-->
-      <div class="span8">
-        <!--// Show only if variable is not set //-->
-        <?php if(!isset($_GET['p'])) { ?>          
-        <div class="tagline">
-          <?php echo __('Collections'); ?>
-          <a href="javascript: history.back();" class="btn btn-mini btn-danger pull-right"><i class="icon icon-white icon-circle-arrow-left"></i> <?php echo __('Back'); ?> </a>
-        </div>
-        <div class="info">
-          <?php echo $search_result_info; ?>
-        </div>
-        <?php echo $main_content; ?>
-        <?php } else { ?>
-        <div class="tagline">
-          <?php if ($_GET['p'] == 'show_detail') { ?>
-          <?php echo __("Record Detail"); ?>
-          <?php } else { ?>
-          <?php echo $page_title; ?>
-          <?php } ?>
-          <a href="javascript: history.back();" class="btn btn-mini btn-danger pull-right"><i class="icon icon-white icon-circle-arrow-left"></i> <?php echo __('Back'); ?> </a>
-        </div>
-        <div class="page"><?php echo $main_content; ?></div>
-        <?php } ?>
-        <!--// End Show only if p variable is not set //-->
-
-        <div class="clearfix"></div>
-      </div><!--// End Collection List //-->
-
-      <!--// Sidebar //-->
-      <div class="span4">
-        <div class="sidebar">
+        <!-- Main Content -->
+        <div class="span8">
+          <?php if(@$_GET['p'] != 'member') { ?>
           <div class="tagline">
-            <?php echo __('Information'); ?>    
+            <?php if(!isset($_GET['p'])) { ?>
+            <?php echo __('Collections'); ?>
+            <?php } elseif ($_GET['p'] == 'show_detail') { ?>
+            <?php echo __("Record Detail"); ?>
+            <?php } else { ?>
+            <?php echo $page_title; ?>
+            <?php } ?>
+            <a href="javascript: history.back();" class="btn btn-mini btn-danger pull-right"><i class="icon icon-white icon-circle-arrow-left"></i> <?php echo __('Back'); ?> </a>
           </div>
+          <?php } ?>
+
+          <?php if(!isset($_GET['p'])) { ?>
           <div class="info">
-            <?php echo $info; ?>
-          </div>
-          <div class="search">
+            <div class="search">
             <div id="simply-search">
               <div class="simply" >
                 <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-search">
@@ -221,65 +199,221 @@ if (isset($_GET['p']))
               </div>
             </div>
             <div id="advance-search" style="display:none;" >
-              <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-inline">
+             <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-horizontal">
                 <input type="hidden" name="search" value="Search" />
-                <div class="advance simply">
-                  <br/>
-                  <div class="control-group">
-                    <label class="control-label"><?php echo __('Title'); ?></label>
-                    <div class="controls">
-                      <input type="text" name="title" id="title" placeholder="" />
-                    </div>
-                  </div>                          
+                <div class="simply" >
+                  <input type="text" name="title" id="title" placeholder="<?php echo __('Title'); ?>" class="input-block-level search-query" />
+                </div>
+                <div class="advance">
+                  <div class="row-fluid">
+                  <div class="span5">
+                    <div class="control-group">
+                      <label class="control-label"><?php echo __('Author(s)'); ?></label>
+                      <div class="controls">
+                        <?php echo $advsearch_author; ?>
+                      </div>
+                    </div>                          
 
-                  <div class="control-group">
-                    <label class="control-label"><?php echo __('Author(s)'); ?></label>
-                    <div class="controls">
-                      <?php echo $advsearch_author; ?>
-                    </div>
-                  </div>                          
+                    <div class="control-group">
+                      <label class="control-label"><?php echo __('Subject(s)'); ?></label>
+                      <div class="controls">
+                        <?php echo $advsearch_topic; ?>
+                      </div>
+                    </div>                          
 
-                  <div class="control-group">
-                    <label class="control-label"><?php echo __('Subject(s)'); ?></label>
-                    <div class="controls">
-                      <?php echo $advsearch_topic; ?>
-                    </div>
-                  </div>                          
+                    <div class="control-group">
+                      <label class="control-label"><?php echo __('ISBN/ISSN'); ?></label>
+                      <div class="controls">
+                        <input type="text" name="isbn" />
+                      </div>
+                    </div>    
+                  </div>
+                  <div class="span6">
 
-                  <div class="control-group">
-                    <label class="control-label"><?php echo __('ISBN/ISSN'); ?></label>
-                    <div class="controls">
-                      <input type="text" name="isbn" />
-                    </div>
-                  </div>              
-
-                  <div class="control-group">
+                    <div class="control-group">
                     <label class="control-label"><?php echo __('GMD'); ?></label>
                     <div class="controls">
                       <select name="gmd"><?php echo $gmd_list; ?></select>
                     </div>
-                  </div>                          
+                    </div>                          
 
-                  <div class="control-group">
-                    <label class="control-label"><?php echo __('Collection Type'); ?></label>
-                    <div class="controls">
-                      <select name="colltype"><?php echo $colltype_list; ?></select>
-                    </div>
-                  </div>                          
+                    <div class="control-group">
+                      <label class="control-label"><?php echo __('Collection Type'); ?></label>
+                      <div class="controls">
+                        <select name="colltype"><?php echo $colltype_list; ?></select>
+                      </div>
+                    </div>                          
 
-                  <div class="control-group">
-                    <label class="control-label"><?php echo __('Location'); ?></label>
-                    <div class="controls">
-                      <select name="location"> <?php echo $location_list; ?></select>
-                    </div>
-                  </div>     
+                    <div class="control-group">
+                      <label class="control-label"><?php echo __('Location'); ?></label>
+                      <div class="controls">
+                        <select name="location"> <?php echo $location_list; ?></select>
+                      </div>
+                    </div>     
 
-                  <div class="control-group">
+                    <div class="control-group">
+                      <div class="controls">
+                        <input type="submit" name="search" value="<?php echo __('Search'); ?>" class="btn btn-danger" />
+                      </div>
+                    </div>                          
+                </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </form>
+            </div>
+            <div id="show_advance">
+              <a href="#"><?php echo __('Advanced Search'); ?></a>
+            </div>
+            </div>
+            <?php echo $search_result_info; ?>
+          </div>
+          <?php } ?>
+
+          <?php if(isset($_GET['p'])) { ?>
+            <?php if($_GET['p'] == 'member') { ?>
+              <?php echo $main_content; ?>
+            <?php } else { ?>
+              <div class="page"><?php echo $main_content; ?></div>
+            <?php } ?>
+          <?php } else { ?>
+            <?php echo $main_content; ?>
+          <?php } ?>
+
+        <?php if(@$_GET['p'] != 'member') { ?>  
+        </div>
+        <?php } elseif(utility::isMemberLogin()) { ?>
+        </div>
+        </div>
+        <?php } ?>
+        <!-- End Main Content -->
+  
+        <div class="span4">
+          <!--// If Member Logged //-->
+          <?php if (utility::isMemberLogin()) { ?>
+          <div class="sidebar">
+            <div class="tagline">
+              <?php echo __('Information'); ?>    
+            </div>
+            <div class="info">
+              <?php echo $header_info; ?>
+            </div>
+          </div>      
+          <?php } else { ?>
+          <div class="sidebar">
+            <div class="tagline">
+              <?php echo __('Information'); ?>    
+            </div>
+            <div class="info">
+              <?php echo $info; ?>
+            </div>
+          </div>
+          <?php } ?>
+          <!--// End Member Logged //-->
+          <br/>
+
+          <!--// Show if clustering search is enabled //-->
+          <?php if(!isset($_GET['p'])) { ?>          
+          <?php if ($sysconf['enable_search_clustering']) { ?>
+          <div class="sidebar">
+            <div class="tagline">
+              <?php echo __('Search Cluster'); ?>
+            </div>
+            <div class="info">
+              <div id="search-cluster"><div class="cluster-loading"><?php echo __('Generating search cluster...');  ?></div></div>
+              <script type="text/javascript">
+              $('document').ready( function() {
+                $.ajax({
+                  url: 'index.php?p=clustering&q=<?php echo urlencode($criteria); ?>',
+                  type: 'GET',
+                  success: function(data, status, jqXHR) {
+                    $('#search-cluster').html(data);
+                  }
+                });
+              });
+              </script>
+            </div>
+          </div>
+          <?php } ?>
+          <!--// End Show if clustering search is enabled //-->
+          <?php } ?>          
+            
+        </div>
+
+      <?php } else { ?>
+        <!-- Default Frontpage -->
+        <div class="span8 offset2"> 
+          <div class="search">
+            <div class="tagline"><?php echo $info; ?></div>
+            <div id="simply-search">
+              <div class="simply" >
+                <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-search">
+                  <input type="hidden" name="search" value="Search" />
+                  <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" x-webkit-speech class="input-block-level search-query" />
+                </form>
+              </div>
+            </div>
+            <div id="advance-search" style="display:none;" >
+              <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-horizontal">
+                <input type="hidden" name="search" value="Search" />
+                <div class="simply" >
+                  <input type="text" name="title" id="title" placeholder="<?php echo __('Title'); ?>" class="input-block-level search-query" />
+                </div>
+                <div class="advance">
+                  <div class="row-fluid">
+                  <div class="span5">
+                    <div class="control-group">
+                      <label class="control-label"><?php echo __('Author(s)'); ?></label>
+                      <div class="controls">
+                        <?php echo $advsearch_author; ?>
+                      </div>
+                    </div>                          
+
+                    <div class="control-group">
+                      <label class="control-label"><?php echo __('Subject(s)'); ?></label>
+                      <div class="controls">
+                        <?php echo $advsearch_topic; ?>
+                      </div>
+                    </div>                          
+
+                    <div class="control-group">
+                      <label class="control-label"><?php echo __('ISBN/ISSN'); ?></label>
+                      <div class="controls">
+                        <input type="text" name="isbn" />
+                      </div>
+                    </div>    
+                  </div>
+                  <div class="span6">
+
+                    <div class="control-group">
+                    <label class="control-label"><?php echo __('GMD'); ?></label>
                     <div class="controls">
-                      <input type="submit" name="search" value="<?php echo __('Search'); ?>" class="btn btn-danger" />
+                      <select name="gmd"><?php echo $gmd_list; ?></select>
                     </div>
-                  </div>                          
-                  <div class="clearfix"></div>
+                    </div>                          
+
+                    <div class="control-group">
+                      <label class="control-label"><?php echo __('Collection Type'); ?></label>
+                      <div class="controls">
+                        <select name="colltype"><?php echo $colltype_list; ?></select>
+                      </div>
+                    </div>                          
+
+                    <div class="control-group">
+                      <label class="control-label"><?php echo __('Location'); ?></label>
+                      <div class="controls">
+                        <select name="location"> <?php echo $location_list; ?></select>
+                      </div>
+                    </div>     
+
+                    <div class="control-group">
+                      <div class="controls">
+                        <input type="submit" name="search" value="<?php echo __('Search'); ?>" class="btn btn-danger" />
+                      </div>
+                    </div>                          
+                </div>
+                </div>
+                <div class="clearfix"></div>
               </div>
             </div>
           </form>
@@ -287,131 +421,10 @@ if (isset($_GET['p']))
         <div id="show_advance">
           <a href="#"><?php echo __('Advanced Search'); ?></a>
         </div>
-      </div>
-    </div><!--// End Sidebar //-->          
-
-    <!--// If Member Logged //-->
-    <?php if (utility::isMemberLogin()) { ?>
-    <div class="sidebar">
-      <div class="info">
-        <?php echo $header_info; ?>
-      </div>
-    </div>      
-    <?php } ?>
-    <!--// End Member Logged //-->
-
-    <!--// Show only if variable p is not set //-->
-    <?php if(!isset($_GET['p'])) { ?>          
-    <!--// Show if clustering search is enabled //-->
-    <?php if ($sysconf['enable_search_clustering']) { ?>
-    <div class="sidebar">
-      <div class="tagline">
-        <?php echo __('Search Cluster'); ?>
-      </div>
-      <div class="info">
-        <div id="search-cluster"><div class="cluster-loading"><?php echo __('Generating search cluster...');  ?></div></div>
-        <script type="text/javascript">
-        $('document').ready( function() {
-          $.ajax({
-            url: 'index.php?p=clustering&q=<?php echo urlencode($criteria); ?>',
-            type: 'GET',
-            success: function(data, status, jqXHR) {
-              $('#search-cluster').html(data);
-            }
-          });
-        });
-        </script>
-      </div>
+        <!-- End Default Frontpage-->
+      <?php } ?>      
     </div>
-    <?php } ?>
-    <!--// End Show if clustering search is enabled //-->
-    <?php } ?>
-    <!--// End Show only if p variable is not set //-->
   </div>
-
-  <!--// No Query Set - Default Landing Page //-->
-  <?php } else { ?>
-  <div class="span8 offset2"> 
-    <div class="search">
-      <div class="tagline"><?php echo $info; ?></div>
-      <div id="simply-search">
-        <div class="simply" >
-          <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-search">
-            <input type="hidden" name="search" value="Search" />
-            <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" x-webkit-speech class="input-block-level search-query" />
-          </form>
-        </div>
-      </div>
-      <div id="advance-search" style="display:none;" >
-        <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-horizontal">
-          <input type="hidden" name="search" value="Search" />
-          <div class="simply" >
-            <input type="text" name="title" id="title" placeholder="<?php echo __('Title'); ?>" class="input-block-level search-query" />
-          </div>
-          <div class="advance">
-            <div class="span5">
-              <div class="control-group">
-                <label class="control-label"><?php echo __('Author(s)'); ?></label>
-                <div class="controls">
-                  <?php echo $advsearch_author; ?>
-                </div>
-              </div>                          
-
-              <div class="control-group">
-                <label class="control-label"><?php echo __('Subject(s)'); ?></label>
-                <div class="controls">
-                  <?php echo $advsearch_topic; ?>
-                </div>
-              </div>                          
-
-              <div class="control-group">
-                <label class="control-label"><?php echo __('ISBN/ISSN'); ?></label>
-                <div class="controls">
-                  <input type="text" name="isbn" />
-                </div>
-              </div>                          
-            </div>
-            <div class="span6">
-             <div class="control-group">
-              <label class="control-label"><?php echo __('GMD'); ?></label>
-              <div class="controls">
-                <select name="gmd"><?php echo $gmd_list; ?></select>
-              </div>
-            </div>                          
-
-            <div class="control-group">
-              <label class="control-label"><?php echo __('Collection Type'); ?></label>
-              <div class="controls">
-                <select name="colltype"><?php echo $colltype_list; ?></select>
-              </div>
-            </div>                          
-
-            <div class="control-group">
-              <label class="control-label"><?php echo __('Location'); ?></label>
-              <div class="controls">
-                <select name="location"> <?php echo $location_list; ?></select>
-              </div>
-            </div>     
-
-            <div class="control-group">
-              <div class="controls">
-                <input type="submit" name="search" value="<?php echo __('Search'); ?>" class="btn btn-danger" />
-              </div>
-            </div>                          
-          </div>
-          <div class="clearfix"></div>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div id="show_advance">
-    <a href="#"><?php echo __('Advanced Search'); ?></a>
-  </div>
-</div>
-</div>
-<?php } ?> <!--// End Check For Query //-->
-</div>
-</div>
 </div>  <!--// End Content Ouput //-->
 
 <div class="footer">
@@ -424,24 +437,16 @@ if (isset($_GET['p']))
 </div>
 </div>
 
-<script type="text/javascript" src="<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/js/supersized.3.1.3.min.js"></script>
+<script type="text/javascript" src="<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/js/supersized.3.2.7.min.js"></script>
 <script type="text/javascript">
 jQuery(function($){
   $.supersized(
   {
-    transition  : 6,
-    keyboard_nav  : 0,
-    start_slide  : 0,
-    vertical_center : 1,
-    horizontal_center : 1,
-    min_width : 1000,
-    min_height : 700,
-    fit_portrait  : 1,
-    fit_landscape : 0,
-    image_protect : 1,
     slides  : [
-    {image : '<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/1.jpg'},
-    {image : '<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/2.jpg'}     
+    {image : '<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/4.jpg'},
+    {image : '<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/3.jpg'},     
+    {image : '<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/2.jpg'},     
+    {image : '<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/1.jpg'}     
     ]
   });
 });
@@ -484,8 +489,6 @@ $(document).ready(function()
 
 });
 </script>
-
-
 
 
 </body>

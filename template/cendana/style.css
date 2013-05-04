@@ -12,8 +12,8 @@
 /* Include Bootstrap - Supersized */
 /*----------------------------------------------------------------*/
 @import url('css/bootstrap.min.css');
-@import url('css/supersized.core.css');
 @import url('css/bootstrap-responsive.min.css');
+@import url('css/supersized.core.css');
 
 /*----------------------------------------------------------------*/
 /* General */
@@ -183,7 +183,7 @@ h1,h2,h3,h4,h5,h6 {
 	width:100%;
 	height:100%;
 	position:fixed;
-	z-index: -99;
+	z-index: -1;
 	padding:0;
 	margin:0;
 }
@@ -214,16 +214,6 @@ h1,h2,h3,h4,h5,h6 {
 	text-align: center;
 	padding:25px;
 }
-
-#keyword, #title
-{
-
-}
-
-.sidebar #keyword, .sidebar #title
-{
-}
-
 
 .advance
 {
@@ -389,27 +379,32 @@ form {
 /* Review */
 /*----------------------------------------------------------------*/
 
-#review {
-	width: 80%;
-	margin-left: 120px;
-	margin-top: -170px;
-	line-height: 24px;	
+.coll-detail hr {
+	border-color: #333;
+	border-bottom: none;
 }
 
-#review th {
+.coll-detail .control-label,
+.coll-detail label {
+	padding: 0px !important;
+	margin-bottom: 0px;
+	line-height: 8pt;
+}
+
+h4.title {
 	color: #e04d40;
 	font-size: 20px;
 	text-align: left;
 	font-weight: normal;
-	padding-bottom: 30px; 
+	padding-bottom: 10px; 
 }
 
-#review .abstract {
+.abstract {
 	font-style: italic;
 	padding-bottom: 20px;
 }
 
-#review .key {
+.key {
 	color: #999;
 	text-align: right;
 	vertical-align: top;
@@ -420,7 +415,7 @@ form {
 
 .itemList {
 	font-size: 11px;
-	width: 110% !important;
+	width: 100% !important;
 }
 
 .itemList td {
@@ -452,6 +447,7 @@ form {
 /*----------------------------------------------------------------*/
 
 .collection-list {
+	background-color: rgba(0,0,0,0.8);
 	margin: 0;
 	padding: 0;
 }
@@ -525,7 +521,7 @@ form {
 	color:#000;
 }
 
-.xmlResultLink, #memberLogout
+.xmlResultLink
 {
 	font-size: 11px;
 	color: #fff !important;
@@ -547,6 +543,39 @@ form {
 
 }
 
+#memberLogout, #loginButton
+{
+	font-size: 11px;
+	color: #fff !important;
+	background: #c8643d;
+	background: -moz-linear-gradient(top,  #c8643d 0%, #b64736 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c8643d), color-stop(100%,#b64736));
+	background: -webkit-linear-gradient(top,  #c8643d 0%,#b64736 100%);
+	background: -o-linear-gradient(top,  #c8643d 0%,#b64736 100%); 
+	background: -ms-linear-gradient(top,  #c8643d 0%,#b64736 100%); 
+	background: linear-gradient(to bottom,  #c8643d 0%,#b64736 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c8643d', endColorstr='#b64736',GradientType=0 );
+	background-repeat: repeat-x;
+	border: none;
+	border-top: solid 1px #ffffff;
+	border-radius: 3px;
+	padding: 5px 15px !important;
+	float: left;
+	clear: both;
+}
+
+#memberLoginInfo {
+	border-bottom: none;
+	padding-bottom: 80px;
+	text-align: left;
+}
+
+#memberLoginInfo strong {
+	clear: both;
+	float: left;
+	margin-bottom: 20px;
+}
+
 .detail-list h4
 {
 	font-size:14px;
@@ -558,7 +587,8 @@ form {
 }
 
 .detailLink,
-.xmlDetailLink {
+.xmlDetailLink
+{
 	background: #c8643d;
 	background: -moz-linear-gradient(top,  #c8643d 0%, #b64736 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c8643d), color-stop(100%,#b64736));
@@ -633,7 +663,7 @@ form {
 	padding:8px;
 }
 
-.loginButton:hover, .homeButton:hover
+.loginButton:hover, .homeButton:hover, .memberButton
 {
 	background: #c8643d;
 	background: -moz-linear-gradient(top,  #c8643d 0%, #b64736 100%);
@@ -673,7 +703,7 @@ form {
 	border-radius: 3px;
 }
 
-.heading1
+#loginForm .heading1
 {
 	float: left;
 	color: #fff;
@@ -681,18 +711,18 @@ form {
 	width:85px;
 }
 
-#homeButton {
+#loginForm #homeButton {
 	float: left;
 }
 
-.marginTop input
+#loginForm .marginTop input
 {
 	width:75px;
 	height:40px;
 	cursor: pointer;
 }
 
-.marginTop
+#loginForm .marginTop
 {
 	margin-right: 20px;
 	float: right;
@@ -746,6 +776,73 @@ form {
 	background-color: #000;
 }
 
+/*----------------------------------------------------------------*/
+/* Member Login */
+/*----------------------------------------------------------------*/
+.loginInfo {
+	background-color: rgba(0,0,0,0.8);
+	color: #fff;
+	padding: 20px 30px 20px 30px;
+}
+
+/*----------------------------------------------------------------*/
+/* Member Page */
+/*----------------------------------------------------------------*/
+.memberDetail {
+	border: none;
+	margin-top:0;
+}
+
+.memberDetail table {
+	margin-top: 120px !important;
+}
+
+.memberDetail td {
+	background: none !important;
+	color: #ccc;
+	border: none;
+	white-space: nowrap;
+	padding: 5px 20px;
+}
+
+.memberDetail .key strong {
+	font-weight: normal !important;
+	color: red;
+}
+
+.memberLoginInfo {
+	background: none;
+}
+
+.memberLoanListInfo,
+.memberLoanHistInfo {
+	color: red;
+}
+
+.dataListHeader {
+	background: none;
+}
+
+.memberLoanList, .memberDetail, .memberBasketList {
+	border: none;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	border-radius: 0px;
+}
+
+.alterCell2 {
+	border: none;
+}
+
+.item_list {
+	padding: 20px 0px;
+}
+
+#memberChangePassword {
+	padding-bottom: 20px;
+	margin-bottom: 50px;
+}
 /*----------------------------------------------------------------*/
 /* Back & XML Button */
 /*----------------------------------------------------------------*/
@@ -802,6 +899,10 @@ form {
 }
 
 @media (max-width: 480px){
+	#select_lang {
+		width: 60px;
+	}
+
 	.navbar-menu {
 		margin-top: -20px !important;
 	}
