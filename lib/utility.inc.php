@@ -80,7 +80,7 @@ class utility
         $_setting_query = $obj_db->query('SELECT * FROM setting');
         if (!$obj_db->errno) {
             while ($_setting_data = $_setting_query->fetch_assoc()) {
-                $_value = unserialize($_setting_data['setting_value']);
+                $_value = @unserialize($_setting_data['setting_value']);
                 if (is_array($_value)) {
                     foreach ($_value as $_idx=>$_curr_value) {
                         $sysconf[$_setting_data['setting_name']][$_idx] = $_curr_value;

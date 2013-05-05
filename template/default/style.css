@@ -188,6 +188,10 @@ h1,h2,h3,h4,h5,h6 {
 	margin:0;
 }
 
+.navbar-fixed-top, .navbar-fixed-bottom {
+	z-index: 0 !important;
+}
+
 /*----------------------------------------------------------------*/
 /* Search  */
 /*----------------------------------------------------------------*/
@@ -367,12 +371,30 @@ form {
 	overflow: hidden;
 	background-color:#fff;
 	text-align: center;
-	background: transparent url(img/nobook.png) right top no-repeat;
-	background-size: 100% 100%;
+	background-color: transparent;
 	display: block;
 	clear: both;
-	width: 90px !important;
-	height:115px !important;
+}
+
+.biblioMarkForm .biblioMarkFormAction {
+	background: #000 !important;
+	margin: 0 !important;
+	padding: 10px 10px 10px 20px !important;
+	height: 5px !important;
+}
+
+.biblioCheck {
+	padding: 0;
+	margin: 0;
+	width: 20px;
+	float: right;	
+	margin-right: 20px !important;	
+}
+
+.biblioCheck+label {
+	float: right;
+	margin-right: 10px;	
+	color: #08c;
 }
 
 /*----------------------------------------------------------------*/
@@ -380,8 +402,8 @@ form {
 /*----------------------------------------------------------------*/
 
 .coll-detail hr {
-	border-color: #333;
-	border-bottom: none;
+	border-top:solid 1px #333 !important;
+	border-bottom: none !important;
 }
 
 .coll-detail .control-label,
@@ -543,7 +565,7 @@ h4.title {
 
 }
 
-#memberLogout, #loginButton
+#memberLogout, #loginButton, .button, .biblioMarkFormAction input
 {
 	font-size: 11px;
 	color: #fff !important;
@@ -557,7 +579,6 @@ h4.title {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c8643d', endColorstr='#b64736',GradientType=0 );
 	background-repeat: repeat-x;
 	border: none;
-	border-top: solid 1px #ffffff;
 	border-radius: 3px;
 	padding: 5px 15px !important;
 	float: left;
@@ -617,11 +638,51 @@ h4.title {
 	padding-top: 20px;
 }
 
+.errorBox {
+	color: red;
+}
+
 /*----------------------------------------------------------------*/
 /* Section */
 /*----------------------------------------------------------------*/
 .section .tagline {
 	display: none;
+}
+
+/*----------------------------------------------------------------*/
+/* Comment */
+/*----------------------------------------------------------------*/
+.comments {
+	border: solid 1px #333;
+	padding: 10px;
+	margin-bottom: 5px;
+	border-radius: 5px;
+}
+
+.comment-found {
+	color: red;
+	padding: 5px 0px;
+}
+
+.comment-member {
+	border-bottom: dotted 1px #333;
+	padding-bottom: 5px;
+	font-style: italic;
+	color: #08c;
+	font-size: 10px;
+}
+
+.comment-content {
+	padding-top: 5px;
+}
+
+.comment-form {
+	border-top: solid 1px #333;
+	padding-top: 20px;
+}
+.comment-form textarea {
+	width: 270px;
+	height: 100px;
 }
 
 /*----------------------------------------------------------------*/
@@ -794,20 +855,19 @@ h4.title {
 }
 
 .memberDetail table {
-	margin-top: 120px !important;
+	font-size: 12px;
 }
 
 .memberDetail td {
 	background: none !important;
 	color: #ccc;
 	border: none;
-	white-space: nowrap;
-	padding: 5px 20px;
+	padding: 5px;
 }
 
 .memberDetail .key strong {
 	font-weight: normal !important;
-	color: red;
+	color: #999;
 }
 
 .memberLoginInfo {
@@ -816,11 +876,33 @@ h4.title {
 
 .memberLoanListInfo,
 .memberLoanHistInfo {
-	color: red;
+	color: #666;
 }
 
 .dataListHeader {
-	background: none;
+	color: #fff;
+	background: #333;
+}
+
+.dataListHeader td {
+	padding: 6px;
+	color: #666;
+}
+
+.dataListHeader td,
+.alterCell2 td {
+	border-right: solid 1px #999;
+}
+
+.dataListHeader td:last-child,
+.alterCell2 td:last-child {
+	border-right: none;
+}
+
+
+.dataListHeader td a {
+	color: #fff;
+	font-weight: normal;
 }
 
 .memberLoanList, .memberDetail, .memberBasketList {
@@ -835,6 +917,10 @@ h4.title {
 	border: none;
 }
 
+.alterCell2 td {
+	padding: 10px;
+}
+
 .item_list {
 	padding: 20px 0px;
 }
@@ -842,6 +928,33 @@ h4.title {
 #memberChangePassword {
 	padding-bottom: 20px;
 	margin-bottom: 50px;
+}
+
+.collection-list .tagline {
+	border-radius: 0;
+	background: none;
+	border-top: none;
+	border-bottom: none;
+	margin:0;
+	padding: 0;
+}
+
+.collection-list .collection-list {
+	background: none;	
+	padding: 10px;
+}
+
+.collection-list .memberInfoHead {
+	font-size: 16px;
+}
+
+.memberBasketList td {
+	color: #666;
+	text-align: left;
+}
+
+.memberBasketList td:first-child {
+	text-align: center;
 }
 /*----------------------------------------------------------------*/
 /* Back & XML Button */
@@ -854,6 +967,52 @@ h4.title {
 	border: none;
 	background: none;
 }
+
+/*----------------------------------------------------------------*/
+/* Visitor Counter */
+/*----------------------------------------------------------------*/
+.visitor {
+	margin-top: 20px;
+	background-color: #fff;
+	padding: 10px;
+	box-shadow: 0px 0px 10px #ccc; 
+	border-radius: 3px;
+	text-align: center;
+}
+
+.visitor .info {
+	font-size: 10px;
+	color: #999;
+	margin-bottom: 20px;
+}
+
+.visitor input {
+	text-align: center;
+}
+
+#visitorCounterPhoto {
+	margin: 0;
+	float: none;
+	width: auto;
+	height: auto;	
+}
+
+.visitor small {
+	color: #ccc;
+}
+
+.visitor .photo {
+	width: 50px !important;
+	border: solid 10px #efefef;
+	box-shadow: 0px 0px 10px #ccc;
+	padding: 20px;
+}
+
+#visitorCounterForm {
+	width: auto;
+	float: none;
+}
+
 /*----------------------------------------------------------------*/
 /* Footer Layout */
 /*----------------------------------------------------------------*/
@@ -952,6 +1111,12 @@ h4.title {
 		padding:10px;
 	}
 
+	.collection-list .collection-list {
+		background: none;	
+		padding: 5px;
+	}
+
+}
 @media (max-width: 979px) and (min-width: 768px)  {
 
 	.navbar-menu {
