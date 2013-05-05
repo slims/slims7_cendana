@@ -22,7 +22,7 @@
 // be sure that this file not accessed directly
 if (!defined('INDEX_AUTH')) {
     die("can not access this file directly");
-} elseif (INDEX_AUTH != 1) { 
+} elseif (INDEX_AUTH != 1) {
     die("can not access this file directly");
 }
 
@@ -44,7 +44,7 @@ if ($file_q->num_rows < 1) {
 $file_d = $file_q->fetch_assoc();
 $file_loc = REPOBS.str_ireplace('/', DS, $file_d['file_dir']).DS.$file_d['file_name'];
 if (!file_exists($file_loc)) {
-    die();
+  die();
 }
 // multimedia URL
 $multimedia_url = REPO.'/'.$file_d['file_dir'].'/'.$file_d['file_name'];
@@ -55,16 +55,16 @@ $flowplayer_core = JWB.'flowplayer/flowplayer-3.1.0.swf';
 $flowplayer_api = JWB.'flowplayer/flowplayer-3.1.0.min.js';
 $flowplayer_audio_plugin = JWB.'flowplayer/flowplayer.audio-3.1.0.swf';
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
 <!-- by Hendro Wicaksono -->
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <script type="text/javascript" src="<?php echo $flowplayer_api; ?>"></script>
-<title>Senayan Multimedia Viewer</title>
+<title>SLiMS Multimedia Viewer</title>
 </head>
 <body style="padding: 0; margin: 0;">
-<a href="#" style="display: block; width: 400px; height: 300px;" id="player"></a>
+<a href="#" style="display: block; width: 640px; height: 480px;" id="player"></a>
 <script type="text/javascript">
 flowplayer("player", "<?php echo $flowplayer_core; ?>", {
     plugins: { audio: { url: '<?php echo $flowplayer_audio_plugin; ?>' } },
@@ -80,6 +80,3 @@ flowplayer("player", "<?php echo $flowplayer_core; ?>", {
 </script>
 </body>
 </html>
-<?php
-exit();
-?>

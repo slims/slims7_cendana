@@ -147,10 +147,10 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
   if (file_exists($custom_settings)) {
     include $custom_settings;
   }
-  
+
   // load print settings from database to override value from printed_settings file
-  loadPrintSettings($dbs, $type);
-  
+  loadPrintSettings($dbs, 'barcode');
+
   // chunk barcode array
   $chunked_barcode_arrays = array_chunk($item_data_array, $sysconf['print']['barcode']['barcode_items_per_row']);
   // create html ouput
@@ -198,7 +198,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     // update print queue count object
     echo '<script type="text/javascript">parent.$(\'#queueCount\').html(\'0\');</script>';
     // open result in window
-    echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FLS.'/'.$print_file_name.'\', 800, 500, \''.__('Item Barcodes Printing').'\')</script>';
+    echo '<script type="text/javascript">top.$.colorbox({href: "'.SWB.FLS.'/'.$print_file_name.'", iframe: true, width: 800, height: 500, title: "'.__('Item Barcodes Printing').'"})</script>';
   } else { utility::jsAlert('ERROR! Item barcodes failed to generate, possibly because '.SB.FLS.' directory is not writable'); }
   exit();
 }
@@ -211,9 +211,9 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
   </div>
   <div class="sub_section">
 	  <div class="action_button">
-      <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/item_barcode_generator.php?action=clear" class="notAJAX headerText2" style="color: #f00;"><?php echo __('Clear Print Queue'); ?></a>
+      <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/item_barcode_generator.php?action=clear" class="notAJAX headerText2"><?php echo __('Clear Print Queue'); ?></a>
       <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/item_barcode_generator.php?action=print" class="notAJAX headerText2"><?php echo __('Print Barcodes for Selected Data');?></a>
-	  <a href="javascript: openHTMLpop('<?php echo MWB; ?>bibliography/pop_print_settings.php?type=barcode', 600, 500, 'Print barcode settings')" class="notAJAX headerText2 input-icon" title="<?php echo __('Change print barcode settings'); ?>"><div class="icon-setting"></div>&nbsp;</a>
+	    <a href="<?php echo MWB; ?>bibliography/pop_print_settings.php?type=barcode" class="notAJAX headerText2 input-icon openPopUp" title="<?php echo __('Change print barcode settings'); ?>"><div class="icon-setting"></div>&nbsp;</a>
 	  </div>
     <form name="search" action="<?php echo MWB; ?>bibliography/item_barcode_generator.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />

@@ -27,8 +27,6 @@ define('INDEX_AUTH', '1');
 require '../../../sysconfig.inc.php';
 // IP based access limitation
 require LIB.'ip_based_access.inc.php';
-do_checkIP('smc');
-do_checkIP('smc-bibliography');
 // start the session
 require SB.'admin/default/session.inc.php';
 

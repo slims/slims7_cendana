@@ -24,10 +24,10 @@
 define('INDEX_AUTH', '1');
 
 if (!defined('SB')) {
-    // main system configuration
-    require '../../../sysconfig.inc.php';
-    // start the session
-    require SB.'admin/default/session.inc.php';
+  // main system configuration
+  require '../../../sysconfig.inc.php';
+  // start the session
+  require SB.'admin/default/session.inc.php';
 }
 // IP based access limitation
 require LIB.'ip_based_access.inc.php';
@@ -46,7 +46,7 @@ $can_read = utility::havePrivilege('stock_take', 'r');
 $can_write = utility::havePrivilege('stock_take', 'w');
 
 if (!$can_read) {
-    die('<div class="errorBox">'.__('You don\'t have enough privileges to access this area!').'</div>');
+  die('<div class="errorBox">'.__('You don\'t have enough privileges to access this area!').'</div>');
 }
 ?>
 <fieldset class="menuBox">
@@ -118,7 +118,7 @@ if (isset($_POST['itemID']) AND !empty($_POST['itemID'])) {
         'st.stock_take_name AS \''.__('Stock Take Name').'\'',
         'st.start_date AS \''.__('Start Date').'\'',
         'st.end_date AS \''.__('End Date').'\'',
-        'CONCAT(\'<a class="notAJAX" href="'.SWB.FILES_DIR.'/'.REPORT_DIR.'/\', st.report_file, \'" target="_blank">\', st.report_file, \'</a>\') AS \''.__('Report').'\'');
+        'CONCAT(\'<a class="notAJAX" href="'.SWB.FLS.'/'.REP.'/\', st.report_file, \'" target="_blank">\', st.report_file, \'</a>\') AS \''.__('Report').'\'');
     $datagrid->setSQLorder('st.start_date DESC');
     $datagrid->disableSort('Report');
 

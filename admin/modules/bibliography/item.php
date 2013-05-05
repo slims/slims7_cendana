@@ -27,7 +27,10 @@ define('INDEX_AUTH', '1');
 define('DB_ACCESS', 'fa');
 
 // main system configuration
-require '../../../sysconfig.inc.php';
+if (!defined('SB')) {
+  require '../../../sysconfig.inc.php';
+}
+
 // IP based access limitation
 require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
@@ -46,13 +49,13 @@ $can_read = utility::havePrivilege('bibliography', 'r');
 $can_write = utility::havePrivilege('bibliography', 'w');
 
 if (!$can_read) {
-    die('<div class="errorBox">'.__('You are not authorized to view this section').'</div>');
+  die('<div class="errorBox">'.__('You are not authorized to view this section').'</div>');
 }
 
 $in_pop_up = false;
 // check if we are inside pop-up window
 if (isset($_GET['inPopUp'])) {
-    $in_pop_up = true;
+  $in_pop_up = true;
 }
 
 /* RECORD OPERATION */
@@ -110,7 +113,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
 			    }
                 if ($in_pop_up) {
                     echo '<script type="text/javascript">top.setIframeContent(\'itemIframe\', \''.MWB.'bibliography/iframe_item_list.php?biblioID='.$data['biblio_id'].'\');</script>';
-                    echo '<script type="text/javascript">top.closeHTMLpop();</script>';
+                    echo '<script type="text/javascript">top.jQuery.colorbox.close();</script>';
                 } else {
                     echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(parent.jQuery.ajaxHistory[0].url);</script>';
                 }
@@ -126,7 +129,7 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
                 utility::jsAlert(__('New Item Data Successfully Saved'));
                 if ($in_pop_up) {
                     echo '<script type="text/javascript">top.setIframeContent(\'itemIframe\', \''.MWB.'bibliography/iframe_item_list.php?biblioID='.$data['biblio_id'].'\');</script>';
-                    echo '<script type="text/javascript">top.closeHTMLpop();</script>';
+                    echo '<script type="text/javascript">top.jQuery.colorbox.close();</script>';
                 } else {
                     echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(\''.$_SERVER['PHP_SELF'].'\');</script>';
                 }
@@ -216,7 +219,7 @@ if (!$in_pop_up) {
 /* main content */
 if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'detail')) {
     if (!($can_read AND $can_write)) {
-        die('<div class="errorBox">'.__('You are not authorized to view this section').'</div>');
+      die('<div class="errorBox">'.__('You are not authorized to view this section').'</div>');
     }
     /* RECORD FORM */
     // try query
@@ -274,8 +277,8 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     /* Form Element(s) */
     // title
     if (!$in_pop_up) {
-        $str_input = $b_title;
-        $str_input .= '<div class="makeHidden"><a title="Edit Bibliographic Data" class="notAJAX" style="font-weight: bold; color: #f90;" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_biblio.php?inPopUp=true&action=detail&itemID='.$rec_d['biblio_id'].'&itemCollID='.$rec_d['item_id'].'\', 650, 500, \''.__('Edit Biblographic data').'\')">'.__('Edit Biblographic data').'</a></div>';
+      $str_input = $b_title;
+      $str_input .= '<div class="makeHidden"><a title="Edit Bibliographic Data" class="button btn notAJAX opepPopUp" href="'.MWB.'bibliography/pop_biblio.php?inPopUp=true&action=detail&itemID='.$rec_d['biblio_id'].'&itemCollID='.$rec_d['item_id'].'" width=650 height=500 title="'.__('Edit Biblographic data').'">'.__('Edit Biblographic data').'</a></div>';
     } else { $str_input = $b_title; }
     $form->addAnything(__('Title'), $str_input);
     $form->addHidden('biblioTitle', $b_title);

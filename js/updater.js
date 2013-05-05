@@ -85,8 +85,8 @@ jQuery.fn.simbioAJAX = function(strURL, params)
 
     // send AJAX request
     var ajaxResponse = $.ajax({
-        type : options.method, url : strURL,
-        data : options.addData, async: false }).responseText;
+      type : options.method, url : strURL,
+      data : options.addData, async: false }).responseText;
 
     // add to elements
     if (options.insertMode == 'before') {

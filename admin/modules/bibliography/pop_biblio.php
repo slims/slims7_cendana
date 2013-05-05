@@ -33,14 +33,15 @@ do_checkIP('smc-bibliography');
 // start the session
 require SB.'admin/default/session.inc.php';
 
-// ajax action
-$content = '<script type="text/javascript">'."\n";
-if (isset($_GET['itemID']) AND isset($_GET['action'])) {
-    $itemID = (integer)$_GET['itemID'];
-    $itemCollID = (integer)$_GET['itemCollID'];
-    $content .= '$(document).ready(function() { $(\'#pageContent\').simbioAJAX(\'index.php?inPopUp=true&action=detail\', {method: \'POST\', addData: \'itemID='.$itemID.'&itemCollID='.$itemCollID.'&detail=true\'}); })';
+if (isset($_GET['itemID'])) {
+  $_POST['itemID'] = $_GET['itemID'];
 }
-$content .= '</script>';
+
+$_GET['inPopUp'] = true;
+
+ob_start();
+require MDLBS.'bibliography/index.php';
+$content = ob_get_clean();
 
 // page title
 $page_title = 'Bibliographic Data';

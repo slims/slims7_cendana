@@ -234,13 +234,15 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
 		unset($sliced_label);
     }
 
-    // include printed settings configuration file
-    //include SB.'admin'.DS.'admin_template'.DS.'printed_settings.inc.php';
+    /*
+		// include printed settings configuration file
+    include SB.'admin'.DS.'admin_template'.DS.'printed_settings.inc.php';
     // check for custom template settings
-    //$custom_settings = SB.'admin'.DS.$sysconf['admin_template']['dir'].DS.$sysconf['template']['theme'].DS.'printed_settings.inc.php';
-    //if (file_exists($custom_settings)) {
-    //    include $custom_settings;
-    //}
+    $custom_settings = SB.'admin'.DS.$sysconf['admin_template']['dir'].DS.$sysconf['template']['theme'].DS.'printed_settings.inc.php';
+    if (file_exists($custom_settings)) {
+      include $custom_settings;
+    }
+    */
 
     // create html ouput of images
     $html_str = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n";
@@ -269,12 +271,12 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
 
     // write to file
     $print_file_name = 'catalog_print_result_'.strtolower(str_replace(' ', '_', $_SESSION['uname'])).'.html';
-    $file_write = @file_put_contents(FILES_UPLOAD_DIR.$print_file_name, $html_str);
+    $file_write = @file_put_contents(UPLOAD.$print_file_name, $html_str);
     if ($file_write) {
         echo '<script type="text/javascript">parent.$(\'#queueCount\').html(\'0\');</script>';
         // open result in new window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Catalog Printing').'\')</script>';
-    } else { utility::jsAlert('ERROR! Catalog card failed to generate, possibly because '.SB.FILES_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">top.$.colorbox({href: "'.SWB.FLS.'/'.$print_file_name.'", iframe: true, width: 800, height: 500, title: "'.__('Catalog Printing').'"})</script>';
+    } else { utility::jsAlert('ERROR! Catalog card failed to generate, possibly because '.SB.FLS.' directory is not writable'); }
     exit();
 }
 

@@ -28,14 +28,14 @@ define('DB_ACCESS', 'fa');
 
 // main system configuration
 require '../../../sysconfig.inc.php';
-// IP based access limitation
-require LIB.'ip_based_access.inc.php';
-do_checkIP('smc');
-do_checkIP('smc-bibliography');
 // start the session
 require SB.'admin/default/session.inc.php';
 require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
 require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+// IP based access limitation
+require LIB.'ip_based_access.inc.php';
+do_checkIP('smc');
+do_checkIP('smc-bibliography');
 
 // page title
 $page_title = 'Item List';
@@ -81,15 +81,15 @@ if (isset($_POST['remove'])) {
     echo '</script>';
   } else {
     if ($sql_op->delete('item', 'item_id='.$id)) {
-        echo '<script type="text/javascript">';
-        echo 'alert(\''.__('Item succesfully removed!').'\');';
-        echo 'self.location.href = \'iframe_item_list.php?biblioID='.$bid.'\';';
-        echo '</script>';
+      echo '<script type="text/javascript">';
+      echo 'alert(\''.__('Item succesfully removed!').'\');';
+      echo 'self.location.href = \'iframe_item_list.php?biblioID='.$bid.'\';';
+      echo '</script>';
     } else {
-        echo '<script type="text/javascript">';
-        echo 'alert(\''.__('Item FAILED to removed!').'\');';
-        echo 'self.location.href = \'iframe_item_list.php?biblioID='.$bid.'\';';
-        echo '</script>';
+      echo '<script type="text/javascript">';
+      echo 'alert(\''.__('Item FAILED to removed!').'\');';
+      echo 'self.location.href = \'iframe_item_list.php?biblioID='.$bid.'\';';
+      echo '</script>';
     }
   }
 }
@@ -113,10 +113,8 @@ if ($biblioID) {
     $row_class = ($row%2 == 0)?'alterCell':'alterCell2';
 
     // links
-    $edit_link = '<a href="#" onclick="top.openHTMLpop(\''.MWB.'bibliography/pop_item.php?inPopUp=true&action=detail&biblioID='.$biblioID.'&itemID='.$item_d['item_id'].'\', 650, 400, \''.__('Items/Copies').'\')"
-        style="text-decoration: underline;">Edit</a>';
-    $remove_link = '<a href="#" onclick="confirmProcess('.$biblioID.', '.$item_d['item_id'].')"
-        style="color: #FF0000; text-decoration: underline;">Delete</a>';
+    $edit_link = '<a class="notAJAX btn button openPopUp" href="'.MWB.'bibliography/pop_item.php?inPopUp=true&action=detail&biblioID='.$biblioID.'&itemID='.$item_d['item_id'].'" width="650" height="400" title="'.__('Items/Copies').'" style="text-decoration: underline;">Edit</a>';
+    $remove_link = '<a href="#" class="notAJAX btn button btn-danger btn-delete" onclick="javascript: confirmProcess('.$biblioID.', '.$item_d['item_id'].')">Delete</a>';
     $title = $item_d['item_code'];
 
     $table->appendTableRow(array($edit_link, $remove_link, $title, $item_d['location_name'], $item_d['site'], $item_d['coll_type_name'], $item_d['item_status_name']));

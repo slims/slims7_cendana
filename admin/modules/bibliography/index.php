@@ -469,9 +469,10 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   $form->addAnything(__('Item(s) code batch generator'), $str_input);
   // biblio item add
   if (!$in_pop_up AND $form->edit_mode) {
-  $str_input = '<div class="makeHidden"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_item.php?inPopUp=true&action=detail&biblioID='.$rec_d['biblio_id'].'\', 650, 400, \''.__('Items/Copies').'\')">'.__('Add New Items').'</a></div>';
-  $str_input .= '<iframe name="itemIframe" id="itemIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_item_list.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>'."\n";
-  $form->addAnything(__('Item(s) Data'), $str_input);
+    // $str_input = '<div class="makeHidden"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_item.php?inPopUp=true&action=detail&biblioID='.$rec_d['biblio_id'].'\', 650, 400, \''.__('Items/Copies').'\')">'.__('Add New Items').'</a></div>';
+    $str_input = '<div class="makeHidden"><a class="notAJAX button openPopUp" href="'.MWB.'bibliography/pop_item.php?inPopUp=true&action=detail&biblioID='.$rec_d['biblio_id'].'" title="'.__('Items/Copies').'" height="500">'.__('Add New Items').'</a></div>';
+    $str_input .= '<iframe name="itemIframe" id="itemIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_item_list.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>'."\n";
+    $form->addAnything(__('Item(s) Data'), $str_input);
   }
   // biblio gmd
   // get gmd data related to this record from database
@@ -641,7 +642,6 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     $('#class').change(function() {
       $('#callNumber').val($(this).val().replace('NEW:',''));
     });
-    $('.openPopUp').colorbox({iframe:true, innerWidth:600, innerHeight:300, title: function() { return $(this).attr('title'); } });
   });
   </script>
   <?php

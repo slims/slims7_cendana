@@ -128,10 +128,10 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
         LEFT JOIN mst_member_type AS mt ON m.member_type_id=mt.member_type_id
         WHERE m.member_id IN('.$member_ids.')'); */
 	/*
-	member_id 	member_name 	member_image member_type_id 	member_address 	member_mail_address 	member_email 	postal_code 	inst_name 	 	 	member_phone 	member_since_date 	register_date 	expire_date 	input_date 	
+	member_id 	member_name 	member_image member_type_id 	member_address 	member_mail_address 	member_email 	postal_code 	inst_name 	 	 	member_phone 	member_since_date 	register_date 	expire_date 	input_date
 
 	*/
-	
+
 	$member_q = $dbs->query('SELECT m.member_name, m.member_id, m.member_image, m.member_address, m.member_email, m.inst_name, m.postal_code, m.pin, m.member_phone, m.expire_date, m.register_date, mt.member_type_name FROM member AS m
         LEFT JOIN mst_member_type AS mt ON m.member_type_id=mt.member_type_id
         WHERE m.member_id IN('.$member_ids.')');
@@ -149,90 +149,96 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     if (file_exists($custom_settings)) {
         include $custom_settings;
     }
+
+	  // load print settings from database to override value from printed_settings file
+    loadPrintSettings($dbs, 'membercard');
+
     // chunk cards array
-    $chunked_card_arrays = array_chunk($member_datas, $card_items_per_row);
+    $chunked_card_arrays = array_chunk($member_datas, $sysconf['print']['membercard']['items_per_row']);
     // create html ouput
-    $html_str = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n";
-    $html_str .= '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Member Card by Jushadi Arman Saz</title>'."\n";
+    $html_str = '<!DOCTYPE html>'."\n";
+    $html_str .= '<html><head><title>Member Card by Jushadi Arman Saz</title>'."\n";
     $html_str .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
     $html_str .= '<meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0" /><meta http-equiv="Expires" content="Fry, 02 Oct 2012 12:00:00 GMT" />';
-$html_str .= '<style type="text/css">'."\n";
-$html_str .= '*{font:'.$card_bio_font_size.'px Arial, Helvetica, sans-serif;}'."\n";
-$html_str .= 'p, li{position: relative;}'."\n";
-$html_str .= 'p{margin-bottom: 0px;margin-top: 0px;font-weight: bold;}'."\n";
-$html_str .= 'li{margin-bottom: 0px; margin-top: 0px;list-style-type: disc;font-size: '.$card_rules_font_size.'px;}'."\n";
-$html_str .= 'ul{margin: 0px;padding-left: 10px;}'."\n";
-$html_str .= 'h1{margin: 0px;font-weight: bold;text-align: center;font-size:'.$card_front_header1_font_size.'px;}'."\n";
-$html_str .= 'h2{margin: 0px;font-weight: bold;text-align: center;padding-bottom:3px;font-size:'.$card_front_header2_font_size.'px;}'."\n";
-$html_str .= 'h3{margin: 0px;font-weight: bold;text-align: center;padding-bottom:3px;font-size:'.$card_back_header2_font_size.'px;}'."\n";
-$html_str .= 'hr{margin: 0px;border: 1px solid '.$card_header_color.';position: relative;}'."\n";
-$html_str .= '#container_div{z-index:1;position: relative; width:'.($card_box_width*$card_factor).'px; height:'.($card_box_height*$card_factor).'px;margin-bottom:'.($card_items_margin*$card_factor).'px;;border:#CCCCCC solid 1px;-moz-border-radius: 8px;border-radius: 8px;}'."\n";
-$html_str .= '#header1_div{z-index:2;position: absolute;left: 61px;top: 4px;width:245px;height: 45px;color:'.$card_header_color.';}'."\n";
-$html_str .= '#header2_div{z-index:3;position: absolute;left: 10px;top: 4px;width:300px;height: 43px;color:'.$card_header_color.';}'."\n";
-$html_str .= '#rules_div{z-index:4;position: absolute;left: 12px;top: 58px;width:300px;height: 142px;text-align: justify;}'."\n";
-$html_str .= '#address_div{z-index:4;position: absolute;left: 9px;top: 175px;width:300px;height: 20px;font-size:'.$card_address_font_size.'px;}'."\n";
-$html_str .= '#logo_div{z-index:5;position: absolute;left: 10px;top: 4px;width: 35px;height:35px;}'."\n";
-$html_str .= '#photo_blank_div{z-index:5;position: absolute;left: 10px;top:130px;font-size: 7px;text-align: center;border:#cccccc solid 1px;width:'.($card_photo_width*$card_factor).'px; height:'.($card_photo_height*$card_factor).'px;}'."\n";
-$html_str .= '#photo_div{z-index:6;position: absolute;left: 10px;top:130px;border:#cccccc solid 1px;width:'.($card_photo_width*$card_factor).'px; height:'.($card_photo_height*$card_factor).'px;}'."\n";
-$html_str .= '.bio_div{z-index:7;position: absolute;left: 0px;top:48px;height: 110px;margin: 0px;text-align: justify;}'."\n";
-$html_str .= '.bio_address{z-index:8;top: 0px;}'."\n";
-$html_str .= '.bio_label{ z-index:9;float: left;width: 100px;text-align:left;padding-left: 10px;}'."\n";
-$html_str .= '.label_address{z-index:10;float: left; width: 200px;margin-bottom:0px;margin-left:3px;}'."\n";
-$html_str .= '.stamp_div{z-index:11;position: absolute;left: 100px;top:140px;margin-bottom: 34px;width: 118px;}'."\n";
-$html_str .= '.stamp{z-index:12;text-align: left;margin: 0px;}'."\n";
-$html_str .= '.city{z-index:13;font-size:8px;margin: 0px;}'."\n";
-$html_str .= '.title{z-index:14;font-size:8px;margin: 0px;}'."\n";
-$html_str .= '.officials{z-index:15;top: 0px;font-size: 8px;margin: 0px;}'."\n";
-$html_str .= '.sign_file_div{z-index:16;position: absolute;left: -10px;top: 10px;width:107px;height: 25px;}'."\n";
-$html_str .= '.stamp_file_div{z-index:17;position: absolute;left:-20px;top: 5px;width: 40px;height: 40px;}'."\n";
-$html_str .= '.exp_div{z-index:18;position: absolute;left: 200px;top: 142px;width:110px;height: 12px;font-size: 8px;text-align: right;}'."\n";
-$html_str .= '.barcode_div{z-index:19;position: absolute;left: 200px;top: 154px;width:112px;height: 42px;}'."\n";
-$html_str .= '</style>'."\n";
+    $html_str .= '<style type="text/css">'."\n";
+    $html_str .= '*{font:'.$sysconf['print']['membercard']['bio_font_size'].'px Arial, Helvetica, sans-serif;}'."\n";
+    $html_str .= 'p, li{position: relative;}'."\n";
+    $html_str .= 'p{margin-bottom: 0px;margin-top: 0px;font-weight: bold;}'."\n";
+    $html_str .= 'li{margin-bottom: 0px; margin-top: 0px;list-style-type: disc;font-size: '.$sysconf['print']['membercard']['rules_font_size'].'px;}'."\n";
+    $html_str .= 'ul{margin: 0px;padding-left: 10px;}'."\n";
+    $html_str .= 'h1{margin: 0px;font-weight: bold;text-align: center;font-size:'.$sysconf['print']['membercard']['front_header1_font_size'].'px;}'."\n";
+    $html_str .= 'h2{margin: 0px;font-weight: bold;text-align: center;padding-bottom:3px;font-size:'.$sysconf['print']['membercard']['front_header2_font_size'].'px;}'."\n";
+    $html_str .= 'h3{margin: 0px;font-weight: bold;text-align: center;padding-bottom:3px;font-size:'.$sysconf['print']['membercard']['back_header2_font_size'].'px;}'."\n";
+    $html_str .= 'hr{margin: 0px;border: 1px solid '.$sysconf['print']['membercard']['header_color'].';position: relative;}'."\n";
+    $html_str .= '#header1_div{z-index:2;position: absolute;left: 61px;top: 4px;width:245px;height: 45px;color:'.$sysconf['print']['membercard']['header_color'].';}'."\n";
+    $html_str .= '#header2_div{z-index:3;position: absolute;left: 10px;top: 4px;width:300px;height: 43px;color:'.$sysconf['print']['membercard']['header_color'].';}'."\n";
+    $html_str .= '#rules_div{z-index:4;position: absolute;left: 12px;top: 58px;width:300px;height: 142px;text-align: justify;}'."\n";
+    $html_str .= '#address_div{z-index:4;position: absolute;left: 9px;top: 175px;width:300px;height: 20px;font-size:'.$sysconf['print']['membercard']['address_font_size'].'px;}'."\n";
+    $html_str .= '#logo_div{z-index:5;position: absolute;left: 10px;top: 4px;width: 35px;height:35px;}'."\n";
+    $html_str .= '#photo_blank_div{z-index:5;position: absolute;left: 10px;top:130px;font-size: 7px;text-align: center;border:#cccccc solid 1px;width:'.($sysconf['print']['membercard']['photo_width']*$sysconf['print']['membercard']['factor']).'px; height:'.($sysconf['print']['membercard']['photo_height']*$sysconf['print']['membercard']['factor']).'px;}'."\n";
+    $html_str .= '#photo_div{z-index:6;position: absolute;left: 10px;top:130px;border:#cccccc solid 1px;width:'.($sysconf['print']['membercard']['photo_width']*$sysconf['print']['membercard']['factor']).'px; height:'.($sysconf['print']['membercard']['photo_height']*$sysconf['print']['membercard']['factor']).'px;}'."\n";
+    $html_str .= '#front_side{background: url('.SWB.'files/membercard/'.$sysconf['print']['membercard']['front_side_image'].') center center;}'."\n";
+    $html_str .= '#back_side{background: url('.SWB.'files/membercard/'.$sysconf['print']['membercard']['back_side_image'].') center center;}'."\n";
+    $html_str .= '.container_div{z-index:1;position: relative; width:'.($sysconf['print']['membercard']['box_width']*$sysconf['print']['membercard']['factor']).'px; height:'.($sysconf['print']['membercard']['box_height']*$sysconf['print']['membercard']['factor']).'px;margin-bottom:'.($sysconf['print']['membercard']['items_margin']*$sysconf['print']['membercard']['factor']).'px;;border:#CCCCCC solid 1px;-moz-border-radius: 8px;border-radius: 8px;}'."\n";
+    $html_str .= '.bio_div{z-index:7;position: absolute;left: 0px;top:48px;height: 110px;margin: 0px;text-align: justify;}'."\n";
+    $html_str .= '.bio_address{z-index:8;top: 0px;}'."\n";
+    $html_str .= '.bio_label{ z-index:9;float: left;width: 100px;text-align:left;padding-left: 10px;}'."\n";
+    $html_str .= '.label_address{z-index:10;float: left; width: 200px;margin-bottom:0px;margin-left:3px;}'."\n";
+    $html_str .= '.stamp_div{z-index:11;position: absolute;left: 100px;top:140px;margin-bottom: 34px;width: 118px;}'."\n";
+    $html_str .= '.stamp{z-index:12;text-align: left;margin: 0px;}'."\n";
+    $html_str .= '.city{z-index:13;font-size:8px;margin: 0px;}'."\n";
+    $html_str .= '.title{z-index:14;font-size:8px;margin: 0px;}'."\n";
+    $html_str .= '.officials{z-index:15;top: 0px;font-size: 8px;margin: 0px;}'."\n";
+    $html_str .= '.sign_file_div{z-index:16;position: absolute;left: -10px;top: 10px;width:107px;height: 25px;}'."\n";
+    $html_str .= '.stamp_file_div{z-index:17;position: absolute;left:-20px;top: 5px;width: 40px;height: 40px;}'."\n";
+    $html_str .= '.exp_div{z-index:18;position: absolute;left: 200px;top: 142px;width:110px;height: 12px;font-size: 8px;text-align: right;}'."\n";
+    $html_str .= '.barcode_div{z-index:19;position: absolute;left: 200px;top: 154px;width:112px;height: 42px;}'."\n";
+    $html_str .= '</style>'."\n";
     $html_str .= '</head>'."\n";
     $html_str .= '<body>'."\n";
     $html_str .= '<a href="#" onclick="window.print()">Print Again</a><br /><br />'."\n";
     $html_str .= '<table style="margin: 0; padding: 0;" cellspacing="0" cellpadding="0">'."\n";
     // loop the chunked arrays to row
-    foreach ($chunked_card_arrays as $card_rows) {
+    foreach ($chunked_card_arrays as $membercard_rows) {
         $html_str .= '<tr>'."\n";
-        foreach ($card_rows as $card) {
-            $html_str .= '<td valign="top">';
-$html_str .= '<div id="container_div">';
-$html_str .= '<div><img width="'.($card_box_width*$card_factor).'px" height="'.($card_box_height*$card_factor).'px" src="card1.png" style="border-radius: 8px; -moz-border-radius: 8px;-khtml-border-radius: 8px;-webkit-border-radius: 8px;"></img></div>';
-$html_str .= '<div id="logo_div"><img height="40px" width="40px" src="'.$card_logo.'"></img></div>';
-$html_str .= '<div id="header1_div">';
-$html_str .= '<h1>'.$card_front_header1_text.'</h1>';
-$html_str .= '<h2>'.$card_front_header2_text.'</h2></div>';
-$html_str .= '<div class="bio_div">';
-$html_str .= ''.( $card_include_id_label?'':'<!--').'<p class="bio"><label class="bio_label">'.__('Member ID').'</label><span>: </span>'.$card['member_id'].'</p>'.( $card_include_id_label?'':'-->').'';
-$html_str .= ''.( $card_include_name_label?'':'<!--').'<p class="bio"><label class="bio_label">'.__('Member Name').'</label><span>: </span>'.$card['member_name'].'</p>'.( $card_include_name_label?'':'-->').'';
-$html_str .= ''.( $card_include_pin_label?'':'<!--').'<p class="bio"><label class="bio_label">'.__('Personal ID Number').'</label><span>: </span>'.$card['pin'].'</p>'.( $card_include_pin_label?'':'-->').'';
-$html_str .= ''.( $card_include_inst_label?'':'<!--').'<p class="bio_address"><label class="bio_label">'.__('Institution').'</label><span style="float:left">: </span>'.( $card_include_inst_label?'':'-->').'';
-$html_str .= ''.( $card_include_inst_label?'':'<!--').'<span class="label_address">'.$card['inst_name'].'</span></p>'.( $card_include_inst_label?'':'-->').'';
-$html_str .= ''.( $card_include_email_label?'':'<!--').'<p class="bio"><label class="bio_label">'.__('E-mail').'</label><span>: </span>'.$card['member_email'].'</p>'.( $card_include_email_label?'':'-->').'';
-$html_str .= ''.( $card_include_address_label?'':'<!--').'<p class="bio_address"><label class="bio_label">'.__('Address').' / '.__('Phone Number').'</label><span style="float:left">: </span>'.( $card_include_address_label?'':'-->').'';
-$html_str .= ''.( $card_include_address_label?'':'<!--').'<span class="label_address">'.$card['member_address'].' / '.$card['member_phone'].'</span></p>'.( $card_include_address_label?'':'-->').'';
-$html_str .= '</div>';
-$html_str .= '<div id="photo_blank_div"><br /><br />Foto Ukuran:<br />'.$card_photo_width.' X '.$card_photo_height.' cm</div>';
-$html_str .= '<div id="photo_div"><img width="'.($card_photo_width*$card_factor).'px" height="'.($card_photo_height*$card_factor).'px" src="'.SWB.IMG.'/persons/'.$card['member_image'].'"/></img></div>';
-$html_str .= ''.( $card_include_expired_label?'':'<!--').'<div class="exp_div">'.__('Expiry Date').' : '.$card['expire_date'].'</div>'.( $card_include_expired_label?'':'-->').'';
-$html_str .= ''.( $card_include_barcode_label?'':'<!--').'<div class="barcode_div">';
-$html_str .= '<img  width="175px" height="40px" src="'.SWB.IMG.'/barcodes/'.str_replace(array(' '), '_', $card['member_id']).'.png" style="width: '.$card_barcode_scale.'%; border="0px" /></img></div>'.( $card_include_barcode_label?'':'-->').'';
-$html_str .= '<div class="stamp_div">';
-$html_str .= '<div class="stamp_file_div"><img class="" height="35px" width="35px" src="'.$card_stamp_file.'"></img></div>';
-$html_str .= '<div class="sign_file_div"><img class="" height="30px" width="100px" src="'.$card_signature_file.'"></img></div>';
-$html_str .= '<p class="stamp city">'.$card_city.', '.$card['register_date'].'</p><p class="stamp title">'.$card_title.'</p><br>';
-$html_str .= '<p class="stamp officials">'.$card_officials.'<br />'.$card_officials_id.'</p></div></div></td>';
-$html_str .= '<td valign="top">';
-$html_str .= '<div id="container_div">';
-$html_str .= '<div><img height="'.($card_box_height*$card_factor).'px" width="'.($card_box_width*$card_factor).'px" src="card2.png" style="border-radius: 8px; -moz-border-radius: 8px;-khtml-border-radius: 8px;-webkit-border-radius: 8px;"></img></div>';
-$html_str .= '<div id="logo_div"><img height="35px" width="35px" src="'.$card_logo.'"></img></div>';
-$html_str .= '<div id="header2_div">';
-$html_str .= '<h1>'.$card_back_header1_text.'</h1>';
-$html_str .= '<h3>'.$card_back_header2_text.'</h3><hr></div>';
-$html_str .= '<div id="rules_div">'.$card_rules.'</div>';
-$html_str .= '<div id="address_div">'.$card_address.'</div></div>';
-$html_str .= '</td>';
+        foreach ($membercard_rows as $card) {
+          $html_str .= '<td valign="top">';
+          $html_str .= '<div class="container_div" id="front_side">';
+          $html_str .= '<div><img width="'.($sysconf['print']['membercard']['box_width']*$sysconf['print']['membercard']['factor']).'px" height="'.($sysconf['print']['membercard']['box_height']*$sysconf['print']['membercard']['factor']).'px" src="'.SWB.'files/membercard/card1.png" style="border-radius: 8px; -moz-border-radius: 8px;-khtml-border-radius: 8px;-webkit-border-radius: 8px;" /></div>';
+          $html_str .= '<div id="logo_div"><img height="40px" width="40px" src="'.SWB.'files/membercard/'.$sysconf['print']['membercard']['logo'].'" /></div>';
+          $html_str .= '<div id="header1_div">';
+          $html_str .= '<h1>'.$sysconf['print']['membercard']['front_header1_text'].'</h1>';
+          $html_str .= '<h2>'.$sysconf['print']['membercard']['front_header2_text'].'</h2></div>';
+          $html_str .= '<div class="bio_div">';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_id_label']?'':'<!--').'<p class="bio"><label class="bio_label">'.__('Member ID').'</label><span>: </span>'.$card['member_id'].'</p>'.( $sysconf['print']['membercard']['include_id_label']?'':'-->').'';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_name_label']?'':'<!--').'<p class="bio"><label class="bio_label">'.__('Member Name').'</label><span>: </span>'.$card['member_name'].'</p>'.( $sysconf['print']['membercard']['include_name_label']?'':'-->').'';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_pin_label']?'':'<!--').'<p class="bio"><label class="bio_label">'.__('Personal ID Number').'</label><span>: </span>'.$card['pin'].'</p>'.( $sysconf['print']['membercard']['include_pin_label']?'':'-->').'';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_inst_label']?'':'<!--').'<p class="bio_address"><label class="bio_label">'.__('Institution').'</label><span style="float:left">: </span>'.( $sysconf['print']['membercard']['include_inst_label']?'':'-->').'';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_inst_label']?'':'<!--').'<span class="label_address">'.$card['inst_name'].'</span></p>'.( $sysconf['print']['membercard']['include_inst_label']?'':'-->').'';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_email_label']?'':'<!--').'<p class="bio"><label class="bio_label">'.__('E-mail').'</label><span>: </span>'.$card['member_email'].'</p>'.( $sysconf['print']['membercard']['include_email_label']?'':'-->').'';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_address_label']?'':'<!--').'<p class="bio_address"><label class="bio_label">'.__('Address').' / '.__('Phone Number').'</label><span style="float:left">: </span>'.( $sysconf['print']['membercard']['include_address_label']?'':'-->').'';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_address_label']?'':'<!--').'<span class="label_address">'.$card['member_address'].' / '.$card['member_phone'].'</span></p>'.( $sysconf['print']['membercard']['include_address_label']?'':'-->').'';
+          $html_str .= '</div>';
+          $html_str .= '<div id="photo_blank_div"><br />Photo size:<br />'.$sysconf['print']['membercard']['photo_width'].' X '.$sysconf['print']['membercard']['photo_height'].' cm</div>';
+          $html_str .= '<div id="photo_div"><img width="'.($sysconf['print']['membercard']['photo_width']*$sysconf['print']['membercard']['factor']).'px" height="'.($sysconf['print']['membercard']['photo_height']*$sysconf['print']['membercard']['factor']).'px" src="'.SWB.IMG.'/persons/'.$card['member_image'].'" /></div>';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_expired_label']?'':'<!--').'<div class="exp_div">'.__('Expiry Date').' : '.$card['expire_date'].'</div>'.( $sysconf['print']['membercard']['include_expired_label']?'':'-->').'';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_barcode_label']?'':'<!--').'<div class="barcode_div">';
+          $html_str .= '<img  width="175px" height="40px" src="'.SWB.IMG.'/barcodes/'.str_replace(array(' '), '_', $card['member_id']).'.png" style="width: '.$sysconf['print']['membercard']['barcode_scale'].'%; border="0px" /></img></div>'.( $sysconf['print']['membercard']['include_barcode_label']?'':'-->').'';
+          $html_str .= '<div class="stamp_div">';
+          $html_str .= '<div class="stamp_file_div"><img class="" height="35px" width="35px" src="'.SWB.'/files/membercard/'.$sysconf['print']['membercard']['stamp_file'].'"></img></div>';
+          $html_str .= '<div class="sign_file_div"><img class="" height="30px" width="100px" src="'.SWB.'/files/membercard/'.$sysconf['print']['membercard']['signature_file'].'"></img></div>';
+          $html_str .= '<p class="stamp city">'.$sysconf['print']['membercard']['city'].', '.$card['register_date'].'</p><p class="stamp title">'.$sysconf['print']['membercard']['title'].'</p><br>';
+          $html_str .= '<p class="stamp officials">'.$sysconf['print']['membercard']['officials'].'<br />'.$sysconf['print']['membercard']['officials_id'].'</p></div></div></td>';
+          $html_str .= '<td valign="top">';
+          $html_str .= '<div class="container_div" id="back_side">';
+          $html_str .= '<div><img height="'.($sysconf['print']['membercard']['box_height']*$sysconf['print']['membercard']['factor']).'px" width="'.($sysconf['print']['membercard']['box_width']*$sysconf['print']['membercard']['factor']).'px" src="'.SWB.'files/membercard/card2.png" style="border-radius: 8px; -moz-border-radius: 8px;-khtml-border-radius: 8px;-webkit-border-radius: 8px;" /></div>';
+          $html_str .= '<div id="logo_div"><img height="35px" width="35px" src="'.SWB.'files/membercard/'.$sysconf['print']['membercard']['logo'].'" /></div>';
+          $html_str .= '<div id="header2_div">';
+          $html_str .= '<h1>'.$sysconf['print']['membercard']['back_header1_text'].'</h1>';
+          $html_str .= '<h3>'.$sysconf['print']['membercard']['back_header2_text'].'</h3><hr></div>';
+          $html_str .= '<div id="rules_div">'.$sysconf['print']['membercard']['rules'].'</div>';
+          $html_str .= '<div id="address_div">'.$sysconf['print']['membercard']['address'].'</div></div>';
+          $html_str .= '</td>';
         }
         $html_str .= '<tr>'."\n";
     }
@@ -248,7 +254,7 @@ $html_str .= '</td>';
         // update print queue count object
         echo '<script type="text/javascript">parent.$(\'#queueCount\').html(\'0\');</script>';
         // open result in window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FLS.'/'.$print_file_name.'\', 800, 500, \''.__('Member Card Printing').'\')</script>';
+        echo '<script type="text/javascript">top.jQuery.colorbox({href: "'.SWB.FLS.'/'.$print_file_name.'", iframe: true, width: 800, height: 500, title: "'.__('Member Card Printing').'"})</script>';
     } else { utility::jsAlert('ERROR! Cards failed to generate, possibly because '.SB.FLS.' directory is not writable'); }
     exit();
 }
@@ -263,7 +269,8 @@ $html_str .= '</td>';
 		<div class="action_button">
 		<a target="blindSubmit" href="<?php echo MWB; ?>membership/member_card_generator.php?action=clear" class="notAJAX headerText2" style="color: #f00;"><?php echo __('Clear Print Queue'); ?></a>
 		<a target="blindSubmit" href="<?php echo MWB; ?>membership/member_card_generator.php?action=print" class="notAJAX headerText2"><?php echo __('Print Member Cards for Selected Data'); ?></a>
-		</div>
+		<a href="<?php echo MWB; ?>bibliography/pop_print_settings.php?type=membercard" class="notAJAX headerText2 input-icon openPopUp" title="<?php echo __('Member card print settings'); ?>"><div class="icon-setting"></div>&nbsp;</a>
+    </div>
 	    <form name="search" action="<?php echo MWB; ?>membership/member_card_generator.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?>:
 	    <input type="text" name="keywords" size="30" />
 	    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
@@ -328,4 +335,3 @@ if (isset($_GET['keywords']) AND $_GET['keywords']) {
 }
 echo $datagrid_result;
 /* main content end */
-?>

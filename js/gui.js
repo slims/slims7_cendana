@@ -310,7 +310,7 @@ var openWin = function(strURL, strWinName, intWidth, intHeight, boolScroll) {
   "directories=no,resizable=no,screenY=" + yPos + ",screenX=" + xPos + ",top=" + yPos + ",left=" + xPos);
 }
 
-/* Javasript function to open pop-up window floating div  */
+/* Javasript function to open pop-up window floating div
 var htmlPop = null;
 var blocker = null;
 var openHTMLpop = function(strURL, intWidth, intHeight, strPopTitle) {
@@ -353,6 +353,7 @@ var openHTMLpop = function(strURL, intWidth, intHeight, strPopTitle) {
 }
 
 var closeHTMLpop = function() { htmlPop.fadeOut(); blocker.fadeOut(); }
+*/
 
 /* set iframe content */
 var setIframeContent = function(strIframeID, strUrl) {
@@ -416,21 +417,23 @@ $('document').ready(function() {
     var hiddenFilter = $('.hiddenFilter').hide();
     $('[name=moreFilter]').toggle(function() { hiddenFilter.fadeIn(); }, function() { hiddenFilter.hide(); });
     // tooltip
-    $('input[title], textarea[title]').tooltipsy({
-      offset: [-10, 0],
-      show: function (e, $el) {
-        $el.css({
-          'left': parseInt($el[0].style.left.replace(/[a-z]/g, '')) - 50 + 'px',
-          'opacity': '0.0',
-          'display': 'block'
-        }).animate({
-          'left': parseInt($el[0].style.left.replace(/[a-z]/g, '')) + 50 + 'px',
-          'opacity': '1.0'
-        }, 300);
-      },
-      hide: function (e, $el) { $el.slideUp(100); }
-    });
-    
+		if ($.tooltipsy) {
+      $('input[title], textarea[title]').tooltipsy({
+        offset: [-10, 0],
+        show: function (e, $el) {
+          $el.css({
+            'left': parseInt($el[0].style.left.replace(/[a-z]/g, '')) - 50 + 'px',
+            'opacity': '0.0',
+            'display': 'block'
+          }).animate({
+            'left': parseInt($el[0].style.left.replace(/[a-z]/g, '')) + 50 + 'px',
+            'opacity': '1.0'
+          }, 300);
+        },
+        hide: function (e, $el) { $el.slideUp(100); }
+      });
+		}
+
     // select 2
     $('.select2').each( function(idx) {
       var selectObj = $(this);
@@ -456,16 +459,29 @@ $('document').ready(function() {
         selectObj.chosen();
       }
     });
-
   });
 
   // disable form with class "disabled"
   $('form.disabled').disableForm();
   $(document).registerAdminEvents({ajaxifyLink: false, ajaxifyForm: false});
 
-  // Google Voice Search  
+  // jquery colorbox
+  $('body').delegate( 'a.openPopUp', 'click', function(evt) {
+  	evt.preventDefault();
+  	var popUpButton = $(this);
+  	top.jQuery.colorbox({iframe:true,
+  		href: popUpButton.attr('href'),
+      innerWidth: function() {
+        var width = parseInt(popUpButton.attr('width'));
+        if (width) { return width; } else { return 600; } },
+      innerHeight: function() {
+        var height = parseInt(popUpButton.attr('height'));
+        if (height) { return height; } else { return 300; } },
+      title: function() { return popUpButton.attr('title'); } });
+  });
+
+  // Google Voice Search
   $('#keyword').bind('webkitspeechchange', function() {
     $(this).parent().submit();
-  });        
-  
+  });
 });

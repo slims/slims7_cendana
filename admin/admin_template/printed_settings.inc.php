@@ -24,7 +24,7 @@
  * Function to load and override print settings from database
  */
 function loadPrintSettings($dbs, $type) {
-  global $sysconf; 
+  global $sysconf;
   $barcode_settings_q = $dbs->query("SELECT setting_value FROM setting WHERE setting_name='".$type."_print_settings'");
   if ($barcode_settings_q->num_rows) {
     $barcode_settings_d = $barcode_settings_q->fetch_row();
@@ -33,6 +33,7 @@ function loadPrintSettings($dbs, $type) {
       foreach ($barcode_settings as $setting_name => $val) {
         $sysconf['print'][$type][$setting_name] = $val;
       }
+      return $sysconf['print'][$type];
     }
   }
 }
@@ -84,96 +85,98 @@ $sysconf['print']['receipt']['receipt_titleLength'] = 100;
 
 // member card print settings
 /* measurement in cm */
-$sysconf['print']['membercard']['card_page_margin'] = 0.2;
-$sysconf['print']['membercard']['card_items_margin'] = 0.1;
-$sysconf['print']['membercard']['card_items_per_row'] = 1; //
+$sysconf['print']['membercard']['page_margin'] = 0.2;
+$sysconf['print']['membercard']['items_margin'] = 0.1;
+$sysconf['print']['membercard']['items_per_row'] = 1; //
 
 // by Jushadi Arman Saz
 /* measurement in cm*/
-$sysconf['print']['membercard']['card_factor'] = "37.795275591"; //cm to px
+$sysconf['print']['membercard']['factor'] = "37.795275591"; //cm to px
 
 // Items Settings
-// change to 0 if dont want to use selected items 
-$sysconf['print']['membercard']['card_include_id_label'] = 1; // no anggota
-$sysconf['print']['membercard']['card_include_name_label'] = 1; // nama anggota
-$sysconf['print']['membercard']['card_include_pin_label'] = 1; // no identitas
-$sysconf['print']['membercard']['card_include_inst_label'] = 0; // institusi
-$sysconf['print']['membercard']['card_include_email_label'] = 0; // email
-$sysconf['print']['membercard']['card_include_address_label'] = 1; // alamat
-$sysconf['print']['membercard']['card_include_barcode_label'] = 1; // barcode
-$sysconf['print']['membercard']['card_include_expired_label'] = 1; // expired
+// change to 0 if dont want to use selected items
+$sysconf['print']['membercard']['include_id_label'] = 1; // no anggota
+$sysconf['print']['membercard']['include_name_label'] = 1; // nama anggota
+$sysconf['print']['membercard']['include_pin_label'] = 1; // no identitas
+$sysconf['print']['membercard']['include_inst_label'] = 0; // institusi
+$sysconf['print']['membercard']['include_email_label'] = 0; // email
+$sysconf['print']['membercard']['include_address_label'] = 1; // alamat
+$sysconf['print']['membercard']['include_barcode_label'] = 1; // barcode
+$sysconf['print']['membercard']['include_expired_label'] = 1; // expired
 
 // Cardbox Settings
-$sysconf['print']['membercard']['card_box_width'] = 8.6;
-$sysconf['print']['membercard']['card_box_height'] = 5.4;
+$sysconf['print']['membercard']['box_width'] = 8.6;
+$sysconf['print']['membercard']['box_height'] = 5.4;
+$sysconf['print']['membercard']['front_side_image'] = 'membercard_background.jpg';
+$sysconf['print']['membercard']['back_side_image'] = 'membercard_background.jpg';
 
-// Logo Setting  
-$sysconf['print']['membercard']['card_logo'] = "logo.png";
-$sysconf['print']['membercard']['card_front_logo_width'] = "";
-$sysconf['print']['membercard']['card_front_logo_height'] = "";
-$sysconf['print']['membercard']['card_front_logo_left'] = "";
-$sysconf['print']['membercard']['card_front_logo_top'] = "";
-$sysconf['print']['membercard']['card_back_logo_width'] = "";
-$sysconf['print']['membercard']['card_back_logo_height'] = "";
-$sysconf['print']['membercard']['card_back_logo_left'] = "";
-$sysconf['print']['membercard']['card_back_logo_top'] = "";
+// Logo Setting
+$sysconf['print']['membercard']['logo'] = "logo.png";
+$sysconf['print']['membercard']['front_logo_width'] = "";
+$sysconf['print']['membercard']['front_logo_height'] = "";
+$sysconf['print']['membercard']['front_logo_left'] = "";
+$sysconf['print']['membercard']['front_logo_top'] = "";
+$sysconf['print']['membercard']['back_logo_width'] = "";
+$sysconf['print']['membercard']['back_logo_height'] = "";
+$sysconf['print']['membercard']['back_logo_left'] = "";
+$sysconf['print']['membercard']['back_logo_top'] = "";
 
 // Photo Settings
-$sysconf['print']['membercard']['card_photo_left'] = "";
-$sysconf['print']['membercard']['card_photo_top'] = "";
-$sysconf['print']['membercard']['card_photo_width'] = 1.5;
-$sysconf['print']['membercard']['card_photo_height'] = 1.8;
+$sysconf['print']['membercard']['photo_left'] = "";
+$sysconf['print']['membercard']['photo_top'] = "";
+$sysconf['print']['membercard']['photo_width'] = 1.5;
+$sysconf['print']['membercard']['photo_height'] = 1.8;
 
 // Header Settings
-$sysconf['print']['membercard']['card_front_header1_text'] = 'Library Member Card'; // use <br /> tag to make another line
-$sysconf['print']['membercard']['card_front_header1_font_size'] = '12';
-$sysconf['print']['membercard']['card_front_header2_text'] = 'My Library';
-$sysconf['print']['membercard']['card_front_header2_font_size'] = '12';
-$sysconf['print']['membercard']['card_back_header1_text'] = 'My Library';
-$sysconf['print']['membercard']['card_back_header1_font_size'] = "12";
-$sysconf['print']['membercard']['card_back_header2_text'] = 'My Library Full Address and Website';
-$sysconf['print']['membercard']['card_back_header2_font_size'] = "5";
-$sysconf['print']['membercard']['card_header_color'] = "#0066FF"; //e.g. :#0066FF, green, etc.
+$sysconf['print']['membercard']['front_header1_text'] = 'Library Member Card'; // use <br /> tag to make another line
+$sysconf['print']['membercard']['front_header1_font_size'] = '12';
+$sysconf['print']['membercard']['front_header2_text'] = 'My Library';
+$sysconf['print']['membercard']['front_header2_font_size'] = '12';
+$sysconf['print']['membercard']['back_header1_text'] = 'My Library';
+$sysconf['print']['membercard']['back_header1_font_size'] = "12";
+$sysconf['print']['membercard']['back_header2_text'] = 'My Library Full Address and Website';
+$sysconf['print']['membercard']['back_header2_font_size'] = "5";
+$sysconf['print']['membercard']['header_color'] = "#0066FF"; //e.g. :#0066FF, green, etc.
 
 //biodata settings
-$sysconf['print']['membercard']['card_bio_font_size'] = "11";
-$sysconf['print']['membercard']['card_bio_font_weight'] = "bold";
-$sysconf['print']['membercard']['card_bio_label_width'] = "100";
+$sysconf['print']['membercard']['bio_font_size'] = "11";
+$sysconf['print']['membercard']['bio_font_weight'] = "bold";
+$sysconf['print']['membercard']['bio_label_width'] = "100";
 
 // Stamp Settings
-$sysconf['print']['membercard']['card_city'] = "City Name";
-$sysconf['print']['membercard']['card_title'] = "Library Manager";
-$sysconf['print']['membercard']['card_officials'] = "Librarian Name";
-$sysconf['print']['membercard']['card_officials_id'] = "Librarian ID";
-$sysconf['print']['membercard']['card_stamp_file'] = "stamp.png"; // stamp image, use transparent image
-$sysconf['print']['membercard']['card_signature_file'] = "signature.png"; // sign picture, use transparent image
-$sysconf['print']['membercard']['card_stamp_left'] = "";
-$sysconf['print']['membercard']['card_stamp_top'] = "";
-$sysconf['print']['membercard']['card_stamp_width'] = "";
-$sysconf['print']['membercard']['card_stamp_height'] = "";
+$sysconf['print']['membercard']['city'] = "City Name";
+$sysconf['print']['membercard']['title'] = "Library Manager";
+$sysconf['print']['membercard']['officials'] = "Librarian Name";
+$sysconf['print']['membercard']['officials_id'] = "Librarian ID";
+$sysconf['print']['membercard']['stamp_file'] = "stamp.png"; // stamp image, use transparent image
+$sysconf['print']['membercard']['signature_file'] = "signature.png"; // sign picture, use transparent image
+$sysconf['print']['membercard']['stamp_left'] = "";
+$sysconf['print']['membercard']['stamp_top'] = "";
+$sysconf['print']['membercard']['stamp_width'] = "";
+$sysconf['print']['membercard']['stamp_height'] = "";
 
 //expired
-$sysconf['print']['membercard']['card_exp_left'] = "";
-$sysconf['print']['membercard']['card_exp_top'] = "";
-$sysconf['print']['membercard']['card_exp_width'] = "";
-$sysconf['print']['membercard']['card_exp_height'] = "";
+$sysconf['print']['membercard']['exp_left'] = "";
+$sysconf['print']['membercard']['exp_top'] = "";
+$sysconf['print']['membercard']['exp_width'] = "";
+$sysconf['print']['membercard']['exp_height'] = "";
 
 // Barcode Setting
-$sysconf['print']['membercard']['card_barcode_scale'] = 100; // barcode scale in percent relative to box width and height
-$sysconf['print']['membercard']['card_barcode_left'] = "";
-$sysconf['print']['membercard']['card_barcode_top'] = "";
-$sysconf['print']['membercard']['card_barcode_width'] = "";
-$sysconf['print']['membercard']['card_barcode_height'] = "";
+$sysconf['print']['membercard']['barcode_scale'] = 100; // barcode scale in percent relative to box width and height
+$sysconf['print']['membercard']['barcode_left'] = "";
+$sysconf['print']['membercard']['barcode_top'] = "";
+$sysconf['print']['membercard']['barcode_width'] = "";
+$sysconf['print']['membercard']['barcode_height'] = "";
 
 // Rules
-$sysconf['print']['membercard']['card_rules'] = "<ul>
+$sysconf['print']['membercard']['rules'] = "<ul>
 <li>This card is published by Library.</li>
 <li>Please return this card to its owner if you found it.</li>
 </ul>";
-$sysconf['print']['membercard']['card_rules_font_size'] = "8";
+$sysconf['print']['membercard']['rules_font_size'] = "8";
 
 // address
-$sysconf['print']['membercard']['card_address'] = 'My Library<br />website: http://slims.web.id, email : librarian@slims.web.id';
-$sysconf['print']['membercard']['card_address_font_size'] = "7";
-$sysconf['print']['membercard']['card_address_left'] = "";
-$sysconf['print']['membercard']['card_address_top'] = "";
+$sysconf['print']['membercard']['address'] = 'My Library<br />website: http://slims.web.id, email : librarian@slims.web.id';
+$sysconf['print']['membercard']['address_font_size'] = "7";
+$sysconf['print']['membercard']['address_left'] = "";
+$sysconf['print']['membercard']['address_top'] = "";

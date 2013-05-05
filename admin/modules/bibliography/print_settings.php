@@ -47,7 +47,8 @@ if (isset($_POST['updateSettings'])) {
     $setting_type = trim($_POST['settingType']);
     $setting_name = $setting_type.'_print_settings';
     // reset
-    $dbs->query("UPDATE setting SET setting_value='".$dbs->escape_string(serialize($_POST[$setting_type]))."' WHERE setting_name='$setting_name'");
+    $dbs->query(sprintf("REPLACE INTO setting (setting_name, setting_value) VALUES ('%s', '%s')",
+      $setting_name, $dbs->escape_string(serialize($_POST[$setting_type]))));
     // write log
     utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'system', $_SESSION['realname'].' change '.$setting_type.' print settings');
     utility::jsAlert(__('Settings saved'));
@@ -84,10 +85,10 @@ $form->table_content_attr = 'class="alterCell2"';
 // load print settings from database
 loadPrintSettings($dbs, $type);
 
-$form->addAnything(__('Print setting for'), ucwords($type));  
+$form->addAnything(__('Print setting for'), ucwords($type));
 foreach ($sysconf['print'][$type] as $setting_name => $val) {
   $setting_name_label = ucwords(str_ireplace('_', ' ', $setting_name));
-  $form->addTextField('text', $type.'['.$setting_name.']', __($setting_name_label), $val, 'style="width: 90%;"');    
+  $form->addTextField('text', $type.'['.$setting_name.']', __($setting_name_label), $val, 'style="width: 90%;"');
 }
 $form->addHidden('settingType', $type);
 

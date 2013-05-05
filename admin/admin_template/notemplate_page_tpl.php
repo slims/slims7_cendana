@@ -12,16 +12,25 @@ body { background: #FFFFFF; }
 <script type="text/javascript" src="<?php echo JWB; ?>updater.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>form.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>chosen/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>chosen/ajax-chosen.min.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>tooltipsy.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>colorbox/jquery.colorbox-min.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>calendar.js"></script>
 <?php if (isset($js)) { echo $js; } ?>
 </head>
 <body>
 <div id="pageContent">
 <?php echo $content; ?>
 </div>
-<?php if (isset($_GET['block'])) { ?>
+
 <!-- block if we inside iframe -->
 <script type="text/javascript">
 // if we are inside iframe
+jQuery(document).ready( function() {
+
+<?php if (isset($_GET['block'])) { ?>
+
 var parentWin = self.parent;
 if (parentWin && parentWin.jQuery('.editFormLink').length > 0) {
   var enabler = parentWin.jQuery('.editFormLink');
@@ -30,8 +39,11 @@ if (parentWin && parentWin.jQuery('.editFormLink').length > 0) {
 	self.jQuery('#blocker').remove();
 	self.parent.jQuery('.makeHidden').removeClass('makeHidden'); });
 }
-</script>
-<!-- block if we inside iframe -->
+
 <?php } ?>
+
+});
+</script>
+
 </body>
 </html>

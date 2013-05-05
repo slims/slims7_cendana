@@ -57,17 +57,17 @@ if (isset($_POST['stUpload']) && isset($_FILES['stFile'])) {
     $upload = new simbio_file_upload();
     $upload->setAllowableFormat(array('.txt'));
     $upload->setMaxSize($sysconf['max_upload']*1024);
-    $upload->setUploadDir(FILES_UPLOAD_DIR);
+    $upload->setUploadDir(UPLOAD);
     // upload the file and change all space characters to underscore
     $upload_status = $upload->doUpload('stFile');
     if ($upload_status == UPLOAD_SUCCESS) {
         // write log
         utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'stock_take', $_SESSION['realname'].' upload stock take file '.$upload->new_filename);
         // open file
-        $stfile = @fopen(FILES_UPLOAD_DIR.$upload->new_filename, 'r');
+        $stfile = @fopen(UPLOAD.$upload->new_filename, 'r');
         if (!$stfile) {
             echo '<script type="text/javascript">'."\n";
-            echo 'parent.$(\'#stUploadMsg\').html(\'Failed to open stock take file '.$upload->new_filename.'. Please check permission for directory '.FILES_UPLOAD_DIR.'\')';
+            echo 'parent.$(\'#stUploadMsg\').html(\'Failed to open stock take file '.$upload->new_filename.'. Please check permission for directory '.UPLOAD.'\')';
             echo '.toggleClass(\'errorBox\').css( {\'display\': \'block\'} );'."\n";
             echo '</script>';
             exit();

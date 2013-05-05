@@ -48,14 +48,14 @@ if (isset($_GET['biblioID']) AND $_GET['biblioID']) {
 // utility function to check author name
 function checkAuthor($str_author_name, $str_author_type = 'p')
 {
-    global $dbs;
-    $_q = $dbs->query('SELECT author_id FROM mst_author WHERE author_name=\''.$str_author_name.'\' AND authority_type=\''.$str_author_type.'\'');
-    if ($_q->num_rows > 0) {
-        $_d = $_q->fetch_row();
-        // return the author ID
-        return $_d[0];
-    }
-    return false;
+  global $dbs;
+  $_q = $dbs->query('SELECT author_id FROM mst_author WHERE author_name=\''.$str_author_name.'\' AND authority_type=\''.$str_author_type.'\'');
+  if ($_q->num_rows > 0) {
+    $_d = $_q->fetch_row();
+    // return the author ID
+    return $_d[0];
+  }
+  return false;
 }
 
 // start the output buffer

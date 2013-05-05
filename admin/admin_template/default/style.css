@@ -492,7 +492,7 @@ input[type=file]:focus, input[type=checkbox]:focus, select:focus {
   outline: 1px dotted #4fc8fa;
 }
 
-input.btn-danger {
+.btn-danger {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #da4f49;

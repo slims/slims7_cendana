@@ -114,15 +114,14 @@ if ($biblioID) {
     $row_class = ($row%2 == 0)?'alterCell':'alterCell2';
 
     // remove link
-    $remove_link = '<a href="#" onclick="confirmProcess('.$biblioID.', '.$biblio_attach_d['file_id'].', \''.addslashes($biblio_attach_d['file_name']).'\')"
-        style="color: #FF0000; text-decoration: underline;">Delete</a>';
+    $remove_link = '<a href="#" onclick="confirmProcess('.$biblioID.', '.$biblio_attach_d['file_id'].', \''.addslashes($biblio_attach_d['file_name']).'\')" class="notAJAX btn button btn-danger btn-delete">Delete</a>';
 
     // edit link
-    $edit_link = '<a href="#" onclick="top.openHTMLpop(\''.MWB.'bibliography/pop_attach.php?biblioID='.$biblioID.'&fileID='.$biblio_attach_d['file_id'].'\', 600, 300, \''.__('File Attachments').'\')">Edit</a>';
+    $edit_link = '<a class="notAJAX button btn openPopUp" href="'.MWB.'bibliography/pop_attach.php?biblioID='.$biblioID.'&fileID='.$biblio_attach_d['file_id'].'" width="600" height="300" title="'.__('File Attachments').'">Edit</a>';
 
     // file link
     if (preg_match('@(video|audio|image)/.+@i', $biblio_attach_d['mime_type'])) {
-        $file = '<a href="#" onclick="top.openHTMLpop(\''.SWB.'index.php?p=multimediastream&fid='.$biblio_attach_d['file_id'].'&bid='.$biblio_attach_d['biblio_id'].'\', 400, 300, \''.$biblio_attach_d['file_title'].'\')">'.$biblio_attach_d['file_title'].'</a>';
+        $file = '<a class="notAJAX openPopUp" href="'.SWB.'index.php?p=multimediastream&fid='.$biblio_attach_d['file_id'].'&bid='.$biblio_attach_d['biblio_id'].'" width="640" height="480" title="'.$biblio_attach_d['file_title'].'">'.$biblio_attach_d['file_title'].'</a>';
     } else {
         $file = '<a href="'.SWB.'admin/view.php?fid='.urlencode($biblio_attach_d['file_id']).'" target="_blank">'.$biblio_attach_d['file_title'].'</a>';
     }
@@ -147,7 +146,7 @@ if ($biblioID) {
     $row_class = 'alterCell2';
     foreach ($_SESSION['biblioAttach'] as $idx=>$biblio_session) {
       // remove link
-      $remove_link = '<a href="iframe_attach.php?removesess='.$idx.'" style="color: #000000; text-decoration: underline;">Remove</a>';
+      $remove_link = '<a href="iframe_attach.php?removesess='.$idx.'" class="notAJAX btn button btn-danger btn-delete">Remove</a>';
 
       $table->appendTableRow(array($remove_link, $biblio_session['file_name'], $biblio_session['last_update']));
       $table->setCellAttr($row, 0, 'valign="top" class="'.$row_class.'" style="font-weight: bold; background-color: #ffc466; width: 10%;"');

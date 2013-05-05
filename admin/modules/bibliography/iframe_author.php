@@ -98,8 +98,7 @@ if ($biblioID) {
     $row_class = ($row%2 == 0)?'alterCell':'alterCell2';
 
     // remove link
-    $remove_link = '<a href="#" onclick="confirmProcess('.$biblioID.', '.$biblio_author_d['author_id'].')"
-        style="color: #FF0000; text-decoration: underline;">Delete</a>';
+    $remove_link = '<a href="#" class="notAJAX btn button btn-danger btn-delete" onclick="confirmProcess('.$biblioID.', '.$biblio_author_d['author_id'].')">Delete</a>';
     $author = $biblio_author_d['author_name'];
     $author_year = $biblio_author_d['author_year'];
     $authority_type = $sysconf['authority_type'][$biblio_author_d['authority_type']];
@@ -125,8 +124,7 @@ if ($biblioID) {
     $row_class = 'alterCell2';
     foreach ($_SESSION['biblioAuthor'] as $biblio_session) {
       // remove link
-      $remove_link = '<a href="iframe_author.php?removesess='.$biblio_session[0].'"
-          style="color: #000000; text-decoration: underline;">Remove</a>';
+      $remove_link = '<a class="notAJAX btn button btn-danger btn-delete" href="iframe_author.php?removesess='.$biblio_session[0].'">Remove</a>';
 
       if ($biblio_session) {
           $author_q = $dbs->query("SELECT author_name, author_year, authority_type FROM mst_author

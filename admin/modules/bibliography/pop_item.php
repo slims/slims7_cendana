@@ -32,19 +32,15 @@ do_checkIP('smc-bibliography');
 // start the session
 require SB.'admin/default/session.inc.php';
 
-// included js
-$js = '<script type="text/javascript" src="'.JWB.'calendar.js"></script>';
-
-// ajax action
-$content = '<script type="text/javascript">'."\n";
-$biblioID = intval($_GET['biblioID']);
-if (isset($_GET['itemID']) AND isset($_GET['action'])) {
-    $itemID = (integer)$_GET['itemID'];
-    $content .= '$(document).ready( function() { $(\'#pageContent\').simbioAJAX(\'item.php?inPopUp=true&action=detail&biblioID='.$biblioID.'\', {method: \'POST\', addData: \'itemID='.$itemID.'&detail=true\'}) });';
-} else {
-    $content .= '$(document).ready( function() { $(\'#pageContent\').simbioAJAX(\'item.php?inPopUp=true&action=detail&biblioID='.$biblioID.'\'); });';
+if (isset($_GET['itemID'])) {
+  $_POST['itemID'] = $_GET['itemID'];
 }
-$content .= '</script>';
+
+$_GET['inPopUp'] = true;
+
+ob_start();
+require MDLBS.'bibliography/item.php';
+$content = ob_get_clean();
 
 // page title
 $page_title = 'Bibliography Items';

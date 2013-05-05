@@ -145,10 +145,10 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
 
     // send query to database
     $biblio_q = $dbs->query('SELECT IF(i.call_number<>\'\', i.call_number, b.call_number) FROM biblio AS b LEFT JOIN item AS i ON b.biblio_id=i.biblio_id WHERE '.$criteria);
-    echo 'SELECT IF(i.call_number!=\'\', i.call_number, b.call_number) FROM biblio AS b LEFT JOIN item AS i ON b.biblio_id=i.biblio_id WHERE '.$criteria;
+    // echo 'SELECT IF(i.call_number!=\'\', i.call_number, b.call_number) FROM biblio AS b LEFT JOIN item AS i ON b.biblio_id=i.biblio_id WHERE '.$criteria;
     $label_data_array = array();
     while ($biblio_d = $biblio_q->fetch_row()) {
-        if ($biblio_d[0]) { $label_data_array[] = $biblio_d[0]; }
+      if ($biblio_d[0]) { $label_data_array[] = $biblio_d[0]; }
     }
 
     // include printed settings configuration file
@@ -156,12 +156,12 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     // check for custom template settings
     $custom_settings = SB.'admin'.DS.$sysconf['admin_template']['dir'].DS.$sysconf['template']['theme'].DS.'printed_settings.inc.php';
     if (file_exists($custom_settings)) {
-        include $custom_settings;
+      include $custom_settings;
     }
 
-	// load print settings from database to override value from printed_settings file
-    loadPrintSettings($dbs, $type);
-  
+	  // load print settings from database to override value from printed_settings file
+    loadPrintSettings($dbs, 'label');
+
     // chunk label array
     $chunked_label_arrays = array_chunk($label_data_array, $sysconf['print']['label']['items_per_row']);
     // create html ouput of images
@@ -206,7 +206,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     if ($file_write) {
         echo '<script type="text/javascript">parent.$(\'#queueCount\').html(\'0\');</script>';
         // open result in new window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FLS.'/'.$print_file_name.'\', 800, 500, \''.__('Labels Printing').'\')</script>';
+        echo '<script type="text/javascript">top.$.colorbox({href: "'.SWB.FLS.'/'.$print_file_name.'", iframe: true, width: 800, height: 500, title: "Label Print Result"})</script>';
     } else { utility::jsAlert('ERROR! Label failed to generate, possibly because '.SB.FLS.' directory is not writable'); }
     exit();
 }
@@ -220,9 +220,9 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     </div>
 	<div class="sub_section">
     <div class="action_button">
-      <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/dl_print.php?action=clear" class="notAJAX headerText2" style="color: #FF0000;"><?php echo __('Clear Print Queue'); ?></a>
+      <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/dl_print.php?action=clear" class="notAJAX headerText2"><?php echo __('Clear Print Queue'); ?></a>
       <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/dl_print.php?action=print" class="notAJAX headerText2"><?php echo __('Print Labels for Selected Data'); ?></a>
-	  <a href="javascript: openHTMLpop('<?php echo MWB; ?>bibliography/pop_print_settings.php?type=label', 600, 500, 'Print label settings')" class="notAJAX headerText2 input-icon" title="<?php echo __('Change print barcode settings'); ?>"><div class="icon-setting"></div>&nbsp;</a>
+	    <a href="<?php echo MWB; ?>bibliography/pop_print_settings.php?type=label" class="notAJAX headerText2 input-icon openPopUp" title="<?php echo __('Change print barcode settings'); ?>"><div class="icon-setting"></div>&nbsp;</a>
 	</div>
     <form name="search" action="<?php echo MWB; ?>bibliography/dl_print.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
