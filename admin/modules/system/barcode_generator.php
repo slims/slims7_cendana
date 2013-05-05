@@ -56,31 +56,34 @@ if (isset($_SESSION['barcodes'])) {
       include $custom_settings;
     }
 
+	  // load print settings from database to override value from printed_settings file
+    loadPrintSettings($dbs, 'barcodegen');
+
     // chunk barcode array
-    $chunked_barcode_arrays = array_chunk($_SESSION['barcodes'], $items_per_row);
+    $chunked_barcode_arrays = array_chunk($_SESSION['barcodes'], $sysconf['print']['barcodegen']['items_per_row']);
 
     // create html ouput
-    $html_str = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n";
-    $html_str .= '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Document Label Print Result</title>'."\n";
+    $html_str = '<!DOCTYPE html>'."\n";
+    $html_str .= '<html><head><title>Document Label Print Result</title>'."\n";
     $html_str .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
     $html_str .= '<meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0" /><meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT" />';
     $html_str .= '<style type="text/css">'."\n";
     $html_str .= 'body { padding: 0; overflow: auto; background: #fff; }'."\n";
-    $html_str .= '.labelStyle { text-align: center; float: left; margin: '.$barcodegen_items_margin.'cm; border: '.($barcodegen_include_border>0?$barcodegen_include_border:0).'px solid #000000; }'."\n";
+    $html_str .= '.labelStyle { text-align: center; float: left; margin: '.$sysconf['print']['barcodegen']['items_margin'].'cm; border: '.($sysconf['print']['barcodegen']['include_border']>0?$sysconf['print']['barcodegen']['include_border']:0).'px solid #000000; }'."\n";
     $html_str .= '</style>'."\n";
     $html_str .= '</head>'."\n";
     $html_str .= '<body>'."\n";
 
     // loop the chunked arrays to row
     foreach ($chunked_barcode_arrays as $barcode_rows) {
-        $html_str .= '<div style="clear: both;">';
-        foreach ($barcode_rows as $barcode) {
-            $html_str .= '<div class="labelStyle">';
-            $html_str .= '<img src="'.SWB.'images/barcodes/'.str_replace(array(' '), '_', $barcode).'.png" style="width: 90%" border="0" />';
-            $html_str .= '</div>';
-        }
-
+      $html_str .= '<div style="clear: both;">';
+      foreach ($barcode_rows as $barcode) {
+        $html_str .= '<div class="labelStyle">';
+        $html_str .= '<img src="'.SWB.'images/barcodes/'.str_replace(array(' '), '_', $barcode).'.png" style="width: 90%" border="0" />';
         $html_str .= '</div>';
+      }
+
+      $html_str .= '</div>';
     }
 
     $html_str .= '<script type="text/javascript">self.print();</script>'."\n";
@@ -94,8 +97,8 @@ if (isset($_SESSION['barcodes'])) {
     $file_write = @file_put_contents(UPLOAD.$print_file_name, $html_str);
 
     if ($file_write) {
-        // open result in window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SWB.FLS.'/'.$print_file_name.'\', 800, 500, \''.__('Barcode Generator').'\')</script>';
+      // open result in window
+      echo '<script type="text/javascript">top.$.colorbox({href: "'.SWB.FLS.'/'.$print_file_name.'", iframe: true, width: 800, height: 500, title:"'.__('Barcode Generator').'"})</script>';
     } else { utility::jsAlert('ERROR! Barcodes failed to generate, possibly because '.SB.FLS.' directory is not writable'); }
     exit();
 }

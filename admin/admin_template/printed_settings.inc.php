@@ -67,10 +67,11 @@ $sysconf['print']['barcode']['barcode_scale'] = 70; // barcode scale in percent 
 $sysconf['print']['barcode']['barcode_border_size'] = 1; // in pixels
 
 // barcode generator print settings
-$sysconf['print']['barcodegen']['barcodegen_box_width'] = 6;
-$sysconf['print']['barcodegen']['barcodegen_page_margin'] = 0.2;
-$sysconf['print']['barcodegen']['barcodegen_items_margin'] = 0.05;
-$sysconf['print']['barcodegen']['barcodegen_include_border'] = 0;
+$sysconf['print']['barcodegen']['box_width'] = 6;
+$sysconf['print']['barcodegen']['page_margin'] = 0.2;
+$sysconf['print']['barcodegen']['items_margin'] = 0.05;
+$sysconf['print']['barcodegen']['include_border'] = 0;
+$sysconf['print']['barcodegen']['items_per_row'] = 3;
 
 /* Receipt Printing */
 $sysconf['print']['receipt']['receipt_width'] = '15cm';
