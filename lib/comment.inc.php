@@ -57,17 +57,19 @@ function showComment($_detail_id)
 			$_sql .= " Limit " . $_page. ", " . $_recs_each_page;
 			$commlist = $dbs->query($_sql);
 			$_list_comment .= '<div class="comment-found">'. $_all_recs . __(' comments available'). '</div>'; 
-			While ($_data = $commlist->fetch_assoc()) {
+			while ($_data = $commlist->fetch_assoc()) {
+				$_list_comment .= '<div class="comments">';
 				$_list_comment .= '<div class="comment-member">'.$_data['member_name']. __(' at ') . $_data['input_date']. __(' write'). '</div>';
 				$_list_comment .= '<div class="comment-content">'. $_data['comment'] . '</div>';
+				$_list_comment .= '</div>';		
 			}
 			$_list_comment .= '<div class="comment-found">'.simbio_paging::paging($_all_recs, $_recs_each_page, $int_pages_each_set = 10, '', '_self').'</div>';
-
 		}
 
 		if (ISSET($_SESSION['mid'])) {
 		// Comment form
-			$_forms = '<form method="post" action="index.php?p=show_detail&id='.$_detail_id.'">'.simbio_form_element::textField('textarea','comment','Add your comment','class="comment-input"'). '<br />';
+			$_forms  = '<form method="post" action="index.php?p=show_detail&id='.$_detail_id.'" class="comment-form">';
+			$_forms .=  simbio_form_element::textField('textarea','comment','','placeholder="Add your comment" class="comment-input"'). '<br />';
 			$_forms .= '<input type="submit" name="SaveComment" value="Save comment" class="button">';
 			$_forms .= '</form>';
 			return $_list_comment.$_forms;

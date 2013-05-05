@@ -188,21 +188,24 @@ if (isset($_GET['p']))
           <?php } ?>
 
           <?php if(!isset($_GET['p'])) { ?>
-          <div class="info">
             <div class="search">
             <div id="simply-search">
               <div class="simply" >
                 <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-search">
-                  <input type="hidden" name="search" value="Search" />
-                  <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" x-webkit-speech="x-webkit-speech" class="input-block-level search-query" />
+                  <div class="input-append">
+                  <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" x-webkit-speech="x-webkit-speech" class="input-xxlarge search-query" />
+                  <button type="submit" class="btn" name="search" value="search"><?php echo __('Search'); ?></button>                  
+                  </div>
                 </form>
               </div>
             </div>
             <div id="advance-search" style="display:none;" >
-             <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-horizontal">
-                <input type="hidden" name="search" value="Search" />
+             <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-horizontal form-search">
                 <div class="simply" >
-                  <input type="text" name="title" id="title" placeholder="<?php echo __('Title'); ?>" class="input-block-level search-query" />
+                  <div class="input-append">
+                  <input type="text" name="title" id="title" placeholder="<?php echo __('Title'); ?>" class="input-xxlarge search-query" />
+                  <button type="submit" class="btn" name="search" value="search"><?php echo __('Search'); ?></button>                  
+                  </div>
                 </div>
                 <div class="advance">
                   <div class="row-fluid">
@@ -250,22 +253,17 @@ if (isset($_GET['p']))
                         <select name="location"> <?php echo $location_list; ?></select>
                       </div>
                     </div>     
-
-                    <div class="control-group">
-                      <div class="controls">
-                        <input type="submit" name="search" value="<?php echo __('Search'); ?>" class="btn btn-danger" />
-                      </div>
-                    </div>                          
                 </div>
                 </div>
                 <div class="clearfix"></div>
+              </form>
               </div>
-            </form>
             </div>
             <div id="show_advance">
               <a href="#"><?php echo __('Advanced Search'); ?></a>
             </div>
             </div>
+          <div class="info">
             <?php echo $search_result_info; ?>
           </div>
           <?php } ?>
@@ -348,75 +346,74 @@ if (isset($_GET['p']))
             <div id="simply-search">
               <div class="simply" >
                 <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-search">
-                  <input type="hidden" name="search" value="Search" />
-                  <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" x-webkit-speech class="input-block-level search-query" />
+                  <div class="input-append">
+                  <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" x-webkit-speech class="input-xxlarge search-query" />
+                  <button type="submit" class="btn" name="search" value="search"><?php echo __('Search'); ?></button>
+                  </div>
                 </form>
               </div>
             </div>
             <div id="advance-search" style="display:none;" >
-              <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-horizontal">
-                <input type="hidden" name="search" value="Search" />
+              <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-horizontal form-search">
                 <div class="simply" >
-                  <input type="text" name="title" id="title" placeholder="<?php echo __('Title'); ?>" class="input-block-level search-query" />
+                  <div class="input-append">                  
+                  <input type="text" name="title" id="title" placeholder="<?php echo __('Title'); ?>" class="input-xxlarge search-query" />
+                  <button type="submit" name="search" class="btn" value="search"><?php echo __('Search'); ?></button>
+                  </div>
                 </div>
                 <div class="advance">
                   <div class="row-fluid">
-                  <div class="span5">
-                    <div class="control-group">
-                      <label class="control-label"><?php echo __('Author(s)'); ?></label>
-                      <div class="controls">
-                        <?php echo $advsearch_author; ?>
-                      </div>
-                    </div>                          
+                    <div class="span5">
+                      <div class="control-group">
+                        <label class="control-label"><?php echo __('Author(s)'); ?></label>
+                        <div class="controls">
+                          <?php echo $advsearch_author; ?>
+                        </div>
+                      </div>                          
 
-                    <div class="control-group">
-                      <label class="control-label"><?php echo __('Subject(s)'); ?></label>
-                      <div class="controls">
-                        <?php echo $advsearch_topic; ?>
-                      </div>
-                    </div>                          
+                      <div class="control-group">
+                        <label class="control-label"><?php echo __('Subject(s)'); ?></label>
+                        <div class="controls">
+                          <?php echo $advsearch_topic; ?>
+                        </div>
+                      </div>                          
 
-                    <div class="control-group">
-                      <label class="control-label"><?php echo __('ISBN/ISSN'); ?></label>
-                      <div class="controls">
-                        <input type="text" name="isbn" />
-                      </div>
-                    </div>    
-                  </div>
-                  <div class="span6">
-
-                    <div class="control-group">
-                    <label class="control-label"><?php echo __('GMD'); ?></label>
-                    <div class="controls">
-                      <select name="gmd"><?php echo $gmd_list; ?></select>
+                      <div class="control-group">
+                        <label class="control-label"><?php echo __('ISBN/ISSN'); ?></label>
+                        <div class="controls">
+                          <input type="text" name="isbn" />
+                        </div>
+                      </div>    
                     </div>
-                    </div>                          
+                    <div class="span6">
 
-                    <div class="control-group">
-                      <label class="control-label"><?php echo __('Collection Type'); ?></label>
+                      <div class="control-group">
+                      <label class="control-label"><?php echo __('GMD'); ?></label>
                       <div class="controls">
-                        <select name="colltype"><?php echo $colltype_list; ?></select>
+                        <select name="gmd"><?php echo $gmd_list; ?></select>
                       </div>
-                    </div>                          
+                      </div>                          
 
-                    <div class="control-group">
-                      <label class="control-label"><?php echo __('Location'); ?></label>
-                      <div class="controls">
-                        <select name="location"> <?php echo $location_list; ?></select>
-                      </div>
-                    </div>     
+                      <div class="control-group">
+                        <label class="control-label"><?php echo __('Collection Type'); ?></label>
+                        <div class="controls">
+                          <select name="colltype"><?php echo $colltype_list; ?></select>
+                        </div>
+                      </div>                          
 
-                    <div class="control-group">
-                      <div class="controls">
-                        <input type="submit" name="search" value="<?php echo __('Search'); ?>" class="btn btn-danger" />
-                      </div>
-                    </div>                          
-                </div>
-                </div>
+                      <div class="control-group">
+                        <label class="control-label"><?php echo __('Location'); ?></label>
+                        <div class="controls">
+                          <select name="location"> <?php echo $location_list; ?></select>
+                        </div>
+                      </div>     
+
+                    </div>
+                  </div>
                 <div class="clearfix"></div>
-              </div>
+                </div>
+              </form>
             </div>
-          </form>
         </div>
         <div id="show_advance">
           <a href="#"><?php echo __('Advanced Search'); ?></a>
@@ -469,11 +466,11 @@ $(document).ready(function()
   $('#show_advance').click(function(){
     if ($("#advance-search").is(":hidden"))
     {
-      $("#advance-search").slideDown();
-      $('#simply-search').hide();
+      $("#advance-search").slideDown('normal');
+      $('#simply-search').slideUp('normal');
     } else {
-      $("#advance-search").slideUp('fast');
-      $('#simply-search').show();
+      $("#advance-search").slideUp('normal');
+      $('#simply-search').slideDown('normal');
     }
   });
 

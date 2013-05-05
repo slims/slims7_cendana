@@ -91,26 +91,25 @@ $social = array (
 ?>
 <!DOCTYPE html>
 <html><head>
- <title><?php echo $page_title; ?></title>
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
- <meta name="description" content="SLiMS (Senayan Library Management System) is an open source Library Management System. It is build on Open source technology like PHP and MySQL">
- <meta name="keywords" content="senayan,slims,library automation,free library application, library, perpustakaan, aplikasi perpustakaan">
- <meta name="viewport" content="width=device-width,initial-scale=1">
- <meta name="robots" content="index, nofollow">
- <!-- load style -->
- <link rel="shortcut icon" href="webicon.ico" type="image/x-icon" />
- <link href="template/core.style.css" rel="stylesheet" type="text/css" />
- <link href="<?php echo $sysconf['template']['css']; ?>" rel="stylesheet" type="text/css" />
- <!--[if IE]>
- <link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie.css"/>
- <![endif]-->
- <!--[if IE 6]>
- <link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie6.css"/>
- <![endif]-->
- <script type="text/javascript" src="<?php echo JWB; ?>jquery.js"></script>
- <script type="text/javascript" src="<?php echo JWB; ?>form.js"></script>
- <script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
-
+<title><?php echo $page_title; ?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="SLiMS (Senayan Library Management System) is an open source Library Management System. It is build on Open source technology like PHP and MySQL">
+<meta name="keywords" content="senayan,slims,library automation,free library application, library, perpustakaan, aplikasi perpustakaan">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index, nofollow">
+<!-- load style -->
+<link rel="shortcut icon" href="webicon.ico" type="image/x-icon" />
+<link href="template/core.style.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $sysconf['template']['css']; ?>" rel="stylesheet" type="text/css" />
+<!--[if IE]>
+<link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie.css"/>
+<![endif]-->
+<!--[if IE 6]>
+<link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie6.css"/>
+<![endif]-->
+<script type="text/javascript" src="<?php echo JWB; ?>jquery.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>form.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
 </head>
 
 <body>
@@ -190,7 +189,7 @@ $social = array (
 
     <div class="section">
 	    <div class="tagline">
-		    <?php echo __('Collections'); ?>
+		    <?php echo __('Collections'); ?>xxx
 		    <a href="javascript: history.back();" class="back to_right"> <?php echo __('Back'); ?> </a>
 		    <br/>
 	    </div>
@@ -453,17 +452,6 @@ $social = array (
   });
  });
 
-	var ADAPT_CONFIG = {
-		path: 'assets/css/',
-		range: [
-		'0px    to 760px  = mobile.css',
-		'760px  to 980px  = 720.css',
-		'980px  to 1280px = 960.css',
-		'1280px to 1600px = 1200.css',
-		'1600px to 1920px = 1560.css',
-		'1920px = fluid.css'
-		]
-	};
 	$(document).ready(function()
 	{
 		$('#keyword').keyup(function(){

@@ -13,9 +13,11 @@ ob_start(); /* <- DONT REMOVE THIS COMMAND */
   </div>
   <div class="span10">
     <h4 class="title">{title}</h4>
+    <p class="abstract">
     <hr/>
-    <p class="abstract">{notes}</p>
+    {notes}
     <hr/>
+    </p>
     <div class="form-horizontal">
       <div class="control-group">
         <label class="control-label key"><?php print __('Statement of Responsibility'); ?></label>
@@ -87,6 +89,9 @@ ob_start(); /* <- DONT REMOVE THIS COMMAND */
       </div>
     </div>
   </div>
+  <div class="clearfix"></div>
+  <?php echo showComment($detail_id); ?>
+
 </div>
 <?php
 // put the buffer to template var
