@@ -162,7 +162,7 @@ if (!$reportView) {
     ob_start();
     // create datagrid
     $reportgrid = new report_datagrid();
-    $reportgrid->setSQLColumn('b.biblio_id', 'b.title AS \''.__('Title').'\'', 'COUNT(item_id) AS '.__('Copies').'',
+    $reportgrid->setSQLColumn('b.biblio_id', 'b.title AS \''.__('Title').'\'', 'COUNT(item_id) AS \''.__('Copies').'\'',
 		'pl.place_name AS \''.__('Publishing Place').'\'',
 		'pb.publisher_name AS \''.__('Publisher').'\'',
         'b.isbn_issn AS \''.__('ISBN/ISSN').'\'',
@@ -282,7 +282,7 @@ if (!$reportView) {
     echo 'parent.$(\'#pagingBox\').html(\''.str_replace(array("\n", "\r", "\t"), '', $reportgrid->paging_set).'\');'."\n";
     echo '</script>';
 
-	$xlsquery = 'SELECT b.biblio_id, b.title AS \''.__('Title').'\', COUNT(item_id) AS '.__('Copies').
+	$xlsquery = 'SELECT b.biblio_id, b.title AS \''.__('Title').'\', COUNT(item_id) AS \''.__('Copies').'\''.
 		', pl.place_name AS \''.__('Publishing Place').'\''.
 		', pb.publisher_name AS \''.__('Publisher').'\''.
 		',  b.isbn_issn AS \''.__('ISBN/ISSN').'\', b.call_number AS \''.__('Call Number').'\' FROM '.

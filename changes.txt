@@ -1,4 +1,6 @@
 SENAYAN 3 Stable Branch
+SLiMS 5
+SLiMS 7
 Changes Log
 
 Developers :
@@ -7,18 +9,33 @@ Arie Nugraha (dicarve@yahoo.com, dicarve@gmail.com)
 Wardiyono (wynerst@gmail.com)
 Purwoko (purgeologi@yahoo.com, tamanjiwa@gmail.com)
 Sulfan Zayd (sulfan@gmail.com)
-Arif Syamsudin (buitenzorg812@lc.vlsm.org, buitenzorg812@gmail.com)
+Arif Syamsudin (buitenzorg812@yahoo.com, buitenzorg812@gmail.com)
 Rasyid Ridho (rasyidridho@gmail.com, ridhoedogawa@yahoo.com)
 Eddy Subratha (eddy.subratha@gmail.com)
 Indra Sutriadi (indra.sutriadi@gmail.com)
 
 Localisation contributors :
-Tobias Zeumer (tzeumer@verweisungsform.de)
-Jhon Urrego Felipe Mejia (ingenierofelipeurrego@gmail.com)
-Prasitichai เรารักในหลวง
-A. K. M. Nurul Alam
+Germany: Tobias Zeumer (tzeumer@verweisungsform.de)
+???: Jhon Urrego Felipe Mejia (ingenierofelipeurrego@gmail.com)
+Thai: Prasitichai เรารักในหลวง
+Bengali: A. K. M. Nurul Alam
+Persian: Mohammad Javad Mansourzadeh
+Arabic: Rasyid Ridho
+Malay: ???
+Brazilian Portuguese: ???
+Spain: ???
 
 THANKS TO OUR USERS AND COMMUNITIES, YOU ARE DEVELOPERS TOO!
+
+SLiMS 7 (Cendana)
+========================================================================
+Added: Persian translation
+Added: Cendana Responsive template
+Added: Comment field in OPAC
+Added: Membercard generator
+Added: Tooltip in New Bibliography field
+Fixed: Bugs in Custom Reports
+Modified: Type ahead value for Publisher, Publishing Place, Classification
 
 
 SLIMS 5 (Meranti)
