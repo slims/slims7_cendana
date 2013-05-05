@@ -104,7 +104,7 @@ class simbio_form_table_AJAX extends simbio_form_maker
           // delete button exists if the record_id properties exists
           if ($this->record_id && $this->delete_button) {
               // create delete button
-              $_delete_button = '<input type="button" value="'.$_del_value.'" class="button btn btn-danger btn-delete confirmSubmit" onclick="confSubmit(\'deleteForm\', \'Are you sure to delete '.addslashes($this->record_title).'?\nOnce Deleted it cant be restored again\')" style="color: red; font-weight: bold;" />';
+              $_delete_button = '<input type="button" value="'.$_del_value.'" class="button btn btn-danger btn-delete confirmSubmit" onclick="confSubmit(\'deleteForm\', \'Are you sure to delete '.addslashes($this->record_title).'?\nOnce Deleted it cant be restored again\')" />';
           }
           // back button
           if ($this->back_button) {

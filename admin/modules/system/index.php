@@ -256,6 +256,12 @@ $options[] = array('0', __('Disable'));
 $options[] = array('1', __('Enable'));
 $form->addSelectList('enable_xml_result', __('OPAC XML Result'), $options, $sysconf['enable_xml_result']?'1':'0');
 
+// enable spell checker on search
+$options = null;
+$options[] = array('0', __('Disable'));
+$options[] = array('1', __('Enable'));
+$form->addSelectList('spellchecker_enabled', __('Enable Search Spellchecker'), $options, $sysconf['spellchecker_enabled']?'1':'0');
+
 // allow file attachment download
 $options = null;
 $options[] = array('0', __('Forbid'));

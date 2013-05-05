@@ -45,5 +45,6 @@ $content = ob_get_clean();
 
 // page title
 $page_title = 'Bibliographic Data';
+
 // include the page template
 require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
