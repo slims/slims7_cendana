@@ -255,12 +255,21 @@ submenu
 #sidepan {
   width: 250px;
   background: #fff;
-  box-shadow: inset -5px 0px 10px #e6e6e6 !important;
-  -webkit-box-shadow: inset -5px 0px 10px #e6e6e6 !important;
-  -moz-box-shadow: inset -5px 0px 10px #e6e6e6 !important;
-	overflow: auto;
-	position: absolute;
-	bottom: 20px;
+  box-shadow: 0px 0px 10px #999 !important;
+  -webkit-box-shadow: 0px 0px 10px #999 !important;
+  -moz-box-shadow: 0px 0px 10px #999 !important;
+	overflow: hidden;
+	position: fixed;
+	bottom: 45px;
+	height: 300px;
+	max-height: 300px;
+	display: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+#sidepan:hover {
+	overflow-y: scroll;
 }
 
 .subMenuHeader, .per_title {

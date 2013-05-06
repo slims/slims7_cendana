@@ -89,7 +89,7 @@ class detail extends content_list
     public function showDetail()
     {
         if ($this->error) {
-            return '<div style="padding: 5px; margin: 3px; border: 1px dotted #FF0000; color: #FF0000;">Error Fetching data for record detail. Server return error message: '.$this->error.'</div>';
+            return '<div class="error">Error Fetching data for record detail. Server return error message: '.$this->error.'</div>';
         } else {
             if ($this->output_format == 'html' AND !empty($this->list_template)) {
                 return parent::parseListTemplate($this->htmlOutput());
@@ -477,7 +477,7 @@ class detail extends content_list
         $_xml_output .= '<dc:subject>'.$this->record_detail['classification'].'</dc:subject>';
 
         // Permalink
-        $_xml_output .= '<dc:identifier><![CDATA[http://'.$_SERVER['SERVER_NAME'].SWB.'index.php?p=show_detail&id='.$this->detail_id.']]></dc:identifier>';        
+        $_xml_output .= '<dc:identifier><![CDATA[http://'.$_SERVER['SERVER_NAME'].SWB.'index.php?p=show_detail&id='.$this->detail_id.']]></dc:identifier>';
 
         // ISBN/ISSN
         $_xml_output .= '<dc:identifier>'.str_replace(array('-', ' '), '', $this->record_detail['isbn_issn']).'</dc:identifier>';

@@ -80,3 +80,4 @@ flowplayer("player", "<?php echo $flowplayer_core; ?>", {
 </script>
 </body>
 </html>
+<?php exit(); ?>

@@ -21,7 +21,7 @@
 // be sure that this file not accessed directly
 if (!defined('INDEX_AUTH')) {
     die("can not access this file directly");
-} elseif (INDEX_AUTH != 1) { 
+} elseif (INDEX_AUTH != 1) {
     die("can not access this file directly");
 }
 
@@ -108,8 +108,9 @@ if ($file_q->num_rows > 0) {
             exit();
         }
     } else {
-        die('<div class="errorBox">File Not Found!</div>');
+        echo '<div class="errorBox">File Not Found!</div>';
     }
 } else {
-    die('<div class="errorBox">File Not Found!</div>');
+    echo '<div class="errorBox">File Not Found!</div>';
 }
+exit();

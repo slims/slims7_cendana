@@ -6,6 +6,7 @@
 <meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT" />
 <link rel="icon" href="<?php echo SWB; ?>webicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo SWB; ?>webicon.ico" type="image/x-icon" />
+<link href="<?php echo SWB; ?>template/core.style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $sysconf['admin_template']['css']; ?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>chosen/chosen.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>colorbox/colorbox.css" rel="stylesheet" type="text/css" />
@@ -55,6 +56,26 @@
 <!-- license info -->
 <div id="footer"><?php echo $sysconf['page_footer']; ?></div>
 <!-- license info end -->
+
+<script type="text/javascript">
+jQuery(document).ready( function() {
+
+var timeOut = null;
+jQuery('#mainMenu .menuCurrent, #mainMenu .home').bind('mouseover', function() {
+	var menu = jQuery(this);
+	var menuPos = menu.position();
+	jQuery('#sidepan').css({left: menuPos.left+'px'}).slideDown().bind('mouseover', function() {
+	  clearTimeout(timeOut);
+  });
+}).bind('mouseout', function() {
+  timeOut = setTimeout( function() { jQuery('#sidepan').slideUp(); }, 1000 );
+});
+
+jQuery('body').not('#sidepan a').click( function() { jQuery('#sidepan').fadeOut(); clearTimeout(timeOut); } );
+
+})
+
+</script>
 
 <!-- fake submit iframe for search form, DONT REMOVE THIS! -->
 <iframe name="blindSubmit" style="visibility: hidden; width: 0; height: 0;"></iframe>

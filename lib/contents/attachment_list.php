@@ -68,12 +68,12 @@ if (($ajaxsec_user == $sysconf['ajaxsec_user']) AND ($ajaxsec_passwd == $sysconf
         }
         #if (preg_match('@(video|audio|image)/.+@i', $attachment_d['mime_type'])) {
         if ($attachment_d['mime_type'] == 'application/pdf') {
-          echo '<li style="list-style-image: url(images/labels/ebooks.png)"><strong><a href="#" title="Read the book online" onclick="openHTMLpop(\'index.php?p=fstream&fid='.$attachment_d['file_id'].'&bid='.$attachment_d['biblio_id'].'\', 830, 500, \''.$attachment_d['file_title'].'\')">'.$attachment_d['file_title'].'</a></strong>';
+          echo '<li style="list-style-image: url(images/labels/ebooks.png)"><strong><a class="openPopUp" title="'.$attachment_d['file_title'].'" href="index.php?p=fstream&fid='.$attachment_d['file_id'].'&bid='.$attachment_d['biblio_id'].'" width="800" height="500">'.$attachment_d['file_title'].'</a></strong>';
           echo '<div><i>'.$attachment_d['file_desc'].'</i></div>';
           if (trim($attachment_d['file_url']) != '') { echo '<div><a href="'.trim($attachment_d['file_url']).'" title="Other Resource related to this book" target="_blank">Other Resource Link</a></div>'; }
           echo '</li>';
         } else if (preg_match('@(video|audio)/.+@i', $attachment_d['mime_type'])) {
-          echo '<li style="list-style-image: url(images/labels/auvi.png)"><strong><a href="#" title="Click to Play, Listen or View" onclick="openHTMLpop(\'index.php?p=multimediastream&fid='.$attachment_d['file_id'].'&bid='.$attachment_d['biblio_id'].'\', 400, 300, \''.$attachment_d['file_title'].'\')">'.$attachment_d['file_title'].'</a></strong>';
+          echo '<li style="list-style-image: url(images/labels/auvi.png)"><strong><a class="openPopUp" title="'.$attachment_d['file_title'].'" href="index.php?p=multimediastream&fid='.$attachment_d['file_id'].'&bid='.$attachment_d['biblio_id'].'" width="640" height="480">'.$attachment_d['file_title'].'</a></strong>';
           echo '<div><i>'.$attachment_d['file_desc'].'</i></div>';
           if (trim($attachment_d['file_url']) != '') { echo '<div><a href="'.trim($attachment_d['file_url']).'" title="Other Resource Link" target="_blank">Other Resource Link</a></div>'; }
           echo '</li>';
@@ -92,7 +92,7 @@ if (($ajaxsec_user == $sysconf['ajaxsec_user']) AND ($ajaxsec_passwd == $sysconf
             $imgheight = 400;
           }
           #echo '<li style="list-style-image: url(images/labels/ebooks.png)"><strong><a href="#" title="Click To View File" onclick="openHTMLpop(\'index.php?p=fstream&fid='.$attachment_d['file_id'].'&bid='.$attachment_d['biblio_id'].'\', 600, 400, \''.$attachment_d['file_title'].'\')">'.$attachment_d['file_title'].'</a></strong>';
-          echo '<li style="list-style-image: url(images/labels/ebooks.png)"><strong><a href="#" title="Click To View File" onclick="openHTMLpop(\'index.php?p=fstream&fid='.$attachment_d['file_id'].'&bid='.$attachment_d['biblio_id'].'\', '.$imgwidth.', '.$imgheight.', \''.$attachment_d['file_title'].'\')">'.$attachment_d['file_title'].'</a></strong>';
+          echo '<li style="list-style-image: url(images/labels/ebooks.png)"><strong><a class="openPopUp" title="'.$attachment_d['file_title'].'" href="index.php?p=fstream&fid='.$attachment_d['file_id'].'&bid='.$attachment_d['biblio_id'].'" width="'.$imgwidth.'" height="'.$imgheight.'">'.$attachment_d['file_title'].'</a></strong>';
           if (trim($attachment_d['file_url']) != '') { echo ' [<a href="'.trim($attachment_d['file_url']).'" title="Other Resource related to this file" target="_blank" style="font-size: 90%;">Other Resource Link</a>]'; }
           echo '<div><i>'.$attachment_d['file_desc'].'</i></div></li>';
         } else {
