@@ -241,7 +241,8 @@ jQuery.fn.registerAdminEvents = function(params) {
   });
 
   // change all search form submit behaviour to AJAX
-  container.find('form.disabled').disableForm();
+	var disabledForm = container.find('form.disabled');
+	if (disabledForm.length > 0) {  disabledForm.disableForm(); }
 
   // change all search form submit behaviour to AJAX
   container.find('.editFormLink').click(function(evt) {
@@ -462,7 +463,8 @@ $('document').ready(function() {
   });
 
   // disable form with class "disabled"
-  $('form.disabled').disableForm();
+	var disabledForm = $('form.disabled');
+	if (disabledForm.length > 0) {  disabledForm.disableForm(); }
   $(document).registerAdminEvents({ajaxifyLink: false, ajaxifyForm: false});
 
   // jquery colorbox

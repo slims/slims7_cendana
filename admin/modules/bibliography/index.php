@@ -645,7 +645,6 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   });
   </script>
   <?php
-  exit();
 } else {
   require SIMBIO.'simbio_UTILS/simbio_tokenizecql.inc.php';
   require MDLBS.'bibliography/biblio_utils.inc.php';

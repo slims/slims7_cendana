@@ -50,7 +50,7 @@ $main_menu = $module->generateModuleMenu($dbs);
 $current_module = '';
 // get module from URL
 if (isset($_GET['mod']) AND !empty($_GET['mod'])) {
-    $current_module = trim($_GET['mod']);
+  $current_module = trim($_GET['mod']);
 }
 // read privileges
 $can_read = utility::havePrivilege($current_module, 'r');

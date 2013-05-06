@@ -20,7 +20,6 @@
 <script type="text/javascript" src="<?php echo JWB; ?>chosen/ajax-chosen.min.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>tooltipsy.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>colorbox/jquery.colorbox-min.js"></script>
-<!-- new them for Meranti by Eddy Subratha -->
 </head>
 <body>
 <!-- main menu -->
@@ -41,15 +40,15 @@
 
 <table id="main" cellpadding="0" cellspacing="0">
 <tr>
-    <td id="sidepan">
-	    <?php echo $sub_menu; ?>
-    </td>
     <td>
     	<a name="top"></a>
 	    <div class="loader"><?php echo $info; ?></div>
 	    <div id="mainContent">
 	    <?php echo $main_content; ?>
 	    </div>
+      <div id="sidepan">
+	      <?php echo $sub_menu; ?>
+      </div>
     </td>
 </tr>
 </table>
@@ -57,6 +56,26 @@
 <!-- license info -->
 <div id="footer"><?php echo $sysconf['page_footer']; ?></div>
 <!-- license info end -->
+
+<script type="text/javascript">
+jQuery(document).ready( function() {
+
+var timeOut = null;
+jQuery('#mainMenu .menuCurrent, #mainMenu .home').bind('mouseover', function() {
+	var menu = jQuery(this);
+	var menuPos = menu.position();
+	jQuery('#sidepan').css({left: menuPos.left+'px'}).slideDown().bind('mouseover', function() {
+	  clearTimeout(timeOut);
+  });
+}).bind('mouseout', function() {
+  timeOut = setTimeout( function() { jQuery('#sidepan').slideUp(); }, 1000 );
+});
+
+jQuery('body').not('#sidepan a').click( function() { jQuery('#sidepan').fadeOut(); clearTimeout(timeOut); } );
+
+})
+
+</script>
 
 <!-- fake submit iframe for search form, DONT REMOVE THIS! -->
 <iframe name="blindSubmit" style="visibility: hidden; width: 0; height: 0;"></iframe>
