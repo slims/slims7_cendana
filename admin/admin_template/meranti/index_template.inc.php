@@ -6,6 +6,7 @@
 <meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT" />
 <link rel="icon" href="<?php echo SWB; ?>webicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo SWB; ?>webicon.ico" type="image/x-icon" />
+<link href="<?php echo SWB; ?>template/core.style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $sysconf['admin_template']['css']; ?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>chosen/chosen.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>colorbox/colorbox.css" rel="stylesheet" type="text/css" />
@@ -19,6 +20,7 @@
 <script type="text/javascript" src="<?php echo JWB; ?>chosen/ajax-chosen.min.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>tooltipsy.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>colorbox/jquery.colorbox-min.js"></script>
+<!-- new them for Meranti by Eddy Subratha -->
 </head>
 <body>
 <!-- main menu -->
@@ -39,15 +41,15 @@
 
 <table id="main" cellpadding="0" cellspacing="0">
 <tr>
+    <td id="sidepan">
+	    <?php echo $sub_menu; ?>
+    </td>
     <td>
     	<a name="top"></a>
 	    <div class="loader"><?php echo $info; ?></div>
 	    <div id="mainContent">
 	    <?php echo $main_content; ?>
 	    </div>
-      <div id="sidepan">
-	      <?php echo $sub_menu; ?>
-      </div>
     </td>
 </tr>
 </table>
