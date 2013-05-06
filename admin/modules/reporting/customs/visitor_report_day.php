@@ -89,8 +89,6 @@ if (!$reportView) {
             echo simbio_form_element::selectList('year', $year_options, $current_year);
             ?>
             </div>
-        </div>
-        <div class="divRow">
             <div class="divRowLabel"><?php echo __('Month'); ?></div>
             <div class="divRowContent">
             <?php
@@ -139,7 +137,7 @@ if (!$reportView) {
     $output = simbio_date::generateCalendar($selected_year, $selected_month, $visitor_data);
 
     // print out
-    echo '<div class="printPageInfo">Visitor Report for year <strong>'.$selected_year.'</strong> <a class="printReport" onclick="window.print()" href="#">'.__('Print Current Page').'</a></div>'."\n";
+    echo '<div class="printPageInfo">Visitor Report for <strong>'.$months[$selected_month].', '.$selected_year.'</strong> <a class="printReport" onclick="window.print()" href="#">'.__('Print Current Page').'</a></div>'."\n";
     echo $output;
 
     $content = ob_get_clean();
