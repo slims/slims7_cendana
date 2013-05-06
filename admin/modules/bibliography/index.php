@@ -108,12 +108,12 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
 
     // check publisher
     // echo stripos($_POST['publisherID'], 'NEW:');
-    if (stripos($_POST['publisherID'], 'NEW:') == 0) {
+    if (stripos($_POST['publisherID'], 'NEW:') === 0) {
       $new_publisher = str_ireplace('NEW:', '', trim(strip_tags($_POST['publisherID'])));
       $new_id = utility::getID($dbs, 'mst_publisher', 'publisher_id', 'publisher_name', $new_publisher);
       $data['publisher_id'] = $new_id;
     } else {
-      $data['publisher_id'] = (integer)$_POST['publisherID'];
+      $data['publisher_id'] = intval($_POST['publisherID']);
     }
 
     $data['publish_year'] = trim($dbs->escape_string(strip_tags($_POST['year'])));
@@ -122,13 +122,14 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     $data['call_number'] = trim($dbs->escape_string(strip_tags($_POST['callNumber'])));
     $data['language_id'] = trim($dbs->escape_string(strip_tags($_POST['languageID'])));
     // check place
-    if (stripos($_POST['placeID'], 'NEW:') == 0) {
+    if (stripos($_POST['placeID'], 'NEW:') === 0) {
       $new_place = str_ireplace('NEW:', '', trim(strip_tags($_POST['placeID'])));
       $new_id = utility::getID($dbs, 'mst_place', 'place_id', 'place_name', $new_place);
       $data['publish_place_id'] = $new_id;
     } else {
-      $data['publish_place_id'] = (integer)$_POST['placeID'];
+      $data['publish_place_id'] = intval($_POST['placeID']);
     }
+
     $data['notes'] = trim($dbs->escape_string(strip_tags($_POST['notes'], '<br><p><div><span><i><em><strong><b><code>s')));
     $data['opac_hide'] = ($_POST['opacHide'] == '0')?'literal{0}':'1';
     $data['promoted'] = ($_POST['promote'] == '0')?'literal{0}':'1';

@@ -30,7 +30,7 @@
 <div id="header">
 	<div id="headerImage">&nbsp;</div>
 	<div id="libraryName">
-		<?php echo $sysconf['library_name']; ?>
+		<a href="./index.php"><?php echo $sysconf['library_name']; ?></a>
 	</div>
 	<div id="librarySubName">
 		<?php echo $sysconf['library_subname']; ?>
