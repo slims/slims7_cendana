@@ -60,6 +60,12 @@ if (!(class_exists('System') && class_exists('File_MARC'))) {
 // max chars in line for file operations
 $max_chars = 1024*100;
 
+if ($sysconf['index']['type'] == 'index') {
+  require MDLBS.'system/biblio_indexer.inc.php';
+  // create biblio_indexer class instance
+  $indexer = new biblio_indexer($dbs);
+}
+
 if (isset($_POST['doImport'])) {
     // check for form validity
     if (!$_FILES['importFile']['name']) {
@@ -111,26 +117,25 @@ if (isset($_POST['doImport'])) {
         $data['input_date'] = $input_date;
         $data['last_update'] = $input_date;
 
-        echo '<pre>';
-        echo "\n";
         $title_fld = $record->getField('245');
         // Main title
         $title_main = $title_fld->getSubfields('a');
         // echo $title_main[0]->getData();
-        $data['title'] = $title_main[0]->getData();
+        $data['title'] = $dbs->escape_string(trim($title_main[0]->getData()));
         // Sub title
         $subtitle = $title_fld->getSubfields('b');
         if (isset($subtitle[0])) {
           // echo 'Subtitle: '.$subtitle[0]->getData();
-          $data['title'] .= $subtitle[0]->getData();
+          $data['title'] .= $dbs->escape_string(trim($subtitle[0]->getData()));
         }
 
         // Statement of Responsibility
         $sor = $title_fld->getSubfields('c');
         if (isset($sor[0])) {
-          $data['title'] .= $sor[0]->getData();
+          // $data['title'] .= $sor[0]->getData();
+          $data['sor'] = $dbs->escape_string(trim($sor[0]->getData()));
           // echo "\n"; echo 'Statement of responsibility: '.$sor[0]->getData();
-          $data['sor_id'] = utility::getID($dbs, 'mst_sor', 'sor_id', 'sor', $sor[0]->getData(), $sor_cache);
+          // $data['sor_id'] = utility::getID($dbs, 'mst_sor', 'sor_id', 'sor', $sor[0]->getData(), $sor_cache);
         }
 
         // Edition
@@ -140,11 +145,11 @@ if (isset($_POST['doImport'])) {
           $ed2 = $ed_fld->getSubfields('b');
           if (isset($ed[0])) {
             // echo "\n"; echo 'Edition: '.$ed[0]->getData();
-            $data['edition'] = $ed[0]->getData();
+            $data['edition'] = $dbs->escape_string(trim($ed[0]->getData()));
           }
           if (isset($ed2[0])) {
             // echo "\n"; echo 'Edition: '.$ed[0]->getData();
-            $data['edition'] .= $ed2[0]->getData();
+            $data['edition'] .= $dbs->escape_string(trim($ed2[0]->getData()));
           }
         }
 
@@ -234,7 +239,7 @@ if (isset($_POST['doImport'])) {
           $series = $series_fld->getSubfields('a');
           if (isset($series[0])) {
             // echo "\n"; echo 'Series: '.$series[0]->getData();
-            $data['series_title'] = $series[0]->getData();
+            $data['series_title'] = $dbs->escape_string(trim($series[0]->getData()));
           }
         }
 
@@ -247,7 +252,7 @@ if (isset($_POST['doImport'])) {
                 if ($note_fld) {
                   $notes = $note_fld->getSubfields('a');
                   if (isset($notes[0])) {
-                    $data['notes'] .= $notes[0]->getData();
+                    $data['notes'] .= $dbs->escape_string(trim($notes[0]->getData()));
                   }
                 }
             }
@@ -255,10 +260,10 @@ if (isset($_POST['doImport'])) {
 
         // insert biblio data
         $sql_op->insert('biblio', $data);
-        // echo '<p>'.$sql_op->error.'</p><p>&nbsp;</p>';
+        echo '<p>'.$sql_op->error.'</p><p>&nbsp;</p>';
         $biblio_id = $sql_op->insert_id;
         if ($biblio_id < 1) {
-            continue;
+          continue;
         }
         $updated_row++;
 
@@ -272,7 +277,7 @@ if (isset($_POST['doImport'])) {
                   if (isset($subject[0])) {
                     // echo $subject[0]->getData();
                     $subject_type = 't';
-                    $subject_id = getSubjectID($subject[0]->getData(), $subject_type, $subject_cache);
+                    $subject_id = getSubjectID($dbs->escape_string(trim($subject[0]->getData())), $subject_type, $subject_cache);
                     @$dbs->query("INSERT IGNORE INTO biblio_topic (biblio_id, topic_id, level) VALUES ($biblio_id, $subject_id, 1)");
                   }
                 }
@@ -285,7 +290,7 @@ if (isset($_POST['doImport'])) {
           $mes = $me_fld->getSubfields('a');
           if (isset($me[0])) {
             // echo 'Main entry: '.$me[0]->getData();
-            $author_id = utility::getID($dbs, 'mst_author', 'author_id', 'author_name', $me[0]->getData(), $author_cache);
+            $author_id = utility::getID($dbs, 'mst_author', 'author_id', 'author_name', $dbs->escape_string(trim($me[0]->getData())), $author_cache);
             @$dbs->query("INSERT IGNORE INTO biblio_author (biblio_id, author_id, level) VALUES ($biblio_id, $author_id, 1)");
           }
         }
@@ -307,22 +312,26 @@ if (isset($_POST['doImport'])) {
                   $author = $auth_fld->getSubfields('a');
                   if (isset($author[0])) {
                     // echo $author[0]->getData();
-                    $author_id = getAuthorID($author[0]->getData(), $author_type, $author_cache);
+                    $author_id = getAuthorID($dbs->escape_string(trim($author[0]->getData())), $author_type, $author_cache);
                     @$dbs->query("INSERT IGNORE INTO biblio_author (biblio_id, author_id, level) VALUES ($biblio_id, $author_id, 1)");
                   }
                 }
             }
         }
 
-        echo '</pre>';
+        // create biblio index
+        if ($sysconf['index']['type'] == 'index') {
+          $indexer->makeIndex($biblio_id);
+        }
+
       }
 
       $end_time = time();
       $import_time_sec = $end_time-$start_time;
       utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'bibliography', 'Importing '.$updated_row.' MARC records from file : '.$_FILES['importFile']['name']);
       echo '<script type="text/javascript">'."\n";
-      echo 'parent.$(\'#importInfo\').html(\'<strong>'.$updated_row.'</strong> records updated successfully to item database, from record <strong>'.$_POST['recordOffset'].' in '.$import_time_sec.' second(s)</strong>\');'."\n";
-      echo 'parent.$(\'#importInfo\').css( {\'display\': \'block\'} );'."\n";
+      echo 'top.jQuery(\'#importInfo\').html(\'<strong>'.$updated_row.'</strong> records updated successfully to item database, from record <strong>'.$_POST['recordOffset'].' in '.$import_time_sec.' second(s)</strong>\');'."\n";
+      echo 'top.jQuery(\'#importInfo\').css( {display: \'block\'} );'."\n";
       echo '</script>';
       exit();
     }
