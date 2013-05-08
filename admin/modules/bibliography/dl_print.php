@@ -165,7 +165,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     // chunk label array
     $chunked_label_arrays = array_chunk($label_data_array, $sysconf['print']['label']['items_per_row']);
     // create html ouput of images
-    $html_str = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n";
+    $html_str = '<!DOCTYPE html>'."\n";
     $html_str .= '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Document Label Print Result</title>'."\n";
     $html_str .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
     $html_str .= '<meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0" /><meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT" />';

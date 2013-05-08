@@ -150,10 +150,12 @@ $sysconf['spellchecker_enabled'] = false;
 header('Content-type: text/html; charset=UTF-8');
 
 /* GUI Template config */
+ob_start();
+include $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/tinfo.inc.php';
+ob_end_clean();
 $sysconf['template']['dir'] = 'template';
 $sysconf['template']['theme'] = 'default';
 $sysconf['template']['css'] = $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/style.css';
-#require $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/tinfo.inc.php';
 
 /* ADMIN SECTION GUI Template config */
 $sysconf['admin_template']['dir'] = 'admin_template';
@@ -581,7 +583,7 @@ $sysconf['authority_level'][10] = __('Contributor');
 $sysconf['comment']['enable'] =  true;
 
 // redirect to mobile template on mobile mode
-if (defined('LIGHTWEIGHT_MODE') AND ! isset($_COOKIE['FULLSITE_MODE'])) {
+if (defined('LIGHTWEIGHT_MODE') AND !isset($_COOKIE['FULLSITE_MODE']) AND $sysconf['template']['responsive'] === false) {
   $sysconf['template']['theme'] = 'lightweight';
   $sysconf['template']['css'] = $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/style.css';
   $sysconf['enable_xml_detail'] = false;

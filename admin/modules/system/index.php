@@ -142,6 +142,10 @@ if (isset($_POST['updateData'])) {
     // barcode encoding
     $dbs->query('UPDATE setting SET setting_value=\''.$dbs->escape_string(serialize($_POST['barcode_encoding'])).'\' WHERE setting_name=\'barcode_encoding\'');
 
+    // spellchecker
+    $spellchecker_enabled = $_POST['spellchecker_enabled'] == '1'?true:false;
+    $dbs->query('REPLACE INTO setting (setting_value, setting_name) VALUES (\''.serialize($spellchecker_enabled).'\',  \'spellchecker_enabled\')');
+
     // write log
     utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'system', $_SESSION['realname'].' change application global configuration');
     utility::jsAlert(__('Settings saved. Refreshing page'));
