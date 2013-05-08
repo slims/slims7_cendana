@@ -4,7 +4,7 @@
 * Visitor Counter
 * Copyright (C) 2010 Arie Nugraha (dicarve@yahoo.com)
 * Modified By Eddy Subratha (eddy.subratha@gmail.com)
-* 
+*
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation; either version 2 of the License, or
@@ -62,49 +62,49 @@ if (isset($_POST['counter'])) {
 * Insert counter data to database
 */
 function setCounter($str_member_ID) {
-    global $dbs, $member_name, $photo, $expire;
-// check if ID exists
-    $str_member_ID = $dbs->escape_string($str_member_ID);
-    $_q = $dbs->query("SELECT member_id,member_name,member_image,inst_name, IF(TO_DAYS('".date('Y-m-d')."')>TO_DAYS(expire_date), 1, 0) AS is_expire FROM member WHERE member_id='$str_member_ID'");
-// if member is already registered
-    if ($_q->num_rows > 0) {
-        $_d = $_q->fetch_assoc();
-        if ($_d['is_expire'] == 1) {
-            $expire = 1;
-        }
-        $member_id = $_d['member_id'];
-        $member_name = $_d['member_name'];
-        $photo = trim($_d['member_image'])?trim($_d['member_image']):'person.png';
-        $_institution = trim($_d['inst_name'])?"'".$_d['inst_name']."'":'NULL';
-        $_checkin_date = date('Y-m-d H:i:s');
-        $_i = $dbs->query("INSERT INTO visitor_count (member_id, member_name, institution, checkin_date) VALUES ('$member_id', '$member_name', $_institution, '$_checkin_date')");
-    } else {
-// non member
-        $_d = $_q->fetch_assoc();
-        $member_name = $dbs->escape_string(trim($_POST['memberID']));
-        $_institution = $dbs->escape_string(trim($_POST['institution']));
-        $_checkin_date = date('Y-m-d H:i:s');
-        if (!$_institution) {
-            return INSTITUTION_EMPTY;
-        } else {
-            $_i = $dbs->query("INSERT INTO visitor_count (member_name, institution, checkin_date) VALUES ('$member_name', '$_institution', '$_checkin_date')");
-        }
-    }
-    return true;
+  global $dbs, $member_name, $photo, $expire;
+  // check if ID exists
+  $str_member_ID = $dbs->escape_string($str_member_ID);
+  $_q = $dbs->query("SELECT member_id,member_name,member_image,inst_name, IF(TO_DAYS('".date('Y-m-d')."')>TO_DAYS(expire_date), 1, 0) AS is_expire FROM member WHERE member_id='$str_member_ID'");
+  // if member is already registered
+  if ($_q->num_rows > 0) {
+      $_d = $_q->fetch_assoc();
+      if ($_d['is_expire'] == 1) {
+          $expire = 1;
+      }
+      $member_id = $_d['member_id'];
+      $member_name = $_d['member_name'];
+      $photo = trim($_d['member_image'])?trim($_d['member_image']):'person.png';
+      $_institution = trim($_d['inst_name'])?"'".$_d['inst_name']."'":'NULL';
+      $_checkin_date = date('Y-m-d H:i:s');
+      $_i = $dbs->query("INSERT INTO visitor_count (member_id, member_name, institution, checkin_date) VALUES ('$member_id', '$member_name', $_institution, '$_checkin_date')");
+  } else {
+  // non member
+      $_d = $_q->fetch_assoc();
+      $member_name = $dbs->escape_string(trim($_POST['memberID']));
+      $_institution = $dbs->escape_string(trim($_POST['institution']));
+      $_checkin_date = date('Y-m-d H:i:s');
+      if (!$_institution) {
+          return INSTITUTION_EMPTY;
+      } else {
+          $_i = $dbs->query("INSERT INTO visitor_count (member_name, institution, checkin_date) VALUES ('$member_name', '$_institution', '$_checkin_date')");
+      }
+  }
+  return true;
 }
 
 
 $memberID = trim($_POST['memberID']);
 $counter = setCounter($memberID);
 if ($counter === true) {
-    echo __($member_name.', thank you for inserting your data to our visitor log').'<span id="memberImage" src="images/persons/'.urlencode($photo).'"></span>';
-    if ($expire) {
-        echo '<div style="color: #f00;">'.__('Your membership already EXPIRED, please renew/extend your membership immediately').'</div>';
-    }
+  echo __($member_name.', thank you for inserting your data to our visitor log').'<span id="memberImage" src="images/persons/'.urlencode($photo).'"></span>';
+  if ($expire) {
+    echo '<div class="error">'.__('Your membership already EXPIRED, please renew/extend your membership immediately').'</div>';
+  }
 } else if ($counter === INSTITUTION_EMPTY) {
-    echo __('Sorry, Please fill institution field if you are not library member');
+  echo __('Sorry, Please fill institution field if you are not library member');
 } else {
-    echo __('Error inserting counter data to database!');
+  echo __('Error inserting counter data to database!');
 }
 exit();
 }
@@ -119,26 +119,27 @@ exit();
                     <hr/>
                     <div class="info"><?php echo __('Please insert your library member ID otherwise your full name instead'); ?></div>
                     <hr/>
-                    <img id="visitorCounterPhoto" src="images/persons/photo.png" class="photo img-circle" />
+                    <img id="visitorCounterPhoto" src="./images/persons/photo.png" class="photo img-circle" />
                     <hr/>
+                    <div id="counterInfo">&nbsp;</div>
                     <form action="index.php?p=visitor" name="visitorCounterForm" id="visitorCounterForm" method="post" class="form-inline">
                         <div class="control-group">
-                            <label class="control-label"><?php echo __('Member ID'); ?> / <?php echo __('Visitor Name'); ?></label>    
+                            <label class="control-label"><?php echo __('Member ID'); ?> / <?php echo __('Visitor Name'); ?></label>
                             <div class="controls">
-                                <input type="text" name="memberID" id="memberID"  class="input-block-level" />                                
+                                <input type="text" name="memberID" id="memberID"  class="input-block-level" />
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label"><?php echo __('Institution'); ?> / <?php echo __('Visitor Name'); ?></label>    
+                            <label class="control-label"><?php echo __('Institution'); ?> / <?php echo __('Visitor Name'); ?></label>
                             <div class="controls">
-                                <input type="text" name="institution" id="institution"  class="input-block-level" />                               
+                                <input type="text" name="institution" id="institution"  class="input-block-level" />
                             </div>
                         </div>
 
                         <div class="control-group">
                             <div class="controls">
-                                <input type="submit" id="counter" name="counter" value="<?php echo __('Add'); ?>" class="btn-block btn btn-primary" />                            
+                                <input type="submit" id="counter" name="counter" value="<?php echo __('Add'); ?>" class="btn-block btn btn-primary" />
                             </div>
                         </div>
 
@@ -153,6 +154,7 @@ exit();
 </div>
 
 <script type="text/javascript">
+jQuery(document).ready( function() {
 
 // give focus to first field
 jQuery('#memberID').focus();
@@ -201,9 +203,14 @@ jQuery.ajax(
         data: formData,
         cache: false,
         success: function(respond) {
-            jQuery('#counterInfo').html(respond);
+          jQuery('#counterInfo').html(respond);
+          // reset counter
+          setTimeout(function() { jQuery('#visitorCounterPhoto').attr('src', './images/persons/photo.png');
+            jQuery('#counterInfo').html('&nbsp;'); }, 5000);
         }
     });
+});
+
 });
 </script>
 
@@ -214,4 +221,3 @@ $main_content = ob_get_clean();
 $page_title = $sysconf['library_name'].' :: Visitor Counter';
 require_once $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/login_template.inc.php';
 exit();
-?>
