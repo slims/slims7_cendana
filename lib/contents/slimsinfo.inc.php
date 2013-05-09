@@ -46,7 +46,7 @@ Simbio Engine v2.0, Copyright (c) 2007-2013 Arie Nugraha
 <div style="font-weight:bold;">Developers:</div>
 Lead Developer: Hendro Wicaksono<br />
 Programmer: Arie Nugraha, Hendro Wicaksono, Tobias Zeumer, Wardiyono, Indra Sutriadi, Eddy Subratha<br />
-Documentation: Purwoko (lead), Arif Syamsudin, Hendro Wicaksono, Rasyid Ridho, Sulfan Zayd, Wardiyono
+Documentation: Purwoko, Arif Syamsudin, Hendro Wicaksono, Rasyid Ridho, Sulfan Zayd, Wardiyono
 </p>
 
 <p>
@@ -55,9 +55,9 @@ Germany: Tobias Zeumer<br />
 Arabic: Rasyid Ridho<br />
 Thai: Prasitichai เรารักในหลวง<br />
 Persian: Mohammad Javad Mansourzadeh<br />
-Malay: <br />
+Malay: Jerry Mohd. Arif<br />
 Brazilian Portuguese: <br />
-Spain: <br />
+Spain: Jhon Urrego Felipe Mejia (ingenierofelipeurrego@gmail.com)<br />
 Bengali: A. K. M. Nurul Alam
 </p>
 
