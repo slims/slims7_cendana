@@ -150,10 +150,12 @@ $sysconf['spellchecker_enabled'] = false;
 header('Content-type: text/html; charset=UTF-8');
 
 /* GUI Template config */
+ob_start();
+include $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/tinfo.inc.php';
+ob_end_clean();
 $sysconf['template']['dir'] = 'template';
 $sysconf['template']['theme'] = 'default';
 $sysconf['template']['css'] = $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/style.css';
-#require $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/tinfo.inc.php';
 
 /* ADMIN SECTION GUI Template config */
 $sysconf['admin_template']['dir'] = 'admin_template';
@@ -391,7 +393,7 @@ if (($sysconf['auth']['user']['method'] === 'LDAP') OR ($sysconf['auth']['member
     $sysconf['auth']['member']['ldap_port'] = &$sysconf['auth']['user']['ldap_port']; // optional LDAP server connection port, use null or false for default
     $sysconf['auth']['member']['ldap_options'] = &$sysconf['auth']['user']['ldap_options']; // optional LDAP server options
     $sysconf['auth']['member']['ldap_search_filter'] = &$sysconf['auth']['user']['ldap_search_filter']; // LDAP search filter, #loginUserName will be replaced by the real login name
-    $sysconf['auth']['member']['userid_field'] = &$sysconf['auth']['user']['username_field']; // LDAP field for username
+    $sysconf['auth']['member']['userid_field'] = &$sysconf['auth']['user']['userid_field']; // LDAP field for username
     $sysconf['auth']['member']['fullname_field'] = &$sysconf['auth']['user']['fullname_field']; // LDAP field for full name
     $sysconf['auth']['member']['mail_field'] = &$sysconf['auth']['user']['mail_field']; // LDAP field for e-mail
 }
@@ -581,7 +583,7 @@ $sysconf['authority_level'][10] = __('Contributor');
 $sysconf['comment']['enable'] =  true;
 
 // redirect to mobile template on mobile mode
-if (defined('LIGHTWEIGHT_MODE') AND ! isset($_COOKIE['FULLSITE_MODE'])) {
+if (defined('LIGHTWEIGHT_MODE') AND !isset($_COOKIE['FULLSITE_MODE']) AND $sysconf['template']['responsive'] === false) {
   $sysconf['template']['theme'] = 'lightweight';
   $sysconf['template']['css'] = $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/style.css';
   $sysconf['enable_xml_detail'] = false;

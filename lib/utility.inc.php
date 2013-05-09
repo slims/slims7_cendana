@@ -254,7 +254,7 @@ class utility
     public static function isMemberLogin()
     {
         $_logged_in = false;
-        $_logged_in = isset($_SESSION['mid']) && isset($_SESSION['m_name']) && isset($_SESSION['m_email']);
+        $_logged_in = isset($_SESSION['mid']) && isset($_SESSION['m_name']);
         return $_logged_in;
     }
 

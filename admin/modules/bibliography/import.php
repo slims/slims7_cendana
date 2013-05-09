@@ -42,7 +42,13 @@ $can_read = utility::havePrivilege('bibliography', 'r');
 $can_write = utility::havePrivilege('bibliography', 'w');
 
 if (!$can_read) {
-    die('<div class="errorBox">'.__('You are not authorized to view this section').'</div>');
+  die('<div class="errorBox">'.__('You are not authorized to view this section').'</div>');
+}
+
+if ($sysconf['index']['type'] == 'index') {
+  require MDLBS.'system/biblio_indexer.inc.php';
+  // create biblio_indexer class instance
+  $indexer = new biblio_indexer($dbs);
 }
 
 // max chars in line for file operations
@@ -201,6 +207,11 @@ if (isset($_POST['doImport'])) {
                       // execute query
                       $dbs->query($item_sql);
                   }
+              }
+
+              // create biblio index
+              if ($sysconf['index']['type'] == 'index') {
+                $indexer->makeIndex($biblio_id);
               }
           }
           $row_count++;

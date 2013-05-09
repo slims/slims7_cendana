@@ -34,7 +34,7 @@ require LIB.'member_session.inc.php';
 // start session
 session_start();
 if ($sysconf['template']['base'] == 'html') {
-    require SIMBIO.'simbio_GUI/template_parser/simbio_template_parser.inc.php';
+  require SIMBIO.'simbio_GUI/template_parser/simbio_template_parser.inc.php';
 }
 
 // page title
@@ -49,7 +49,7 @@ $header_info = '';
 $metadata = '';
 // member login information
 if (utility::isMemberLogin()) {
-    $header_info .= '<div id="memberLoginInfo">'.__('You are currently Logged on as member').': <strong>'.$_SESSION['m_name'].' (<em>'.$_SESSION['m_email'].'</em>)</strong> <a id="memberLogout" href="index.php?p=member&logout=1">'.__('LOGOUT').'</a></div>';
+  $header_info .= '<div id="memberLoginInfo">'.__('You are currently Logged on as member').': <strong>'.$_SESSION['m_name'].' (<em>'.$_SESSION['m_email'].'</em>)</strong> <a id="memberLogout" href="index.php?p=member&logout=1">'.__('LOGOUT').'</a></div>';
 }
 
 // start the output buffering for main content
@@ -64,7 +64,7 @@ if (isset($_GET['p'])) {
     if (file_exists(LIB.'contents/'.$path.'.inc.php')) {
         include LIB.'contents/'.$path.'.inc.php';
         if ($path != 'show_detail') {
-            $metadata = '<meta name="robots" content="noindex, follow">';
+          $metadata = '<meta name="robots" content="noindex, follow">';
         }
     } else {
         // get content data from database
@@ -77,7 +77,7 @@ if (isset($_GET['p'])) {
           echo $content_data['Content'];
           unset($content_data);
         } else {
-            header ("location:index.php");
+          header ("location:index.php");
         }
     }
 } else {

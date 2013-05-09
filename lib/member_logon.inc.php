@@ -116,9 +116,11 @@ class member_logon
                 WHERE m.member_id=\''.$this->user_info['member_id'].'\'');
             if ($_check_q->num_rows < 1) {
                 $_curr_date = date('Y-m-d H:i:s');
+                $_userid_field = strtolower($ldap_configs['userid_field']);
+                $_fullname_field = strtolower($ldap_configs['fullname_field']);
                 // insert member data to database
-                $this->user_info['member_id'] = $_entries[0][$ldap_configs['userid_field']][0];
-                $this->user_info['member_name'] = $_entries[0][$ldap_configs['fullname_field']][0];
+                $this->user_info['member_id'] = $_entries[0][$_userid_field][0];
+                $this->user_info['member_name'] = $_entries[0][$_fullname_field][0];
                 $this->user_info['gender'] = '1';
                 $this->user_info['inst_name'] = 'New registered member';
                 $this->user_info['member_email'] = $_entries[0][$ldap_configs['mail_field']][0];
@@ -192,7 +194,7 @@ class member_logon
         $_check_login = call_user_func(array($this, $this->auth_method.'Login'));
         // check if the user exist in database
         if (!$_check_login) {
-            return false;
+          return false;
         }
 
         // fill all sessions var

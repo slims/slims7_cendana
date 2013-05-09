@@ -192,7 +192,7 @@ abstract class biblio_list_model
             if (isset($label[1]) && $label[1]) {
               $_biblio_d['title'] .= ' <a href="'.$label[1].'" target="_blank"><img src="'.SWB.IMAGES_DIR.'/labels/'.$this->label_cache[$label[0]]['image'].'" title="'.$this->label_cache[$label[0]]['desc'].'" align="middle" class="labels" border="0" /></a>';
             } else {
-              $_biblio_d['title'] .= ' <img src="'.SWB.IMAGES_DIR.'/labels/'.$this->label_cache[$label[0]]['image'].'" title="'.$this->label_cache[$label[0]]['desc'].'" align="middle" class="labels" />';
+              $_biblio_d['title'] .= ' <img src="'.SWB.IMG.'/labels/'.$this->label_cache[$label[0]]['image'].'" title="'.$this->label_cache[$label[0]]['desc'].'" align="middle" class="labels" />';
             }
           }
 				}

@@ -261,8 +261,6 @@ submenu
 	overflow: hidden;
 	position: fixed;
 	bottom: 45px;
-	height: 300px;
-	max-height: 300px;
 	display: none;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;

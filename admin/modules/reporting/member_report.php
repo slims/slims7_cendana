@@ -63,7 +63,7 @@ $report_q = $dbs->query('SELECT member_type_name, COUNT(member_id) FROM mst_memb
     LEFT JOIN member AS m ON mt.member_type_id=m.member_type_id
     WHERE TO_DAYS(expire_date)>TO_DAYS(\''.date('Y-m-d').'\')
     GROUP BY m.member_type_id ORDER BY COUNT(member_id) DESC');
-$report_d = '<div class="chartLink"><a class="notAJAX" href="#" onclick="openHTMLpop(\''.MWB.'reporting/charts_report.php?chart=total_member_by_type\', 700, 470, \''.__('Total Members By Membership Type').'\')">'.__('Show in chart/plot').'</a></div>';;
+$report_d = '<div class="chartLink"><a class="notAJAX openPopUp" href="'.MWB.'reporting/charts_report.php?chart=total_member_by_type" width="700" height="470" title="'.__('Total Members By Membership Type').'">'.__('Show in chart/plot').'</a></div>';;
 while ($data = $report_q->fetch_row()) {
     $report_d .= '<strong>'.$data[0].'</strong> : '.$data[1].', ';
 }
@@ -105,7 +105,8 @@ foreach ($loan_report as $headings=>$report_d) {
 // if we are in print mode
 if (isset($_GET['print'])) {
     // html strings
-    $html_str = '<html><head><title>'.$sysconf['library_name'].' Membership General Statistic Report</title>';
+    $html_str = '<!DOCTYPE html>';
+    $html_str .= '<html><head><title>'.$sysconf['library_name'].' Membership General Statistic Report</title>';
     $html_str .= '<style type="text/css">'."\n";
     $html_str .= 'body {padding: 0.2cm}'."\n";
     $html_str .= 'body * {color: black; font-size: 11pt;}'."\n";
@@ -125,7 +126,7 @@ if (isset($_GET['print'])) {
     $file_write = @file_put_contents(REPBS.'member_stat_print_result.html', $html_str);
     if ($file_write) {
         // open result in new window
-        echo '<script type="text/javascript">parent.openWin(\''.SWB.FLS.'/'.REP.'/member_stat_print_result.html\', \'popMemberReport\', 800, 500, true)</script>';
+        echo '<script type="text/javascript">top.$.colorbox({href: "'.SWB.FLS.'/'.REP.'/member_stat_print_result.html", width: 800, height: 500})</script>';
     } else { utility::jsAlert('ERROR! Membership statistic report failed to generate, possibly because '.REPBS.' directory is not writable'); }
     exit();
 }

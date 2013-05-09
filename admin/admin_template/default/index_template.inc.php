@@ -62,9 +62,15 @@ jQuery(document).ready( function() {
 
 var timeOut = null;
 jQuery('#mainMenu .menuCurrent, #mainMenu .home').bind('mouseover', function() {
+	var subMenu = jQuery('#sidepan');
 	var menu = jQuery(this);
 	var menuPos = menu.position();
-	jQuery('#sidepan').css({left: menuPos.left+'px'}).slideDown().bind('mouseover', function() {
+	var submenuHeight = subMenu.height();
+	var browserHeight = $(window).height();
+	if (submenuHeight >= browserHeight) {
+    submenuHeight = browserHeight-100;
+	}
+	subMenu.css({left: menuPos.left+'px', height: submenuHeight+'px', "max-height": submenuHeight+'px'}).slideDown().bind('mouseover', function() {
 	  clearTimeout(timeOut);
   });
 }).bind('mouseout', function() {

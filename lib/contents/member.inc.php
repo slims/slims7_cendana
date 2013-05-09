@@ -90,8 +90,8 @@ if (isset($_POST['logMeIn']) && !$is_member_login) {
         session_regenerate_id(true);
         // create logon class instance
         $logon = new member_logon($username, $password, $sysconf['auth']['member']['method']);
-        if ($sysconf['auth']['member']['method'] == 'ldap') {
-            $ldap_configs = $sysconf['auth']['member'];
+        if ($sysconf['auth']['member']['method'] === 'LDAP') {
+          $ldap_configs = $sysconf['auth']['member'];
         }
         if ($logon->valid($dbs)) {
             // write log
