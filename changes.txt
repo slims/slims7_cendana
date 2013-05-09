@@ -31,9 +31,15 @@ SLiMS 7 (Cendana)
 Added: Persian translation
 Added: Cendana Responsive template
 Added: Comment field in OPAC
-Added: Membercard generator
+Added: Membercard generator by Jushadi
 Added: Tooltip in New Bibliography field
+Added: New theme for SLiMS 7 Cendana
+Added: Label, barcode, and member card settings from within the SLiMS adminstration page
+Added: Keyword suggestion using Enchant library
+Added: Since Meranti, Google voice search in OPAC using Google Chrome browser
+Added: Google voice search for search in OPAC with Google Chrome browser using mobile device
 Fixed: Bugs in Custom Reports
+Fixed: LDAP auth error
 Modified: Type ahead value for Publisher, Publishing Place, Classification
 
 
