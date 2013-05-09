@@ -26,10 +26,10 @@ define('INDEX_AUTH', '1');
 define('DB_ACCESS', 'fa');
 
 if (!defined('SB')) {
-    // main system configuration
-    require '../../../sysconfig.inc.php';
-    // start the session
-    require SB.'admin/default/session.inc.php';
+  // main system configuration
+  require '../../../sysconfig.inc.php';
+  // start the session
+  require SB.'admin/default/session.inc.php';
 }
 // IP based access limitation
 require LIB.'ip_based_access.inc.php';
@@ -128,30 +128,30 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
         $data['input_date'] = date('Y-m-d');
         $data['last_update'] = date('Y-m-d');
         if (!empty($_FILES['image']) AND $_FILES['image']['size']) {
-            // create upload object
-            $upload = new simbio_file_upload();
-            $upload->setAllowableFormat($sysconf['allowed_images']);
-            $upload->setMaxSize($sysconf['max_image_upload']*1024); // approx. 100 kb
-            $upload->setUploadDir(IMGBS.'persons');
-            // give new name for upload file
-            $new_filename = 'member_'.$data['member_id'];
-            $upload_status = $upload->doUpload('image', $new_filename);
-            if ($upload_status == UPLOAD_SUCCESS) {
-                $data['member_image'] = $dbs->escape_string($upload->new_filename);
-            }
+          // create upload object
+          $upload = new simbio_file_upload();
+          $upload->setAllowableFormat($sysconf['allowed_images']);
+          $upload->setMaxSize($sysconf['max_image_upload']*1024); // approx. 100 kb
+          $upload->setUploadDir(IMGBS.'persons');
+          // give new name for upload file
+          $new_filename = 'member_'.$data['member_id'];
+          $upload_status = $upload->doUpload('image', $new_filename);
+          if ($upload_status == UPLOAD_SUCCESS) {
+            $data['member_image'] = $dbs->escape_string($upload->new_filename);
+          }
         } else if (!empty($_POST['base64picstring'])) {
-			list($filedata, $filedom) = explode('#image/type#', $_POST['base64picstring']);
-			$new_filename = 'member_'.$data['member_id'].'.'.strtolower($filedom);
+			    list($filedata, $filedom) = explode('#image/type#', $_POST['base64picstring']);
+			    $new_filename = 'member_'.$data['member_id'].'.'.strtolower($filedom);
 
-			if (file_put_contents(IMGBS.'persons/'.$new_filename, base64_decode($filedata))) {
-				$data['member_image'] = $dbs->escape_string($new_filename);
-				if (!defined('UPLOAD_SUCCESS')) define('UPLOAD_SUCCESS', 1);
-				$upload_status = UPLOAD_SUCCESS;
-			}
-		}
+			    if (file_put_contents(IMGBS.'persons/'.$new_filename, base64_decode($filedata))) {
+				    $data['member_image'] = $dbs->escape_string($new_filename);
+				    if (!defined('UPLOAD_SUCCESS')) define('UPLOAD_SUCCESS', 1);
+				    $upload_status = UPLOAD_SUCCESS;
+			    }
+		    }
         // password confirmation
         if (($mpasswd1 AND $mpasswd2) AND ($mpasswd1 === $mpasswd2)) {
-            $data['mpasswd'] = 'literal{MD5(\''.$mpasswd2.'\')}';
+          $data['mpasswd'] = 'literal{MD5(\''.$mpasswd2.'\')}';
         }
 
         // create sql op object
@@ -456,7 +456,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     $str_input .= '<embed name="src" src="'.SWB.'lib/flex/ShotSLiMSMemberPicture.swf" height="280px" width="100%"/>';
     $str_input .= '</object>';
     $form->addAnything(__('Photo'), $str_input);
-    
+
     // member email
     $form->addTextField('text', 'memberEmail', __('E-mail'), $rec_d['member_email'], 'style="width: 40%;"');
     // member password
