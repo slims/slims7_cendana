@@ -58,8 +58,8 @@ if (isset($_GET['p']))
     'help'   => array('url'  => 'index.php?p=help',
       'text' => __('Help on Search')
       ),
-    'modul_tersedia'   => array('url'  => 'index.php?p=modul_tersedia',
-      'text' => __('Modul Yang Tersedia')
+    'modul_tersedia'   => array('url'  => 'index.php?p=available_modules',
+      'text' => __('Available Modules')
       ),
     'member'   => array('url'  => 'index.php?p=member',
       'text' => __('Member Area')
