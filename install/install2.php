@@ -42,15 +42,24 @@
 		if (!$db_error) {
 			if (file_exists($sql_file)) {
                 include_once $sql_file;
-                foreach ($sql['create'] as $value) {
-                	mysql_query($value);
-                }
-                foreach ($sql['insert'] as $value) {
-                	mysql_query($value);
-                }
-                foreach ($sql['alter'] as $value) {
-                	mysql_query($value);
-                }
+                if(array_key_exists('create', $sql))
+                {
+	                foreach ($sql['create'] as $value) {
+	                	@mysql_query($value);
+	                }
+            	}
+                if(array_key_exists('insert', $sql))
+                {
+	                foreach ($sql['insert'] as $value) {
+	                	@mysql_query($value);
+	                }
+	            }
+                if(array_key_exists('alter', $sql))
+                {
+	                foreach ($sql['alter'] as $value) {
+	                	@mysql_query($value);
+	                }
+	            }
               return true;
 			} else {
 			  $db_error = 'SQL file does not exist: ' . $sql_file;
@@ -59,6 +68,15 @@
         }
 	}
 
+	function apphp_db_select_db($database) {
+		return mysql_select_db($database);
+	}
+
+	function apphp_db_query($query) {
+		global $link;
+		$res=mysql_query($query, $link);
+		return $res;
+	}
 
 	function apphp_db_install($database, $sql_file)
 	{
@@ -135,24 +153,15 @@
 		}
 	}
 
-
-
-	function apphp_db_select_db($database) {
-		return mysql_select_db($database);
-	}
-
-	function apphp_db_query($query) {
-		global $link;
-		$res=mysql_query($query, $link);
-		return $res;
-	}
-
 	if ($_POST['submit'] == "step2") {
 		$database_host		= isset($_POST['database_host'])?$_POST['database_host']:"";
 		$database_name		= isset($_POST['database_name'])?$_POST['database_name']:"";
 		$database_username	= isset($_POST['database_username'])?$_POST['database_username']:"";
 		$database_password	= isset($_POST['database_password'])?$_POST['database_password']:"";
 		$database_sample	= isset($_POST['install_sample'])?$_POST['install_sample']:"";
+		$username			= isset($_POST['username'])?$_POST['username']:"";
+		$password			= isset($_POST['password'])?$_POST['password']:"";
+		$retype_password	= isset($_POST['retype_password'])?$_POST['retype_password']:"";
 		
 		if (empty($database_host)){
 			$error_mg[] = "<li>Database host can not be empty </li>";	
@@ -165,13 +174,20 @@
 		if (empty($database_username)){
 			$error_mg[] = "<li>Database username can not be empty</li>";	
 		}
-		
-		/*if (empty($database_password)){
-			$error_mg[] = "<li>Database password can not be empty</li>";	
-		}*/
-		
-		if(empty($error_mg)){
-		
+
+		if (empty($username)){
+			$error_mg[] = "<li>Username can not be empty</li>";	
+		}
+
+		if (empty($password)){
+			$error_mg[] = "<li>Password can not be empty</li>";	
+		} elseif (empty($retype_password)){
+			$error_mg[] = "<li>Please retype your password</li>";	
+		} elseif ($password <> $retype_password){
+			$error_mg[] = "<li>Your password did not match. Please try again</li>";	
+		}
+
+		if(empty($error_mg)){		
 			$config_file = file_get_contents($config_file_default);
 			$config_file = str_replace("_DB_HOST_", $database_host, $config_file);
 			$config_file = str_replace("_DB_NAME_", $database_name, $config_file);
@@ -182,6 +198,19 @@
 			{
 			    $error_mg[] = "<li>Could not create file ".$config_file_name."! Please check if the sysconfig.local.inc-sample.php file is exists</li>";	    
 			} else {
+				$sql_update = " UPDATE user set 
+									username = '".$username."', 
+									passwd = '".md5($retype_password)."', 
+									realname = '".ucfirst($username)."',
+									last_login = NULL,
+									last_login_ip = '127.0.0.1',
+									groups = 'a:1:{i:0;s:1:\"1\";}',
+									input_date = DATE(NOW()),
+									last_update = DATE(NOW())
+								WHERE
+									user_id = 1
+								";
+				echo $sql_update;
 			    @chmod($config_file_path,0777);
 			    $f = @fopen($config_file_path, "w+");
 			    if (@fwrite($f, $config_file) > 0){
@@ -201,6 +230,7 @@
 								} else {
 									$completed = true;                            						    
 								}
+								apphp_db_query($sql_update, $link);
 							}
 					    } else {
 						    $error_mg[] = "<li>Database connecting error! Check your database exists.</li>";
