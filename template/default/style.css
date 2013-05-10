@@ -149,6 +149,8 @@ h1,h2,h3,h4,h5,h6 {
 	padding-top: 170px;
 }
 
+
+
 /*----------------------------------------------------------------*/
 /* Tagline */
 /*----------------------------------------------------------------*/
@@ -171,7 +173,10 @@ h1,h2,h3,h4,h5,h6 {
 	text-align: center;
 	border-top-right-radius: 2px;
 	border-top-left-radius: 2px;
-
+	-webkit-border-top-left-radius: 2px;
+	-webkit-border-top-right-radius: 2px;
+	-moz-border-radius-topleft: 2px;
+	-moz-border-radius-topright: 2px;
 }
 
 /*----------------------------------------------------------------*/
@@ -207,7 +212,8 @@ h1,h2,h3,h4,h5,h6 {
 	padding: 10px;
 }
 
-.search-query-time {
+.search-query-time,
+.search-page-info {
 	padding: 0px 10px 10px 10px;
 }
 
@@ -639,7 +645,13 @@ h4.title {
 }
 
 .errorBox {
-	color: red;
+	color: #fff;
+	background-color: #f00;
+	padding: 10px;
+	margin: 0;
+	border: none;
+	border-top-left-radius: 2px; 
+	border-top-right-radius: 2px; 
 }
 
 /*----------------------------------------------------------------*/
@@ -966,6 +978,25 @@ h4.title {
 	padding:0;
 	border: none;
 	background: none;
+}
+
+.rss img {
+	width: 18px;
+	height: 18px;
+}
+
+.errorBox {
+	color: #fff;
+	background: #f00;
+	margin: 0px;
+	padding: 10px;
+	text-align: center;
+	border-top-right-radius: 2px;
+	border-top-left-radius: 2px;
+	-webkit-border-top-left-radius: 2px;
+	-webkit-border-top-right-radius: 2px;
+	-moz-border-radius-topleft: 2px;
+	-moz-border-radius-topright: 2px;	
 }
 
 /*----------------------------------------------------------------*/

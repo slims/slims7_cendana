@@ -271,14 +271,14 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 }
 
 // check if we are on xml resultset mode
-if ( (isset($_GET['RSS']) || isset($_GET['resultXML'])) && $sysconf['enable_xml_result']) {
+if ( (isset($_GET['rss']) || isset($_GET['resultXML'])) && $sysconf['enable_xml_result']) {
   // get document list but don't output the result
   $biblio_list->getDocumentList(false);
   if ($biblio_list->num_rows > 0) {
     // send http header
     header('Content-Type: text/xml');
     echo '<?xml version="1.0" encoding="UTF-8" ?>'."\n";
-    if (isset($_GET['RSS'])) {
+    if (isset($_GET['rss'])) {
       echo $biblio_list->RSSresult();
     } else {
       echo $biblio_list->XMLresult();
