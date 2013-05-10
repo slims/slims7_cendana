@@ -35,8 +35,6 @@ $(document).ready(function() {
 			}
 			return false;
 		});
-		
-				
+						
 		$('#clock').jclock();
-
 });
