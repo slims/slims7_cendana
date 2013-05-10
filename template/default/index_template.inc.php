@@ -344,7 +344,7 @@ if (isset($_GET['p']))
               <div class="simply" >
                 <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-search">
                   <div class="input-append">
-                  <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" x-webkit-speech class="input-xxlarge search-query" />
+                  <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" x-webkit-speech="x-webkit-speech" class="input-xxlarge search-query" />
                   <button type="submit" class="btn" name="search" value="search"><?php echo __('Search'); ?></button>
                   </div>
                 </form>
