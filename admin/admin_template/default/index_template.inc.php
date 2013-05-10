@@ -20,6 +20,7 @@
 <script type="text/javascript" src="<?php echo JWB; ?>chosen/ajax-chosen.min.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>tooltipsy.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>colorbox/jquery.colorbox-min.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>webcam.js"></script>
 </head>
 <body>
 <!-- main menu -->
