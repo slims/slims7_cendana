@@ -16,13 +16,13 @@ Indra Sutriadi (indra.sutriadi@gmail.com)
 
 Localisation contributors :
 Germany: Tobias Zeumer (tzeumer@verweisungsform.de)
-Thai: Prasitichai เรารักในหลวง
-Bengali: A. K. M. Nurul Alam
-Persian: Mohammad Javad Mansourzadeh
-Arabic: Rasyid Ridho
-Malay: Jerry Mohd. Arif
-Brazilian Portuguese: ???
-Spain: Jhon Urrego Felipe Mejia (ingenierofelipeurrego@gmail.com)
+Thai: Prasitichai เรารักในหลวง <eak.pras@facebook.com>
+Bengali: A. K. M. Nurul Alam <nalamapu@gmail.com>
+Persian: Mohammad Javad Mansourzadeh <info@mansourzadeh.ir>
+Arabic: Rasyid Ridho <rasyidridho@gmail.com>
+Malay: Jerry Mohd. Arif 
+Brazilian Portuguese: Eduardo Koiti Kataoka <edukataoka@yahoo.com.br>
+Spain: Jhon Urrego Felipe Mejia <ingenierofelipeurrego@gmail.com>
 
 THANKS TO OUR USERS AND COMMUNITIES, YOU ARE DEVELOPERS TOO!
 
