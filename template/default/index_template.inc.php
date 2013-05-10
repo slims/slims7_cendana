@@ -58,9 +58,6 @@ if (isset($_GET['p']))
     'help'   => array('url'  => 'index.php?p=help',
       'text' => __('Help on Search')
       ),
-    'modul_tersedia'   => array('url'  => 'index.php?p=modul_tersedia',
-      'text' => __('Modul Yang Tersedia')
-      ),
     'member'   => array('url'  => 'index.php?p=member',
       'text' => __('Member Area')
       ),
@@ -103,7 +100,7 @@ if (isset($_GET['p']))
 <meta name="robots" content="index, nofollow">
 <!-- load style -->
 <link rel="shortcut icon" href="webicon.ico" type="image/x-icon" />
-<link href="template/core.style.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $sysconf['template']['dir']; ?>/core.style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>colorbox/colorbox.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $sysconf['template']['css']; ?>" rel="stylesheet" type="text/css" />
 <!--[if IE]>
@@ -129,6 +126,7 @@ if (isset($_GET['p']))
           <?php foreach ($social as $path => $menu) { ?>
           <li><a href="<?php echo $menu['url']; ?>" title="<?php echo $menu['text']; ?>" <?php if ($p == $path) {echo ' class="active"';} ?>><?php echo $menu['text']; ?></a></li>
           <?php } ?>
+          <li><a href="index.php?rss=true" target="_blank" title="RSS" class="rss" ><img src="<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/rss.png" /></a></li>
         </ul>
         <?php } ?>
         <form class="navbar-form pull-right language" name="langSelect" action="index.php" method="get">
