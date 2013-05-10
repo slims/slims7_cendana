@@ -230,23 +230,24 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 		}
         $wordcorrect = enchant_dict_check($dict, $word);
         if (!$wordcorrect) {
+          $closest = null;
           $wordsuggest = enchant_dict_suggest($dict, $word);
-		  $shortest = -1;
-		  // loop through words to find the closest with levenshtein
-		  foreach ($wordsuggest as $wordsg) {
-		  	$lev = levenshtein($word, $wordsg);
-		  	if ($lev == 0) {
-		  	  $closest = $wordsg;
-		  	  $shortest = 0;
-		  	  break;
-		  	}
+		      $shortest = -1;
+		      // loop through words to find the closest with levenshtein
+		      foreach ($wordsuggest as $wordsg) {
+		      	$lev = levenshtein($word, $wordsg);
+		      	if ($lev == 0) {
+		      	  $closest = $wordsg;
+		      	  $shortest = 0;
+		      	  break;
+		      	}
 
-		  	if ($lev <= $shortest || $shortest < 0) {
-		  	  // set the closest match, and shortest distance
-		  	  $closest  = $wordsg;
-		  	  $shortest = $lev;
-		  	}
-		  }
+		      	if ($lev <= $shortest || $shortest < 0) {
+		      	  // set the closest match, and shortest distance
+		      	  $closest  = $wordsg;
+		      	  $shortest = $lev;
+		      	}
+		      }
 
           $keywords_suggest[] = '<b class="search-word-suggest">'.$closest.'</b>';
           $keywords_suggest_plain[] = $closest;
