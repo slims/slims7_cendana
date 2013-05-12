@@ -21,6 +21,8 @@
 <script type="text/javascript" src="<?php echo JWB; ?>tooltipsy.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>colorbox/jquery.colorbox-min.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>webcam.js"></script>
+<!-- This template is created by: Arie Nugraha (dicarve@gmail.com)
+     based on template by Eddy Subratha -->
 </head>
 <body>
 <!-- main menu -->
