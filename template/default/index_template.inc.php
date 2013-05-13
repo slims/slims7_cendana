@@ -188,10 +188,11 @@ if (isset($_GET['p']))
             <div class="search">
             <div id="simply-search">
               <div class="simply" >
-                <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-search">
+                <form name="advSearchForm" id="simplySearchForm" action="index.php" method="get" class="form-search">
                   <div class="input-append">
-                  <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" x-webkit-speech="x-webkit-speech" class="input-xxlarge search-query" />
-                  <button type="submit" class="btn" name="search" value="search"><?php echo __('Search'); ?></button>
+                  <input type="hidden" name="search" value="search" />
+                  <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" lang="<?php echo $sysconf['default_lang']; ?>" x-webkit-speech="x-webkit-speech" class="input-xxlarge search-query" />
+                  <button type="submit" class="btn"><?php echo __('Search'); ?></button>
                   </div>
                 </form>
               </div>
@@ -342,10 +343,11 @@ if (isset($_GET['p']))
             <div class="tagline"><?php echo $info; ?></div>
             <div id="simply-search">
               <div class="simply" >
-                <form name="advSearchForm" id="advSearchForm" action="index.php" method="get" class="form-search">
+                <form name="advSearchForm" id="simplySearchForm" action="index.php" method="get" class="form-search">
                   <div class="input-append">
-                  <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" x-webkit-speech="x-webkit-speech" class="input-xxlarge search-query" />
-                  <button type="submit" class="btn" name="search" value="search"><?php echo __('Search'); ?></button>
+                  <input type="hidden" name="search" value="search" />
+                  <input type="text" name="keywords" id="keyword" placeholder="<?php echo __('Keyword'); ?>" lang="<?php echo $sysconf['default_lang']; ?>" x-webkit-speech="x-webkit-speech" class="input-xxlarge search-query" />
+                  <button type="submit" class="btn"><?php echo __('Search'); ?></button>
                   </div>
                 </form>
               </div>
