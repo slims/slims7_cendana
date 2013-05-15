@@ -78,7 +78,7 @@ if (isset($_SESSION['memberID'])) {
     $memberID = trim($_SESSION['memberID']);
     $circulation = new circulation($dbs, $memberID);
     $loan_list_query = $dbs->query(sprintf("SELECT L.loan_id, b.title, c.coll_type_name,
-        i.item_code, L.loan_date, L.due_date, L.return_date, L.renewed, IF(mt.reborrow_limit<=L.renewed, 1, 0) AS extend
+        i.item_code, L.loan_date, L.due_date, L.return_date, L.renewed, IF(mt.reborrow_limit>=L.renewed, 1, 0) AS extend
         FROM loan AS L
         LEFT JOIN item AS i ON L.item_code=i.item_code
         LEFT JOIN mst_coll_type AS ct ON i.coll_type_id=ct.coll_type_id
