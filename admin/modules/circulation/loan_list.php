@@ -78,12 +78,12 @@ if (isset($_SESSION['memberID'])) {
     $memberID = trim($_SESSION['memberID']);
     $circulation = new circulation($dbs, $memberID);
     $loan_list_query = $dbs->query(sprintf("SELECT L.loan_id, b.title, c.coll_type_name,
-        i.item_code, L.loan_date, L.due_date, L.return_date, L.renewed, IF(mt.reborrow_limit>=L.renewed, 1, 0) AS extend
+        i.item_code, L.loan_date, L.due_date, L.return_date, L.renewed, IF(L.renewed>=mlr.reborrow_limit, 1, 0) AS extend
         FROM loan AS L
         LEFT JOIN item AS i ON L.item_code=i.item_code
         LEFT JOIN mst_coll_type AS ct ON i.coll_type_id=ct.coll_type_id
         LEFT JOIN member AS m ON L.member_id=m.member_id
-        LEFT JOIN mst_member_type AS mt ON m.member_type_id=mt.member_type_id
+        LEFT JOIN mst_loan_rules AS mlr ON m.member_type_id=mlr.member_type_id
         LEFT JOIN biblio AS b ON i.biblio_id=b.biblio_id
         LEFT JOIN mst_coll_type AS c ON i.coll_type_id=c.coll_type_id
         WHERE L.is_lent=1 AND L.is_return=0 AND L.member_id='%s'", $memberID)); // query modified by Indra Sutriadi
@@ -117,8 +117,6 @@ if (isset($_SESSION['memberID'])) {
         } else {
             // check if this loan just already renewed
             if ($loan_list_data['return_date'] == date('Y-m-d') || in_array($loan_list_data['loan_id'], $_SESSION['reborrowed']) || $loan_list_data['extend'] == 1) {
-                $extend_link = '<span class="noExtendLink" title="'.__('No Extend').'">&nbsp;</span>';
-            } else if (in_array($loan_list_data['loan_id'], $_SESSION['reborrowed'])) {
                 $extend_link = '<span class="noExtendLink" title="'.__('No Extend').'">&nbsp;</span>';
             } else {
                 $extend_link = '<a href="#" onclick="confirmProcess('.$loan_list_data['loan_id'].', \''.$loan_list_data['item_code'].'\', \'extend\')" title="'.__('Extend loan for this item').'" class="extendLink">&nbsp;</a>';
