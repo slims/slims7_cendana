@@ -109,11 +109,13 @@ if (isset($_GET['p']))
 <!--[if IE 6]>
 <link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie6.css"/>
 <![endif]-->
+<link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/css/tango/skin.css"/>
 <script type="text/javascript" src="<?php echo JWB; ?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>form.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
 <script type="text/javascript" src="<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>colorbox/jquery.colorbox-min.js"></script>
+<script type="text/javascript" src="<?php echo SWB; ?>template/default/js/jquery.jcarousel.min.js"></script>
 </head>
 <body>
   <div id="masking"></div>
@@ -419,6 +421,38 @@ if (isset($_GET['p']))
       <?php } ?>
     </div>
   </div>
+
+  <?php
+  // Promoted titles
+  // Only show at the homepage
+  if(  !( isset($_GET['search']) || isset($_GET['title']) || isset($_GET['keywords']) || isset($_GET['p']) ) ) :
+    // query top book
+    $topbook = $dbs->query('SELECT biblio_id, title, image FROM biblio WHERE
+        promoted=1 ORDER BY last_update LIMIT 10');
+    if ($num_rows = $topbook->num_rows) :
+  ?>
+  <div class="row topbook-container">
+      <div class="span8 offset2">
+        <ul id="topbook" class="jcarousel-skin-tango">
+          <?php
+          while ($book = $topbook->fetch_assoc()) {
+            if (!empty($book['image'])) :
+            ?>
+            <li class="book"><a href="./index.php?p=show_detail&id=<?php echo $book['biblio_id'] ?>" title="<?php echo $book['title'] ?>"><img src="images/docs/<?php echo $book['image'] ?>" /></a></li>
+            <?php
+            else:
+            ?>
+            <li class="book"><a href="./index.php?p=show_detail&id=<?php echo $book['biblio_id'] ?>" title="<?php echo $book['title'] ?>"><img src="./template/default/img/nobook.png" /></a></li>
+            <?php
+            endif;
+          }
+          ?>
+        </ul>
+      </div>
+  </div>
+    <?php endif; ?>
+  <?php endif; ?>
+
 </div>  <!--// End Content Ouput //-->
 
 <div class="footer">
@@ -479,6 +513,31 @@ $(document).ready(function()
 
   $(window).load(function () {
     $('#keyword').focus();
+  });
+
+  function mycarousel_initCallback(carousel)
+  {
+    // Disable autoscrolling if the user clicks the prev or next button.
+    carousel.buttonNext.bind('click', function() {
+      carousel.startAuto(0);
+    });
+
+    carousel.buttonPrev.bind('click', function() {
+      carousel.startAuto(0);
+    });
+
+    // Pause autoscrolling if the user moves with the cursor over the clip.
+    carousel.clip.hover(function() {
+      carousel.stopAuto();
+    }, function() {
+      carousel.startAuto();
+    });
+  };
+
+  jQuery('#topbook').jcarousel({
+      auto: 5,
+      wrap: 'last',
+      initCallback: mycarousel_initCallback
   });
 
 });
