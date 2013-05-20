@@ -72,7 +72,7 @@ require 'settings.php';
             </tr>
         </table>
     </div>
-    <p class="message">Please complete following form with user login and password</p>
+    <p class="message">Please complete following form with user login and password (Optional)</p>
     <div class="content hastable">
         <table class=text width="100%" border="0" cellspacing="0" cellpadding="2" class="main_text">
             <tr>
@@ -84,7 +84,7 @@ require 'settings.php';
             <tr>
                 <td>Password</td>
                 <td>
-                    <input type="password" class="form_text" name="password" size="30" value="">
+                    <input type="password" class="form_text" name="password" size="30" value="">&nbsp; <em>default : admin</em>
                 </td>
             </tr>
             <tr>

@@ -60,6 +60,8 @@ foreach($matches as $match)
 		<li>Database Name (must be set before running this installation)</li>
 		<li>Database Username</li>
 		<li>Database Password</li>
+		<li>Username Login (optional)</li>
+		<li>Password Login (optional)</li>
 	    </ul>
 	    <br/>
 	    <div class="toright">

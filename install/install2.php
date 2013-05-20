@@ -175,17 +175,45 @@
 			$error_mg[] = "<li>Database username can not be empty</li>";	
 		}
 
-		if (empty($username)){
-			$error_mg[] = "<li>Username can not be empty</li>";	
+		if(trim($username) <> 'admin')
+		{
+			if (!empty($password)){
+				if (empty($retype_password)){
+					$error_mg[] = "<li>Please retype your password</li>";
+				}
+
+				if ($password <> $retype_password){
+					$error_mg[] = "<li>Your password did not match. Please try again</li>";	
+				}
+			} else {
+				$retype_password = 'admin';				
+			}								
+		} else {
+			if (!empty($password)){
+				if (empty($retype_password)){
+					$error_mg[] = "<li>Please retype your password</li>";
+				}
+
+				if ($password <> $retype_password){
+					$error_mg[] = "<li>Your password did not match. Please try again</li>";	
+				}
+			} else {
+				$retype_password = 'admin';				
+			}								
 		}
 
-		if (empty($password)){
-			$error_mg[] = "<li>Password can not be empty</li>";	
-		} elseif (empty($retype_password)){
-			$error_mg[] = "<li>Please retype your password</li>";	
-		} elseif ($password <> $retype_password){
-			$error_mg[] = "<li>Your password did not match. Please try again</li>";	
-		}
+		$sql_update = " UPDATE user set 
+							username = '".$username."', 
+							passwd = '".md5($retype_password)."', 
+							realname = '".ucfirst($username)."',
+							last_login = NULL,
+							last_login_ip = '127.0.0.1',
+							groups = 'a:1:{i:0;s:1:\"1\";}',
+							input_date = DATE(NOW()),
+							last_update = DATE(NOW())
+						WHERE
+							user_id = 1
+						";
 
 		if(empty($error_mg)){		
 			$config_file = file_get_contents($config_file_default);
@@ -198,19 +226,6 @@
 			{
 			    $error_mg[] = "<li>Could not create file ".$config_file_name."! Please check if the sysconfig.local.inc-sample.php file is exists</li>";	    
 			} else {
-				$sql_update = " UPDATE user set 
-									username = '".$username."', 
-									passwd = '".md5($retype_password)."', 
-									realname = '".ucfirst($username)."',
-									last_login = NULL,
-									last_login_ip = '127.0.0.1',
-									groups = 'a:1:{i:0;s:1:\"1\";}',
-									input_date = DATE(NOW()),
-									last_update = DATE(NOW())
-								WHERE
-									user_id = 1
-								";
-				echo $sql_update;
 			    @chmod($config_file_path,0777);
 			    $f = @fopen($config_file_path, "w+");
 			    if (@fwrite($f, $config_file) > 0){
@@ -230,7 +245,12 @@
 								} else {
 									$completed = true;                            						    
 								}
-								apphp_db_query($sql_update, $link);
+
+								if(!empty($retype_password))
+								{
+									apphp_db_query($sql_update, $link);
+								}
+								
 							}
 					    } else {
 						    $error_mg[] = "<li>Database connecting error! Check your database exists.</li>";

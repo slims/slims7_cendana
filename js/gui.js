@@ -484,6 +484,6 @@ $('document').ready(function() {
 
   // Google Voice Search
   $('#keyword').bind('webkitspeechchange', function() {
-    $(this).parent().submit();
+    $(this).closest('form').submit();
   });
 });
