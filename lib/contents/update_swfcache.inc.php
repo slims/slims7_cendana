@@ -25,7 +25,7 @@
 // be sure that this file not accessed directly
 if (!defined('INDEX_AUTH')) {
     die("can not access this file directly");
-} elseif (INDEX_AUTH != 1) { 
+} elseif (INDEX_AUTH != 1) {
     die("can not access this file directly");
 }
 
@@ -48,11 +48,15 @@ if ($server_addr == '') {
 
         if (!file_exists('../../files/swfs/'.$swf.'')) {
             if (stripos(PHP_OS, 'Darwin') !== false) {
-                exec('../swftools/bin/darwin/pdf2swf -o ../../files/swfs/'.$swf.' '.$file_loc.'');
+                @exec('../swftools/bin/darwin/pdf2swf -o ../../files/swfs/'.$swf.' '.$file_loc.'');
             } else if (stripos(PHP_OS, 'Linux') !== false) {
-                exec('../swftools/bin/linux/pdf2swf -o ../../files/swfs/'.$swf.' '.$file_loc.'');
+                if (PHP_INT_SIZE === 8) { // 64-bit mode
+                  @exec('../swftools/bin/linux/pdf2swf64 -o files/swfs/'.$swf.' "'.$file_loc.'"');
+                } else {
+                  @exec('../swftools/bin/linux/pdf2swf -o ../../files/swfs/'.$swf.' '.$file_loc.'');
+                }
             } else {
-                exec('..\swftools\bin\windows\pdf2swf.exe -o ../../files/swfs/'.$swf.' '.$file_loc.'');
+                @exec('..\swftools\bin\windows\pdf2swf.exe -o ../../files/swfs/'.$swf.' '.$file_loc.'');
             }
         } else {
             echo "\n".'SWF File is already exist. Skipped.'."\n";
