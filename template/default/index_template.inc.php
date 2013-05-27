@@ -87,7 +87,6 @@ if (isset($_GET['p']))
       'text' => 'Forum'
       )
     );
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -103,12 +102,6 @@ if (isset($_GET['p']))
 <link href="<?php echo $sysconf['template']['dir']; ?>/core.style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>colorbox/colorbox.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $sysconf['template']['css']; ?>" rel="stylesheet" type="text/css" />
-<!--[if IE]>
-<link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie.css"/>
-<![endif]-->
-<!--[if IE 6]>
-<link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie6.css"/>
-<![endif]-->
 <link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/css/tango/skin.css"/>
 <script type="text/javascript" src="<?php echo JWB; ?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>form.js"></script>

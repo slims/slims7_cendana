@@ -1094,7 +1094,7 @@ h4.title {
 	}
 
 	.navbar-menu {
-		margin-top: -20px !important;
+		margin-top: -21px !important;
 	}
 
 	.language-info {
@@ -1148,10 +1148,23 @@ h4.title {
 	}
 
 }
+
+@media (max-width: 768px) and (min-width: 480px)  {
+	.search {
+		margin-top: -140px;
+	}
+	.navbar-menu {
+		margin-top: -21px;
+	}
+	.form-search .input-xxlarge {
+		width:400px !important;
+	}
+
+}
 @media (max-width: 979px) and (min-width: 768px)  {
 
 	.navbar-menu {
-		margin-top: -20px !important;
+		margin-top: -21px !important;
 	}
 
 	.language-info {
@@ -1166,8 +1179,19 @@ h4.title {
 		padding-top: 5px;
 	}
 
+	.form-search .input-xxlarge {
+		width:300px !important;
+	}
+
 }
 
 .topbook-container {
 	margin-top: 20px;
+}
+
+@media (max-width: 1024px) and (min-width: 979px)  {
+	.form-search .input-xxlarge {
+		width:400px !important;
+	}
+
 }

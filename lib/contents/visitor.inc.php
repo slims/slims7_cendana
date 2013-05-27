@@ -74,6 +74,7 @@ function setCounter($str_member_ID) {
       }
       $member_id = $_d['member_id'];
       $member_name = $_d['member_name'];
+      $member_name = preg_replace("/'/", "\'", $member_name);
       $photo = trim($_d['member_image'])?trim($_d['member_image']):'person.png';
       $_institution = trim($_d['inst_name'])?"'".$_d['inst_name']."'":'NULL';
       $_checkin_date = date('Y-m-d H:i:s');
