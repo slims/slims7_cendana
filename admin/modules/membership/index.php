@@ -141,9 +141,13 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
           }
         } else if (!empty($_POST['base64picstring'])) {
 			    list($filedata, $filedom) = explode('#image/type#', $_POST['base64picstring']);
+          $filedata = base64_decode($filedata);
+          $fileinfo = getimagesizefromstring($filedata);
+          $valid = strlen($filedata)/1024 < $sysconf['max_image_upload'];
+          $valid = (!$fileinfo || $valid === false) ? false : in_array($fileinfo['mime'], $sysconf['allowed_images_mimetype']);
 			    $new_filename = 'member_'.$data['member_id'].'.'.strtolower($filedom);
 
-			    if (file_put_contents(IMGBS.'persons/'.$new_filename, base64_decode($filedata))) {
+			    if ($valid AND file_put_contents(IMGBS.'persons/'.$new_filename, $filedata)) {
 				    $data['member_image'] = $dbs->escape_string($new_filename);
 				    if (!defined('UPLOAD_SUCCESS')) define('UPLOAD_SUCCESS', 1);
 				    $upload_status = UPLOAD_SUCCESS;
@@ -464,12 +468,16 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         $str_input .= '</object>';
       }
       elseif ($sysconf['webcam'] == 'html5') {
-        $str_input .= '<button id="btn_load" onclick="loadcam(this)">Load Camera</button> |';
-        $str_input .= 'Ratio: <select onchange="aspect(this)"><option value="1">1x1</option><option value="2" selected>2x3</option><option value="3">3x4</option></select> |';
-        $str_input .= 'Format: <select id="cmb_format" onchange="set()"><option value="png">PNG</option><option value="jpg">JPEG</option></select> |';
-        $str_input .= '<button id="btn_pause" onclick="snapshot(this)" disabled>Capture</button>';
-        $str_input .= '<div id="my_container"><video id="my_vid" autoplay width="400" height="300"></video><canvas id="my_canvas" style=""></canvas><div id="my_frame"></div></div>';
-        $str_input .= '<canvas id="my_preview" width="160" height="240"></canvas>';
+        $str_input .= '<button id="btn_load" onclick="loadcam(this)">'.__('Load Camera').'</button> | ';
+        $str_input .= __('Ratio:').' <select onchange="aspect(this)"><option value="1">1x1</option><option value="2" selected>2x3</option><option value="3">3x4</option></select> | ';
+        $str_input .= __('Format:').' <select id="cmb_format" onchange="if(pause){set();}"><option value="png">PNG</option><option value="jpg">JPEG</option></select> | ';
+        $str_input .= '<button id="btn_pause" onclick="snapshot(this)" disabled>'.__('Capture').'</button> | ';
+        $str_input .= '<button id="btn_reset" onclick="$(\'textarea#base64picstring\').val(\'\');">'.__('Reset').'</button>';
+        $str_input .= '<div id="my_container" style="width: 400px; height: 300px; border: 1px solid #333; position: relative;">';
+        $str_input .= '<video id="my_vid" autoplay width="400" height="300" style="border: 1px solid #333; float: left; position: absolute; left: 10;"></video>';
+        $str_input .= '<canvas id="my_canvas" width="400" height="300" style="border: 1px solid #333; float: left; position: absolute; left: 10; visibility: hidden;"></canvas>';
+        $str_input .= '<div id="my_frame" style="  border: 1px solid #CCC; width: 160px; height: 240px; z-index: 2; margin: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0;"></div></div>';
+        $str_input .= '<canvas id="my_preview" width="160" height="240" style="width: 160px; height: 240px; border: 1px solid #444; display: none;"></canvas>';
       }
     }
 

@@ -1,10 +1,10 @@
 /**
  * 
- * Keyboard Shortkey
+ * Webcam feature
  * 
  * Require : jQuery library
  * 
- * by Indra Sutriadi Pipii 2012
+ * by Indra Sutriadi Pipii 2012-2013
  * 
  */
 
@@ -26,86 +26,92 @@ var localMediaStream = null;
 var ratio;
 var dataUrl;
 var sep;
+var pause;
 
 function loadcam(t) {
-    video = document.querySelector("#my_vid");
-    canvas = document.querySelector('#my_canvas');
-    preview = document.querySelector('#my_preview');
-    context = canvas.getContext("2d");
-    canvas.style.visibility = "hidden";
-    video.style.visibility = "visible";
-    canvas.height = video.height;
-    canvas.width = video.width;
-    var options;
-    var onCameraFail = function (e) {
-        console.log('Camera did not work.', e);
-        $('#btn_pause').attr('disabled', 'disabled');
-    };
+  video = document.querySelector("#my_vid");
+  canvas = document.querySelector('#my_canvas');
+  preview = document.querySelector('#my_preview');
+  context = canvas.getContext("2d");
+  canvas.style.visibility = "hidden";
+  video.style.visibility = "visible";
+  canvas.height = video.height;
+  canvas.width = video.width;
+  pause = false;
+  var options;
+  var onCameraFail = function (e) {
+      console.log('Camera did not work.', e);
+      $('#btn_pause').attr('disabled', 'disabled');
+  };
 
-    window.URL = window.URL || window.webkitURL ||
-        window.mozURL || window.msURL;
-    if (navigator.getUserMedia) {
-        navigator.getUserMedia(
-            { "video": true },
-            function(stream) {
-                video.src = stream;
-                video.play();
-                localMediaStream = stream;
-            },
-            onCameraFail
-        );
-    }
-    else {
-        navigator.getUserMedia = navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia || navigator.msGetUserMedia;
-        navigator.getUserMedia(
-            { "video": true },
-            function (stream) {
-                video.src = window.URL.createObjectURL(stream);
-                video.play();
-                localMediaStream = stream;
-            },
-            onCameraFail
-        );
-    }
-    t.disabled = true;
-    $('#btn_pause').removeAttr('disabled');
+  window.URL = window.URL || window.webkitURL ||
+      window.mozURL || window.msURL;
+  if (navigator.getUserMedia) {
+      navigator.getUserMedia(
+          { "video": true },
+          function(stream) {
+              video.src = stream;
+              video.play();
+              localMediaStream = stream;
+          },
+          onCameraFail
+      );
+  }
+  else {
+      navigator.getUserMedia = navigator.webkitGetUserMedia ||
+          navigator.mozGetUserMedia || navigator.msGetUserMedia;
+      navigator.getUserMedia(
+          { "video": true },
+          function (stream) {
+              video.src = window.URL.createObjectURL(stream);
+              video.play();
+              localMediaStream = stream;
+          },
+          onCameraFail
+      );
+  }
+  t.disabled = true;
+  $('#btn_pause').removeAttr('disabled');
 };
 
 function snapshot(t) {
-    if (localMediaStream) {
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        if (canvas.style.visibility == "visible") {
-            t.innerHTML = "Capture";
-            canvas.style.visibility = "hidden";
-            video.style.visibility = "visible";
-        }
-        else {
-            t.innerHTML = "Play";
-            canvas.style.visibility = "visible";
-            video.style.visibility = "hidden";
-            set();
-        }
-    }
+  if (localMediaStream) {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      if (canvas.style.visibility == "visible") {
+          t.innerHTML = "Capture";
+          canvas.style.visibility = "hidden";
+          video.style.visibility = "visible";
+          pause = false;
+      }
+      else {
+          t.innerHTML = "Play";
+          canvas.style.visibility = "visible";
+          video.style.visibility = "hidden";
+          pause = true;
+          set();
+      }
+  }
 }
 
 function aspect(t) {
-    switch(t.value) {
-      case "1":
-        $('#my_frame').width(240).height(240);
-        break;
-      case "2":
-        $('#my_frame').width(160).height(240);
-        break;
-      case "3":
-        $('#my_frame').width(180).height(240);
-        break;
-    }
-    w = $('#my_frame').width();
-    h = $('#my_frame').height();
-    preview.width = w;
-    preview.height = h;
+  switch(t.value) {
+    case "1":
+      $('#my_frame').width(240).height(240);
+      break;
+    case "2":
+      $('#my_frame').width(160).height(240);
+      break;
+    case "3":
+      $('#my_frame').width(180).height(240);
+      break;
+  }
+  w = $('#my_frame').width();
+  h = $('#my_frame').height();
+  preview.width = w;
+  preview.height = h;
+  if (pause) {
     set();
+  }
 }
 
 function set() {

@@ -269,6 +269,9 @@ $sysconf['allowed_file_att'] = array('.pdf', '.rtf', '.txt',
     '.jpg', '.jpeg', '.png', '.gif',
     '.docx', '.pptx', '.xlsx',
     '.ogg', '.mp3', '.xml', '.mrc');
+$sysconf['allowed_images_mimetype'] = array(
+  'image/jpeg', 'image/png',
+);
 
 /* FILE ATTACHMENT MIMETYPES */
 $sysconf['mimetype']['docx'] = 'application/msword';
