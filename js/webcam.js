@@ -18,6 +18,126 @@ var tr_now=null;
 function setPicture(s, t){
 	$('textarea#base64picstring').val(s+'#image/type#'+t);
 }
+
+var canvas;
+var context;
+var video;
+var localMediaStream = null;
+var ratio;
+var dataUrl;
+var sep;
+
+function loadcam(t) {
+    video = document.querySelector("#my_vid");
+    canvas = document.querySelector('#my_canvas');
+    preview = document.querySelector('#my_preview');
+    context = canvas.getContext("2d");
+    canvas.style.visibility = "hidden";
+    video.style.visibility = "visible";
+    canvas.height = video.height;
+    canvas.width = video.width;
+    var options;
+    var onCameraFail = function (e) {
+        console.log('Camera did not work.', e);
+        $('#btn_pause').attr('disabled', 'disabled');
+    };
+
+    window.URL = window.URL || window.webkitURL ||
+        window.mozURL || window.msURL;
+    if (navigator.getUserMedia) {
+        navigator.getUserMedia(
+            { "video": true },
+            function(stream) {
+                video.src = stream;
+                video.play();
+                localMediaStream = stream;
+            },
+            onCameraFail
+        );
+    }
+    else {
+        navigator.getUserMedia = navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia || navigator.msGetUserMedia;
+        navigator.getUserMedia(
+            { "video": true },
+            function (stream) {
+                video.src = window.URL.createObjectURL(stream);
+                video.play();
+                localMediaStream = stream;
+            },
+            onCameraFail
+        );
+    }
+    t.disabled = true;
+    $('#btn_pause').removeAttr('disabled');
+};
+
+function snapshot(t) {
+    if (localMediaStream) {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        if (canvas.style.visibility == "visible") {
+            t.innerHTML = "Capture";
+            canvas.style.visibility = "hidden";
+            video.style.visibility = "visible";
+        }
+        else {
+            t.innerHTML = "Play";
+            canvas.style.visibility = "visible";
+            video.style.visibility = "hidden";
+            set();
+        }
+    }
+}
+
+function aspect(t) {
+    switch(t.value) {
+      case "1":
+        $('#my_frame').width(240).height(240);
+        break;
+      case "2":
+        $('#my_frame').width(160).height(240);
+        break;
+      case "3":
+        $('#my_frame').width(180).height(240);
+        break;
+    }
+    w = $('#my_frame').width();
+    h = $('#my_frame').height();
+    preview.width = w;
+    preview.height = h;
+    set();
+}
+
+function set() {
+  var div = $('#my_frame');
+  var parent = div.parent();
+  var parent_pos = parent.offset();
+  border_left = parseInt(parent.css('borderLeftWidth'));
+  border_top = parseInt(parent.css('borderTopWidth'));
+  var div_pos = div.offset();
+  the_left = div_pos.left - parent_pos.left - border_left;
+  the_top = div_pos.top - parent_pos.top - border_top;
+
+  var ctxprv = preview.getContext('2d');
+  ctxprv.drawImage(canvas, the_left, the_top, div.width(), div.height(), 0, 0, preview.width, preview.height);
+  
+  switch ($('#cmb_format').val()) {
+    case "png":
+      dataUrl = preview.toDataURL();
+      dataUrl = dataUrl.split('data:image/png;base64,')[1];
+      dataUrl = dataUrl + '#image/type#' + 'png';
+      break;
+    case "jpg":
+      dataUrl = preview.toDataURL("image/jpeg");
+      dataUrl = dataUrl.split('data:image/jpeg;base64,')[1];
+      dataUrl = dataUrl + '#image/type#' + 'jpg';
+      break;
+  }
+  $('textarea#base64picstring').val(dataUrl);
+}
+
+
+
 //~ 
 //~ $(function() {}).keypress(function(event) {
 	//~ /*

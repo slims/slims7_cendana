@@ -184,7 +184,11 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
                 }
                 // write log
                 utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'membership', $_SESSION['realname'].' update member data ('.$memberName.') with ID ('.$memberID.')');
-                echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(parent.$.ajaxHistory[0].url);</script>';
+                if ($sysconf['webcam'] == 'html5') {
+                  echo '<script type="text/javascript">parent.location.reload();</script>';
+                } else {
+                  echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(parent.$.ajaxHistory[0].url);</script>';
+                }
             } else { utility::jsAlert(__('Member Data FAILED to Save/Update. Please Contact System Administrator')."\nDEBUG : ".$sql_op->error); }
             exit();
         } else {
@@ -446,15 +450,29 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     $str_input = '';
     if ($rec_d['member_image']) {
         $str_input = '<a href="'.SWB.'images/persons/'.$rec_d['member_image'].'" target="_blank"><strong>'.$rec_d['member_image'].'</strong></a><br />';
-    }
+    }    
     $str_input .= simbio_form_element::textField('file', 'image');
     $str_input .= ' '.__('Maximum').' '.$sysconf['max_image_upload'].' KB';
-    $str_input .= '<p>'.__('or take a photo').'</p>';
-    $str_input .= '<textarea id="base64picstring" name="base64picstring" style="display: none;"></textarea>';
-    $str_input .= '<object id="flash_video" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" height="280px" width="100%">';
-    $str_input .= '<param name="src" value="'.SWB.'lib/flex/ShotSLiMSMemberPicture.swf"/>';
-    $str_input .= '<embed name="src" src="'.SWB.'lib/flex/ShotSLiMSMemberPicture.swf" height="280px" width="100%"/>';
-    $str_input .= '</object>';
+    if ($sysconf['webcam'] !== false) {
+      $str_input .= '<p>'.__('or take a photo').'</p>';
+      $str_input .= '<textarea id="base64picstring" name="base64picstring" style="display: none;"></textarea>';
+
+      if ($sysconf['webcam'] == 'flex') {
+        $str_input .= '<object id="flash_video" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" height="280px" width="100%">';
+        $str_input .= '<param name="src" value="'.SWB.'lib/flex/ShotSLiMSMemberPicture.swf"/>';
+        $str_input .= '<embed name="src" src="'.SWB.'lib/flex/ShotSLiMSMemberPicture.swf" height="280px" width="100%"/>';
+        $str_input .= '</object>';
+      }
+      elseif ($sysconf['webcam'] == 'html5') {
+        $str_input .= '<button id="btn_load" onclick="loadcam(this)">Load Camera</button> |';
+        $str_input .= 'Ratio: <select onchange="aspect(this)"><option value="1">1x1</option><option value="2" selected>2x3</option><option value="3">3x4</option></select> |';
+        $str_input .= 'Format: <select id="cmb_format" onchange="set()"><option value="png">PNG</option><option value="jpg">JPEG</option></select> |';
+        $str_input .= '<button id="btn_pause" onclick="snapshot(this)" disabled>Capture</button>';
+        $str_input .= '<div id="my_container"><video id="my_vid" autoplay width="400" height="300"></video><canvas id="my_canvas" style=""></canvas><div id="my_frame"></div></div>';
+        $str_input .= '<canvas id="my_preview" width="160" height="240"></canvas>';
+      }
+    }
+
     $form->addAnything(__('Photo'), $str_input);
 
     // member email

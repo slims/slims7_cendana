@@ -191,6 +191,9 @@ $sysconf['backup_dir'] = UPLOAD.'backup'.DS;
 /* FILE DOWNLOAD */
 $sysconf['allow_file_download'] = false;
 
+/* WEBCAM feature */
+$sysconf['webcam'] = 'html5';
+
 /* BARCODE config */
 // encoding selection
 $barcodes_encoding['EAN'] = array('UPC', '12-digit EAN');
