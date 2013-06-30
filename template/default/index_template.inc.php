@@ -461,6 +461,7 @@ if (isset($_GET['p']))
 </div>
 
 <script type="text/javascript" src="<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/js/supersized.3.2.7.min.js"></script>
+<script type="text/javascript" src="./js/highlight.js"></script>
 <script type="text/javascript">
 jQuery(function($){
   $.supersized(
@@ -534,6 +535,8 @@ $(document).ready(function()
       wrap: 'last',
       initCallback: mycarousel_initCallback
   });
+
+  jQuery('.container .item .detail-list').highlight(<?php echo $searched_words_js_array; ?>);
 
 });
 </script>

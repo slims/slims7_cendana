@@ -121,7 +121,7 @@ class biblio_list extends biblio_list_model
     foreach ($_queries as $_num => $_query) {
       // field
       $_field = $_query['f'];
-	      $_is_phrase = isset($_query['is_phrase']);
+	    $_is_phrase = isset($_query['is_phrase']);
       //  break the loop if we meet `cql_end` field
       if ($_field == 'cql_end') { break; }
 	  	// if field is boolean
@@ -146,6 +146,8 @@ class biblio_list extends biblio_list_model
         }
         $_boolean = '';
 	  	}
+			$_searched_word = str_replace(array('+', '-', '*'), '', $_q);
+			$this->words[$_searched_word] = $_searched_word;
 	    $_searched_fields = $_field;
       // for debugging purpose only
       // echo "<p>$_num. $_field -> $_boolean -> $_sql_criteria</p><p>&nbsp;</p>";

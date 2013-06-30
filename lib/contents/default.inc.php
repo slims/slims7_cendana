@@ -132,6 +132,15 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     }
   }
 
+  // searched words
+  $searched_words = implode(' ', $biblio_list->words);
+  $searched_words_js_array = '[';
+  foreach($biblio_list->words as $word) {
+    $searched_words_js_array .= "'$word',";
+  }
+  $searched_words_js_array = substr_replace($searched_words_js_array, '', -1);
+  $searched_words_js_array .= ']';
+
   // search result info construction
   $keywords_info = '<span class="search-keyword-info" title="'.htmlentities($keywords).'">'.((strlen($keywords)>30)?substr($keywords, 0, 30).'...':$keywords).'</span>';
   $search_result_info .= '<div class="search-found-info">';
@@ -195,31 +204,6 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
         $dict = enchant_broker_request_dict($enc,'en_US');
       }
       $search_result_info .= '<div class="search-suggestions">'.__('Did you mean:').' ';
-      // loop through keywords
-      /**
-      $wordcorrect = enchant_dict_check($dict, $keywords);
-      if (!$wordcorrect) {
-        $wordsuggest = enchant_dict_suggest($dict, $keywords);
-        $shortest = -1;
-        // loop through words to find the closest with levenshtein
-        foreach ($wordsuggest as $wordsg) {
-          $lev = levenshtein($keywords, $wordsg);
-          if ($lev == 0) {
-            $closest = $wordsg;
-            $shortest = 0;
-            break;
-          }
-
-          if ($lev <= $shortest || $shortest < 0) {
-            // set the closest match, and shortest distance
-            $closest  = $wordsg;
-            $shortest = $lev;
-          }
-        }
-
-        $search_result_info .= '<b class="search-word-suggest">'.$closest.'</b>';
-      }
-      **/
       $word = strtok($keywords, " \t\n");
       $keywords_suggest = array();
       while ($word !== false) {
@@ -264,7 +248,6 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
       enchant_broker_free_dict($dict);
     }
   }
-
 
   if (isset($biblio_list) && isset($sysconf['enable_xml_result']) && $sysconf['enable_xml_result']) {
     $search_result_info .= '<div><a href="index.php?resultXML=true&'.$_SERVER['QUERY_STRING'].'" class="xmlResultLink" target="_blank" title="View Result in XML Format" style="clear: both;">XML Result</a></div>';

@@ -95,6 +95,8 @@ class biblio_list extends biblio_list_model {
       } else { $_boolean = 'AND'; }
       // search value
       $_q = @$this->obj_db->escape_string($_query['q']);
+			$_searched_word = str_replace(array('+', '-', '*'), '', $_q);
+			$this->words[$_searched_word] = $_searched_word;
       // searched fields flag set
       $_searched_fields[$_field] = 1;
       $_previous_field = $_field;
@@ -202,7 +204,7 @@ class biblio_list extends biblio_list_model {
             } else { $_sql_criteria .= " biblio.gmd_id IN ($_subquery)"; }
             break;
           case 'notes' :
-			$_q = isset($_query['is_phrase'])?'"'.$_q.'"':$_q;
+			      $_q = isset($_query['is_phrase'])?'"'.$_q.'"':$_q;
             if ($_b == '-') {
               $_sql_criteria .= " NOT (MATCH (biblio.notes) AGAINST ('".$_q."' IN BOOLEAN MODE))";
             } else { $_sql_criteria .= " (MATCH (biblio.notes) AGAINST ('".$_q."' IN BOOLEAN MODE))"; }

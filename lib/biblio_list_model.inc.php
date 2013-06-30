@@ -44,6 +44,7 @@ abstract class biblio_list_model
   public $query_error;
   public $current_page = 1;
   public $item_availability_message = 'none copy available';
+  public $words = array();
   /* Protected properties */
   protected $obj_db = false;
   protected $resultset = false;
