@@ -10,6 +10,7 @@
 <link href="<?php echo $sysconf['admin_template']['css']; ?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>chosen/chosen.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>colorbox/colorbox.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo JWB; ?>jquery.imgareaselect/css/imgareaselect-default.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo JWB; ?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>updater.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
@@ -20,7 +21,9 @@
 <script type="text/javascript" src="<?php echo JWB; ?>chosen/ajax-chosen.min.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>tooltipsy.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>colorbox/jquery.colorbox-min.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>jquery.imgareaselect/scripts/jquery.imgareaselect.pack.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>webcam.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>scanner.js"></script>
 <!-- This template is created by: Arie Nugraha (dicarve@gmail.com)
      based on template by Eddy Subratha -->
 </head>

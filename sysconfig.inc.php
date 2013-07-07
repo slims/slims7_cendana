@@ -192,7 +192,10 @@ $sysconf['backup_dir'] = UPLOAD.'backup'.DS;
 $sysconf['allow_file_download'] = false;
 
 /* WEBCAM feature */
-$sysconf['webcam'] = 'html5';
+$sysconf['webcam'] = false;
+
+/* SCANNER feature */
+$sysconf['scanner'] = false;
 
 /* BARCODE config */
 // encoding selection
