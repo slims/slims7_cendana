@@ -41,6 +41,7 @@ function loadcam(t) {
   var options;
   var onCameraFail = function (e) {
       console.log('Camera did not work.', e);
+      alert('Camera did not work.', e);
       $('#btn_pause').attr('disabled', 'disabled');
   };
 

@@ -8,7 +8,7 @@
  * 
  */
 
-var available = false;
+var scan_available = false;
 var socket = null;
 var part = 0;
 var dataUrl2;
@@ -35,12 +35,18 @@ function preview(img, _sel) {
 function checkws() {
   if (window.WebSocket) {
     console.log('WebSocket is supported by your browser.');
-    available = true;
+    scan_available = true;
+  }
+  else {
+    console.log('Websocket is not supported by your browser.');
+    scan_available = false;
+    $('#scan_dialog').empty();
+    $('#scan_dialog').text('This feature not supported by your browser.');
   }
 }
 
 function openws(msg, opts) {
-  if (available) {
+  if (scan_available) {
     //~ var serviceUrl = 'ws://localhost:8100/';
     //~ var serviceUrl = $('#url').val();
     var serviceUrl = 'ws://' + $('#scan_host').val() + ':' + $('#scan_port').val();

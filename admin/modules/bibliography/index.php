@@ -174,7 +174,9 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
       $fileinfo = getimagesizefromstring($filedata);
       $valid = strlen($filedata)/1024 < $sysconf['max_image_upload'];
       $valid = (!$fileinfo || $valid === false) ? false : in_array($fileinfo['mime'], $sysconf['allowed_images_mimetype']);
-      $new_filename = strtolower('biblio_'.preg_replace('@\s+@i', '_', filter_var($data['title'],FILTER_SANITIZE_STRING)).'.'.$filedom);
+      $new_filename = strtolower('cover_'
+        .preg_replace("/[^a-zA-Z0-9]+/", "_", $data['title'])
+        .'.'.$filedom);
 
       if ($valid AND file_put_contents(IMGBS.'docs/'.$new_filename, $filedata)) {
         $data['image'] = $dbs->escape_string($new_filename);
