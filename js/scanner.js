@@ -209,6 +209,41 @@ function scan_type() {
   }
 }
 
+function scan_rotate(type) {
+  var srotate = scanvas.getContext('2d');
+  var cw = scanvas.width;
+  var ch = scanvas.height;
+  
+  var tmpcanvas = document.createElement("canvas");
+  var tmpctx = tmpcanvas.getContext("2d");
+  if (cw > ch) {
+    ch = cw;
+  }
+  else {
+    cw = ch;
+  }
+  tmpcanvas.width = cw;
+  tmpcanvas.height = ch;
+  tmpctx.drawImage(scanvas, 0, 0);
+  if (type == "right") {
+    tmpctx.translate(scanvas.height, 0);
+    tmpctx.rotate(90 * Math.PI / 180);
+  }
+  else {
+    tmpctx.translate(0, scanvas.width);
+    tmpctx.rotate(-90 * Math.PI / 180);
+  }
+  tmpctx.drawImage(tmpcanvas, 0, 0);
+  cw = scanvas.width;
+  ch = scanvas.height;
+  scanvas.width = ch;
+  scanvas.height = cw;
+  srotate.drawImage(tmpcanvas, 0, 0);
+  scan_type();
+  delete tmpctx;
+  delete tmpcanvas;
+}
+
 function toggle_options() {
   $('#scan_options').toggleClass('makeHidden');
   $('#scan_container').toggleClass('makeHidden');

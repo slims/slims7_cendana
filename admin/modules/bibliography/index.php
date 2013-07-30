@@ -586,7 +586,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         $str_input .= '<p style="padding: 3px 0;">'.__('Capture').', <label>'.__('Width:').' <input type="text" id="scan_capture_w" value="2550" pattern="\d*" maxlength="4" size="4" style="width: 30px;" />px</label> - <label>'.__('Height:').' <input type="text" id="scan_capture_h" value="3507" pattern="\d*" maxlength="4" size="4" style="width: 40px;" />px</label></p>';
         $str_input .= '<p>'.__('Result').', <label>'.__('Max Width:').' <input type="text" id="scan_max_w" value="360" pattern="\d*" maxlength="3" size="3" style="width: 30px;" />px</label> - <label>'.__('Max Height:').' <input type="text" id="scan_max_h" value="480" pattern="\d*" maxlength="3" size="3" style="width: 30px;" />px</label></p></div>';
         $str_input .= '<div id="scan_container" style=""><div style="height: 550px; width: 390px; overflow: auto; float: left;"><p>'.__('Scan result').'</p><img id="my_imgdata" style="margin: auto;" /></div>';
-        $str_input .= '<div style="padding-left: 10px; height: 550; width: 400px; overflow: auto; float: left;"><p>'.__('Preview').'</p><canvas id="my_selected" style="border: 1px solid #CCC; margin: auto;"></canvas></div></div></div></div>';
+        $str_input .= '<div style="padding-left: 10px; height: 550; width: 400px; overflow: auto; float: left;"><p>'.__('Preview').' <input type="button" value="'.__('Rotate Left').'" onclick="scan_rotate(\'left\')" /> <input type="button" value="'.__('Rotate Right').'" onclick="scan_rotate(\'right\')" /></p><canvas id="my_selected" style="border: 1px solid #CCC; margin: auto;"></canvas></div></div></div></div>';
     }
   }
 
