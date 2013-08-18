@@ -57,6 +57,7 @@ if (isset($sysconf['enable_xml_detail']) && !$sysconf['enable_xml_detail']) {
 
 // search result info
 $search_result_info = '';
+$searched_words_js_array = '';
 
 // if we are in searching mode
 if (isset($_GET['search']) && !empty($_GET['search'])) {
@@ -134,12 +135,14 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 
   // searched words
   $searched_words = implode(' ', $biblio_list->words);
-  $searched_words_js_array = '[';
-  foreach($biblio_list->words as $word) {
-    $searched_words_js_array .= "'$word',";
+  if ($biblio_list->words) {
+    $searched_words_js_array = '[';
+    foreach($biblio_list->words as $word) {
+      $searched_words_js_array .= "'$word',";
+    }
+    $searched_words_js_array = substr_replace($searched_words_js_array, '', -1);
+    $searched_words_js_array .= ']';
   }
-  $searched_words_js_array = substr_replace($searched_words_js_array, '', -1);
-  $searched_words_js_array .= ']';
 
   // search result info construction
   $keywords_info = '<span class="search-keyword-info" title="'.htmlentities($keywords).'">'.((strlen($keywords)>30)?substr($keywords, 0, 30).'...':$keywords).'</span>';
