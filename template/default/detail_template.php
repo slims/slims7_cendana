@@ -9,15 +9,15 @@ ob_start(); /* <- DONT REMOVE THIS COMMAND */
       {image}
       </div>
       <br/>
-    <a target="_blank" href="index.php?p=show_detail&inXML=true&id=<?php echo $_GET['id'];?>" class="btn btn-mini btn-danger">XML</a>      
+    <a target="_blank" href="index.php?p=show_detail&inXML=true&id=<?php echo $_GET['id'];?>" class="btn btn-mini btn-danger">XML</a>
   </div>
   <div class="span10">
     <h4 class="title">{title}</h4>
-    <p class="abstract">
+    <span class="abstract">
     <hr/>
     {notes}
     <hr/>
-    </p>
+    </span>
     <div class="form-horizontal">
       <div class="control-group">
         <label class="control-label key"><?php print __('Statement of Responsibility'); ?></label>

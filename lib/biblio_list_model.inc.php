@@ -170,15 +170,19 @@ abstract class biblio_list_model
     global $sysconf;
     // init the result buffer
     $_buffer = '';
-
+    // keywords from last search
+		$_keywords = '';
     // loop data
     $_i = 0;
     if (!$this->resultset) {
       return '<div class="errorBox">Query error : '.$this->query_error.'</div>';
     }
 
+    if (isset($_GET['keywords'])) {
+		  $_keywords = urlencode(trim(urldecode($_GET['keywords'])));
+		}
     while ($_biblio_d = $this->resultset->fetch_assoc()) {
-      $_biblio_d['title'] = '<a href="'.$sysconf['baseurl'].'index.php?p=show_detail&id='.$_biblio_d['biblio_id'].'" class="titleField" title="'.__('Record Detail').'">'.$_biblio_d['title'].'</a>';
+      $_biblio_d['title'] = '<a href="'.$sysconf['baseurl'].'index.php?p=show_detail&id='.$_biblio_d['biblio_id'].'&keywords='.$_keywords.'" class="titleField" title="'.__('Record Detail').'">'.$_biblio_d['title'].'</a>';
       // label
       if ($this->show_labels AND !empty($_biblio_d['labels'])) {
         $arr_labels = @unserialize($_biblio_d['labels']);
@@ -199,9 +203,9 @@ abstract class biblio_list_model
 				}
       }
       // button
-      $_biblio_d['detail_button'] = '<a href="'.$sysconf['baseurl'].'index.php?p=show_detail&id='.$_biblio_d['biblio_id'].'" class="detailLink" title="'.__('Record Detail').'">'.__('Record Detail').'</a>';
+      $_biblio_d['detail_button'] = '<a href="'.$sysconf['baseurl'].'index.php?p=show_detail&id='.$_biblio_d['biblio_id'].'&keywords='.$_keywords.'" class="detailLink" title="'.__('Record Detail').'">'.__('Record Detail').'</a>';
       if ($this->xml_detail) {
-        $_biblio_d['xml_button'] = '<a href="'.$sysconf['baseurl'].'index.php?p=show_detail&inXML=true&id='.$_biblio_d['biblio_id'].'" class="xmlDetailLink" title="View Detail in XML Format" target="_blank">XML Detail</a>';
+        $_biblio_d['xml_button'] = '<a href="'.$sysconf['baseurl'].'index.php?p=show_detail&inXML=true&id='.$_biblio_d['biblio_id'].'&keywords='.$_keywords.'" class="xmlDetailLink" title="View Detail in XML Format" target="_blank">XML Detail</a>';
       } else {
         $_biblio_d['xml_button'] = '';
       }

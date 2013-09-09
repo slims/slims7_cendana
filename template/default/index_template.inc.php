@@ -536,7 +536,7 @@ $(document).ready(function()
       initCallback: mycarousel_initCallback
   });
 
-  jQuery('.container .item .detail-list').highlight(<?php echo $searched_words_js_array; ?>);
+  jQuery('.container .item .detail-list, .coll-detail .title, .abstract, .coll-detail .controls').highlight(<?php echo $searched_words_js_array; ?>);
 
 });
 </script>

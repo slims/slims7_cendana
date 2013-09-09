@@ -57,7 +57,6 @@ if (isset($sysconf['enable_xml_detail']) && !$sysconf['enable_xml_detail']) {
 
 // search result info
 $search_result_info = '';
-$searched_words_js_array = '';
 
 // if we are in searching mode
 if (isset($_GET['search']) && !empty($_GET['search'])) {

@@ -47,6 +47,9 @@ $total_pages = 1;
 $header_info = '';
 // HTML metadata
 $metadata = '';
+// searched words for javascript highlight
+$searched_words_js_array = '';
+
 // member login information
 if (utility::isMemberLogin()) {
   $header_info .= '<div id="memberLoginInfo">'.__('You are currently Logged on as member').': <strong>'.$_SESSION['m_name'].' (<em>'.$_SESSION['m_email'].'</em>)</strong> <a id="memberLogout" href="index.php?p=member&logout=1">'.__('LOGOUT').'</a></div>';
