@@ -11,6 +11,7 @@
 <link href="<?php echo JWB; ?>chosen/chosen.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>colorbox/colorbox.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>jquery.imgareaselect/css/imgareaselect-default.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo AWB; ?>admin_template/default/jquery.sidr.light.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo JWB; ?>jquery.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>updater.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
@@ -24,10 +25,15 @@
 <script type="text/javascript" src="<?php echo JWB; ?>jquery.imgareaselect/scripts/jquery.imgareaselect.pack.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>webcam.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>scanner.js"></script>
+<script type="text/javascript" src="<?php echo AWB; ?>admin_template/default/jquery.sidr.min.js"></script>
 <!-- This template is created by: Arie Nugraha (dicarve@gmail.com)
      based on template by Eddy Subratha -->
 </head>
 <body>
+<div id="sidepan">
+<?php echo $sub_menu; ?>
+</div>
+
 <!-- main menu -->
 <div id="mainMenu"><?php echo $main_menu; ?></div>
 <!-- main menu end -->
@@ -52,9 +58,6 @@
 	    <div id="mainContent">
 	    <?php echo $main_content; ?>
 	    </div>
-      <div id="sidepan">
-	      <?php echo $sub_menu; ?>
-      </div>
     </td>
 </tr>
 </table>
@@ -66,24 +69,12 @@
 <script type="text/javascript">
 jQuery(document).ready( function() {
 
-var timeOut = null;
-jQuery('#mainMenu .menuCurrent, #mainMenu .home').bind('mouseover', function() {
-	var subMenu = jQuery('#sidepan');
-	var menu = jQuery(this);
-	var menuPos = menu.position();
-	var submenuHeight = subMenu.height();
-	var browserHeight = $(window).height();
-	if (submenuHeight >= browserHeight) {
-    submenuHeight = browserHeight-100;
-	}
-	subMenu.css({left: menuPos.left+'px', height: submenuHeight+'px', "max-height": submenuHeight+'px'}).slideDown().bind('mouseover', function() {
-	  clearTimeout(timeOut);
-  });
-}).bind('mouseout', function() {
-  timeOut = setTimeout( function() { jQuery('#sidepan').slideUp(); }, 1000 );
-});
-
-jQuery('body').not('#sidepan a').click( function() { jQuery('#sidepan').fadeOut(); clearTimeout(timeOut); } );
+ $('a.menuCurrent').sidr({
+   name: 'sidepan',
+   side: 'left',
+   speed: 300
+	});
+ $.sidr('open', 'sidepan');
 
 })
 

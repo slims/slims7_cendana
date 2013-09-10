@@ -107,6 +107,9 @@ $sysconf['baseurl'] = '';
 $temp_senayan_web_root_dir = preg_replace('@admin.*@i', '', dirname($_SERVER['PHP_SELF']));
 define('SWB', $sysconf['baseurl'].$temp_senayan_web_root_dir.(preg_match('@\/$@i', $temp_senayan_web_root_dir)?'':'/'));
 
+// admin section web root dir
+define('AWB', SWB.'admin/');
+
 // javascript library web root dir
 define('JWB', SWB.'js/');
 

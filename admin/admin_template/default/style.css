@@ -289,6 +289,10 @@ submenu
 	border-top-left-radius: 2px;
 }
 
+.subMenuHeader {
+	border-radius: 0;
+}
+
 .loader {
   margin-top:45px;
   background-color: #ff908a;
