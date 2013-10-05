@@ -77,16 +77,18 @@ function confirmProcess(intLoanID, strItemCode, strProcess)
 if (isset($_SESSION['memberID'])) {
     $memberID = trim($_SESSION['memberID']);
     $circulation = new circulation($dbs, $memberID);
-    $loan_list_query = $dbs->query(sprintf("SELECT L.loan_id, b.title, c.coll_type_name,
-        i.item_code, L.loan_date, L.due_date, L.return_date, L.renewed, IF(L.renewed>=mlr.reborrow_limit, 1, 0) AS extend
+    $loan_list_query = $dbs->query(sprintf("SELECT L.loan_id, b.title, ct.coll_type_name,
+        i.item_code, L.loan_date, L.due_date, L.return_date, L.renewed,
+        IF(lr.reborrow_limit IS NULL, IF(L.renewed>=mt.reborrow_limit, 1, 0), IF(L.renewed>=lr.reborrow_limit, 1, 0)) AS extend
         FROM loan AS L
         LEFT JOIN item AS i ON L.item_code=i.item_code
         LEFT JOIN mst_coll_type AS ct ON i.coll_type_id=ct.coll_type_id
         LEFT JOIN member AS m ON L.member_id=m.member_id
-        LEFT JOIN mst_loan_rules AS mlr ON m.member_type_id=mlr.member_type_id
+        LEFT JOIN mst_member_type AS mt ON m.member_type_id=mt.member_type_id
+        LEFT JOIN mst_loan_rules AS lr ON mt.member_type_id=lr.member_type_id AND i.coll_type_id = lr.coll_type_id
         LEFT JOIN biblio AS b ON i.biblio_id=b.biblio_id
-        LEFT JOIN mst_coll_type AS c ON i.coll_type_id=c.coll_type_id
-        WHERE L.is_lent=1 AND L.is_return=0 AND L.member_id='%s'", $memberID)); // query modified by Indra Sutriadi
+        WHERE L.is_lent=1 AND L.is_return=0 AND L.member_id='%s'
+        GROUP BY ct.coll_type_id", $memberID)); // query modified by Indra Sutriadi
 
     // create table object
     $loan_list = new simbio_table();
