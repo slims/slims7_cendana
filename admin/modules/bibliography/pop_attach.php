@@ -172,7 +172,7 @@ if (isset($_POST['upload']) AND trim(strip_tags($_POST['fileTitle'])) != '') {
 
 // create new instance
 $form = new simbio_form_table('mainForm', $_SERVER['PHP_SELF'].'?biblioID='.$biblioID, 'post');
-$form->submit_button_attr = 'name="upload" value="'.__('Upload Now').'" class="button"';
+$form->submit_button_attr = 'name="upload" value="'.__('Upload Now').'" class="btn btn-default"';
 // form table attributes
 $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
 $form->table_header_attr = 'class="alterCell" style="font-weight: bold;"';

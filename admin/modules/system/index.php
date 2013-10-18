@@ -155,7 +155,7 @@ if (isset($_POST['updateData'])) {
 
 // create new instance
 $form = new simbio_form_table_AJAX('mainForm', $_SERVER['PHP_SELF'], 'post');
-$form->submit_button_attr = 'name="updateData" value="'.__('Save Settings').'" class="button"';
+$form->submit_button_attr = 'name="updateData" value="'.__('Save Settings').'" class="btn btn-default"';
 
 // form table attributes
 $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';

@@ -147,9 +147,9 @@ if (isset($_POST['saveData'])) {
 	    <h2><?php echo __('Collection Type'); ?></h2>
   </div>
 	<div class="sub_section">
-	  <div class="action_button">
-      <a href="<?php echo MWB; ?>master_file/coll_type.php" class="headerText2"><?php echo __('Collection Type List'); ?></a>
-      <a href="<?php echo MWB; ?>master_file/coll_type.php?action=detail" class="headerText2"><?php echo __('Add New Collection Type'); ?></a>
+	  <div class="btn-group">
+      <a href="<?php echo MWB; ?>master_file/coll_type.php" class="btn btn-default"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;<?php echo __('Collection Type List'); ?></a>
+      <a href="<?php echo MWB; ?>master_file/coll_type.php?action=detail" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Add New Collection Type'); ?></a>
 	  </div>
     <form name="search" action="<?php echo MWB; ?>master_file/coll_type.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />

@@ -77,14 +77,14 @@ if (isset($_POST['clearLogs']) AND $can_write AND $_SESSION['uid'] == 1) {
   </div>
 	<div class="sub_section">
     <?php if ($_SESSION['uid'] == 1) { ?>
-	  <div class="action_button">
-      <a href="#" onclick="confSubmit('clearLogsForm', '<?php echo __('Are you SURE to completely clear system log data? This action cannot be undo!'); ?>')" class="notAJAX headerText2" style="color: red;"><?php echo __('CLEAR LOGS'); ?></a>
-      <a href="#" onclick="confSubmit('saveLogsForm', '<?php echo __('Save Logs record to file?'); ?>')" class="notAJAX headerText2"><?php echo __('Save Logs To File'); ?></a>
+	  <div class="btn-group">
+      <a href="#" onclick="confSubmit('clearLogsForm', '<?php echo __('Are you SURE to completely clear system log data? This action cannot be undo!'); ?>')" class="notAJAX btn btn-default" style="color: red;"><i class="glyphicon glyphicon-trash"></i>&nbsp;<?php echo __('CLEAR LOGS'); ?></a>
+      <a href="#" onclick="confSubmit('saveLogsForm', '<?php echo __('Save Logs record to file?'); ?>')" class="notAJAX btn btn-default"><i class="glyphicon glyphicon-download"></i>&nbsp;<?php echo __('Save Logs To File'); ?></a>
 	  </div>
     <?php } ?>
     <form name="search" action="<?php echo MWB; ?>system/sys_log.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
-    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
+    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
     </form>
     <!-- LOG CLEARANCE FORM -->
     <?php if ($_SESSION['uid'] == 1) { ?>

@@ -382,20 +382,20 @@ if (!$in_pop_up) {
 	  <h2><?php echo __('Bibliographic'); ?></h2>
   </div>
   <div class="sub_section">
-	  <div class="action_button">
-		  <a href="<?php echo MWB; ?>bibliography/index.php" class="headerText2"><?php echo __('Bibliographic List'); ?></a>
-		  <a href="<?php echo MWB; ?>bibliography/index.php?action=detail" class="headerText2"><?php echo __('Add New Bibliography'); ?></a>
+	  <div class="btn-group">
+		  <a href="<?php echo MWB; ?>bibliography/index.php" class="btn btn-default"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;<?php echo __('Bibliographic List'); ?></a>
+		  <a href="<?php echo MWB; ?>bibliography/index.php?action=detail" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Add New Bibliography'); ?></a>
 	  </div>
 	  <form name="search" action="<?php echo MWB; ?>bibliography/index.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
 		  <input type="text" name="keywords" id="keywords" size="30" />
 		  <select name="field"><option value="0"><?php echo __('All Fields'); ?></option><option value="title"><?php echo __('Title/Series Title'); ?> </option><option value="subject"><?php echo __('Topics'); ?></option><option value="author"><?php echo __('Authors'); ?></option><option value="isbn"><?php echo __('ISBN/ISSN'); ?></option><option value="publisher"><?php echo __('Publisher'); ?></option></select>
-		  <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
+		  <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
 	  </form>
 		  <?php
 		  // enable UCS?
 			if ($sysconf['ucs']['enable']) {
 		  ?>
-		  <a href="#" onclick="ucsUpload('<?php echo MWB; ?>bibliography/ucs_upload.php', serializeChbox('dataList'))" class="notAJAX"><div class="button"><?php echo __('Upload Selected Bibliographic data to Union Catalog Server*'); ?></div></a>
+		  <a href="#" onclick="ucsUpload('<?php echo MWB; ?>bibliography/ucs_upload.php', serializeChbox('dataList'))" class="notAJAX"><div class="btn btn-default"><?php echo __('Upload Selected Bibliographic data to Union Catalog Server*'); ?></div></a>
 		  <?php
 		  }
 		  ?>
@@ -422,7 +422,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
 
   // create new instance
   $form = new simbio_form_table_AJAX('mainForm', $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'], 'post');
-  $form->submit_button_attr = 'name="saveData" value="'.__('Save').'" class="button"';
+  $form->submit_button_attr = 'name="saveData" value="'.__('Save').'" class="btn btn-default"';
   // form table attributes
   $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
   $form->table_header_attr = 'class="alterCell" style="font-weight: bold;"';
@@ -444,7 +444,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     // form record title
     $form->record_title = $rec_d['title'];
     // submit button attribute
-    $form->submit_button_attr = 'name="saveData" value="'.__('Update').'" class="button"';
+    $form->submit_button_attr = 'name="saveData" value="'.__('Update').'" class="btn btn-default"';
     // element visibility class toogle
     $visibility = 'makeHidden';
 
@@ -466,7 +466,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
 
   // biblio authors
   // $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_author.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Authors/Roles').'\')">'.__('Add Author(s)').'</a></div>';
-  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button openPopUp" href="'.MWB.'bibliography/pop_author.php?biblioID='.$rec_d['biblio_id'].'" title="'.__('Authors/Roles').'">'.__('Add Author(s)').'</a></div>';
+  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button btn btn-info openPopUp" href="'.MWB.'bibliography/pop_author.php?biblioID='.$rec_d['biblio_id'].'" title="'.__('Authors/Roles').'">'.__('Add Author(s)').'</a></div>';
   $str_input .= '<iframe name="authorIframe" id="authorIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_author.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
   $form->addAnything(__('Author(s)'), $str_input);
 
@@ -486,7 +486,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   // biblio item add
   if (!$in_pop_up AND $form->edit_mode) {
     // $str_input = '<div class="makeHidden"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_item.php?inPopUp=true&action=detail&biblioID='.$rec_d['biblio_id'].'\', 650, 400, \''.__('Items/Copies').'\')">'.__('Add New Items').'</a></div>';
-    $str_input = '<div class="makeHidden"><a class="notAJAX button openPopUp" href="'.MWB.'bibliography/pop_item.php?inPopUp=true&action=detail&biblioID='.$rec_d['biblio_id'].'" title="'.__('Items/Copies').'" height="500">'.__('Add New Items').'</a></div>';
+    $str_input = '<div class="makeHidden"><a class="notAJAX button btn btn-info openPopUp" href="'.MWB.'bibliography/pop_item.php?inPopUp=true&action=detail&biblioID='.$rec_d['biblio_id'].'" title="'.__('Items/Copies').'" height="500">'.__('Add New Items').'</a></div>';
     $str_input .= '<iframe name="itemIframe" id="itemIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_item_list.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>'."\n";
     $form->addAnything(__('Item(s) Data'), $str_input);
   }
@@ -545,7 +545,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   $form->addTextField('text', 'callNumber', __('Call Number'), $rec_d['call_number'], 'style="width: 40%;"', __('Sets of ID that put in the book spine.'));
   // biblio topics
   // $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_topic.php?biblioID='.$rec_d['biblio_id'].'\', 500, 200, \''.__('Subjects/Topics').'\')">'.__('Add Subject(s)').'</a></div>';
-  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button openPopUp" href="'.MWB.'bibliography/pop_topic.php?biblioID='.$rec_d['biblio_id'].'" title="'.__('Subjects/Topics').'">'.__('Add Subject(s)').'</a></div>';
+  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button btn btn-info openPopUp" href="'.MWB.'bibliography/pop_topic.php?biblioID='.$rec_d['biblio_id'].'" title="'.__('Subjects/Topics').'">'.__('Add Subject(s)').'</a></div>';
   $str_input .= '<iframe name="topicIframe" id="topicIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_topic.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
   $form->addAnything(__('Subject(s)'), $str_input);
   // biblio language
@@ -594,7 +594,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
 
   // biblio file attachment
   // $str_input = '<div class="'.$visibility.'"><a class="notAJAX button" href="javascript: openHTMLpop(\''.MWB.'bibliography/pop_attach.php?biblioID='.$rec_d['biblio_id'].'\', 600, 300, \''.__('File Attachments').'\')">'.__('Add Attachment').'</a></div>';
-  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button openPopUp" href="'.MWB.'bibliography/pop_attach.php?biblioID='.$rec_d['biblio_id'].'" title="'.__('File Attachments').'">'.__('Add Attachment').'</a></div>';
+  $str_input = '<div class="'.$visibility.'"><a class="notAJAX button btn btn-info openPopUp" href="'.MWB.'bibliography/pop_attach.php?biblioID='.$rec_d['biblio_id'].'" title="'.__('File Attachments').'">'.__('Add Attachment').'</a></div>';
   $str_input .= '<iframe name="attachIframe" id="attachIframe" class="borderAll" style="width: 100%; height: 70px;" src="'.MWB.'bibliography/iframe_attach.php?biblioID='.$rec_d['biblio_id'].'&block=1"></iframe>';
   $form->addAnything(__('File Attachment'), $str_input);
 

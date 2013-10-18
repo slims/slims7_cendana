@@ -55,12 +55,12 @@ if (!($can_read AND $can_write)) {
 	    <h2><?php echo __('Database Backup'); ?></h2>
   </div>
 	<div class="sub_section">
-	  <div class="action_button">
-      <input type="button" onclick="$('#createBackup').submit()" class="button notAJAX" value="<?php echo __('Start New Backup'); ?>" />
+	  <div class="btn-group">
+      <button onclick="$('#createBackup').submit()" class="notAJAX btn btn-success"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Start New Backup'); ?></button>
 	  </div>
     <form name="search" action="<?php echo MWB; ?>system/backup_proc.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
-    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
+    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
     </form>
     <form name="createBackup" id="createBackup" target="blindSubmit" action="<?php echo MWB; ?>system/backup_proc.php" method="post" style="display: inline; visibility: hidden;">
     <input type="hidden" name="start" value="true" />

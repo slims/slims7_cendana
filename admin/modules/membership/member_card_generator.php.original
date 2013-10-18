@@ -205,7 +205,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     	<h2><?php echo __('Member Card Printing'); ?></h2>
     </div>
 	<div class="sub_section">
-		<div class="action_button">
+		<div class="btn-group">
 		<a target="blindSubmit" href="<?php echo MWB; ?>membership/member_card_generator.php?action=clear" class="notAJAX headerText2" style="color: #f00;"><?php echo __('Clear Print Queue'); ?></a>
 		<a target="blindSubmit" href="<?php echo MWB; ?>membership/member_card_generator.php?action=print" class="notAJAX headerText2"><?php echo __('Print Member Cards for Selected Data'); ?></a>
 		</div>

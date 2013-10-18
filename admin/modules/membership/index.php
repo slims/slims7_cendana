@@ -303,10 +303,10 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     	<h2><?php echo __('Membership'); ?></h2>
     </div>
     <div class="sub_section">
-	<div class="action_button">
-    <a href="<?php echo MWB; ?>membership/index.php" class="headerText2"><?php echo __('Member List'); ?></a>
-    <a href="<?php echo MWB; ?>membership/index.php?expire=true" class="headerText2" style="color: #FF0000;"><?php echo __('View Expired Member'); ?></a>
-    <a href="<?php echo MWB; ?>membership/index.php?action=detail" class="headerText2"><?php echo __('Add New Member'); ?></a>
+	<div class="btn-group">
+    <a href="<?php echo MWB; ?>membership/index.php" class="btn btn-default"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;<?php echo __('Member List'); ?></a>
+    <a href="<?php echo MWB; ?>membership/index.php?expire=true" class="btn btn-default" style="color: #FF0000;"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;<?php echo __('View Expired Member'); ?></a>
+    <a href="<?php echo MWB; ?>membership/index.php?action=detail" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Add New Member'); ?></a>
 	</div>
     <form name="search" action="<?php echo MWB; ?>membership/index.php" id="search" method="get" style="display: inline;"><?php echo __('Member Search'); ?> :
 	    <input type="text" name="keywords" size="30" /><?php if (isset($_GET['expire'])) { echo '<input type="hidden" name="expire" value="true" />'; } ?>
@@ -454,7 +454,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     $str_input = '';
     if ($rec_d['member_image']) {
         $str_input = '<a href="'.SWB.'images/persons/'.$rec_d['member_image'].'" target="_blank"><strong>'.$rec_d['member_image'].'</strong></a><br />';
-    }    
+    }
     $str_input .= simbio_form_element::textField('file', 'image');
     $str_input .= ' '.__('Maximum').' '.$sysconf['max_image_upload'].' KB';
     if ($sysconf['webcam'] !== false) {

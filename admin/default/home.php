@@ -32,7 +32,7 @@ if (basename($_SERVER['PHP_SELF']) == basename(__FILE__)) {
 <fieldset class="menuBox adminHome">
 <div class="menuBoxInner">
 	<div class="per_title">
-    	<h2><?php echo $sysconf['library_name']; ?><div><?php echo $sysconf['library_subname']; ?></div></h2>
+    	<h2><?php echo __('Library Administration'); ?></h2>
 	</div>
 </div>
 </fieldset>

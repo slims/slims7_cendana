@@ -141,13 +141,13 @@ if (isset($_POST['saveData'])) {
 	    <h2><?php echo __('Content'); ?></h2>
   </div>
 	<div class="sub_section">
-	  <div class="action_button">
-      <a href="<?php echo MWB; ?>system/content.php" class="headerText2"><?php echo __('Content List'); ?></a>
-      <a href="<?php echo MWB; ?>system/content.php?action=detail" class="headerText2"><?php echo __('Add New Content'); ?></a>
+	  <div class="btn-group">
+      <a href="<?php echo MWB; ?>system/content.php" class="btn btn-default"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;<?php echo __('Content List'); ?></a>
+      <a href="<?php echo MWB; ?>system/content.php?action=detail" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Add New Content'); ?></a>
 	  </div>
     <form name="search" action="<?php echo MWB; ?>system/content.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
-    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
+    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
     </form>
   </div>
 </div>
@@ -166,7 +166,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
 
     // create new instance
     $form = new simbio_form_table_AJAX('mainForm', $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'], 'post');
-    $form->submit_button_attr = 'name="saveData" value="'.__('Save').'" class="button"';
+    $form->submit_button_attr = 'name="saveData" value="'.__('Save').'" class="btn btn-default"';
 
     // form table attributes
     $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
@@ -182,7 +182,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         // form record title
         $form->record_title = $rec_d['content_title'];
         // submit button attribute
-        $form->submit_button_attr = 'name="saveData" value="'.__('Update').'" class="button"';
+        $form->submit_button_attr = 'name="saveData" value="'.__('Update').'" class="btn btn-default"';
     }
 
     /* Form Element(s) */

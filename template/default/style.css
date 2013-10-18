@@ -11,7 +11,7 @@
 /*----------------------------------------------------------------*/
 /* Include Bootstrap - Supersized */
 /*----------------------------------------------------------------*/
-@import url('css/bootstrap.min.css');
+@import url('css/bootstrap-2.0.min.css');
 @import url('css/bootstrap-responsive.min.css');
 @import url('css/supersized.core.css');
 
@@ -1190,13 +1190,13 @@ h4.title {
 
 }
 
-.topbook-container {
-	margin-top: 20px;
-}
-
-@media (max-width: 1024px) and (min-width: 979px)  {
+@media (min-width: 980px) and (max-width: 1199px)  {
 	.form-search .input-xxlarge {
 		width:400px !important;
 	}
 
+}
+
+.topbook-container {
+	margin-top: 20px;
 }

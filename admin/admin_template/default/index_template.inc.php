@@ -7,6 +7,8 @@
 <link rel="icon" href="<?php echo SWB; ?>webicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo SWB; ?>webicon.ico" type="image/x-icon" />
 <link href="<?php echo SWB; ?>template/core.style.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo SWB; ?>template/default/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo SWB; ?>template/default/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $sysconf['admin_template']['css']; ?>" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>chosen/chosen.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo JWB; ?>colorbox/colorbox.css" rel="stylesheet" type="text/css" />
@@ -29,7 +31,7 @@
 <!-- This template is created by: Arie Nugraha (dicarve@gmail.com)
      based on template by Eddy Subratha -->
 </head>
-<body>
+<body id="main">
 <div id="sidepan">
 <?php echo $sub_menu; ?>
 </div>
@@ -40,6 +42,7 @@
 
 <!-- header-->
 <div id="header">
+	<a class="sidebar-open btn btn-info" href="#"><i class="icon-list glyphicon glyphicon-align-justify"></i></a>
 	<div id="headerImage">&nbsp;</div>
 	<div id="libraryName">
 		<a href="./index.php"><?php echo $sysconf['library_name']; ?></a>
@@ -69,12 +72,16 @@
 <script type="text/javascript">
 jQuery(document).ready( function() {
 
- $('a.menuCurrent').sidr({
+ $('a.menuCurrent, .sidebar-open').sidr({
    name: 'sidepan',
    side: 'left',
    speed: 300
 	});
- $.sidr('open', 'sidepan');
+ // $.sidr('open', 'sidepan');
+ $(document).ajaxStart(function() { $('.loader').fadeIn('fast'); }).ajaxStop(function() {
+	  $.sidr('close', 'sidepan');
+		setTimeout(function() { $('.loader').fadeOut('slow'); },  1000);
+	});
 
 })
 

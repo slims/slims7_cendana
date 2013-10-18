@@ -210,7 +210,7 @@ if (!$in_pop_up) {
 	    <form name="search" action="<?php echo MWB; ?>bibliography/item.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
 		    <input type="text" name="keywords" id="keywords" size="30" />
 		    <select name="searchby"><option value="item">Item</option><option value="others"><?php echo __('Others'); ?> </option></select>
-		    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
+		    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
 	    </form>
     </div>
 </div>
@@ -235,7 +235,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
 
     // create new instance
     $form = new simbio_form_table_AJAX('mainForm', $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'], 'post');
-    $form->submit_button_attr = 'name="saveData" value="'.__('Save').'" class="button"';
+    $form->submit_button_attr = 'name="saveData" value="'.__('Save').'" class="btn btn-default"';
     // form table attributes
     $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
     $form->table_header_attr = 'class="alterCell" style="font-weight: bold;"';
@@ -254,7 +254,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         // form record title
         $form->record_title = $rec_d['title'];
         // submit button attribute
-        $form->submit_button_attr = 'name="saveData" value="'.__('Update').'" class="button"';
+        $form->submit_button_attr = 'name="saveData" value="'.__('Update').'" class="btn btn-default"';
         // default biblio title and biblio ID
         $b_title = $rec_d['title'];
         $b_id = $rec_d['biblio_id'];

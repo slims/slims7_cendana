@@ -145,7 +145,7 @@ if ($stk_q->num_rows) {
 
     // create new instance
     $form = new simbio_form_table_AJAX('mainForm', $_SERVER['PHP_SELF'].'?action=new', 'post');
-    $form->submit_button_attr = 'name="saveData" value="'.__('Initialize Stock Take').'" class="button"';
+    $form->submit_button_attr = 'name="saveData" value="'.__('Initialize Stock Take').'" class="btn btn-default"';
 
     // form table attributes
     $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
@@ -186,5 +186,14 @@ if ($stk_q->num_rows) {
     $str_input .= '<br />'.__('Separate each class comma sign. Use * for wildcard');
     $form->addAnything(__('Classification'), $str_input);
     // print out the object
+    ?>
+    <fieldset class="menuBox">
+    <div class="menuBoxInner printIcon">
+	   <div class="per_title">
+      <h2><?php echo __('Initialize Stock Take Process'); ?></h2>
+     </div>
+    </div>
+    </fieldset>
+    <?php
     echo $form->printOut();
 }

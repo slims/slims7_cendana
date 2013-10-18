@@ -30,8 +30,10 @@ function loadPrintSettings($dbs, $type) {
     $barcode_settings_d = $barcode_settings_q->fetch_row();
     if ($barcode_settings_d[0]) {
       $barcode_settings = @unserialize($barcode_settings_d[0]);
-      foreach ($barcode_settings as $setting_name => $val) {
-        $sysconf['print'][$type][$setting_name] = $val;
+      if (is_array($barcode_settings) && count($barcode_settings) > 0) {
+        foreach ($barcode_settings as $setting_name => $val) {
+          $sysconf['print'][$type][$setting_name] = $val;
+        }
       }
       return $sysconf['print'][$type];
     }

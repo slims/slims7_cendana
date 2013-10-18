@@ -75,7 +75,7 @@ if (file_exists($custom_settings)) {
 
 // create form instance
 $form = new simbio_form_table_AJAX('mainForm', $_SERVER['PHP_SELF'], 'post');
-$form->submit_button_attr = 'name="updateSettings" value="'.__('Save Settings').'" class="button"';
+$form->submit_button_attr = 'name="updateSettings" value="'.__('Save Settings').'" class="btn btn-primary"';
 
 // form table attributes
 $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';

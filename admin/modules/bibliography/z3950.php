@@ -279,7 +279,7 @@ if (isset($_GET['keywords']) AND $can_read) {
       <input type="text" name="keywords" id="keywords" size="30" />
       <select name="field"><option value="isbn"><?php echo __('ISBN/ISSN'); ?></option><option value="ti"><?php echo __('Title/Series Title'); ?></option><option value="au"><?php echo __('Authors'); ?></option></select>
       <?php echo __('Server'); ?>: <select name="z3950_source" style="width: 20%;"><?php foreach ($sysconf['z3950_source'] as $serverid => $z3950_source) { echo '<option value="'.$z3950_source['uri'].'">'.$z3950_source['name'].'</option>';  } ?></select>
-      <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
+      <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
       </form>
     </div>
       <div class="infoBox"><?php echo __('* Please make sure you have a working Internet connection.'); ?></div>

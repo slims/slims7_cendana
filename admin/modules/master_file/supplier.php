@@ -135,9 +135,9 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
 	    <h2><?php echo __('Supplier'); ?></h2>
   </div>
 	<div class="sub_section">
-	  <div class="action_button">
-      <a href="<?php echo MWB; ?>master_file/supplier.php" class="headerText2"><?php echo __('Supplier List'); ?></a>
-      <a href="<?php echo MWB; ?>master_file/supplier.php?action=detail" class="headerText2"><?php echo __('Add New Supplier'); ?></a>
+	  <div class="btn-group">
+      <a href="<?php echo MWB; ?>master_file/supplier.php" class="btn btn-default"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;<?php echo __('Supplier List'); ?></a>
+      <a href="<?php echo MWB; ?>master_file/supplier.php?action=detail" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Add New Supplier'); ?></a>
 	  </div>
     <form name="search" action="<?php echo MWB; ?>master_file/supplier.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />

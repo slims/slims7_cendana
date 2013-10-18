@@ -154,9 +154,9 @@ if (isset($_POST['saveData'])) {
 	    <h2><?php echo __('Item Status'); ?></h2>
   </div>
 	<div class="sub_section">
-	  <div class="action_button">
-      <a href="<?php echo MWB; ?>master_file/item_status.php" class="headerText2"><?php echo __('Item Status'); ?></a>
-		  <a href="<?php echo MWB; ?>master_file/item_status.php?action=detail" class="headerText2"><?php echo __('Add New Item Status'); ?></a>
+	  <div class="btn-group">
+      <a href="<?php echo MWB; ?>master_file/item_status.php" class="btn btn-default"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;<?php echo __('Item Status'); ?></a>
+		  <a href="<?php echo MWB; ?>master_file/item_status.php?action=detail" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Add New Item Status'); ?></a>
 	  </div>
     <form name="search" action="<?php echo MWB; ?>master_file/item_status.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />

@@ -125,9 +125,9 @@ if (!$reportView) {
         ?>
         </div>
     </div>
-    <div class="action_button">
-      <input type="submit" name="applyFilter" value="<?php echo __('Apply Filter'); ?>" />
-      <input type="button" name="moreFilter" value="<?php echo __('Show More Filter Options'); ?>" />
+    <div class="btn-group">
+      <input type="submit" name="applyFilter" class="btn btn-default" value="<?php echo __('Apply Filter'); ?>" />
+      <input type="button" name="moreFilter" class="btn btn-default" value="<?php echo __('Show More Filter Options'); ?>" />
       <input type="hidden" name="reportView" value="true" />
     </div>
     </form>

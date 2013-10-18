@@ -160,10 +160,10 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
   </div>
 	<div class="sub_section">
     .
-	  <div class="action_button">
-      <a href="<?php echo MWB; ?>system/holiday.php" class="headerText2"><?php echo __('Holiday Setting'); ?></a>
-      <a href="<?php echo MWB; ?>system/holiday.php?mode=special" class="headerText2"><?php echo __('Special holiday'); ?></a>
-      <a href="<?php echo MWB; ?>system/holiday.php?mode=special&action=detail" class="headerText2"><?php echo __('Add Special holiday'); ?></a>
+	  <div class="btn-group">
+      <a href="<?php echo MWB; ?>system/holiday.php" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i>&nbsp;<?php echo __('Holiday Setting'); ?></a>
+      <a href="<?php echo MWB; ?>system/holiday.php?mode=special" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i>&nbsp;<?php echo __('Special holiday'); ?></a>
+      <a href="<?php echo MWB; ?>system/holiday.php?mode=special&action=detail" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Add Special holiday'); ?></a>
 	  </div>
   </div>
 </div>
@@ -178,7 +178,7 @@ if (isset($_GET['mode'])) {
 
         // create new instance
         $form = new simbio_form_table_AJAX('mainForm', $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'], 'post');
-        $form->submit_button_attr = 'name="saveData" value="'.__('Save').'" class="button"';
+        $form->submit_button_attr = 'name="saveData" value="'.__('Save').'" class="btn btn-default"';
 
         // form table attributes
         $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
@@ -193,7 +193,7 @@ if (isset($_GET['mode'])) {
             // form record title
             $form->record_title = $rec_d['description'];
             // submit button attribute
-            $form->submit_button_attr = 'name="saveData" value="'.__('Update').'" class="button"';
+            $form->submit_button_attr = 'name="saveData" value="'.__('Update').'" class="btn btn-default"';
         }
 
         /* Form Element(s) */

@@ -121,10 +121,10 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   </div>
 	<div class="sub_section">
 		.
-	  <div class="action_button">
-	    <a href="<?php echo MWB; ?>system/biblio_indexes.php?action=detail&detail=empty" class="headerText2"><?php echo __('Emptying Index'); ?></a>
-      <a href="<?php echo MWB; ?>system/biblio_indexes.php?action=detail&detail=reindex" class="headerText2"><?php echo __('Re-create Index'); ?></a>
-      <a href="<?php echo MWB; ?>system/biblio_indexes.php?action=detail&detail=update" class="headerText2"><?php echo __('Update Index'); ?></a>
+	  <div class="btn-group">
+	    <a href="<?php echo MWB; ?>system/biblio_indexes.php?action=detail&detail=empty" class="btn btn-default" style="color: red"><i class="glyphicon glyphicon-trash"></i>&nbsp;<?php echo __('Emptying Index'); ?></a>
+      <a href="<?php echo MWB; ?>system/biblio_indexes.php?action=detail&detail=reindex" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i>&nbsp;<?php echo __('Re-create Index'); ?></a>
+      <a href="<?php echo MWB; ?>system/biblio_indexes.php?action=detail&detail=update" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Update Index'); ?></a>
 	  </div>
 	</div>
 	<div class="infoBox">Bibliographic Index will speed up catalog search</div>

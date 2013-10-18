@@ -128,9 +128,9 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
 	    <h2><?php echo __('Publisher'); ?></h2>
   </div>
 	<div class="sub_section">
-	  <div class="action_button">
-      <a href="<?php echo MWB; ?>master_file/publisher.php" class="headerText2"><?php echo __('Publisher List'); ?></a>
-      <a href="<?php echo MWB; ?>master_file/publisher.php?action=detail" class="headerText2"><?php echo __('Add New Publisher'); ?></a>
+	  <div class="btn-group">
+      <a href="<?php echo MWB; ?>master_file/publisher.php" class="btn btn-default"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;<?php echo __('Publisher List'); ?></a>
+      <a href="<?php echo MWB; ?>master_file/publisher.php?action=detail" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Add New Publisher'); ?></a>
 	  </div>
     <form name="search" action="<?php echo MWB; ?>master_file/publisher.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
@@ -214,7 +214,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
 		    $sql_criteria .= " AND p.publisher_name LIKE '%$keywords%'";
 		} else {
             $sql_criteria = " p.publisher_name LIKE '%$keywords%'";
-		} 
+		}
     }
 
     if (isset($sql_criteria) AND $sql_criteria <> "") {

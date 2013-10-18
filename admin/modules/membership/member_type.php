@@ -138,9 +138,9 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     	<h2><?php echo __('Member Type'); ?></h2>
     </div>
     <div class="sub_section">
-	    <div class="action_button">
-		    <a href="<?php echo MWB; ?>membership/member_type.php" class="headerText2"><?php echo __('Member Type List'); ?></a>
-		    <a href="<?php echo MWB; ?>membership/member_type.php?action=detail" class="headerText2"><?php echo __('Add New Member Type'); ?></a>
+	    <div class="btn-group">
+		    <a href="<?php echo MWB; ?>membership/member_type.php" class="btn btn-default"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;<?php echo __('Member Type List'); ?></a>
+		    <a href="<?php echo MWB; ?>membership/member_type.php?action=detail" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Add New Member Type'); ?></a>
 	    </div>
 	    <form name="search" action="<?php echo MWB; ?>membership/member_type.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
 		    <input type="text" name="keywords" size="30" />

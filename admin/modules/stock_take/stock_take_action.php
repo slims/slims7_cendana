@@ -44,6 +44,7 @@ if (!($can_read AND $can_write)) {
 
 // if transaction is started
 if (isset($_POST['itemCode'])) {
+    echo '<!DOCTYPE html>';
     echo '<html><body>';
     // update item data
     $item_code = $dbs->escape_string(trim($_POST['itemCode']));

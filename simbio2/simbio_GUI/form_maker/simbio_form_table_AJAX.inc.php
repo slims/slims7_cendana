@@ -100,7 +100,7 @@ class simbio_form_table_AJAX extends simbio_form_maker
 
       // check if we are on edit form mode
       if ($this->edit_mode) {
-          $_edit_link .= '<a href="#" class="notAJAX editFormLink">EDIT</a>';
+          $_edit_link .= '<a href="#" class="notAJAX editFormLink btn btn-danger">EDIT</a>';
           // delete button exists if the record_id properties exists
           if ($this->record_id && $this->delete_button) {
               // create delete button
@@ -108,7 +108,7 @@ class simbio_form_table_AJAX extends simbio_form_maker
           }
           // back button
           if ($this->back_button) {
-              $_back_button = '<input type="button" class="cancelButton button" value="'.$_cancel_value.'" />';
+              $_back_button = '<input type="button" class="cancelButton button btn btn-warning" value="'.$_cancel_value.'" />';
           }
       }
 
@@ -116,7 +116,7 @@ class simbio_form_table_AJAX extends simbio_form_maker
       // check if form tag is included
       if ($this->with_form_tag) {
           $_buttons = '<table cellspacing="0" cellpadding="3" style="width: 100%; background-color: #dcdcdc;">'
-              .'<tr><td><input type="submit" '.$this->submit_button_attr.' /> '.$_back_button.' '.$_delete_button.'</td><td align="right">'.$_edit_link.'</td>'
+              .'<tr><td><input type="submit" class="button btn btn-success" '.$this->submit_button_attr.' /> '.$_back_button.' '.$_delete_button.'</td><td align="right">'.$_edit_link.'</td>'
               .'</tr></table>'."\n";
       }
       // get the table result

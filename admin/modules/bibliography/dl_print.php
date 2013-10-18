@@ -217,16 +217,16 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
 <div class="menuBoxInner printIcon">
 	<div class="per_title">
     <h2><?php echo __('Labels Printing'); ?></h2>
-    </div>
+  </div>
 	<div class="sub_section">
-    <div class="action_button">
-      <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/dl_print.php?action=clear" class="notAJAX headerText2"><?php echo __('Clear Print Queue'); ?></a>
-      <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/dl_print.php?action=print" class="notAJAX headerText2"><?php echo __('Print Labels for Selected Data'); ?></a>
-	    <a href="<?php echo MWB; ?>bibliography/pop_print_settings.php?type=label" class="notAJAX headerText2 input-icon openPopUp" title="<?php echo __('Change print barcode settings'); ?>"><div class="icon-setting"></div>&nbsp;</a>
+    <div class="btn-group">
+      <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/dl_print.php?action=clear" class="notAJAX btn btn-default"><i class="glyphicon glyphicon-trash"></i>&nbsp;<?php echo __('Clear Print Queue'); ?></a>
+      <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/dl_print.php?action=print" class="notAJAX btn btn-default"><i class="glyphicon glyphicon-print"></i>&nbsp;<?php echo __('Print Labels for Selected Data'); ?></a>
+	    <a href="<?php echo MWB; ?>bibliography/pop_print_settings.php?type=label" class="notAJAX btn btn-default openPopUp" title="<?php echo __('Change print barcode settings'); ?>"><i class="glyphicon glyphicon-wrench"></i></a>
 	</div>
     <form name="search" action="<?php echo MWB; ?>bibliography/dl_print.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
-    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
+    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
     </form>
     </div>
     <div class="infoBox">
@@ -297,7 +297,7 @@ $datagrid->table_header_attr = 'class="dataListHeader" style="font-weight: bold;
 // edit and checkbox property
 $datagrid->edit_property = false;
 $datagrid->chbox_property = array('itemID', __('Add'));
-$datagrid->chbox_action_button = __('Add To Print Queue');
+$datagrid->chbox_btn = __('Add To Print Queue');
 $datagrid->chbox_confirm_msg = __('Add to print queue?');
 // set delete proccess URL
 $datagrid->chbox_form_URL = $_SERVER['PHP_SELF'];

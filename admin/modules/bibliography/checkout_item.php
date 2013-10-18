@@ -53,7 +53,7 @@ if (!$can_read) {
     <div class="sub_section">
     <form name="search" action="<?php echo MWB; ?>bibliography/checkout_item.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
-    <input type="submit" id="doSearch" class="button" />
+    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
     </form>
     </div>
 </div>
