@@ -27,12 +27,12 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-reporting');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
 // privileges checking
 $can_read = utility::havePrivilege('reporting', 'r');
 $can_write = utility::havePrivilege('reporting', 'w');
@@ -41,8 +41,8 @@ if (!$can_read) {
     die('<div class="errorBox">'.__('You don\'t have enough privileges to access this area!').'</div>');
 }
 
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_element.inc.php';
-require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_date.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_element.inc.php';
+require SIMBIO.'simbio_UTILS/simbio_date.inc.php';
 
 // months array
 $months['01'] = __('Jan');
@@ -89,8 +89,6 @@ if (!$reportView) {
             echo simbio_form_element::selectList('year', $year_options, $current_year);
             ?>
             </div>
-        </div>
-        <div class="divRow">
             <div class="divRowLabel"><?php echo __('Month'); ?></div>
             <div class="divRowContent">
             <?php
@@ -139,10 +137,10 @@ if (!$reportView) {
     $output = simbio_date::generateCalendar($selected_year, $selected_month, $visitor_data);
 
     // print out
-    echo '<div class="printPageInfo">Visitor Report for year <strong>'.$selected_year.'</strong> <a class="printReport" onclick="window.print()" href="#">'.__('Print Current Page').'</a></div>'."\n";
+    echo '<div class="printPageInfo">Visitor Report for <strong>'.$months[$selected_month].', '.$selected_year.'</strong> <a class="printReport" onclick="window.print()" href="#">'.__('Print Current Page').'</a></div>'."\n";
     echo $output;
 
     $content = ob_get_clean();
     // include the page template
-    require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/printed_page_tpl.php';
+    require SB.'/admin/'.$sysconf['admin_template']['dir'].'/printed_page_tpl.php';
 }

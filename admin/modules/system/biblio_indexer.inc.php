@@ -34,8 +34,20 @@ class biblio_indexer
 	private $obj_db = false;
 	private $verbose = false;
 	private $max_indexed = 1000000;
+	private $index_type = 'search_biblio';
 
 	public function __construct($obj_db, $bool_verbose = false) {
+		global $sysconf;
+		if ($sysconf['index']['type'] == 'mongodb') {
+	    if (!class_exists('MongoClient')) {
+	      throw new Exception('PHP Mongodb extension library is not installed yet!');
+	    } else {
+				$this->index_type = 'nosql';
+	      $Mongo = new MongoClient();
+				// select database
+				$this->biblio = $Mongo->slims->biblio;
+			}
+		}
 		$this->obj_db = $obj_db;
 		$this->verbose = $bool_verbose;
 	}
@@ -214,18 +226,25 @@ class biblio_indexer
 			$data['collection_types'] = $this->obj_db->escape_string($colltype_all);
 		}
 
-		/*  SQL operation object  */
-		$sql_op = new simbio_dbop($this->obj_db);
-
-		/*  Insert all variable  */
-		if ($sql_op->insert('search_biblio', $data)) {
+    if ($this->index_type == 'nosql') {
+      $this->biblio->insert($data);
+			// create index
+			$this->biblio->ensureIndex(array('title' => 1, 'author' => 1, 'topic' => 1));
 			if ($this->verbose) { echo " indexed\n"; }
 			$this->indexed++;
 		} else {
-			if ($this->verbose) { echo " FAILED! (Error: '.$sql_op->error.')\n"; }
-			$this->failed[] = $int_biblio_id;
-			// line below is for debugging purpose only
-			// echo '<div>'.$sql_op->error.'</div>';
+		  /*  SQL operation object  */
+		  $sql_op = new simbio_dbop($this->obj_db);
+		  /*  Insert all variable  */
+		  if ($sql_op->insert('search_biblio', $data)) {
+		  	if ($this->verbose) { echo " indexed\n"; }
+		  	$this->indexed++;
+		  } else {
+		  	if ($this->verbose) { echo " FAILED! (Error: '.$sql_op->error.')\n"; }
+		  	$this->failed[] = $int_biblio_id;
+		  	// line below is for debugging purpose only
+		  	// echo '<div>'.$sql_op->error.'</div>';
+		  }
 		}
 
 		return true;
@@ -258,4 +277,3 @@ class biblio_indexer
 		}
 	}
 }
-?>

@@ -28,15 +28,15 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-stocktake');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('stock_take', 'r');
@@ -133,7 +133,7 @@ if ($stk_q->num_rows) {
                 // write log
                 utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'stock_take', $_SESSION['realname'].' initialize stock take ('.$data['stock_take_name'].') from address '.$_SERVER['REMOTE_ADDR']);
                 utility::jsAlert(__('Stock Taking Initialized'));
-                echo '<script type="text/javascript">parent.location.href = \''.SENAYAN_WEB_ROOT_DIR.'admin/index.php?mod=stock_take\';</script>';
+                echo '<script type="text/javascript">parent.location.href = \''.SWB.'admin/index.php?mod=stock_take\';</script>';
             } else {
                 // delete stock take data
                 $dbs->query('DELETE FROM stock_take WHERE stock_take_id='.$stock_take_id);
@@ -145,7 +145,7 @@ if ($stk_q->num_rows) {
 
     // create new instance
     $form = new simbio_form_table_AJAX('mainForm', $_SERVER['PHP_SELF'].'?action=new', 'post');
-    $form->submit_button_attr = 'name="saveData" value="'.__('Initialize Stock Take').'" class="button"';
+    $form->submit_button_attr = 'name="saveData" value="'.__('Initialize Stock Take').'" class="btn btn-default"';
 
     // form table attributes
     $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
@@ -186,5 +186,14 @@ if ($stk_q->num_rows) {
     $str_input .= '<br />'.__('Separate each class comma sign. Use * for wildcard');
     $form->addAnything(__('Classification'), $str_input);
     // print out the object
+    ?>
+    <fieldset class="menuBox">
+    <div class="menuBoxInner printIcon">
+	   <div class="per_title">
+      <h2><?php echo __('Initialize Stock Take Process'); ?></h2>
+     </div>
+    </div>
+    </fieldset>
+    <?php
     echo $form->printOut();
 }

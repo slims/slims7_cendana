@@ -42,19 +42,6 @@ class content_custom
     protected $page = '';
     protected $page_assigned = array('all');
 
-    #function __construct($content_path, $page_assigned = array('all'))
-    #{
-    #    foreach ($page_assigned as $value) {
-    #        if ($value == 'all') {
-    #            $this->do_content_custom($content_path);
-    #            $this->url = SENAYAN_WEB_ROOT_DIR.'index.php?p='.$this->content_path;
-    #        } elseif ($value == $this->page) {
-    #            $this->do_content_custom($content_path);
-    #            $this->url = SENAYAN_WEB_ROOT_DIR.'index.php?p='.$this->content_path;
-    #        }
-    #    }
-    #}
-
     function do_content_custom($content_path)
     {
         $this->link = mysql_connect(DB_HOST, DB_USERNAME, DB_PASSWORD);
@@ -65,7 +52,7 @@ class content_custom
             $this->content_title = $result['content_title'];
             $this->content_desc = $result['content_desc'];
             $this->content_path = $result['content_path'];
-            $this->url = SENAYAN_WEB_ROOT_DIR.'index.php?p='.$this->content_path;
+            $this->url = SWB.'index.php?p='.$this->content_path;
         }
     }
 

@@ -26,15 +26,15 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');
@@ -51,9 +51,9 @@ if (!$can_read) {
     	<h2><?php echo __('Checkout Items'); ?></h2>
     </div>
     <div class="sub_section">
-    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/checkout_item.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+    <form name="search" action="<?php echo MWB; ?>bibliography/checkout_item.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
-    <input type="submit" id="doSearch" class="button" />
+    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
     </form>
     </div>
 </div>

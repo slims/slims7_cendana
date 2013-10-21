@@ -56,7 +56,7 @@ $gmd_list = ob_get_clean();
 
 /* Language selection list */
 ob_start();
-require_once(LANGUAGES_BASE_DIR.'localisation.php');
+require_once(LANG.'localisation.php');
 foreach ($available_languages AS $lang_index) {
     $selected = null;
     $lang_code = $lang_index[0];
@@ -69,7 +69,7 @@ foreach ($available_languages AS $lang_index) {
 $language_select = ob_get_clean();
 
 /* include simbio form element library */
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_element.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_element.inc.php';
 /* Advanced Search Author AJAX field */
 ob_start();
 // create AJAX drop down
@@ -92,4 +92,3 @@ $ajaxDD->additional_params = 'type=topic';
 $ajaxDD->handler_URL = 'lib/contents/advsearch_AJAX_response.php';
 echo $ajaxDD->out();
 $advsearch_topic = ob_get_clean();
-?>

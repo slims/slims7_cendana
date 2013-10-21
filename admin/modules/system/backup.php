@@ -27,15 +27,15 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require_once LIB_DIR.'ip_based_access.inc.php';
+require_once LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-system');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
 
 // create token in session
 $_SESSION['token'] = utility::createRandomString(32);
@@ -55,14 +55,14 @@ if (!($can_read AND $can_write)) {
 	    <h2><?php echo __('Database Backup'); ?></h2>
   </div>
 	<div class="sub_section">
-	  <div class="action_button">
-      <input type="button" onclick="$('#createBackup').submit()" class="button notAJAX" value="<?php echo __('Start New Backup'); ?>" />
+	  <div class="btn-group">
+      <button onclick="$('#createBackup').submit()" class="notAJAX btn btn-success"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Start New Backup'); ?></button>
 	  </div>
-    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>system/backup_proc.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+    <form name="search" action="<?php echo MWB; ?>system/backup_proc.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
-    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
+    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
     </form>
-    <form name="createBackup" id="createBackup" target="blindSubmit" action="<?php echo MODULES_WEB_ROOT_DIR; ?>system/backup_proc.php" method="post" style="display: inline; visibility: hidden;">
+    <form name="createBackup" id="createBackup" target="blindSubmit" action="<?php echo MWB; ?>system/backup_proc.php" method="post" style="display: inline; visibility: hidden;">
     <input type="hidden" name="start" value="true" />
     <input type="hidden" name="tkn" value="<?php echo $_SESSION['token']; ?>" />
     </form>

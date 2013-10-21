@@ -26,16 +26,16 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-stocktake');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('stock_take', 'r');
@@ -75,17 +75,17 @@ if ($stk_query->num_rows < 1) {
       <div class="sub_section">
       <?php
       if ($view != 'm') {
-        echo '<form name="stockTakeForm" class="notAJAX" action="'.MODULES_WEB_ROOT_DIR.'stock_take/stock_take_action.php" target="stockTakeAction" method="post" style="display: inline;">
-          <div><div style="width: 140px; float: left;">'.__('Item Code').':</div><input type="text" id="itemCode" name="itemCode" size="30" /> <input type="submit" value="'.__('Change Status').'" class="button" /></div>
+        echo '<form name="stockTakeForm" class="notAJAX" action="'.MWB.'stock_take/stock_take_action.php" target="stockTakeAction" method="post" style="display: inline;">
+          <div><div style="width: 140px; float: left;">'.__('Item Code').':</div><input type="text" id="itemCode" name="itemCode" size="30" /> <input type="submit" value="'.__('Change Status').'" class="btn btn-default" /></div>
           <div style="margin-top: 3px;"><div style="width: 140px; float: left;">'.__('List stocktakes by').':</div>
-          <input type="radio" id="listShow" name="listShow" value="1" onclick="$(\'mainContent\').simbioAJAX(\''.MODULES_WEB_ROOT_DIR.'stock_take/current.php?listShow=1\')" '.( isset($show_only_current)?'checked="checked"':'' ).' /> '.__('Current User Only').'
-          <input type="radio" id="listShow2" name="listShow" value="0" onclick="$(\'mainContent\').simbioAJAX(\''.MODULES_WEB_ROOT_DIR.'stock_take/current.php?listShow=0\')" '.( isset($show_only_current)?'':'checked="checked"' ).' /> '.__('All User').'
+          <input type="radio" id="listShow" name="listShow" value="1" onclick="$(\'mainContent\').simbioAJAX(\''.MWB.'stock_take/current.php?listShow=1\')" '.( isset($show_only_current)?'checked="checked"':'' ).' /> '.__('Current User Only').'
+          <input type="radio" id="listShow2" name="listShow" value="0" onclick="$(\'mainContent\').simbioAJAX(\''.MWB.'stock_take/current.php?listShow=0\')" '.( isset($show_only_current)?'':'checked="checked"' ).' /> '.__('All User').'
           <iframe name="stockTakeAction" style="width: 0; height: 0; visibility: hidden;"></iframe></div>
           </form>';
       }
       ?>
-      <form name="search" id="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>stock_take/current.php" method="get" style="display: inline;">
-      <div style="margin-top: 3px;"><div style="width: 90px; float: left;"><?php echo __('Search'); ?> : </div><input type="text" name="keywords" size="30" /> <input type="hidden" name="view" value="<?php echo $view; ?>" /> <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" /></div>
+      <form name="search" id="search" action="<?php echo MWB; ?>stock_take/current.php" method="get" style="display: inline;">
+      <div style="margin-top: 3px;"><div style="width: 90px; float: left;"><?php echo __('Search'); ?> : </div><input type="text" name="keywords" size="30" /> <input type="hidden" name="view" value="<?php echo $view; ?>" /> <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" /></div>
       </form>
       </div>
     </div>

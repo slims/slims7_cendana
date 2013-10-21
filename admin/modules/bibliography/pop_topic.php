@@ -26,14 +26,14 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // page title
 $page_title = 'Subject List';
@@ -92,7 +92,7 @@ if (isset($_POST['save']) AND (isset($_POST['topicID']) OR trim($_POST['search_s
         if ($sql_op->insert('biblio_topic', $data)) {
             echo '<script type="text/javascript">';
             echo 'alert(\'Topic succesfully updated!\');';
-            echo 'parent.setIframeContent(\'topicIframe\', \''.MODULES_WEB_ROOT_DIR.'bibliography/iframe_topic.php?biblioID='.$data['biblio_id'].'\');';
+            echo 'parent.setIframeContent(\'topicIframe\', \''.MWB.'bibliography/iframe_topic.php?biblioID='.$data['biblio_id'].'\');';
             echo '</script>';
         } else {
             utility::jsAlert(__('Subject FAILED to Add. Please Contact System Administrator')."\n".$sql_op->error);
@@ -121,7 +121,7 @@ if (isset($_POST['save']) AND (isset($_POST['topicID']) OR trim($_POST['search_s
 
         echo '<script type="text/javascript">';
         echo 'alert(\''.__('Subject added!').'\');';
-        echo 'parent.setIframeContent(\'topicIframe\', \''.MODULES_WEB_ROOT_DIR.'bibliography/iframe_topic.php\');';
+        echo 'parent.setIframeContent(\'topicIframe\', \''.MWB.'bibliography/iframe_topic.php\');';
         echo '</script>';
     }
 }
@@ -153,7 +153,7 @@ if (isset($_POST['save']) AND (isset($_POST['topicID']) OR trim($_POST['search_s
 <div class="popUpSubForm">
 <select name="topicID" id="topicID" size="5" style="width: 100%;"><option value="0"><?php echo __('Type to search for existing topics or to add a new one'); ?></option></select>
 <?php if ($biblioID) { echo '<input type="hidden" name="biblioID" value="'.$biblioID.'" />'; } ?>
-<input type="submit" name="save" value="<?php echo __('Insert To Bibliography'); ?>" class="popUpSubmit" />
+<input type="submit" name="save" value="<?php echo __('Insert To Bibliography'); ?>" class="popUpSubmit btn btn-primary" />
 </div>
 </form>
 </div>
@@ -162,4 +162,4 @@ if (isset($_POST['save']) AND (isset($_POST['topicID']) OR trim($_POST['search_s
 /* main content end */
 $content = ob_get_clean();
 // include the page template
-require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
+require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';

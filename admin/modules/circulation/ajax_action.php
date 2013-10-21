@@ -27,14 +27,14 @@ if (!defined('INDEX_AUTH')) {
 
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-circulation');
 
 // quick return
 if (isset($_POST['quickReturnID'])) {
     echo '<script type="text/javascript">'."\n";
-    echo 'parent.$(\'#circulationLayer\').simbioAJAX(\''.MODULES_WEB_ROOT_DIR.'circulation/circulation_action.php\', {method: \'post\', addData: \'quickReturnID='.trim($_POST['quickReturnID']).'\'});'."\n";
+    echo 'parent.$(\'#circulationLayer\').simbioAJAX(\''.MWB.'circulation/circulation_action.php\', {method: \'post\', addData: \'quickReturnID='.trim($_POST['quickReturnID']).'\'});'."\n";
     echo 'parent.$(\'#quickReturnID\').val(\'\');'."\n";
     echo 'parent.$(\'#quickReturnID\').focus();'."\n";
     echo '</script>';

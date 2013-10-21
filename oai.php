@@ -41,8 +41,8 @@ if (!$sysconf['OAI']['enable']) {
 }
 
 // required library
-require LIB_DIR.'oai-pmh.inc.php';
-require LIB_DIR.'detail.inc.php';
+require LIB.'oai-pmh.inc.php';
+require LIB.'detail.inc.php';
 
 $config['oai_pmh_verbs'] = array(
   'GetRecord',

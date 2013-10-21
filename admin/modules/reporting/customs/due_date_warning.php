@@ -27,12 +27,12 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-reporting');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
 // privileges checking
 $can_read = utility::havePrivilege('reporting', 'r');
 $can_write = utility::havePrivilege('reporting', 'w');
@@ -41,11 +41,11 @@ if (!$can_read) {
     die('<div class="errorBox">'.__('You don\'t have enough privileges to access this area!').'</div>');
 }
 
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_element.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require MODULES_BASE_DIR.'reporting/report_dbgrid.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_element.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require MDLBS.'reporting/report_dbgrid.inc.php';
 
 $page_title = 'Overdued List Report';
 $reportView = false;
@@ -177,5 +177,5 @@ if (!$reportView) {
 
     $content = ob_get_clean();
     // include the page template
-    require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/printed_page_tpl.php';
+    require SB.'/admin/'.$sysconf['admin_template']['dir'].'/printed_page_tpl.php';
 }

@@ -29,7 +29,7 @@ if (!defined('INDEX_AUTH')) {
 }
 
 // required file
-require LIB_DIR.'member_logon.inc.php';
+require LIB.'member_logon.inc.php';
 // check if member already logged in
 $is_member_login = utility::isMemberLogin();
 
@@ -43,10 +43,10 @@ if (!$is_member_login) {
     function showLoanList($num_recs_show = 1000000)
     {
         global $dbs;
-        require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-        require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-        require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-        require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_date.inc.php';
+        require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+        require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+        require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+        require SIMBIO.'simbio_UTILS/simbio_date.inc.php';
 
         // table spec
         $_table_spec = 'loan AS l
@@ -66,16 +66,16 @@ if (!$is_member_login) {
         $_criteria = sprintf('m.member_id=\'%s\' AND l.is_lent=1 AND is_return=0 ', $_SESSION['mid']);
         $_loan_list->setSQLCriteria($_criteria);
 
-    /* callback function to show overdue */
-    function showOverdue($obj_db, $array_data)
-    {
-        $_curr_date = date('Y-m-d');
-        if (simbio_date::compareDates($array_data[3], $_curr_date) == $_curr_date) {
-            #return '<strong style="color: #f00;">'.$array_data[3].' '.__('OVERDUED').'</strong>';
-        } else {
-            return $array_data[3];
+        /* callback function to show overdue */
+        function showOverdue($obj_db, $array_data)
+        {
+            $_curr_date = date('Y-m-d');
+            if (simbio_date::compareDates($array_data[3], $_curr_date) == $_curr_date) {
+                #return '<strong style="color: #f00;">'.$array_data[3].' '.__('OVERDUED').'</strong>';
+            } else {
+                return $array_data[3];
+            }
         }
-    }
 
         // modify column value
         $_loan_list->modifyColumnContent(3, 'callback{showOverdue}');
@@ -104,4 +104,3 @@ if (!$is_member_login) {
     echo $download;
     exit();
 }
-?>

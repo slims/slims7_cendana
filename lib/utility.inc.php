@@ -80,7 +80,7 @@ class utility
         $_setting_query = $obj_db->query('SELECT * FROM setting');
         if (!$obj_db->errno) {
             while ($_setting_data = $_setting_query->fetch_assoc()) {
-                $_value = unserialize($_setting_data['setting_value']);
+                $_value = @unserialize($_setting_data['setting_value']);
                 if (is_array($_value)) {
                     foreach ($_value as $_idx=>$_curr_value) {
                         $sysconf[$_setting_data['setting_name']][$_idx] = $_curr_value;
@@ -104,7 +104,7 @@ class utility
     {
         // checking checksum
         $server_addr = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : (isset($_SERVER['LOCAL_ADDR']) ? $_SERVER['LOCAL_ADDR'] : gethostbyname($_SERVER['SERVER_NAME']));
-        $_checksum = defined('UCS_BASE_DIR')?md5($server_addr.UCS_BASE_DIR.'admin'):md5($server_addr.SENAYAN_BASE_DIR.'admin');
+        $_checksum = defined('UCS_BASE_DIR')?md5($server_addr.UCS_BASE_DIR.'admin'):md5($server_addr.SB.'admin');
         if ($_SESSION['checksum'] != $_checksum) {
             return false;
         }
@@ -254,7 +254,7 @@ class utility
     public static function isMemberLogin()
     {
         $_logged_in = false;
-        $_logged_in = isset($_SESSION['mid']) && isset($_SESSION['m_name']) && isset($_SESSION['m_email']);
+        $_logged_in = isset($_SESSION['mid']) && isset($_SESSION['m_name']);
         return $_logged_in;
     }
 

@@ -1,4 +1,6 @@
 SENAYAN 3 Stable Branch
+SLiMS 5
+SLiMS 7
 Changes Log
 
 Developers :
@@ -7,18 +9,38 @@ Arie Nugraha (dicarve@yahoo.com, dicarve@gmail.com)
 Wardiyono (wynerst@gmail.com)
 Purwoko (purgeologi@yahoo.com, tamanjiwa@gmail.com)
 Sulfan Zayd (sulfan@gmail.com)
-Arif Syamsudin (buitenzorg812@lc.vlsm.org, buitenzorg812@gmail.com)
+Arif Syamsudin (buitenzorg812@yahoo.com, buitenzorg812@gmail.com)
 Rasyid Ridho (rasyidridho@gmail.com, ridhoedogawa@yahoo.com)
 Eddy Subratha (eddy.subratha@gmail.com)
 Indra Sutriadi (indra.sutriadi@gmail.com)
 
 Localisation contributors :
-Tobias Zeumer (tzeumer@verweisungsform.de)
-Jhon Urrego Felipe Mejia (ingenierofelipeurrego@gmail.com)
-Prasitichai เรารักในหลวง
-A. K. M. Nurul Alam
+Germany: Tobias Zeumer (tzeumer@verweisungsform.de)
+Thai: Prasitichai เรารักในหลวง <eak.pras@facebook.com>
+Bengali: A. K. M. Nurul Alam <nalamapu@gmail.com>
+Persian: Mohammad Javad Mansourzadeh <info@mansourzadeh.ir>
+Arabic: Rasyid Ridho <rasyidridho@gmail.com>
+Malay: Jerry Mohd. Arif 
+Brazilian Portuguese: Eduardo Koiti Kataoka <edukataoka@yahoo.com.br>
+Spain: Jhon Urrego Felipe Mejia <ingenierofelipeurrego@gmail.com>
 
 THANKS TO OUR USERS AND COMMUNITIES, YOU ARE DEVELOPERS TOO!
+
+SLiMS 7 (Cendana)
+========================================================================
+Added: Persian translation
+Added: Cendana Responsive template
+Added: Comment field in OPAC
+Added: Membercard generator by Jushadi
+Added: Tooltip in New Bibliography field
+Added: New theme for SLiMS 7 Cendana
+Added: Label, barcode, and member card settings from within the SLiMS adminstration page
+Added: Keyword suggestion using Enchant library
+Added: Since Meranti, Google voice search in OPAC using Google Chrome browser
+Added: Google voice search for search in OPAC with Google Chrome browser using mobile device
+Fixed: Bugs in Custom Reports
+Fixed: LDAP auth error
+Modified: Type ahead value for Publisher, Publishing Place, Classification
 
 
 SLIMS 5 (Meranti)

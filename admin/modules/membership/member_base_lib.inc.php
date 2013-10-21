@@ -173,7 +173,7 @@ class member
         $_mail->IsSMTP(); // telling the class to use SMTP
 
         // get message template
-        $_msg_tpl = @file_get_contents(SENAYAN_BASE_DIR.'admin/admin_template/overdue-mail-tpl.html');
+        $_msg_tpl = @file_get_contents(SB.'admin/admin_template/overdue-mail-tpl.html');
 
         // date
         $_curr_date = date('Y-m-d H:i:s');

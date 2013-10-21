@@ -27,22 +27,24 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+require SB.'admin/default/session.inc.php';
 
-// ajax action
-$content = '<script type="text/javascript">'."\n";
-if (isset($_GET['itemID']) AND isset($_GET['action'])) {
-    $itemID = (integer)$_GET['itemID'];
-    $itemCollID = (integer)$_GET['itemCollID'];
-    $content .= '$(document).ready(function() { $(\'#pageContent\').simbioAJAX(\'index.php?inPopUp=true&action=detail\', {method: \'POST\', addData: \'itemID='.$itemID.'&itemCollID='.$itemCollID.'&detail=true\'}); })';
+if (isset($_GET['itemID'])) {
+  $_POST['itemID'] = $_GET['itemID'];
 }
-$content .= '</script>';
+
+$_GET['inPopUp'] = true;
+
+ob_start();
+require MDLBS.'bibliography/index.php';
+$content = ob_get_clean();
 
 // page title
 $page_title = 'Bibliographic Data';
+
 // include the page template
-require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
+require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';

@@ -44,7 +44,7 @@ if (!defined('INDEX_AUTH')) {
 }
 
 // set php-gettext library
-require LANGUAGES_BASE_DIR.'php-gettext'.DIRECTORY_SEPARATOR.'gettext.inc';
+require LANG.'php-gettext'.DS.'gettext.inc';
 
 // gettext setup
 $locale = $sysconf['default_lang'];
@@ -54,7 +54,7 @@ $encoding = 'UTF-8';
 // set language to use
 T_setlocale(LC_ALL, $locale);
 // set locales dictionary location
-_bindtextdomain($domain, LANGUAGES_BASE_DIR.'locale');
+_bindtextdomain($domain, LANG.'locale');
 // codeset
 _bind_textdomain_codeset($domain, $encoding);
 // set .mo filename to use
@@ -65,9 +65,12 @@ _textdomain($domain);
 $available_languages[] = array('ar_AR', __('Arabic'), 'Arabic');
 $available_languages[] = array('bn_BD', __('Bengali'), 'Bengali');
 $available_languages[] = array('pt_BR', __('Brazilian Portuguese'), 'Brazilian Portuguese');
+$available_languages[] = array('cn_PRC', __('Chinese'), 'Chinese');
+$available_languages[] = array('kr_KR', __('Korean'), 'Korean');
 $available_languages[] = array('en_US', __('English'), 'English');
 $available_languages[] = array('es_ES', __('Espanol'), 'Espanol');
 $available_languages[] = array('de_DE', __('German'), 'Deutsch');
 $available_languages[] = array('id_ID', __('Indonesian'), 'Indonesia');
 $available_languages[] = array('th_TH', __('Thai'), 'Thai');
 $available_languages[] = array('my_MY', __('Malay'), 'Malay');
+$available_languages[] = array('fa_IR', __('Persian'), 'Persian');

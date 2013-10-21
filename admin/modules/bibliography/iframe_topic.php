@@ -28,13 +28,13 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 $sysconf['subject_level'][1] = 'Primary';
 $sysconf['subject_level'][2] = 'Additional';
@@ -44,7 +44,7 @@ $page_title = 'Topic List';
 // get id from url
 $biblioID = 0;
 if (isset($_GET['biblioID']) AND !empty($_GET['biblioID'])) {
-    $biblioID = intval($_GET['biblioID']);
+  $biblioID = intval($_GET['biblioID']);
 }
 
 // start the output buffer
@@ -102,8 +102,7 @@ if ($biblioID) {
     $row_class = ($row%2 == 0)?'alterCell':'alterCell2';
 
     // remove link
-    $remove_link = '<a href="#" onclick="confirmProcess('.$biblioID.', '.$biblio_topic_d['topic_id'].')"
-      style="color: #FF0000; text-decoration: underline;">Delete</a>';
+    $remove_link = '<a href="#" class="notAJAX btn button btn-danger btn-delete" onclick="confirmProcess('.$biblioID.', '.$biblio_topic_d['topic_id'].')">Delete</a>';
     $topic = $biblio_topic_d['topic'];
     $topic_type = $sysconf['subject_type'][$biblio_topic_d['topic_type']];
 
@@ -128,8 +127,7 @@ if ($biblioID) {
     $row_class = 'alterCell2';
     foreach ($_SESSION['biblioTopic'] as $biblio_session) {
       // remove link
-      $remove_link = '<a href="iframe_topic.php?removesess='.$biblio_session[0].'"
-          style="color: #000000; text-decoration: underline;">Remove</a>';
+      $remove_link = '<a class="notAJAX btn button btn-danger btn-delete" href="iframe_topic.php?removesess='.$biblio_session[0].'">Remove</a>';
 
       if ($biblio_session) {
           $topic_q = $dbs->query("SELECT topic, topic_type FROM mst_topic WHERE topic_id=".$biblio_session[0]);
@@ -153,4 +151,4 @@ if ($biblioID) {
 /* main content end */
 $content = ob_get_clean();
 // include the page template
-require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
+require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';

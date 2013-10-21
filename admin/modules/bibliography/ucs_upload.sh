@@ -31,8 +31,8 @@ if (!$sysconf['ucs']['enable']) {
 	die(__('UCS is not enabled! Change global system configuration to enable UCS'));
 }
 
-require SENAYAN_BASE_DIR.'ucnode.inc.php';
-require LIB_DIR.'http_request.inc.php';
+require SB.'ucnode.inc.php';
+require LIB.'http_request.inc.php';
 
 // fetch all data from biblio table
 $sql = "SELECT

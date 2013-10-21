@@ -27,15 +27,15 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // page title
 $page_title = 'Authority List';
@@ -48,14 +48,14 @@ if (isset($_GET['biblioID']) AND $_GET['biblioID']) {
 // utility function to check author name
 function checkAuthor($str_author_name, $str_author_type = 'p')
 {
-    global $dbs;
-    $_q = $dbs->query('SELECT author_id FROM mst_author WHERE author_name=\''.$str_author_name.'\' AND authority_type=\''.$str_author_type.'\'');
-    if ($_q->num_rows > 0) {
-        $_d = $_q->fetch_row();
-        // return the author ID
-        return $_d[0];
-    }
-    return false;
+  global $dbs;
+  $_q = $dbs->query('SELECT author_id FROM mst_author WHERE author_name=\''.$str_author_name.'\' AND authority_type=\''.$str_author_type.'\'');
+  if ($_q->num_rows > 0) {
+    $_d = $_q->fetch_row();
+    // return the author ID
+    return $_d[0];
+  }
+  return false;
 }
 
 // start the output buffer
@@ -93,7 +93,7 @@ if (isset($_POST['save']) AND (isset($_POST['authorID']) OR trim($_POST['search_
       if ($sql_op->insert('biblio_author', $data)) {
           echo '<script type="text/javascript">';
           echo 'alert(\''.__('Author succesfully updated!').'\');';
-          echo 'parent.setIframeContent(\'authorIframe\', \''.MODULES_WEB_ROOT_DIR.'bibliography/iframe_author.php?biblioID='.$data['biblio_id'].'\');';
+          echo 'parent.setIframeContent(\'authorIframe\', \''.MWB.'bibliography/iframe_author.php?biblioID='.$data['biblio_id'].'\');';
           echo '</script>';
       } else {
           utility::jsAlert(__('Author FAILED to Add. Please Contact System Administrator')."\n".$sql_op->error);
@@ -122,7 +122,7 @@ if (isset($_POST['save']) AND (isset($_POST['authorID']) OR trim($_POST['search_
 
       echo '<script type="text/javascript">';
       echo 'alert(\''.__('Author added!').'\');';
-      echo 'parent.setIframeContent(\'authorIframe\', \''.MODULES_WEB_ROOT_DIR.'bibliography/iframe_author.php\');';
+      echo 'parent.setIframeContent(\'authorIframe\', \''.MWB.'bibliography/iframe_author.php\');';
       echo '</script>';
   }
 }
@@ -152,7 +152,7 @@ if (isset($_POST['save']) AND (isset($_POST['authorID']) OR trim($_POST['search_
 <div class="popUpSubForm">
 <select name="authorID" id="authorID" size="5" style="width: 100%;"><option value="0"><?php echo __('Type to search for existing authors or to add a new one'); ?></option></select>
 <?php if ($biblioID) { echo '<input type="hidden" name="biblioID" value="'.$biblioID.'" />'; } ?>
-<input type="submit" name="save" value="<?php echo __('Insert To Bibliography'); ?>" class="popUpSubmit" />
+<input type="submit" name="save" value="<?php echo __('Insert To Bibliography'); ?>" class="popUpSubmit btn btn-primary" />
 </div>
 </form>
 </div>
@@ -161,4 +161,4 @@ if (isset($_POST['save']) AND (isset($_POST['authorID']) OR trim($_POST['search_
 /* main content end */
 $content = ob_get_clean();
 // include the page template
-require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
+require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';

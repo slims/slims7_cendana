@@ -23,9 +23,9 @@
 
 // be sure that this file not accessed directly
 if (!defined('INDEX_AUTH')) {
-    die("can not access this file directly");
+  die("can not access this file directly");
 } elseif (INDEX_AUTH != 1) { 
-    die("can not access this file directly");
+  die("can not access this file directly");
 }
 
 /**
@@ -38,111 +38,110 @@ define('FILESIZE_EXCED', 3);
 
 class simbio_file_upload extends simbio
 {
-    private $allowable_ext = array('.jpg', '.jpeg', '.gif', '.png', '.html', '.htm', '.pdf', '.doc', '.txt');
-    private $max_size = 1024000; // in bytes
-    private $upload_dir = './';
-    public $new_filename;
+  private $allowable_ext = array('.jpg', '.jpeg', '.gif', '.png', '.html', '.htm', '.pdf', '.doc', '.txt');
+  private $max_size = 1024000; // in bytes
+  private $upload_dir = './';
+  public $new_filename;
 
 
-    /**
-     * Method to set allowable file formats
-     *
-     * @param   array   $array_allowable_ext
-     * @return  void
-     */
-    public function setAllowableFormat($array_allowable_ext)
-    {
-        if ($array_allowable_ext == '*') {
-            $this->allowable_ext = '*';
-            return;
-        }
-
-        if (is_array($array_allowable_ext)) {
-            $this->allowable_ext = $array_allowable_ext;
-        } else {
-            echo 'setAllowableFormat method error : The argument for must be an array';
-            return;
-        }
+  /**
+   * Method to set allowable file formats
+   *
+   * @param   array   $array_allowable_ext
+   * @return  void
+   */
+  public function setAllowableFormat($array_allowable_ext)
+  {
+    if ($array_allowable_ext == '*') {
+      $this->allowable_ext = '*';
+      return;
     }
 
+    if (is_array($array_allowable_ext)) {
+      $this->allowable_ext = $array_allowable_ext;
+    } else {
+      echo 'setAllowableFormat method error : The argument for must be an array';
+      return;
+    }
+  }
 
-    /**
-     * Method to set maximum size of file to upload
-     *
-     * @param   integer $int_max_size
-     * @return  void
-     */
-    public function setMaxSize($int_max_size)
-    {
-        // checking for php.ini upload_size
-        $this->max_size = intval($int_max_size);
+
+  /**
+   * Method to set maximum size of file to upload
+   *
+   * @param   integer $int_max_size
+   * @return  void
+   */
+  public function setMaxSize($int_max_size)
+  {
+    // checking for php.ini upload_size
+    $this->max_size = intval($int_max_size);
+  }
+
+
+  /**
+   * Method to set upload file directory
+   *
+   * @param   string  $str_upload_dir
+   * @return  void
+   */
+  public function setUploadDir($str_upload_dir)
+  {
+    $this->upload_dir = $str_upload_dir;
+  }
+
+
+  /**
+   * Method to upload file
+   *
+   * @param   string  $file_input_name
+   * @param   string  $str_new_filename
+   * @return  integer
+   */
+  public function doUpload($file_input_name, $str_new_filename = '')
+  {
+    // get file extension
+    $file_ext = substr($_FILES[$file_input_name]['name'], strrpos($_FILES[$file_input_name]['name'], '.'));
+    if (empty($str_new_filename)) {
+      $this->new_filename = basename($_FILES[$file_input_name]['name']);
+    } else {
+      // $this->new_filename = $str_new_filename.$file_ext;
+      $this->new_filename = $str_new_filename;
     }
 
+    $_isTypeAllowed = 0;
+    // checking file extensions
+    if ($this->allowable_ext != '*') {
+      foreach ($this->allowable_ext as $ext) {
+        if ($ext == $file_ext) {
+          $_isTypeAllowed++;
+        }
+      }
 
-    /**
-     * Method to set upload file directory
-     *
-     * @param   string  $str_upload_dir
-     * @return  void
-     */
-    public function setUploadDir($str_upload_dir)
-    {
-        $this->upload_dir = $str_upload_dir;
+      if (!$_isTypeAllowed) {
+        $this->error = 'Filetype is forbidden';
+        return FILETYPE_NOT_ALLOWED;
+      }
     }
 
-
-    /**
-     * Method to upload file
-     *
-     * @param   string  $file_input_name
-     * @param   string  $str_new_filename
-     * @return  integer
-     */
-    public function doUpload($file_input_name, $str_new_filename = '')
-    {
-        // get file extension
-        $file_ext = substr($_FILES[$file_input_name]['name'], strrpos($_FILES[$file_input_name]['name'], '.'));
-        if (empty($str_new_filename)) {
-            $this->new_filename = basename($_FILES[$file_input_name]['name']);
-        } else {
-//            $this->new_filename = $str_new_filename.$file_ext;
-            $this->new_filename = $str_new_filename;
-        }
-
-        $_isTypeAllowed = 0;
-        // checking file extensions
-        if ($this->allowable_ext != '*') {
-            foreach ($this->allowable_ext as $ext) {
-                if ($ext == $file_ext) {
-                    $_isTypeAllowed++;
-                }
-            }
-
-            if (!$_isTypeAllowed) {
-                $this->error = 'Filetype is forbidden';
-                return FILETYPE_NOT_ALLOWED;
-            }
-        }
-
-        // check for file size
-        $_size_kb = ((integer)$this->max_size)/1024;
-        if ($_FILES[$file_input_name]['size'] > $this->max_size) {
-            $this->error = 'Filesize is excedded maximum uploaded file size';
-            return FILESIZE_EXCED;
-        }
-
-        // uploading file
-        if (@move_uploaded_file($_FILES[$file_input_name]['tmp_name'], $this->upload_dir.'/'.$this->new_filename)) {
-            return UPLOAD_SUCCESS;
-        } else {
-            $upload_error = error_get_last();
-            $error_msg = '';
-            if ($upload_error) {
-                $error_msg = 'PHP Error ('.$upload_error['message'].')';
-            }
-            $this->error = 'Upload failed. Upload directory is not writable or not exists. '.$error_msg;
-            return UPLOAD_FAILED;
-        }
+    // check for file size
+    $_size_kb = ((integer)$this->max_size)/1024;
+    if ($_FILES[$file_input_name]['size'] > $this->max_size) {
+      $this->error = 'Filesize is excedded maximum uploaded file size';
+      return FILESIZE_EXCED;
     }
+
+    // uploading file
+    if (@move_uploaded_file($_FILES[$file_input_name]['tmp_name'], $this->upload_dir.'/'.$this->new_filename)) {
+      return UPLOAD_SUCCESS;
+    } else {
+      $upload_error = error_get_last();
+      $error_msg = '';
+      if ($upload_error) {
+        $error_msg = 'PHP Error ('.$upload_error['message'].')';
+      }
+      $this->error = 'Upload failed. Upload directory is not writable or not exists. '.$error_msg;
+      return UPLOAD_FAILED;
+    }
+  }
 }
-?>

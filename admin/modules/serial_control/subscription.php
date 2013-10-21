@@ -28,18 +28,18 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-serialcontrol');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-require MODULES_BASE_DIR.'serial_control/serial_base_lib.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+require MDLBS.'serial_control/serial_base_lib.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('serial_control', 'r');
@@ -90,7 +90,7 @@ if (isset($_POST['saveData'])) {
                 utility::jsAlert(__('Subscription Data Successfully Updated'));
                 utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'serial_control', $_SESSION['realname'].' update subcription('.$updateRecordID.') '.$period);
             } else { utility::jsAlert(__('Subscription Data FAILED to Updated. Please Contact System Administrator')."\nDEBUG : ".$sql_op->error); }
-            echo '<script type="text/javascript">self.location.href = \''.MODULES_WEB_ROOT_DIR.'serial_control/subscription.php?biblioID='.$biblioID.'\';</script>';
+            echo '<script type="text/javascript">self.location.href = \''.MWB.'serial_control/subscription.php?biblioID='.$biblioID.'\';</script>';
             exit();
         } else {
             /* INSERT RECORD MODE */
@@ -106,7 +106,7 @@ if (isset($_POST['saveData'])) {
                 utility::jsAlert(__('New Subscription Data Successfully Saved'));
                 utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'serial_control', $_SESSION['realname'].' add new subcription('.$sql_op->insert_id.') '.$period);
             } else { utility::jsAlert(__('Subscription Data FAILED to Save. Please Contact System Administrator')."\n".$sql_op->error); }
-            echo '<script type="text/javascript">self.location.href = \''.MODULES_WEB_ROOT_DIR.'serial_control/subscription.php?biblioID='.$biblioID.'\';</script>';
+            echo '<script type="text/javascript">self.location.href = \''.MWB.'serial_control/subscription.php?biblioID='.$biblioID.'\';</script>';
             exit();
         }
     }
@@ -212,7 +212,7 @@ if ($can_write AND ( isset($_POST['detail']) OR (isset($_GET['detail']) AND $_GE
     {
         $_output = '';
         $_output .= '<div style="font-weight: bold; font-size: 110%;">'.$array_data[1].'</div>';
-        $_output .= '<div style="font-weight: bold; font-size: 90%;"><a href="'.MODULES_WEB_ROOT_DIR.'serial_control/kardex.php?serialID='.$array_data[0].'" title="'.__('View/Edit Kardex Detail').'">'.__('View/Edit Kardex Detail').'</a></div>';
+        $_output .= '<div style="font-weight: bold; font-size: 90%;"><a href="'.MWB.'serial_control/kardex.php?serialID='.$array_data[0].'" title="'.__('View/Edit Kardex Detail').'">'.__('View/Edit Kardex Detail').'</a></div>';
         return $_output;
     }
 
@@ -264,6 +264,6 @@ if ($can_write AND ( isset($_POST['detail']) OR (isset($_GET['detail']) AND $_GE
 // get the buffered content
 $content = ob_get_clean();
 // js include
-$js = '<script type="text/javascript" src="'.JS_WEB_ROOT_DIR.'calendar.js"></script>';
+$js = '<script type="text/javascript" src="'.JWB.'calendar.js"></script>';
 // include the page template
-require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
+require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';

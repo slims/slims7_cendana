@@ -56,59 +56,65 @@ if ((bool) ini_get('safe_mode')) {
 @date_default_timezone_set('Asia/Jakarta');
 
 // senayan version
-define('SENAYAN_VERSION', 'SLiMS 5 (Meranti)');
+define('SENAYAN_VERSION', 'SLiMS 7 (Cendana)');
 
 // senayan session cookies name
-define('SENAYAN_SESSION_COOKIES_NAME', 'SenayanAdmin');
-define('SENAYAN_MEMBER_SESSION_COOKIES_NAME', 'SenayanMember');
+define('COOKIES_NAME', 'SenayanAdmin');
+define('MEMBER_COOKIES_NAME', 'SenayanMember');
+
+// alias for DIRECTORY_SEPARATOR
+define('DS', DIRECTORY_SEPARATOR);
 
 // senayan base dir
-define('SENAYAN_BASE_DIR', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
+define('SB', realpath(dirname(__FILE__)).DS);
 
 // absolute path for simbio platform
-define('SIMBIO_BASE_DIR', SENAYAN_BASE_DIR.'simbio2'.DIRECTORY_SEPARATOR);
+define('SIMBIO', SB.'simbio2'.DS);
 
 // senayan library base dir
-define('LIB_DIR', SENAYAN_BASE_DIR.'lib'.DIRECTORY_SEPARATOR);
+define('LIB', SB.'lib'.DS);
 
 // document, member and barcode images base dir
-define('IMAGES_DIR', 'images');
-define('IMAGES_BASE_DIR', SENAYAN_BASE_DIR.IMAGES_DIR.DIRECTORY_SEPARATOR);
+define('IMG', 'images');
+define('IMGBS', SB.IMG.DS);
 
 // library automation module base dir
-define('MODULES_DIR', 'modules');
-define('MODULES_BASE_DIR', SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.MODULES_DIR.DIRECTORY_SEPARATOR);
+define('MDL', 'modules');
+define('MDLBS', SB.'admin'.DS.MDL.DS);
 
 // files upload dir
-define('FILES_DIR', 'files');
-define('FILES_UPLOAD_DIR', SENAYAN_BASE_DIR.FILES_DIR.DIRECTORY_SEPARATOR);
+define('FLS', 'files');
+define('UPLOAD', SB.FLS.DS);
 
 // repository dir
-define('REPO_DIR', 'repository');
-define('REPO_BASE_DIR', SENAYAN_BASE_DIR.REPO_DIR.DIRECTORY_SEPARATOR);
+define('REPO', 'repository');
+define('REPOBS', SB.REPO.DS);
 
 // file attachment dir
-define('ATT_DIR', 'att');
-define('FILE_ATT_DIR', FILES_UPLOAD_DIR.ATT_DIR);
+define('ATC', 'att');
+define('FILE_ATC', UPLOAD.ATC);
 
 // printed report dir
-define('REPORT_DIR', 'reports');
-define('REPORT_FILE_BASE_DIR', FILES_UPLOAD_DIR.REPORT_DIR.DIRECTORY_SEPARATOR);
+define('REP', 'reports');
+define('REPBS', UPLOAD.REP.DS);
 
 // languages base dir
-define('LANGUAGES_BASE_DIR', LIB_DIR.'lang'.DIRECTORY_SEPARATOR);
+define('LANG', LIB.'lang'.DS);
 
 // senayan web doc root dir
 /* Custom base URL */
 $sysconf['baseurl'] = '';
 $temp_senayan_web_root_dir = preg_replace('@admin.*@i', '', dirname($_SERVER['PHP_SELF']));
-define('SENAYAN_WEB_ROOT_DIR', $sysconf['baseurl'].$temp_senayan_web_root_dir.(preg_match('@\/$@i', $temp_senayan_web_root_dir)?'':'/'));
+define('SWB', $sysconf['baseurl'].$temp_senayan_web_root_dir.(preg_match('@\/$@i', $temp_senayan_web_root_dir)?'':'/'));
+
+// admin section web root dir
+define('AWB', SWB.'admin/');
 
 // javascript library web root dir
-define('JS_WEB_ROOT_DIR', SENAYAN_WEB_ROOT_DIR.'js/');
+define('JWB', SWB.'js/');
 
 // library automation module web root dir
-define('MODULES_WEB_ROOT_DIR', SENAYAN_WEB_ROOT_DIR.'admin/'.MODULES_DIR.'/');
+define('MWB', SWB.'admin/'.MDL.'/');
 
 // item status rules
 define('NO_LOAN_TRANSACTION', 1);
@@ -121,11 +127,11 @@ define('COMMAND_SUCCESS', 0);
 define('COMMAND_FAILED', 2);
 
 // simbio main class inclusion
-require SIMBIO_BASE_DIR.'simbio.inc.php';
+require SIMBIO.'simbio.inc.php';
 // simbio security class
-require SIMBIO_BASE_DIR.'simbio_UTILS'.DIRECTORY_SEPARATOR.'simbio_security.inc.php';
+require SIMBIO.'simbio_UTILS'.DS.'simbio_security.inc.php';
 // we must include utility library first
-require LIB_DIR.'utility.inc.php';
+require LIB.'utility.inc.php';
 
 // check if we are in mobile browser mode
 if (utility::isMobileBrowser()) { define('LIGHTWEIGHT_MODE', 1); }
@@ -141,15 +147,18 @@ $sysconf['session_timeout'] = 7200;
 
 /* default application language */
 $sysconf['default_lang'] = 'en_US';
+$sysconf['spellchecker_enabled'] = false;
 
 /* HTTP header */
 header('Content-type: text/html; charset=UTF-8');
 
 /* GUI Template config */
+ob_start();
+include $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/tinfo.inc.php';
+ob_end_clean();
 $sysconf['template']['dir'] = 'template';
 $sysconf['template']['theme'] = 'default';
 $sysconf['template']['css'] = $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/style.css';
-#require $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/tinfo.inc.php';
 
 /* ADMIN SECTION GUI Template config */
 $sysconf['admin_template']['dir'] = 'admin_template';
@@ -180,10 +189,16 @@ $sysconf['enable_xml_result'] = true;
 $sysconf['mysqldump'] = '/usr/bin/mysqldump';
 // backup location (make sure it is accessible and rewritable to webserver!)
 $sysconf['temp_dir'] = '/tmp';
-$sysconf['backup_dir'] = FILES_UPLOAD_DIR.'backup'.DIRECTORY_SEPARATOR;
+$sysconf['backup_dir'] = UPLOAD.'backup'.DS;
 
 /* FILE DOWNLOAD */
 $sysconf['allow_file_download'] = false;
+
+/* WEBCAM feature */
+$sysconf['webcam'] = false;
+
+/* SCANNER feature */
+$sysconf['scanner'] = false;
 
 /* BARCODE config */
 // encoding selection
@@ -260,6 +275,9 @@ $sysconf['allowed_file_att'] = array('.pdf', '.rtf', '.txt',
     '.jpg', '.jpeg', '.png', '.gif',
     '.docx', '.pptx', '.xlsx',
     '.ogg', '.mp3', '.xml', '.mrc');
+$sysconf['allowed_images_mimetype'] = array(
+  'image/jpeg', 'image/png',
+);
 
 /* FILE ATTACHMENT MIMETYPES */
 $sysconf['mimetype']['docx'] = 'application/msword';
@@ -353,7 +371,7 @@ $sysconf['z3950_SRU_source'][1] = array('uri' => 'http://z3950.loc.gov:7090/voya
 /**
  * Peer to peer server config
  */
-$sysconf['p2pserver'][1] = array('uri' => 'http://127.0.0.1/slims5_meranti', 'name' => 'SLiMS Library');
+$sysconf['p2pserver'][1] = array('uri' => 'http://127.0.0.1/slims7_cendana', 'name' => 'SLiMS Library');
 
 /**
  * User and member login method
@@ -364,33 +382,33 @@ $sysconf['auth']['member']['method'] = 'native'; // for library member, method c
  * LDAP Specific setting for User
  */
 if (($sysconf['auth']['user']['method'] === 'LDAP') OR ($sysconf['auth']['member']['method'] === 'LDAP')) {
-    $sysconf['auth']['user']['ldap_server'] = '127.0.0.1'; // LDAP server
-    $sysconf['auth']['user']['ldap_base_dn'] = 'ou=slims,dc=diknas,dc=go,dc=id'; // LDAP base DN
-    $sysconf['auth']['user']['ldap_suffix'] = ''; // LDAP user suffix
-    $sysconf['auth']['user']['ldap_bind_dn'] = 'uid=#loginUserName,'.$sysconf['auth']['user']['ldap_base_dn']; // Binding DN
-    $sysconf['auth']['user']['ldap_port'] = null; // optional LDAP server connection port, use null or false for default
-    $sysconf['auth']['user']['ldap_options'] = array(
-        array(LDAP_OPT_PROTOCOL_VERSION, 3),
-        array(LDAP_OPT_REFERRALS, 0)
-        ); // optional LDAP server options
-    $sysconf['auth']['user']['ldap_search_filter'] = '(|(uid=#loginUserName)(cn=#loginUserName*))'; // LDAP search filter, #loginUserName will be replaced by the real login name
-    $sysconf['auth']['user']['userid_field'] = 'uid'; // LDAP field for username
-    $sysconf['auth']['user']['fullname_field'] = 'cn'; // LDAP field for full name
-    $sysconf['auth']['user']['mail_field'] = 'mail'; // LDAP field for e-mail
-    /**
-     * LDAP Specific setting for member
-     * By default same as User
-     */
-    $sysconf['auth']['member']['ldap_server'] = &$sysconf['auth']['user']['ldap_server']; // LDAP server
-    $sysconf['auth']['member']['ldap_base_dn'] = &$sysconf['auth']['user']['ldap_base_dn']; // LDAP base DN
-    $sysconf['auth']['member']['ldap_suffix'] = &$sysconf['auth']['user']['ldap_suffix']; // LDAP user suffix
-    $sysconf['auth']['member']['ldap_bind_dn'] = &$sysconf['auth']['user']['ldap_bind_dn']; // Binding DN
-    $sysconf['auth']['member']['ldap_port'] = &$sysconf['auth']['user']['ldap_port']; // optional LDAP server connection port, use null or false for default
-    $sysconf['auth']['member']['ldap_options'] = &$sysconf['auth']['user']['ldap_options']; // optional LDAP server options
-    $sysconf['auth']['member']['ldap_search_filter'] = &$sysconf['auth']['user']['ldap_search_filter']; // LDAP search filter, #loginUserName will be replaced by the real login name
-    $sysconf['auth']['member']['userid_field'] = &$sysconf['auth']['user']['username_field']; // LDAP field for username
-    $sysconf['auth']['member']['fullname_field'] = &$sysconf['auth']['user']['fullname_field']; // LDAP field for full name
-    $sysconf['auth']['member']['mail_field'] = &$sysconf['auth']['user']['mail_field']; // LDAP field for e-mail
+  $sysconf['auth']['user']['ldap_server'] = '127.0.0.1'; // LDAP server
+  $sysconf['auth']['user']['ldap_base_dn'] = 'ou=slims,dc=diknas,dc=go,dc=id'; // LDAP base DN
+  $sysconf['auth']['user']['ldap_suffix'] = ''; // LDAP user suffix
+  $sysconf['auth']['user']['ldap_bind_dn'] = 'uid=#loginUserName,'.$sysconf['auth']['user']['ldap_base_dn']; // Binding DN
+  $sysconf['auth']['user']['ldap_port'] = null; // optional LDAP server connection port, use null or false for default
+  $sysconf['auth']['user']['ldap_options'] = array(
+      array(LDAP_OPT_PROTOCOL_VERSION, 3),
+      array(LDAP_OPT_REFERRALS, 0)
+      ); // optional LDAP server options
+  $sysconf['auth']['user']['ldap_search_filter'] = '(|(uid=#loginUserName)(cn=#loginUserName*))'; // LDAP search filter, #loginUserName will be replaced by the real login name
+  $sysconf['auth']['user']['userid_field'] = 'uid'; // LDAP field for username
+  $sysconf['auth']['user']['fullname_field'] = 'cn'; // LDAP field for full name
+  $sysconf['auth']['user']['mail_field'] = 'mail'; // LDAP field for e-mail
+  /**
+   * LDAP Specific setting for member
+   * By default same as User
+   */
+  $sysconf['auth']['member']['ldap_server'] = &$sysconf['auth']['user']['ldap_server']; // LDAP server
+  $sysconf['auth']['member']['ldap_base_dn'] = &$sysconf['auth']['user']['ldap_base_dn']; // LDAP base DN
+  $sysconf['auth']['member']['ldap_suffix'] = &$sysconf['auth']['user']['ldap_suffix']; // LDAP user suffix
+  $sysconf['auth']['member']['ldap_bind_dn'] = &$sysconf['auth']['user']['ldap_bind_dn']; // Binding DN
+  $sysconf['auth']['member']['ldap_port'] = &$sysconf['auth']['user']['ldap_port']; // optional LDAP server connection port, use null or false for default
+  $sysconf['auth']['member']['ldap_options'] = &$sysconf['auth']['user']['ldap_options']; // optional LDAP server options
+  $sysconf['auth']['member']['ldap_search_filter'] = &$sysconf['auth']['user']['ldap_search_filter']; // LDAP search filter, #loginUserName will be replaced by the real login name
+  $sysconf['auth']['member']['userid_field'] = &$sysconf['auth']['user']['userid_field']; // LDAP field for username
+  $sysconf['auth']['member']['fullname_field'] = &$sysconf['auth']['user']['fullname_field']; // LDAP field for full name
+  $sysconf['auth']['member']['mail_field'] = &$sysconf['auth']['user']['mail_field']; // LDAP field for e-mail
 }
 
 /**
@@ -415,14 +433,14 @@ $sysconf['index']['sphinx_opts'] = array(
 $sysconf['captcha']['smc']['enable'] = false; // value can be 'true' or 'false'
 $sysconf['captcha']['smc']['type'] = 'recaptcha'; // value can be 'recaptcha' (at this time)
 if ($sysconf['captcha']['smc']['enable']) {
-    include_once LIB_DIR.$sysconf['captcha']['smc']['type'].DIRECTORY_SEPARATOR.'smc_settings.inc.php';
+    include_once LIB.$sysconf['captcha']['smc']['type'].DS.'smc_settings.inc.php';
 }
 
 // Captcha settings for Member Login
 $sysconf['captcha']['member']['enable'] = false; // value can be 'true' or 'false'
 $sysconf['captcha']['member']['type'] = 'recaptcha'; // value can be 'recaptcha' (at this time)
 if ($sysconf['captcha']['member']['enable']) {
-    include_once LIB_DIR.$sysconf['captcha']['member']['type'].DIRECTORY_SEPARATOR.'member_settings.inc.php';
+    include_once LIB.$sysconf['captcha']['member']['type'].DS.'member_settings.inc.php';
 }
 
 /**
@@ -466,7 +484,7 @@ $sysconf['ipaccess']['smc-serialcontrol'] = 'all';
 // OAI-PMH settings
 $sysconf['OAI']['enable'] = false;
 $sysconf['OAI']['identifierPrefix'] = 'oai:slims/';
-$sysconf['OAI']['Identify']['baseURL'] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].SENAYAN_WEB_ROOT_DIR.'oai.php';
+$sysconf['OAI']['Identify']['baseURL'] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].SWB.'oai.php';
 $sysconf['OAI']['Identify']['repositoryName'] = 'SLiMS Senayan Library Management System OAI-PMh';
 $sysconf['OAI']['Identify']['adminEmail'] = 'admin@slims.web.id';
 $sysconf['OAI']['Identify']['granularity'] = 'YYYY-MM-DDThh:mm:ssZ';
@@ -486,12 +504,12 @@ if ($is_auto = @ini_get('session.auto_start')) { define('SESSION_AUTO_STARTED', 
 if (defined('SESSION_AUTO_STARTED')) { @session_destroy(); }
 
 // check for local sysconfig For Admin (fa) file
-if (defined('DB_ACCESS') && DB_ACCESS == 'fa' && file_exists(SENAYAN_BASE_DIR.'sysconfig.local.fa.inc.php')) {
-  include SENAYAN_BASE_DIR.'sysconfig.local.fa.inc.php';
+if (defined('DB_ACCESS') && DB_ACCESS == 'fa' && file_exists(SB.'sysconfig.local.fa.inc.php')) {
+  include SB.'sysconfig.local.fa.inc.php';
 } else {
   // check for local sysconfig file
-  if (file_exists(SENAYAN_BASE_DIR.'sysconfig.local.inc.php')) {
-    include SENAYAN_BASE_DIR.'sysconfig.local.inc.php';
+  if (file_exists(SB.'sysconfig.local.inc.php')) {
+    include SB.'sysconfig.local.inc.php';
   } else {
 	  header("location: install/index.php");
 	  exit;
@@ -515,7 +533,7 @@ if (extension_loaded('mysqli')) {
 } else {
     /* MYSQL */
     // require the simbio mysql class
-    include SIMBIO_BASE_DIR.'simbio_DB/mysql/simbio_mysql.inc.php';
+    include SIMBIO.'simbio_DB/mysql/simbio_mysql.inc.php';
     // make a new connection object that will be used by all applications
     $dbs = @new simbio_mysql(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_PORT);
 }
@@ -532,10 +550,10 @@ if (stripos($_SERVER['PHP_SELF'], '/admin') === false) {
         $select_lang = trim(strip_tags($_GET['select_lang']));
         // delete previous language cookie
         if (isset($_COOKIE['select_lang'])) {
-            @setcookie('select_lang', $select_lang, time()-14400, SENAYAN_WEB_ROOT_DIR);
+            @setcookie('select_lang', $select_lang, time()-14400, SWB);
         }
         // create language cookie
-        @setcookie('select_lang', $select_lang, time()+14400, SENAYAN_WEB_ROOT_DIR);
+        @setcookie('select_lang', $select_lang, time()+14400, SWB);
         $sysconf['default_lang'] = $select_lang;
     } else if (isset($_COOKIE['select_lang'])) {
         $sysconf['default_lang'] = trim(strip_tags($_COOKIE['select_lang']));
@@ -547,7 +565,7 @@ if (stripos($_SERVER['PHP_SELF'], '/admin') === false) {
 }
 
 // Apply language settings
-require LANGUAGES_BASE_DIR.'localisation.php';
+require LANG.'localisation.php';
 
 /* AUTHORITY TYPE */
 $sysconf['authority_type']['p'] = __('Personal Name');
@@ -574,10 +592,13 @@ $sysconf['authority_level'][8] = __('Illustrator');
 $sysconf['authority_level'][9] = __('Creator');
 $sysconf['authority_level'][10] = __('Contributor');
 
+// comment
+$sysconf['comment']['enable'] =  true;
+
 // redirect to mobile template on mobile mode
-if (defined('LIGHTWEIGHT_MODE') AND ! isset($_COOKIE['FULLSITE_MODE'])) {
-    $sysconf['template']['theme'] = 'lightweight';
-    $sysconf['template']['css'] = $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/style.css';
-    $sysconf['enable_xml_detail'] = false;
-    $sysconf['enable_xml_result'] = false;
+if (defined('LIGHTWEIGHT_MODE') AND !isset($_COOKIE['FULLSITE_MODE']) AND $sysconf['template']['responsive'] === false) {
+  $sysconf['template']['theme'] = 'lightweight';
+  $sysconf['template']['css'] = $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/style.css';
+  $sysconf['enable_xml_detail'] = false;
+  $sysconf['enable_xml_result'] = false;
 }

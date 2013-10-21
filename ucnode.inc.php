@@ -31,4 +31,3 @@ $ucs['serveraddr'] = 'http://127.0.0.1/ucs2'; // UCS server address. NO TRAILING
 $node['id'] = 'slims-node'; // node ID
 $node['password'] = '2325f677e21c1613909c953eb03c57352259cc5d'; // default is s0beautifulday
 $node['name'] = 'SLiMS Library'; // node name
-?>

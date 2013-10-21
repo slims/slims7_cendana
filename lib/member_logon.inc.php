@@ -116,9 +116,11 @@ class member_logon
                 WHERE m.member_id=\''.$this->user_info['member_id'].'\'');
             if ($_check_q->num_rows < 1) {
                 $_curr_date = date('Y-m-d H:i:s');
+                $_userid_field = strtolower($ldap_configs['userid_field']);
+                $_fullname_field = strtolower($ldap_configs['fullname_field']);
                 // insert member data to database
-                $this->user_info['member_id'] = $_entries[0][$ldap_configs['userid_field']][0];
-                $this->user_info['member_name'] = $_entries[0][$ldap_configs['fullname_field']][0];
+                $this->user_info['member_id'] = $_entries[0][$_userid_field][0];
+                $this->user_info['member_name'] = $_entries[0][$_fullname_field][0];
                 $this->user_info['gender'] = '1';
                 $this->user_info['inst_name'] = 'New registered member';
                 $this->user_info['member_email'] = $_entries[0][$ldap_configs['mail_field']][0];
@@ -130,7 +132,7 @@ class member_logon
                 $this->user_info['last_update'] = $_curr_date;
 
                 // include database operation library
-                require_once SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+                require_once SIMBIO.'simbio_DB/simbio_dbop.inc.php';
                 $_dbop = new simbio_dbop($this->obj_db);
                 $_insert = $_dbop->insert('member', $this->user_info);
                 if (!$_insert) {
@@ -192,7 +194,7 @@ class member_logon
         $_check_login = call_user_func(array($this, $this->auth_method.'Login'));
         // check if the user exist in database
         if (!$_check_login) {
-            return false;
+          return false;
         }
 
         // fill all sessions var
@@ -211,7 +213,7 @@ class member_logon
         $_SESSION['m_can_reserve'] = $this->user_info['enable_reserve'];
         $_SESSION['m_reserve_limit'] = $this->user_info['reserve_limit'];
         // check member expiry date
-        require_once SIMBIO_BASE_DIR.'simbio_UTILS/simbio_date.inc.php';
+        require_once SIMBIO.'simbio_UTILS/simbio_date.inc.php';
         $_curr_date = date('Y-m-d');
         if (simbio_date::compareDates($this->user_info['expire_date'], $_curr_date) == $_curr_date) {
             $_SESSION['m_is_expired'] = true;

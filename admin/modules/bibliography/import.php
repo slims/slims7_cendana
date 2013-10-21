@@ -28,21 +28,27 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_FILE/simbio_file_upload.inc.php';
+require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_FILE/simbio_file_upload.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');
 $can_write = utility::havePrivilege('bibliography', 'w');
 
 if (!$can_read) {
-    die('<div class="errorBox">'.__('You are not authorized to view this section').'</div>');
+  die('<div class="errorBox">'.__('You are not authorized to view this section').'</div>');
+}
+
+if ($sysconf['index']['type'] == 'index') {
+  require MDLBS.'system/biblio_indexer.inc.php';
+  // create biblio_indexer class instance
+  $indexer = new biblio_indexer($dbs);
 }
 
 // max chars in line for file operations
@@ -202,6 +208,11 @@ if (isset($_POST['doImport'])) {
                       $dbs->query($item_sql);
                   }
               }
+
+              // create biblio index
+              if ($sysconf['index']['type'] == 'index') {
+                $indexer->makeIndex($biblio_id);
+              }
           }
           $row_count++;
       }
@@ -234,7 +245,7 @@ if (isset($_POST['doImport'])) {
 
 // create new instance
 $form = new simbio_form_table_AJAX('mainForm', $_SERVER['PHP_SELF'], 'post');
-$form->submit_button_attr = 'name="doImport" value="'.__('Import Now').'" class="button"';
+$form->submit_button_attr = 'name="doImport" value="'.__('Import Now').'" class="btn btn-default"';
 
 // form table attributes
 $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';

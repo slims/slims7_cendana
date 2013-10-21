@@ -28,15 +28,15 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
 
 function reverseAuthor($lastfirst) {
 	if ($lastfirst == "") {
@@ -234,13 +234,15 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
 		unset($sliced_label);
     }
 
-    // include printed settings configuration file
-    //include SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.'admin_template'.DIRECTORY_SEPARATOR.'printed_settings.inc.php';
+    /*
+		// include printed settings configuration file
+    include SB.'admin'.DS.'admin_template'.DS.'printed_settings.inc.php';
     // check for custom template settings
-    //$custom_settings = SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.$sysconf['admin_template']['dir'].DIRECTORY_SEPARATOR.$sysconf['template']['theme'].DIRECTORY_SEPARATOR.'printed_settings.inc.php';
-    //if (file_exists($custom_settings)) {
-    //    include $custom_settings;
-    //}
+    $custom_settings = SB.'admin'.DS.$sysconf['admin_template']['dir'].DS.$sysconf['template']['theme'].DS.'printed_settings.inc.php';
+    if (file_exists($custom_settings)) {
+      include $custom_settings;
+    }
+    */
 
     // create html ouput of images
     $html_str = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n";
@@ -260,7 +262,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     $html_str .= '<body>'."\n";
     $html_str .= '<a href="#" class="doNotPrint" onclick="window.print()">Print Again</a>'."\n";
     $html_str .= '<table border=0 cellpadding=0 cellspacing=5>'."\n";
-	$html_str .= $katalog;
+	  $html_str .= $katalog;
     $html_str .= '</table>'."\n";
     $html_str .= '<script type="text/javascript">self.print();</script>'."\n";
     $html_str .= '</body></html>'."\n";
@@ -269,12 +271,12 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
 
     // write to file
     $print_file_name = 'catalog_print_result_'.strtolower(str_replace(' ', '_', $_SESSION['uname'])).'.html';
-    $file_write = @file_put_contents(FILES_UPLOAD_DIR.$print_file_name, $html_str);
+    $file_write = @file_put_contents(UPLOAD.$print_file_name, $html_str);
     if ($file_write) {
         echo '<script type="text/javascript">parent.$(\'#queueCount\').html(\'0\');</script>';
         // open result in new window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SENAYAN_WEB_ROOT_DIR.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Catalog Printing').'\')</script>';
-    } else { utility::jsAlert('ERROR! Catalog card failed to generate, possibly because '.SENAYAN_BASE_DIR.FILES_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">top.$.colorbox({href: "'.SWB.FLS.'/'.$print_file_name.'", iframe: true, width: 800, height: 500, title: "'.__('Catalog Printing').'"})</script>';
+    } else { utility::jsAlert('ERROR! Catalog card failed to generate, possibly because '.SB.FLS.' directory is not writable'); }
     exit();
 }
 
@@ -286,22 +288,22 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     <h2><?php echo __('Print Catalog Format'); ?></h2>
     </div>
 	<div class="sub_section">
-    <div class="action_button">
-    <a target="blindSubmit" href="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/printed_card.php?action=clear" class="notAJAX headerText2" style="color: #FF0000;"><?php echo __('Clear Print Queue'); ?></a>
-	<a target="blindSubmit" href="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/printed_card.php?action=print" class="notAJAX headerText2"><?php echo __('Print Catalog for Selected Data'); ?></a>
+    <div class="btn-group">
+    <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/printed_card.php?action=clear" class="notAJAX btn btn-default"><i class="glyphicon glyphicon-trash"></i>&nbsp;<?php echo __('Clear Print Queue'); ?></a>
+	  <a target="blindSubmit" href="<?php echo MWB; ?>bibliography/printed_card.php?action=print" class="notAJAX btn btn-default"><i class="glyphicon glyphicon-print"></i>&nbsp;<?php echo __('Print Catalog for Selected Data'); ?></a>
 	</div>
-    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>bibliography/printed_card.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+    <form name="search" action="<?php echo MWB; ?>bibliography/printed_card.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
-    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
+    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
     </form>
     </div>
     <div class="infoBox">
         <?php
         echo __('Maximum').' <font style="color: #FF0000">'.$max_print.'</font> '.__('records can be printed at once. Currently there is').' '; //mfc
         if (isset($_SESSION['cards'])) {
-            echo '<font id="queueCount" style="color: #FF0000">'.count($_SESSION['cards']).'</font>';
+          echo '<font id="queueCount" style="color: #FF0000">'.count($_SESSION['cards']).'</font>';
         } else { echo '<font id="queueCount" style="color: #FF0000">0</font>'; }
-        echo ' '.__('in queue waiting to be printed.'); //mfc
+          echo ' '.__('in queue waiting to be printed.'); //mfc
         ?>
     </div>
 </div>
@@ -312,27 +314,27 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
 // create datagrid
 $datagrid = new simbio_datagrid();
 /* BIBLIOGRAPHY LIST */
-require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_tokenizecql.inc.php';
-require LIB_DIR.'biblio_list_model.inc.php';
+require SIMBIO.'simbio_UTILS/simbio_tokenizecql.inc.php';
+require LIB.'biblio_list_model.inc.php';
 // index choice
-if ($sysconf['index']['type'] == 'index' || ($sysconf['index']['type'] == 'sphinx' && file_exists(LIB_DIR.'sphinx/sphinxapi.php'))) {
+if ($sysconf['index']['type'] == 'index' || ($sysconf['index']['type'] == 'sphinx' && file_exists(LIB.'sphinx/sphinxapi.php'))) {
     if ($sysconf['index']['type'] == 'sphinx') {
-        require LIB_DIR.'sphinx/sphinxapi.php';
-        require LIB_DIR.'biblio_list_sphinx.inc.php';
+        require LIB.'sphinx/sphinxapi.php';
+        require LIB.'biblio_list_sphinx.inc.php';
     } else {
-        require LIB_DIR.'biblio_list_index.inc.php';
+        require LIB.'biblio_list_index.inc.php';
     }
     // table spec
-    $table_spec = 'search_biblio AS `index` LEFT JOIN `biblio` as b ON `index`.biblio_id=b.biblio_id';
+    $table_spec = 'search_biblio AS `index` LEFT JOIN `biblio` ON `index`.biblio_id=`biblio`.biblio_id';
     if ($can_read) {
-        $datagrid->setSQLColumn('index.biblio_id, index.title, index.author');
+        $datagrid->setSQLColumn('index.biblio_id, index.title as '.__('Title').', index.author as '.__('Author'));
     }
 
 // SELECT IF(item.item_id IS NOT NULL, item.item_id, CONCAT('b', biblio.biblio_id)), biblio.title AS Title, IF(item.call_number<>'', item.call_number, biblio.call_number) AS 'Call Number'
 // FROM search_biblio AS `index` LEFT JOIN `item` ON `index`.biblio_id=`item`.biblio_id
 
 } else {
-    require LIB_DIR.'biblio_list.inc.php';
+    require LIB.'biblio_list.inc.php';
     // table spec
     $table_spec = 'biblio LEFT JOIN item as i ON biblio.biblio_id=i.biblio_id';
     if ($can_read) {
@@ -361,9 +363,9 @@ if (isset($_GET['keywords']) AND $_GET['keywords']) {
     $criteria = $biblio_list->setSQLcriteria($search_str);
 }
 if (isset($criteria)) {
-    $datagrid->setSQLcriteria('('.$criteria['sql_criteria'].')');
+  $datagrid->setSQLcriteria('('.$criteria['sql_criteria'].')');
 }
-	$datagrid->sql_group_by = "biblio.biblio_id";
+$datagrid->sql_group_by = "biblio.biblio_id";
 
 // set table and table header attributes
 $datagrid->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
@@ -371,7 +373,7 @@ $datagrid->table_header_attr = 'class="dataListHeader" style="font-weight: bold;
 // edit and checkbox property
 $datagrid->edit_property = false;
 $datagrid->chbox_property = array('itemID', __('Add'));
-$datagrid->chbox_action_button = __('Add To Print Queue');
+$datagrid->chbox_btn = __('Add To Print Queue');
 $datagrid->chbox_confirm_msg = __('Add to print queue?');
 // set delete proccess URL
 $datagrid->chbox_form_URL = $_SERVER['PHP_SELF'];

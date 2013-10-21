@@ -27,20 +27,20 @@
 // key to authentication
 define('INDEX_AUTH', '1');
 
-if (!defined('SENAYAN_BASE_DIR')) {
+if (!defined('SB')) {
     // main system configuration
     require '../../../sysconfig.inc.php';
     // start the session
-    require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+    require SB.'admin/default/session.inc.php';
 }
 
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-reporting');
 
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('reporting', 'r');
@@ -84,7 +84,7 @@ $stat_query = $dbs->query('SELECT gmd_name, COUNT(biblio_id) AS total_titles
     FROM `biblio` AS b
     INNER JOIN mst_gmd AS gmd ON b.gmd_id = gmd.gmd_id
     GROUP BY b.gmd_id HAVING total_titles>0 ORDER BY COUNT(biblio_id) DESC');
-$stat_data = '<div class="chartLink"><a class="notAJAX" href="#" onclick="openHTMLpop(\''.MODULES_WEB_ROOT_DIR.'reporting/charts_report.php?chart=total_title_gmd\', 700, 470, \''.__('Total Titles By Medium/GMD').'\')">'.__('Show in chart/plot').'</a></div>';
+$stat_data = '<div class="chartLink"><a class="notAJAX openPopUp" href="'.MWB.'reporting/charts_report.php?chart=total_title_gmd" width="700" height="470" title="'.__('Total Titles By Medium/GMD').'">'.__('Show in chart/plot').'</a></div>';
 while ($data = $stat_query->fetch_row()) {
     $stat_data .= '<strong>'.$data[0].'</strong> : '.$data[1];
     $stat_data .= ', ';
@@ -98,7 +98,7 @@ $stat_query = $dbs->query('SELECT coll_type_name, COUNT(item_id) AS total_items
     GROUP BY i.coll_type_id
     HAVING total_items >0
     ORDER BY COUNT(item_id) DESC');
-$stat_data = '<div class="chartLink"><a class="notAJAX" href="#" onclick="openHTMLpop(\''.MODULES_WEB_ROOT_DIR.'reporting/charts_report.php?chart=total_title_colltype\', 700, 470, \''.__('Total Items By Collection Type').'\')">'.__('Show in chart/plot').'</a></div>';
+$stat_data = '<div class="chartLink"><a class="notAJAX openPopUp" href="'.MWB.'reporting/charts_report.php?chart=total_title_colltype" width="700" height="470" title="'.__('Total Items By Collection Type').'">'.__('Show in chart/plot').'</a></div>';
 while ($data = $stat_query->fetch_row()) {
     $stat_data .= '<strong>'.$data[0].'</strong> : '.$data[1];
     $stat_data .= ', ';
@@ -136,7 +136,8 @@ foreach ($collection_stat as $headings=>$stat_data) {
 // if we are in print mode
 if (isset($_GET['print'])) {
     // html strings
-    $html_str = '<html><head><title>'.$sysconf['library_name'].' Membership General Statistic Report</title>';
+    $html_str = '<!DOCTYPE html>';
+    $html_str .= '<html><head><title>'.$sysconf['library_name'].' Membership General Statistic Report</title>';
     $html_str .= '<style type="text/css">'."\n";
     $html_str .= 'body {padding: 0.2cm}'."\n";
     $html_str .= 'body * {color: black; font-size: 11pt;}'."\n";
@@ -153,11 +154,11 @@ if (isset($_GET['print'])) {
     $html_str .= '<script type="text/javascript">self.print();</script>'."\n";
     $html_str .= '</body></html>';
     // write to file
-    $file_write = @file_put_contents(REPORT_FILE_BASE_DIR.'biblio_stat_print_result.html', $html_str);
+    $file_write = @file_put_contents(REPBS.'biblio_stat_print_result.html', $html_str);
     if ($file_write) {
         // open result in new window
-        echo '<script type="text/javascript">parent.openWin(\''.SENAYAN_WEB_ROOT_DIR.FILES_DIR.'/'.REPORT_DIR.'/biblio_stat_print_result.html\', \'popMemberReport\', 800, 500, true)</script>';
-    } else { utility::jsAlert('ERROR! Loan statistic report failed to generate, possibly because '.REPORT_FILE_BASE_DIR.' directory is not writable'); }
+        echo '<script type="text/javascript">top.$.colorbox({href: "'.SWB.FLS.'/'.REP.'/biblio_stat_print_result.html", height: 800,  width: 500})</script>';
+    } else { utility::jsAlert('ERROR! Loan statistic report failed to generate, possibly because '.REPBS.' directory is not writable'); }
     exit();
 }
 

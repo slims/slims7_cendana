@@ -24,17 +24,17 @@
 define('INDEX_AUTH', '1');
 
 // check if this file included directly
-if (!defined('REPORT_DIRECT_INCLUDE')) {
-    // main system configuration
-    require '../../../sysconfig.inc.php';
-    // start the session
-    require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-    require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-    include SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-    include SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+if (!defined('REPECT_INCLUDE')) {
+  // main system configuration
+  require '../../../sysconfig.inc.php';
+  // start the session
+  require SB.'admin/default/session.inc.php';
+  require SB.'admin/default/session_check.inc.php';
+  include SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+  include SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 }
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-stocktake');
 
@@ -55,7 +55,7 @@ if ($stk_query->num_rows < 1) {
     // get stock take data
     $stk_data = $stk_query->fetch_assoc();
     // check if this file included directly
-    if (!defined('REPORT_DIRECT_INCLUDE') AND !isset($_GET['print'])) {
+    if (!defined('REPECT_INCLUDE') AND !isset($_GET['print'])) {
 ?>
     <fieldset class="menuBox">
       <div class="menuBoxInner reportIcon">
@@ -64,7 +64,7 @@ if ($stk_query->num_rows < 1) {
         </div>
         <div class="sub_section">
           <form name="printForm" action="<?php echo $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']; ?>" target="submitPrint" id="printForm" method="get" style="display: inline;">
-          <input type="hidden" name="print" value="true" /><input type="submit" value="<?php echo __('Download Report'); ?>" class="button" />
+          <input type="hidden" name="print" value="true" /><input type="submit" value="<?php echo __('Download Report'); ?>" class="btn btn-default" />
           </form>
           <iframe name="submitPrint" style="visibility: hidden; width: 0; height: 0;"></iframe>
         </div>
@@ -213,11 +213,11 @@ if ($stk_query->num_rows < 1) {
         $html_str .= '<script type="text/javascript">self.print();</script>'."\n";
         $html_str .= '</body></html>'."\n";
         // write to file
-        $file_write = @file_put_contents(REPORT_FILE_BASE_DIR.'stock_take_print_result.html', $html_str);
+        $file_write = @file_put_contents(REPBS.'stock_take_print_result.html', $html_str);
         if ($file_write) {
             // open result in new window
-            echo '<script type="text/javascript">parent.openWin(\''.SENAYAN_WEB_ROOT_DIR.'/'.FILES_DIR.'/'.REPORT_DIR.'/stock_take_print_result.html\', \'popMemberReport\', 800, 500, true)</script>';
-        } else { utility::jsAlert('ERROR! Membership statistic report failed to generate, possibly because '.REPORT_FILE_BASE_DIR.' directory is not writable'); }
+            echo '<script type="text/javascript">parent.openWin(\''.SWB.'/'.FLS.'/'.REP.'/stock_take_print_result.html\', \'popMemberReport\', 800, 500, true)</script>';
+        } else { utility::jsAlert('ERROR! Membership statistic report failed to generate, possibly because '.REPBS.' directory is not writable'); }
         exit();
     } else {
         echo $report_content;

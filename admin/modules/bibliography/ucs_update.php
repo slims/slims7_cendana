@@ -25,10 +25,10 @@ define('INDEX_AUTH', '1');
 
 // main system configuration
 require '../../../sysconfig.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SENAYAN_BASE_DIR.'ucnode.inc.php';
-require LIB_DIR.'http_request.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SB.'ucnode.inc.php';
+require LIB.'http_request.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');

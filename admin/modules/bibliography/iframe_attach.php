@@ -28,13 +28,13 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // page title
 $page_title = 'Attachment List';
@@ -69,7 +69,7 @@ function confirmProcess(int_biblio_id, int_file_id, str_file_name)
 if (isset($_GET['removesess'])) {
   $idx = (integer)$_GET['removesess'];
   // remove file from filesystem
-  @unlink(REPO_BASE_DIR.str_replace('/', DIRECTORY_SEPARATOR, $_SESSION['biblioAttach'][$idx]['file_dir']).DIRECTORY_SEPARATOR.$_SESSION['biblioAttach'][$idx]['file_name']);
+  @unlink(REPOBS.str_replace('/', DS, $_SESSION['biblioAttach'][$idx]['file_dir']).DS.$_SESSION['biblioAttach'][$idx]['file_name']);
   // remove session array
   unset($_SESSION['biblioAttach'][$idx]);
   echo '<script type="text/javascript">';
@@ -91,7 +91,7 @@ if (isset($_POST['bid']) AND isset($_POST['remove'])) {
   echo '<script type="text/javascript">';
   if ($_POST['alsoDeleteFile'] == '1') {
       // remove file from repository and filesystem
-      @unlink(REPO_BASE_DIR.str_replace('/', DIRECTORY_SEPARATOR, $file_d['file_dir']).DIRECTORY_SEPARATOR.$file_d['file_name']);
+      @unlink(REPOBS.str_replace('/', DS, $file_d['file_dir']).DS.$file_d['file_name']);
       echo 'alert(\'Attachment '.$file_d['file_name'].' succesfully removed!\');';
   }
   echo 'location.href = \'iframe_attach.php?biblioID='.$bid.'\';';
@@ -114,17 +114,16 @@ if ($biblioID) {
     $row_class = ($row%2 == 0)?'alterCell':'alterCell2';
 
     // remove link
-    $remove_link = '<a href="#" onclick="confirmProcess('.$biblioID.', '.$biblio_attach_d['file_id'].', \''.addslashes($biblio_attach_d['file_name']).'\')"
-        style="color: #FF0000; text-decoration: underline;">Delete</a>';
+    $remove_link = '<a href="#" onclick="confirmProcess('.$biblioID.', '.$biblio_attach_d['file_id'].', \''.addslashes($biblio_attach_d['file_name']).'\')" class="notAJAX btn button btn-danger btn-delete">Delete</a>';
 
     // edit link
-    $edit_link = '<a href="#" onclick="top.openHTMLpop(\''.MODULES_WEB_ROOT_DIR.'bibliography/pop_attach.php?biblioID='.$biblioID.'&fileID='.$biblio_attach_d['file_id'].'\', 600, 300, \''.__('File Attachments').'\')">Edit</a>';
+    $edit_link = '<a class="notAJAX button btn openPopUp" href="'.MWB.'bibliography/pop_attach.php?biblioID='.$biblioID.'&fileID='.$biblio_attach_d['file_id'].'" width="600" height="300" title="'.__('File Attachments').'">Edit</a>';
 
     // file link
     if (preg_match('@(video|audio|image)/.+@i', $biblio_attach_d['mime_type'])) {
-        $file = '<a href="#" onclick="top.openHTMLpop(\''.SENAYAN_WEB_ROOT_DIR.'index.php?p=multimediastream&fid='.$biblio_attach_d['file_id'].'&bid='.$biblio_attach_d['biblio_id'].'\', 400, 300, \''.$biblio_attach_d['file_title'].'\')">'.$biblio_attach_d['file_title'].'</a>';
+        $file = '<a class="notAJAX openPopUp" href="'.SWB.'index.php?p=multimediastream&fid='.$biblio_attach_d['file_id'].'&bid='.$biblio_attach_d['biblio_id'].'" width="640" height="480" title="'.$biblio_attach_d['file_title'].'">'.$biblio_attach_d['file_title'].'</a>';
     } else {
-        $file = '<a href="'.SENAYAN_WEB_ROOT_DIR.'admin/view.php?fid='.urlencode($biblio_attach_d['file_id']).'" target="_blank">'.$biblio_attach_d['file_title'].'</a>';
+        $file = '<a href="'.SWB.'admin/view.php?fid='.urlencode($biblio_attach_d['file_id']).'" target="_blank">'.$biblio_attach_d['file_title'].'</a>';
     }
 
     $table->appendTableRow(array($remove_link, $edit_link, $file, $biblio_attach_d['file_desc']));
@@ -147,7 +146,7 @@ if ($biblioID) {
     $row_class = 'alterCell2';
     foreach ($_SESSION['biblioAttach'] as $idx=>$biblio_session) {
       // remove link
-      $remove_link = '<a href="iframe_attach.php?removesess='.$idx.'" style="color: #000000; text-decoration: underline;">Remove</a>';
+      $remove_link = '<a href="iframe_attach.php?removesess='.$idx.'" class="notAJAX btn button btn-danger btn-delete">Remove</a>';
 
       $table->appendTableRow(array($remove_link, $biblio_session['file_name'], $biblio_session['last_update']));
       $table->setCellAttr($row, 0, 'valign="top" class="'.$row_class.'" style="font-weight: bold; background-color: #ffc466; width: 10%;"');
@@ -162,4 +161,4 @@ if ($biblioID) {
 /* main content end */
 $content = ob_get_clean();
 // include the page template
-require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
+require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';

@@ -27,13 +27,13 @@ define('INDEX_AUTH', '1');
 require '../../../sysconfig.inc.php';
 
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-system');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('system', 'r');
@@ -47,40 +47,43 @@ $max_print = 50;
 // barcode pdf download
 if (isset($_SESSION['barcodes'])) {
     // include printed settings configuration file
-    require SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.'admin_template'.DIRECTORY_SEPARATOR.'printed_settings.inc.php';
+    require SB.'admin'.DS.'admin_template'.DS.'printed_settings.inc.php';
 
     // check for custom template settings
-    $custom_settings = SENAYAN_BASE_DIR.'admin'.DIRECTORY_SEPARATOR.$sysconf['admin_template']['dir'].DIRECTORY_SEPARATOR.$sysconf['template']['theme'].DIRECTORY_SEPARATOR.'printed_settings.inc.php';
+    $custom_settings = SB.'admin'.DS.$sysconf['admin_template']['dir'].DS.$sysconf['template']['theme'].DS.'printed_settings.inc.php';
 
     if (file_exists($custom_settings)) {
       include $custom_settings;
     }
 
+	  // load print settings from database to override value from printed_settings file
+    loadPrintSettings($dbs, 'barcodegen');
+
     // chunk barcode array
-    $chunked_barcode_arrays = array_chunk($_SESSION['barcodes'], $items_per_row);
+    $chunked_barcode_arrays = array_chunk($_SESSION['barcodes'], $sysconf['print']['barcodegen']['items_per_row']);
 
     // create html ouput
-    $html_str = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n";
-    $html_str .= '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Document Label Print Result</title>'."\n";
+    $html_str = '<!DOCTYPE html>'."\n";
+    $html_str .= '<html><head><title>Document Label Print Result</title>'."\n";
     $html_str .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
     $html_str .= '<meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0" /><meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT" />';
     $html_str .= '<style type="text/css">'."\n";
     $html_str .= 'body { padding: 0; overflow: auto; background: #fff; }'."\n";
-    $html_str .= '.labelStyle { text-align: center; float: left; margin: '.$barcodegen_items_margin.'cm; border: '.($barcodegen_include_border>0?$barcodegen_include_border:0).'px solid #000000; }'."\n";
+    $html_str .= '.labelStyle { text-align: center; float: left; margin: '.$sysconf['print']['barcodegen']['items_margin'].'cm; border: '.($sysconf['print']['barcodegen']['include_border']>0?$sysconf['print']['barcodegen']['include_border']:0).'px solid #000000; }'."\n";
     $html_str .= '</style>'."\n";
     $html_str .= '</head>'."\n";
     $html_str .= '<body>'."\n";
 
     // loop the chunked arrays to row
     foreach ($chunked_barcode_arrays as $barcode_rows) {
-        $html_str .= '<div style="clear: both;">';
-        foreach ($barcode_rows as $barcode) {
-            $html_str .= '<div class="labelStyle">';
-            $html_str .= '<img src="'.SENAYAN_WEB_ROOT_DIR.'images/barcodes/'.str_replace(array(' '), '_', $barcode).'.png" style="width: 90%" border="0" />';
-            $html_str .= '</div>';
-        }
-
+      $html_str .= '<div style="clear: both;">';
+      foreach ($barcode_rows as $barcode) {
+        $html_str .= '<div class="labelStyle">';
+        $html_str .= '<img src="'.SWB.'images/barcodes/'.str_replace(array(' '), '_', $barcode).'.png" style="width: 90%" border="0" />';
         $html_str .= '</div>';
+      }
+
+      $html_str .= '</div>';
     }
 
     $html_str .= '<script type="text/javascript">self.print();</script>'."\n";
@@ -91,12 +94,12 @@ if (isset($_SESSION['barcodes'])) {
 
     // write to file
     $print_file_name = 'barcode_gen_print_result_'.strtolower(str_replace(' ', '_', $_SESSION['uname'])).'.html';
-    $file_write = @file_put_contents(FILES_UPLOAD_DIR.$print_file_name, $html_str);
+    $file_write = @file_put_contents(UPLOAD.$print_file_name, $html_str);
 
     if ($file_write) {
-        // open result in window
-        echo '<script type="text/javascript">top.openHTMLpop(\''.SENAYAN_WEB_ROOT_DIR.FILES_DIR.'/'.$print_file_name.'\', 800, 500, \''.__('Barcode Generator').'\')</script>';
-    } else { utility::jsAlert('ERROR! Barcodes failed to generate, possibly because '.SENAYAN_BASE_DIR.FILES_DIR.' directory is not writable'); }
+      // open result in window
+      echo '<script type="text/javascript">top.$.colorbox({href: "'.SWB.FLS.'/'.$print_file_name.'", iframe: true, width: 800, height: 500, title:"'.__('Barcode Generator').'"})</script>';
+    } else { utility::jsAlert('ERROR! Barcodes failed to generate, possibly because '.SB.FLS.' directory is not writable'); }
     exit();
 }
 
@@ -105,12 +108,12 @@ if (isset($_POST['saveData']) AND $can_write) {
   if (count($_POST['barcode']) > 0) {
     $size = intval($_POST['size']);
     // create AJAX request
-    echo '<script type="text/javascript" src="'.JS_WEB_ROOT_DIR.'jquery.js"></script>';
+    echo '<script type="text/javascript" src="'.JWB.'jquery.js"></script>';
     echo '<script type="text/javascript">';
     foreach ($_POST['barcode'] as $barcode_text) {
       if (!empty($barcode_text)) {
         $barcode_text = trim($barcode_text);
-        echo '$.ajax({url: \''.SENAYAN_WEB_ROOT_DIR.'lib/phpbarcode/barcode.php?code='.$barcode_text.'&encoding='.$sysconf['barcode_encoding'].'&scale='.$size.'&mode=png\', type: \'GET\', error: function() { alert(\''.__('Error creating barcode!').'\'); } });'."\n";
+        echo '$.ajax({url: \''.SWB.'lib/phpbarcode/barcode.php?code='.$barcode_text.'&encoding='.$sysconf['barcode_encoding'].'&scale='.$size.'&mode=png\', type: \'GET\', error: function() { alert(\''.__('Error creating barcode!').'\'); } });'."\n";
         // add to sessions
         $_SESSION['barcodes'][] = $barcode_text;
       }

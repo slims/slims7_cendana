@@ -26,18 +26,18 @@ define('INDEX_AUTH', '1');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-system');
 
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('system', 'r');
@@ -168,13 +168,13 @@ if (!$changecurrent) {
 	    <h2><?php echo __('System Users'); ?></h2>
   </div>
 	<div class="sub_section">
-	  <div class="action_button">
-      <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>/system/app_user.php" class="headerText2"><?php echo __('User List'); ?></a>
-      <a href="<?php echo MODULES_WEB_ROOT_DIR; ?>system/app_user.php?action=detail" class="headerText2"><?php echo __('Add New User'); ?></a>
+	  <div class="btn-group">
+      <a href="<?php echo MWB; ?>/system/app_user.php" class="btn btn-default"><i class="glyphicon glyphicon-user"></i>&nbsp;<?php echo __('User List'); ?></a>
+      <a href="<?php echo MWB; ?>system/app_user.php?action=detail" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Add New User'); ?></a>
 	  </div>
-    <form name="search" action="<?php echo MODULES_WEB_ROOT_DIR; ?>system/app_user.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
+    <form name="search" action="<?php echo MWB; ?>system/app_user.php" id="search" method="get" style="display: inline;"><?php echo __('Search'); ?> :
     <input type="text" name="keywords" size="30" />
-    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
+    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="btn btn-default" />
     </form>
   </div>
 </div>
@@ -199,7 +199,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
 
     // create new instance
     $form = new simbio_form_table_AJAX('mainForm', $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'], 'post');
-    $form->submit_button_attr = 'name="saveData" value="'.__('Save').'" class="button"';
+    $form->submit_button_attr = 'name="saveData" value="'.__('Save').'" class="btn btn-default"';
 
     // form table attributes
     $form->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
@@ -220,7 +220,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         // form record title
         $form->record_title = $rec_d['realname'];
         // submit button attribute
-        $form->submit_button_attr = 'name="saveData" value="'.__('Update').'" class="button"';
+        $form->submit_button_attr = 'name="saveData" value="'.__('Update').'" class="btn btn-default"';
     }
 
     /* Form Element(s) */

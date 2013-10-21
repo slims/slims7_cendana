@@ -24,7 +24,7 @@
 // be sure that this file not accessed directly
 if (!defined('INDEX_AUTH')) {
     die("can not access this file directly");
-} elseif (INDEX_AUTH != 1) { 
+} elseif (INDEX_AUTH != 1) {
     die("can not access this file directly");
 }
 
@@ -110,7 +110,7 @@ class simbio_form_table extends simbio_form_maker
             $_edit_link .= '<a href="#" class="editFormLink notAJAX">EDIT</a>';
             // delete button exists if the record_id exists
             if ($this->record_id && $this->delete_button) {
-                $_delete_button = '<input type="button" value="'.$_del_value.'" class="button" onclick="confSubmit(\'deleteForm\', \'Are you sure to delete '.addslashes($this->record_title).'?\nOnce Deleted it cant be restored again\')" style="color: red; font-weight: bold;" />';
+                $_delete_button = '<input type="button" value="'.$_del_value.'" class="button btn btn-danger btn-delete" onclick="confSubmit(\'deleteForm\', \'Are you sure to delete '.addslashes($this->record_title).'?\nOnce Deleted it cant be restored again\')" style="color: red; font-weight: bold;" />';
             }
             // back button
             if ($this->back_button) {
@@ -152,4 +152,3 @@ class simbio_form_table extends simbio_form_maker
         return $_buffer;
     }
 }
-?>

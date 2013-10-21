@@ -89,7 +89,7 @@ class detail extends content_list
     public function showDetail()
     {
         if ($this->error) {
-            return '<div style="padding: 5px; margin: 3px; border: 1px dotted #FF0000; color: #FF0000;">Error Fetching data for record detail. Server return error message: '.$this->error.'</div>';
+            return '<div class="error">Error Fetching data for record detail. Server return error message: '.$this->error.'</div>';
         } else {
             if ($this->output_format == 'html' AND !empty($this->list_template)) {
                 return parent::parseListTemplate($this->htmlOutput());
@@ -195,7 +195,7 @@ class detail extends content_list
         // availability
         $this->record_detail['availability'] = '<div id="itemListLoad">LOADING LIST...</div>';
         $this->record_detail['availability'] .= '<script type="text/javascript">'
-            .'jQuery(document).ready(function() { jQuery.ajax({url: \''.SENAYAN_WEB_ROOT_DIR.'lib/contents/item_list.php\',
+            .'jQuery(document).ready(function() { jQuery.ajax({url: \''.SWB.'lib/contents/item_list.php\',
                 type: \'POST\',
                 data: \'id='.$this->detail_id.'&ajaxsec_user='.$sysconf['ajaxsec_user'].'&ajaxsec_passwd='.$sysconf['ajaxsec_passwd'].'\',
                 success: function(ajaxRespond) { jQuery(\'#itemListLoad\').html(ajaxRespond); } }); });</script>';
@@ -203,7 +203,7 @@ class detail extends content_list
         // attachments
         $this->record_detail['file_att'] = '<div id="attachListLoad">LOADING LIST...</div>';
         $this->record_detail['file_att'] .= '<script type="text/javascript">'
-            .'jQuery(document).ready(function() { jQuery.ajax({url: \''.SENAYAN_WEB_ROOT_DIR.'lib/contents/attachment_list.php\',
+            .'jQuery(document).ready(function() { jQuery.ajax({url: \''.SWB.'lib/contents/attachment_list.php\',
                 type: \'POST\',
                 data: \'id='.$this->detail_id.'&ajaxsec_user='.$sysconf['ajaxsec_user'].'&ajaxsec_passwd='.$sysconf['ajaxsec_passwd'].'\',
                 success: function(ajaxRespond) { jQuery(\'#attachListLoad\').html(ajaxRespond); } }); });</script>';
@@ -477,7 +477,7 @@ class detail extends content_list
         $_xml_output .= '<dc:subject>'.$this->record_detail['classification'].'</dc:subject>';
 
         // Permalink
-        $_xml_output .= '<dc:identifier><![CDATA[http://'.$_SERVER['SERVER_NAME'].SENAYAN_WEB_ROOT_DIR.'index.php?p=show_detail&id='.$this->detail_id.']]></dc:identifier>';        
+        $_xml_output .= '<dc:identifier><![CDATA[http://'.$_SERVER['SERVER_NAME'].SWB.'index.php?p=show_detail&id='.$this->detail_id.']]></dc:identifier>';
 
         // ISBN/ISSN
         $_xml_output .= '<dc:identifier>'.str_replace(array('-', ' '), '', $this->record_detail['isbn_issn']).'</dc:identifier>';

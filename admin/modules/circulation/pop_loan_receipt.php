@@ -29,13 +29,13 @@ if (!defined('INDEX_AUTH')) {
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-circulation');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
-require SENAYAN_BASE_DIR.'admin/admin_template/printed_settings.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
+require SB.'admin/admin_template/printed_settings.inc.php';
 
 // page title
 $page_title = 'Loan Receipt';
@@ -177,4 +177,4 @@ table td {
 /* main content end */
 $content = ob_get_clean();
 // include the page template
-require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
+require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';

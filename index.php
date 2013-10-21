@@ -27,14 +27,14 @@ define('INDEX_AUTH', '1');
 // required file
 require 'sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('opac');
 // member session params
-require LIB_DIR.'member_session.inc.php';
+require LIB.'member_session.inc.php';
 // start session
 session_start();
 if ($sysconf['template']['base'] == 'html') {
-    require SIMBIO_BASE_DIR.'simbio_GUI/template_parser/simbio_template_parser.inc.php';
+  require SIMBIO.'simbio_GUI/template_parser/simbio_template_parser.inc.php';
 }
 
 // page title
@@ -47,29 +47,32 @@ $total_pages = 1;
 $header_info = '';
 // HTML metadata
 $metadata = '';
+// searched words for javascript highlight
+$searched_words_js_array = '';
+
 // member login information
 if (utility::isMemberLogin()) {
-    $header_info .= '<div id="memberLoginInfo">'.__('You are currently Logged on as member').': <strong>'.$_SESSION['m_name'].' (<em>'.$_SESSION['m_email'].'</em>)</strong> <a id="memberLogout" href="index.php?p=member&logout=1">'.__('LOGOUT').'</a></div>';
+  $header_info .= '<div id="memberLoginInfo">'.__('You are currently Logged on as member').': <strong>'.$_SESSION['m_name'].' (<em>'.$_SESSION['m_email'].'</em>)</strong> <a id="memberLogout" href="index.php?p=member&logout=1">'.__('LOGOUT').'</a></div>';
 }
 
 // start the output buffering for main content
 ob_start();
-require LIB_DIR.'contents/common.inc.php';
+require LIB.'contents/common.inc.php';
 if (isset($_GET['p'])) {
     $path = utility::filterData('p', 'get', false, true, true);
     // some extra checking
     $path = preg_replace('@^(http|https|ftp|sftp|file|smb):@i', '', $path);
     $path = preg_replace('@\/@i','',$path);
     // check if the file exists
-    if (file_exists(LIB_DIR.'contents/'.$path.'.inc.php')) {
-        include LIB_DIR.'contents/'.$path.'.inc.php';
+    if (file_exists(LIB.'contents/'.$path.'.inc.php')) {
+        include LIB.'contents/'.$path.'.inc.php';
         if ($path != 'show_detail') {
-            $metadata = '<meta name="robots" content="noindex, follow">';
+          $metadata = '<meta name="robots" content="noindex, follow">';
         }
     } else {
         // get content data from database
         $metadata = '<meta name="robots" content="index, follow">';
-        include LIB_DIR.'content.inc.php';
+        include LIB.'content.inc.php';
         $content = new content();
         $content_data = $content->get($dbs, $path);
         if ($content_data) {
@@ -77,7 +80,7 @@ if (isset($_GET['p'])) {
           echo $content_data['Content'];
           unset($content_data);
         } else {
-            header ("location:index.php");
+          header ("location:index.php");
         }
     }
 } else {
@@ -86,7 +89,7 @@ if (isset($_GET['p'])) {
     if (!isset($_GET['p'])) {
         if ((!isset($_GET['keywords'])) AND (!isset($_GET['page'])) AND (!isset($_GET['title'])) AND (!isset($_GET['author'])) AND (!isset($_GET['subject'])) AND (!isset($_GET['location']))) {
             // get content data from database
-            include LIB_DIR.'content.inc.php';
+            include LIB.'content.inc.php';
             $content = new content();
             $content_data = $content->get($dbs, 'headerinfo');
             if ($content_data) {
@@ -95,7 +98,7 @@ if (isset($_GET['p'])) {
             }
         }
     }
-    include LIB_DIR.'contents/default.inc.php';
+    include LIB.'contents/default.inc.php';
 }
 // main content grab
 $main_content = ob_get_clean();

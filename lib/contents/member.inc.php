@@ -32,7 +32,7 @@ if (!defined('INDEX_AUTH')) {
 do_checkIP('opac');
 do_checkIP('opac-member');
 // required file
-require LIB_DIR.'member_logon.inc.php';
+require LIB.'member_logon.inc.php';
 // check if member already logged in
 $is_member_login = utility::isMemberLogin();
 
@@ -48,7 +48,7 @@ if (isset($_GET['logout']) && $_GET['logout'] == '1') {
     // write log
     utility::writeLogs($dbs, 'member', $_SESSION['email'], 'Login', $_SESSION['member_name'].' Log Out from address '.$_SERVER['REMOTE_ADDR']);
     // completely destroy session cookie
-    simbio_security::destroySessionCookie(null, SENAYAN_MEMBER_SESSION_COOKIES_NAME, SENAYAN_WEB_ROOT_DIR, false);
+    simbio_security::destroySessionCookie(null, MEMBER_COOKIES_NAME, SWB, false);
     header('Location: index.php?p=member');
     header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
     header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
@@ -67,7 +67,7 @@ if (isset($_POST['logMeIn']) && !$is_member_login) {
         # <!-- Captcha form processing - start -->
         if ($sysconf['captcha']['member']['enable']) {
             if ($sysconf['captcha']['member']['type'] == 'recaptcha') {
-                require_once LIB_DIR.$sysconf['captcha']['member']['folder'].'/'.$sysconf['captcha']['member']['incfile'];
+                require_once LIB.$sysconf['captcha']['member']['folder'].'/'.$sysconf['captcha']['member']['incfile'];
                 $privatekey = $sysconf['captcha']['member']['privatekey'];
                 $resp = recaptcha_check_answer ($privatekey,
                     $_SERVER["REMOTE_ADDR"],
@@ -90,8 +90,8 @@ if (isset($_POST['logMeIn']) && !$is_member_login) {
         session_regenerate_id(true);
         // create logon class instance
         $logon = new member_logon($username, $password, $sysconf['auth']['member']['method']);
-        if ($sysconf['auth']['member']['method'] == 'ldap') {
-            $ldap_configs = $sysconf['auth']['member'];
+        if ($sysconf['auth']['member']['method'] === 'LDAP') {
+          $ldap_configs = $sysconf['auth']['member'];
         }
         if ($logon->valid($dbs)) {
             // write log
@@ -103,7 +103,7 @@ if (isset($_POST['logMeIn']) && !$is_member_login) {
             utility::writeLogs($dbs, 'member', $username, 'Login', 'Login FAILED for member '.$username.' from address '.$_SERVER['REMOTE_ADDR']);
             // message
             $msg = '<div class="errorBox">'.__('Login FAILED! Wrong username or password!').'</div>';
-            simbio_security::destroySessionCookie($msg, SENAYAN_MEMBER_SESSION_COOKIES_NAME, SENAYAN_WEB_ROOT_DIR, false);
+            simbio_security::destroySessionCookie($msg, MEMBER_COOKIES_NAME, SWB, false);
         }
     }
 }
@@ -156,7 +156,7 @@ if (!$is_member_login) {
       <?php if ($sysconf['captcha']['member']['type'] == "recaptcha") { ?>
       <div class="captchaMember">
       <?php
-        require_once LIB_DIR.$sysconf['captcha']['member']['folder'].'/'.$sysconf['captcha']['member']['incfile'];
+        require_once LIB.$sysconf['captcha']['member']['folder'].'/'.$sysconf['captcha']['member']['incfile'];
         $publickey = $sysconf['captcha']['member']['publickey'];
         echo recaptcha_get_html($publickey);
       ?>
@@ -167,7 +167,7 @@ if (!$is_member_login) {
 
       }
       #debugging
-      #echo SENAYAN_WEB_ROOT_DIR.'lib/'.$sysconf['captcha']['folder'].'/'.$sysconf['captcha']['webfile'];
+      #echo SWB.'lib/'.$sysconf['captcha']['folder'].'/'.$sysconf['captcha']['webfile'];
     } ?>
     </div>
     <!-- Captcha in form - end -->
@@ -266,13 +266,13 @@ if (!$is_member_login) {
         }
 
         global $dbs, $sysconf;
-        require LIB_DIR.'phpmailer/class.phpmailer.php';
+        require LIB.'phpmailer/class.phpmailer.php';
 
         $_mail = new PHPMailer(false);
         $_mail->IsSMTP();
 
         // get message template
-        $_msg_tpl = @file_get_contents(SENAYAN_BASE_DIR.'template/reserve-mail-tpl.html');
+        $_msg_tpl = @file_get_contents(SB.'template/reserve-mail-tpl.html');
 
         // date
         $_curr_date = date('Y-m-d H:i:s');
@@ -305,15 +305,15 @@ if (!$is_member_login) {
         $_mail->SetFrom($sysconf['mail']['from'], $sysconf['mail']['from_name']);
         $_mail->AddReplyTo($sysconf['mail']['reply_to'], $sysconf['mail']['reply_to_name']);
         // send carbon copy off reserve e-mail to member/requester
-		$_mail->AddCC($_SESSION['m_email'], $_SESSION['m_name']);
-		// send reservation e-mail to librarian
+        $_mail->AddCC($_SESSION['m_email'], $_SESSION['m_name']);
+        // send reservation e-mail to librarian
         $_mail->AddAddress($sysconf['mail']['from'], $sysconf['mail']['from_name']);
-		// additional recipient
-		if (isset($sysconf['mail']['add_recipients'])) {
-			foreach ($sysconf['mail']['add_recipients'] as $_recps) {
-				$_mail->AddAddress($_recps['from'], $_recps['from_name']);
-			}
-		}
+        // additional recipient
+        if (isset($sysconf['mail']['add_recipients'])) {
+          foreach ($sysconf['mail']['add_recipients'] as $_recps) {
+            $_mail->AddAddress($_recps['from'], $_recps['from_name']);
+          }
+        }
         $_mail->Subject = 'Reservation request from Member '.$_SESSION['m_name'].' ('.$_SESSION['m_email'].')';
         $_mail->AltBody = strip_tags($_message);
         $_mail->MsgHTML($_message);
@@ -447,10 +447,10 @@ if (!$is_member_login) {
     function showLoanList($num_recs_show = 20)
     {
         global $dbs;
-        require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-        require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-        require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-        require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_date.inc.php';
+        require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+        require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+        require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+        require SIMBIO.'simbio_UTILS/simbio_date.inc.php';
 
         // table spec
         $_table_spec = 'loan AS l
@@ -671,4 +671,3 @@ if (!$is_member_login) {
     </script>
     <?php
 }
-?>

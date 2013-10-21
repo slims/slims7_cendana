@@ -29,13 +29,13 @@ define('DB_ACCESS', 'fa');
 
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-circulation');
 
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
 
 // load settings from database
 utility::loadSettings($dbs);
@@ -63,7 +63,7 @@ if (!$sysconf['quick_return']) {
 	    <div class="action_button">
 		    <?php echo __('Insert an item ID to return collection with keyboard or barcode reader'); ?>
 	    </div>
-      <form class="notAJAX" action="<?php echo MODULES_WEB_ROOT_DIR; ?>circulation/ajax_action.php" target="circAction" method="post" style="display: inline;">
+      <form class="notAJAX" action="<?php echo MWB; ?>circulation/ajax_action.php" target="circAction" method="post" style="display: inline;">
       <?php echo __('Item ID'); ?> :
       <input type="text" name="quickReturnID" id="quickReturnID" size="30" />
       <input type="submit" value="<?php echo __('Return'); ?>" class="button" />

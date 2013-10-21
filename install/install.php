@@ -39,7 +39,6 @@ require 'settings.php';
     <form method="post" action="install2.php">
         <input type="hidden" name="submit" value="step2" />
         <table class=text width="100%" border="0" cellspacing="0" cellpadding="2" class="main_text">
-        <tr>
             <tr>
                 <td>&nbsp;Database Host</td>
                 <td>
@@ -61,7 +60,7 @@ require 'settings.php';
             <tr>
                 <td>&nbsp;Database Password</td>
                 <td>
-                    <input type="text" class="form_text" name="database_password" size="30" value="">
+                    <input type="password" class="form_text" name="database_password" size="30" value="">
                 </td>
             </tr>
             <tr>
@@ -70,13 +69,36 @@ require 'settings.php';
 				    <input type="radio" name="install_sample" value="yes" /> Yes
 				    <input type="radio" name="install_sample" value="no" checked="checked" /> No
 				</td>
-        </tr>
+            </tr>
         </table>
-			<br/>
-			<div class="toright">
-				<input type="button" class="button" name="btn_cancel" value="Cancel" onclick="document.location.href='index.php'">
-        <input type="submit" class="button" name="btn_submit" value="Continue">
-			</div>
+    </div>
+    <p class="message">Please complete following form with user login and password (Optional)</p>
+    <div class="content hastable">
+        <table class=text width="100%" border="0" cellspacing="0" cellpadding="2" class="main_text">
+            <tr>
+                <td>&nbsp;Username</td>
+                <td>
+                    <input type="text" class="form_text" name="username" size="30" value="admin">&nbsp; <em>default : admin</em>
+                </td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td>
+                    <input type="password" class="form_text" name="password" size="30" value="">&nbsp; <em>default : admin</em>
+                </td>
+            </tr>
+            <tr>
+                <td>Retype Password</td>
+                <td>
+                    <input type="password" class="form_text" name="retype_password" size="30" value="">
+                </td>
+            </tr>
+        </table>
+		<br/>
+		<div class="toright">
+			<input type="button" class="button" name="btn_cancel" value="Cancel" onclick="document.location.href='index.php'">
+            <input type="submit" class="button" name="btn_submit" value="Continue">
+		</div>
     </form>
 	</div>
 	<?php include_once("footer.php"); ?>

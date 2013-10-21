@@ -89,5 +89,3 @@ function barcode_encode_ean($ean, $encoding = "EAN-13")
 		"text" => $text
 		);
 }
-
-?>

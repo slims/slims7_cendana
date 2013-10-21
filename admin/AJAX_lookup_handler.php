@@ -29,8 +29,8 @@ define('INDEX_AUTH', '1');
 
 require_once '../sysconfig.inc.php';
 // session checking
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
 
 // list limit
 $limit = 20;
@@ -39,9 +39,9 @@ $table_name = $dbs->escape_string(trim($_POST['tableName']));
 $table_fields = trim($_POST['tableFields']);
 
 if (isset($_POST['keywords']) AND !empty($_POST['keywords'])) {
-    $keywords = $dbs->escape_string(urldecode(trim($_POST['keywords'])));
+  $keywords = $dbs->escape_string(urldecode(ltrim($_POST['keywords'])));
 } else {
-    $keywords = '';
+  $keywords = '';
 }
 
 // explode table fields data
@@ -58,25 +58,40 @@ $sql_string = "SELECT $fields ";
 
 // append table name
 $sql_string .= " FROM $table_name ";
-if ($criteria) {
-    $sql_string .= " WHERE $criteria LIMIT $limit";
-}
+if ($criteria) { $sql_string .= " WHERE $criteria LIMIT $limit"; }
 
 // send query to database
 $query = $dbs->query($sql_string);
 $error = $dbs->error;
-if ($error) {
-    die('<option value="0">SQL ERROR : '.$error.'</option>');
-}
+$data = array();
 
-if ($query->num_rows > 0) {
-    while ($row = $query->fetch_row()) {
-        echo '<option value="'.$row[0].'">'.$row[1].(isset($row[2])?' - '.$row[2]:'').(isset($row[3])?' - '.$row[3]:'').'</option>'."\n";
-    }
-    echo '<option value="0">NONE</option>'."\n";
+if (isset($_GET['format'])) {
+  if ($_GET['format'] == 'json') {
+	  if ($error) { echo json_encode(array('id' => 0, 'text' => $error)); }
+	  if ($query->num_rows > 0) {
+	    while ($row = $query->fetch_row()) {
+	  	$data[] = array('id' => $row[0], 'text' => $row[1].(isset($row[2])?' - '.$row[2]:'').(isset($row[3])?' - '.$row[3]:''));
+	    }
+	  } else {
+		  if (isset($_GET['allowNew'])) {
+			  $data[] = array('id' => 'NEW:'.$keywords, 'text' => $keywords.' &lt;'.__('Add New').'&gt;');
+			} else {
+		    $data[] = array('id' => 'NONE', 'text' => 'NO DATA FOUND');
+			}
+	  }
+	  echo json_encode($data);
+  }
+	exit();
 } else {
-    // output the SQL string
-    // echo '<option value="0">'.$sql_string.'</option>';
-    echo '<option value="0">NO DATA FOUND</option>';
+	if ($error) { echo '<option value="0">'.$error.'</option>'; }
+	if ($query->num_rows < 1) {
+	  // output the SQL string
+	  // echo '<option value="0">'.$sql_string.'</option>';
+	  echo '<option value="0">NO DATA FOUND</option>'."\n";
+	} else {
+	  while ($row = $query->fetch_row()) {
+	  	echo '<option value="'.$row[0].'">'.$row[1].(isset($row[2])?' - '.$row[2]:'').(isset($row[3])?' - '.$row[3]:'').'</option>'."\n";
+	  }
+	}
+	exit();
 }
-?>

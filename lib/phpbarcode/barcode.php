@@ -38,7 +38,7 @@
 
 define('INDEX_AUTH', '1');
 
-if (!defined('SENAYAN_BASE_DIR')) {
+if (!defined('SB')) {
     require '../../sysconfig.inc.php';
 }
 
@@ -74,7 +74,7 @@ function checkref($mode = 'module')
 		list($dest_host, $dest_dir, $dest_file) = scinfo();
 		$dest_path = $_SERVER['SCRIPT_NAME'];
 		$dest_ip = gethostbyname($dest_host);
-		$dest_dir = explode('/', SENAYAN_WEB_ROOT_DIR);
+		$dest_dir = explode('/', SWB);
 		unset($dest_dir[count($dest_dir)-3]);
 		unset($dest_dir[count($dest_dir)-2]);
 		unset($dest_dir[count($dest_dir)-1]);
@@ -112,7 +112,7 @@ function checkref($mode = 'module')
 		return;
 }
 
-checkref('admin');
+// checkref('admin');
 $get = (object) $_GET;
 $allowed_scale = array(1, 2, 3, 4, 5, 6);
 if ( ! isset($get->scale) OR (isset($get->scale) AND ! in_array($get->scale, $allowed_scale)))
@@ -130,8 +130,8 @@ $mode = isset($get->mode) ? trim($get->mode) : 'png';
 // output the barcode
 if ($sysconf['zend_barcode_engine'] === true) {
     // include Zend_Barcode library
-    ini_set('include_path', LIB_DIR);
-    require_once LIB_DIR . 'Zend/Barcode.php';
+    ini_set('include_path', LIB);
+    require_once LIB . 'Zend/Barcode.php';
     
     $act = isset($get->act) ? trim($get->act) : 'save';
     $output = isset($get->output) ? trim($get->output) : 'image';
@@ -171,5 +171,3 @@ if ($sysconf['zend_barcode_engine'] === true) {
     require "php-barcode.php";
     barcode_print($code, $encoding, $scale, $mode);
 }
-
-?>

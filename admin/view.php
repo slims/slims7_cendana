@@ -24,8 +24,8 @@ define('INDEX_AUTH', '1');
 /* File Viewer */
 
 require '../sysconfig.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('bibliography', 'r');
@@ -41,7 +41,7 @@ $file_q = $dbs->query('SELECT * FROM files WHERE file_id='.$fileID);
 $file_d = $file_q->fetch_assoc();
 
 if ($file_q->num_rows > 0) {
-    $file_loc = REPO_BASE_DIR.str_ireplace('/', DIRECTORY_SEPARATOR, $file_d['file_dir']).DIRECTORY_SEPARATOR.$file_d['file_name'];
+    $file_loc = REPOBS.str_ireplace('/', DS, $file_d['file_dir']).DS.$file_d['file_name'];
     if (file_exists($file_loc)) {
         header('Content-Disposition: inline; filename="'.basename($file_loc).'"');
         header('Content-Type: '.$file_d['mime_type']);
@@ -55,6 +55,5 @@ if ($file_q->num_rows > 0) {
         die('<div class="errorBox">File Metadata exists in database BUT '.$file_loc.' does\'t exists in repository!</div>');
     }
 } else {
-    die('<div class="errorBox">File Not Found!</div>');
+  die('<div class="errorBox">File Not Found!</div>');
 }
-?>

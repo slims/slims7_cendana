@@ -28,13 +28,13 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 
 // page title
 $page_title = 'Authority List';
@@ -98,8 +98,7 @@ if ($biblioID) {
     $row_class = ($row%2 == 0)?'alterCell':'alterCell2';
 
     // remove link
-    $remove_link = '<a href="#" onclick="confirmProcess('.$biblioID.', '.$biblio_author_d['author_id'].')"
-        style="color: #FF0000; text-decoration: underline;">Delete</a>';
+    $remove_link = '<a href="#" class="notAJAX btn button btn-danger btn-delete" onclick="confirmProcess('.$biblioID.', '.$biblio_author_d['author_id'].')">Delete</a>';
     $author = $biblio_author_d['author_name'];
     $author_year = $biblio_author_d['author_year'];
     $authority_type = $sysconf['authority_type'][$biblio_author_d['authority_type']];
@@ -125,8 +124,7 @@ if ($biblioID) {
     $row_class = 'alterCell2';
     foreach ($_SESSION['biblioAuthor'] as $biblio_session) {
       // remove link
-      $remove_link = '<a href="iframe_author.php?removesess='.$biblio_session[0].'"
-          style="color: #000000; text-decoration: underline;">Remove</a>';
+      $remove_link = '<a class="notAJAX btn button btn-danger btn-delete" href="iframe_author.php?removesess='.$biblio_session[0].'">Remove</a>';
 
       if ($biblio_session) {
           $author_q = $dbs->query("SELECT author_name, author_year, authority_type FROM mst_author
@@ -152,4 +150,4 @@ if ($biblioID) {
 /* main content end */
 $content = ob_get_clean();
 // include the page template
-require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
+require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';

@@ -32,7 +32,7 @@ if (basename($_SERVER['PHP_SELF']) == basename(__FILE__)) {
 <fieldset class="menuBox adminHome">
 <div class="menuBoxInner">
 	<div class="per_title">
-    	<h2><?php echo $sysconf['library_name']; ?><div><?php echo $sysconf['library_subname']; ?></div></h2>
+    	<h2><?php echo __('Library Administration'); ?></h2>
 	</div>
 </div>
 </fieldset>
@@ -57,15 +57,15 @@ if ($num_overdue > 0) {
     $overdue_q->free_result();
 }
 // check if images dir is writable or not
-if (!is_writable(IMAGES_BASE_DIR) OR !is_writable(IMAGES_BASE_DIR.'barcodes') OR !is_writable(IMAGES_BASE_DIR.'persons') OR !is_writable(IMAGES_BASE_DIR.'docs')) {
+if (!is_writable(IMGBS) OR !is_writable(IMGBS.'barcodes') OR !is_writable(IMGBS.'persons') OR !is_writable(IMGBS.'docs')) {
     $warnings[] = __('<strong>Images</strong> directory and directories under it is not writable. Make sure it is writable by changing its permission or you won\'t be able to upload any images and create barcodes');
 }
 // check if file repository dir is writable or not
-if (!is_writable(REPO_BASE_DIR)) {
+if (!is_writable(REPOBS)) {
     $warnings[] = __('<strong>Repository</strong> directory is not writable. Make sure it is writable (and all directories under it) by changing its permission or you won\'t be able to upload any bibliographic attachments.');
 }
 // check if file upload dir is writable or not
-if (!is_writable(FILES_UPLOAD_DIR)) {
+if (!is_writable(UPLOAD)) {
     $warnings[] = __('<strong>File upload</strong> directory is not writable. Make sure it is writable (and all directories under it) by changing its permission or you won\'t be able to upload any file, create report files and create database backups.');
 }
 // check mysqldump
@@ -116,7 +116,7 @@ if ($warnings) {
 }
 
 // admin page content
-require LIB_DIR.'content.inc.php';
+require LIB.'content.inc.php';
 $content = new content();
 $content_data = $content->get($dbs, 'adminhome');
 if ($content_data) {

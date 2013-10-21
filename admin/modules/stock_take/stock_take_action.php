@@ -28,11 +28,11 @@ define('DB_ACCESS', 'fa');
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-stocktake');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
+require SB.'admin/default/session.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('stock_take', 'r');
@@ -44,6 +44,7 @@ if (!($can_read AND $can_write)) {
 
 // if transaction is started
 if (isset($_POST['itemCode'])) {
+    echo '<!DOCTYPE html>';
     echo '<html><body>';
     // update item data
     $item_code = $dbs->escape_string(trim($_POST['itemCode']));
@@ -84,7 +85,7 @@ if (isset($_POST['itemCode'])) {
             $update = $dbs->query("UPDATE stock_take_item SET status='e', checked_by='".$_SESSION['realname']."', last_update='".$curr_time."' WHERE item_code='$item_code'");
             $update = $dbs->query("UPDATE stock_take SET total_item_lost=total_item_lost-1 WHERE is_active=1");
             echo '<script type="text/javascript">'."\n";
-            echo 'parent.$(\'#mainContent\').simbioAJAX(\''.MODULES_WEB_ROOT_DIR.'stock_take/current.php?listShow='.$listShow.'\');'."\n";
+            echo 'parent.$(\'#mainContent\').simbioAJAX(\''.MWB.'stock_take/current.php?listShow='.$listShow.'\');'."\n";
             echo '</script>';
         }
     } else {

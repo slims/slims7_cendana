@@ -29,22 +29,22 @@ if (!defined('INDEX_AUTH')) {
 // main system configuration
 require '../../../sysconfig.inc.php';
 // IP based access limitation
-require LIB_DIR.'ip_based_access.inc.php';
+require LIB.'ip_based_access.inc.php';
 do_checkIP('smc');
 do_checkIP('smc-circulation');
 // start the session
-require SENAYAN_BASE_DIR.'admin/default/session.inc.php';
-require SENAYAN_BASE_DIR.'admin/default/session_check.inc.php';
+require SB.'admin/default/session.inc.php';
+require SB.'admin/default/session_check.inc.php';
 
 if (!isset($_SESSION['memberID'])) { die(); }
 
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-require SIMBIO_BASE_DIR.'simbio_UTILS/simbio_date.inc.php';
-require MODULES_BASE_DIR.'membership/member_base_lib.inc.php';
-require MODULES_BASE_DIR.'circulation/circulation_base_lib.inc.php';
+require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
+require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+require SIMBIO.'simbio_UTILS/simbio_date.inc.php';
+require MDLBS.'membership/member_base_lib.inc.php';
+require MDLBS.'circulation/circulation_base_lib.inc.php';
 
 // page title
 $page_title = 'Member Loan List';
@@ -77,15 +77,18 @@ function confirmProcess(intLoanID, strItemCode, strProcess)
 if (isset($_SESSION['memberID'])) {
     $memberID = trim($_SESSION['memberID']);
     $circulation = new circulation($dbs, $memberID);
-    $loan_list_query = $dbs->query(sprintf("SELECT L.loan_id, b.title, c.coll_type_name,
-        i.item_code, L.loan_date, L.due_date, L.return_date, L.renewed
+    $loan_list_query = $dbs->query(sprintf("SELECT L.loan_id, b.title, ct.coll_type_name,
+        i.item_code, L.loan_date, L.due_date, L.return_date, L.renewed,
+        IF(lr.reborrow_limit IS NULL, IF(L.renewed>=mt.reborrow_limit, 1, 0), IF(L.renewed>=lr.reborrow_limit, 1, 0)) AS extend
         FROM loan AS L
         LEFT JOIN item AS i ON L.item_code=i.item_code
         LEFT JOIN mst_coll_type AS ct ON i.coll_type_id=ct.coll_type_id
         LEFT JOIN member AS m ON L.member_id=m.member_id
+        LEFT JOIN mst_member_type AS mt ON m.member_type_id=mt.member_type_id
+        LEFT JOIN mst_loan_rules AS lr ON mt.member_type_id=lr.member_type_id AND i.coll_type_id = lr.coll_type_id
         LEFT JOIN biblio AS b ON i.biblio_id=b.biblio_id
-        LEFT JOIN mst_coll_type AS c ON i.coll_type_id=c.coll_type_id
-        WHERE L.is_lent=1 AND L.is_return=0 AND L.member_id='%s'", $memberID));
+        WHERE L.is_lent=1 AND L.is_return=0 AND L.member_id='%s'
+        GROUP BY ct.coll_type_id", $memberID)); // query modified by Indra Sutriadi
 
     // create table object
     $loan_list = new simbio_table();
@@ -115,9 +118,7 @@ if (isset($_SESSION['memberID'])) {
             $extend_link = '<span class="noExtendLink" title="'.__('No Extend').'">&nbsp;</span>';
         } else {
             // check if this loan just already renewed
-            if ($loan_list_data['return_date'] == date('Y-m-d')) {
-                $extend_link = '<span class="noExtendLink" title="'.__('No Extend').'">&nbsp;</span>';
-            } else if (in_array($loan_list_data['loan_id'], $_SESSION['reborrowed'])) {
+            if ($loan_list_data['return_date'] == date('Y-m-d') || in_array($loan_list_data['loan_id'], $_SESSION['reborrowed']) || $loan_list_data['extend'] == 1) {
                 $extend_link = '<span class="noExtendLink" title="'.__('No Extend').'">&nbsp;</span>';
             } else {
                 $extend_link = '<a href="#" onclick="confirmProcess('.$loan_list_data['loan_id'].', \''.$loan_list_data['item_code'].'\', \'extend\')" title="'.__('Extend loan for this item').'" class="extendLink">&nbsp;</a>';
@@ -174,7 +175,7 @@ if (isset($_SESSION['memberID'])) {
 
     // create e-mail lin if there is overdue
     if ($is_overdue) {
-        echo '<div style="padding: 5px; background: #ccc;"><div id="emailStatus"></div><a class="sendEmail usingAJAX" href="'.MODULES_WEB_ROOT_DIR.'membership/overdue_mail.php'.'" postdata="memberID='.$memberID.'" loadcontainer="emailStatus">'.__('Send overdues notice e-mail').'</a></div>'."\n";
+        echo '<div style="padding: 5px; background: #ccc;"><div id="emailStatus"></div><a class="sendEmail usingAJAX" href="'.MWB.'membership/overdue_mail.php'.'" postdata="memberID='.$memberID.'" loadcontainer="emailStatus">'.__('Send overdues notice e-mail').'</a></div>'."\n";
     }
     echo $loan_list->printTable();
     // hidden form for return and extend process
@@ -206,4 +207,4 @@ $(document).ready(function() {
 // get the buffered content
 $content = ob_get_clean();
 // include the page template
-require SENAYAN_BASE_DIR.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';
+require SB.'/admin/'.$sysconf['admin_template']['dir'].'/notemplate_page_tpl.php';

@@ -65,7 +65,7 @@ class simbio_datagrid extends simbio_table
     public $select_flag = '';
     public $chbox_property;
     public $edit_property;
-    public $chbox_action_button = false;
+    public $chbox_btn = false;
     public $chbox_confirm_msg = false;
     public $current_page = 1;
     public $query_time = 1;
@@ -105,8 +105,8 @@ class simbio_datagrid extends simbio_table
             $this->chbox_confirm_msg = __('Are You Sure Want to DELETE Selected Data?');
         }
 
-        if (!$this->chbox_action_button) {
-            $this->chbox_action_button = __('Delete Selected Data');
+        if (!$this->chbox_btn) {
+            $this->chbox_btn = __('Delete Selected Data');
         }
 
         $this->sql_table = $str_db_table;
@@ -376,9 +376,9 @@ class simbio_datagrid extends simbio_table
             $_button_grp = '<table cellspacing="0" cellpadding="5" class="datagrid-action-bar" style="width: 100%;"><tr>';
             // if checkbox is include then show button
             if ($this->chbox_property) {
-                $_button_grp .= '<td><input type="button" onclick="chboxFormSubmit(\''.$this->table_name.'\', \''.$this->chbox_confirm_msg.'\')" value="'.$this->chbox_action_button.'" class="button" /> '
-                    .'<input type="button" value="'.$_check_all.'" class="check-all button" /> '
-                    .'<input type="button" value="'.$_uncheck_all.'" class="uncheck-all button" /> '
+                $_button_grp .= '<td><input type="button" onclick="chboxFormSubmit(\''.$this->table_name.'\', \''.$this->chbox_confirm_msg.'\')" value="'.$this->chbox_btn.'" class="button btn btn-danger btn-delete" /> '
+                    .'<input type="button" value="'.$_check_all.'" class="check-all button btn btn-default" /> '
+                    .'<input type="button" value="'.$_uncheck_all.'" class="uncheck-all button btn btn-default" /> '
                     .'</td>';
             }
 

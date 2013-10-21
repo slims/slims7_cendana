@@ -43,61 +43,56 @@ jQuery.extend({
  */
 jQuery.fn.simbioAJAX = function(strURL, params)
 {
-    var options = {
-        method: 'get',
-        insertMode: 'replace',
-        addData: '',
-        returnType: 'html',
-        loadingMessage: 'LOADING CONTENT... PLEASE WAIT' };
-    jQuery.extend(options, params);
+  var options = {
+      method: 'get',
+      insertMode: 'replace',
+      addData: '',
+      returnType: 'html',
+      loadingMessage: 'LOADING CONTENT... PLEASE WAIT' };
+  jQuery.extend(options, params);
 
-    var ajaxContainer = $(this);
+  var ajaxContainer = $(this);
 
-    // callbacks set
-    if (ajaxContainer.find('#loader').length < 1) {
-        // create loading element dinamically
-        ajaxContainer.prepend('<div style="display: none; position: absolute: top: 0; left: 0; padding: 5px; background: #fc0; font-weight: bold;" id="loading"></div>');
-    }
-    var currLoaderMessage = $(".loader").html();
-    $(".loader").html(options.loadingMessage);
-    $(".loader").ajaxStart(function(){ $(this).addClass('loadingImage'); });
-    $(".loader").ajaxSuccess(function(){
-        $(this).html(currLoaderMessage);
-        // no history on post AJAX request
-        if (options.method != 'post') {
-            var historyURL = strURL;
-            if (options.addData.length > 0) {
-                var addParam = options.addData;
-                if (Array.prototype.isPrototypeOf(options.addData)) {
-                    addParam = jQuery.param(options.addData);
-                }
-                if (historyURL.indexOf('?', 0) > -1) {
-                    historyURL += '&' + addParam;
-                } else {
-                    historyURL += '?' + addParam;
-                }
-            }
-            jQuery.addAjaxHistory(historyURL, ajaxContainer[0]);
-        }
-    });
-    $(".loader").ajaxStop(function(){ $(this).removeClass('loadingImage'); });
-    $(".loader").ajaxError(function(event, request, settings){ $(this).html("<div class=\"error\">Error requesting page : <strong>" + settings.url + "</strong>" + request.responseText + "</div>");})
+  var currLoaderMessage = $(".loader").html();
+  $(".loader").html(options.loadingMessage);
+  $(".loader").ajaxStart(function(){ $(this).addClass('loadingImage'); });
+  $(".loader").ajaxSuccess(function(){
+      $(this).html(currLoaderMessage);
+      // no history on post AJAX request
+      if (options.method != 'post') {
+          var historyURL = strURL;
+          if (options.addData.length > 0) {
+              var addParam = options.addData;
+              if (Array.prototype.isPrototypeOf(options.addData)) {
+                  addParam = jQuery.param(options.addData);
+              }
+              if (historyURL.indexOf('?', 0) > -1) {
+                  historyURL += '&' + addParam;
+              } else {
+                  historyURL += '?' + addParam;
+              }
+          }
+          jQuery.addAjaxHistory(historyURL, ajaxContainer[0]);
+      }
+  });
+  $(".loader").ajaxStop(function(){ $(this).removeClass('loadingImage'); });
+  $(".loader").ajaxError(function(event, request, settings){ $(this).html("<div class=\"error\">Error requesting page : <strong>" + settings.url + "</strong>" + request.responseText + "</div>");})
 
-    // send AJAX request
-    var ajaxResponse = $.ajax({
-        type : options.method, url : strURL,
-        data : options.addData, async: false }).responseText;
+  // send AJAX request
+  var ajaxResponse = $.ajax({
+    type : options.method, url : strURL,
+    data : options.addData, async: false }).responseText;
 
-    // add to elements
-    if (options.insertMode == 'before') {
-        ajaxContainer.prepend(ajaxResponse);
-    } else if (options.insertMode == 'after') {
-        ajaxContainer.append(ajaxResponse);
-    } else { ajaxContainer.html(ajaxResponse).hide().fadeIn('fast'); }
+  // add to elements
+  if (options.insertMode == 'before') {
+      ajaxContainer.prepend(ajaxResponse);
+  } else if (options.insertMode == 'after') {
+      ajaxContainer.append(ajaxResponse);
+  } else { ajaxContainer.html(ajaxResponse).hide().fadeIn('fast'); }
 
-    ajaxContainer.trigger('simbioAJAXloaded');
+  ajaxContainer.trigger('simbioAJAXloaded');
 
-    return ajaxContainer;
+  return ajaxContainer;
 }
 
 /* invoke UCS upload catalog */

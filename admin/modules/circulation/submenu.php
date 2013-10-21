@@ -24,9 +24,9 @@ do_checkIP('smc');
 do_checkIP('smc-circulation');
 
 $menu[] = array('Header', __('Circulation'));
-$menu[] = array(__('Start Transaction'), MODULES_WEB_ROOT_DIR.'circulation/index.php?action=start', __('Start Circulation Transaction Proccess'));
-$menu[] = array(__('Quick Return'), MODULES_WEB_ROOT_DIR.'circulation/quick_return.php', __('Quick Return Collection'));
-$menu[] = array(__('Loan Rules'), MODULES_WEB_ROOT_DIR.'circulation/loan_rules.php', __('View and Modify Circulation Loan Rules'));
-$menu[] = array(__('Loan History'), MODULES_WEB_ROOT_DIR.'reporting/customs/loan_history.php', __('Loan History Overview'));
-$menu[] = array(__('Overdued List'), MODULES_WEB_ROOT_DIR.'reporting/customs/overdued_list.php', __('View Members Having Overdues'));
-$menu[] = array(__('Reservation'), MODULES_WEB_ROOT_DIR.'reporting/customs/reserve_list.php', __('Reservation'));
+$menu[] = array(__('Start Transaction'), MWB.'circulation/index.php?action=start', __('Start Circulation Transaction Proccess'));
+$menu[] = array(__('Quick Return'), MWB.'circulation/quick_return.php', __('Quick Return Collection'));
+$menu[] = array(__('Loan Rules'), MWB.'circulation/loan_rules.php', __('View and Modify Circulation Loan Rules'));
+$menu[] = array(__('Loan History'), MWB.'reporting/customs/loan_history.php', __('Loan History Overview'));
+$menu[] = array(__('Overdued List'), MWB.'reporting/customs/overdued_list.php', __('View Members Having Overdues'));
+$menu[] = array(__('Reservation'), MWB.'reporting/customs/reserve_list.php', __('Reservation'));
