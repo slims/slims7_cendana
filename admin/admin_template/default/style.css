@@ -10,6 +10,7 @@ Local Reset
 --------------------*/
 *, *:before, *:after {
   -moz-box-sizing: content-box;
+  box-sizing: content-box;
 }
 
 body, body#main {
@@ -189,7 +190,8 @@ submenu
 
 #sidepan {
   width: 250px;
-  background: #89c1db;
+  /*background: #89c1db;*/
+  background: #333;
 	overflow: hidden;
 	position: fixed;
 	bottom: 45px;
@@ -206,7 +208,7 @@ submenu
 }
 
 .per_title {
-	padding-top: 20px;
+	padding-top: 15px;
 }
 
 .subMenuHeader {
@@ -235,10 +237,10 @@ submenu
 
 .subMenuItem {
   display:block;
-  color:#333;
+  color:#fff;
   clear:both;
   padding:6px 10px;
-  /*border-bottom: solid 1px #eee;*/
+	border-bottom: 1px solid #555;
 }
 
 .curModuleLink, .subMenuItem:hover {
@@ -248,7 +250,6 @@ submenu
 
 #mainContent {
   height:100%;
-  margin-bottom:100px;
 }
 
 .menuBoxInner {
@@ -339,10 +340,6 @@ table, tr, td, th {
   border-left: dotted 1px #ddd !important;
   background-color:#fff ;
   color:#4d4d4d;
-}
-
-.tab {
-  margin:5px 0px 10px 5px;
 }
 
 .dataListHeader td,
@@ -757,12 +754,7 @@ icon
 
 #listsFrame {
   width: 100%;
-  height: 600px !important;
-}
-
-#iframeDragger {
-  background-color:#eee;
-  border: none;
+  height: 300px !important;
 }
 
 .message li {
@@ -848,4 +840,26 @@ input.small_input {
 
 .sidebar-open {
 	float: left;
+}
+
+.circ-action-btn {
+	clear: both;
+	width: 100%;
+	padding: 5px;
+}
+
+.circ-action-btn input[type=button] {
+  width: 18%;
+}
+
+@media (max-width: 1200px)  {
+  .circ-action-btn input[type=button] {
+    width: 16.8%;
+  }
+}
+
+@media (max-width: 800px)  {
+  .circ-action-btn input[type=button] {
+    width: 16%;
+  }
 }

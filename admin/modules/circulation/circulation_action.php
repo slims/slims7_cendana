@@ -253,13 +253,13 @@ if (isset($_POST['quickReturnID']) AND $_POST['quickReturnID']) {
         $loan_d = $loan_info_q->fetch_assoc();
         // create circulation object
         $circulation = new circulation($dbs, $loan_d['member_id']);
-        
+
         /* modified by Indra Sutriadi */
         $circulation->ignore_holidays_fine_calc = $sysconf['ignore_holidays_fine_calc'];
         $circulation->holiday_dayname = $_SESSION['holiday_dayname'];
         $circulation->holiday_date = $_SESSION['holiday_date'];
         /* end of modification */
-        
+
         // check for overdue
         $overdue = $circulation->countOverdueValue($loan_d['loan_id'], $return_date);
         // check overdue
@@ -457,7 +457,7 @@ if (isset($_POST['memberID']) OR isset($_SESSION['memberID'])) {
         echo '<tr>'."\n";
         echo '<td class="dataListHeader" colspan="5">';
         // hidden form for transaction finish
-        echo '<form id="finishForm" method="post" target="blindSubmit" action="'.MWB.'circulation/circulation_action.php" style="display: inline;"><input type="button" accesskey="T" value="'.__('Finish Transaction').' (T)" onclick="confSubmit(\'finishForm\', \''.__('Are you sure want to finish current transaction?').'\')" /><input type="hidden" name="finish" value="true" /></form>';
+        echo '<form id="finishForm" method="post" target="blindSubmit" action="'.MWB.'circulation/circulation_action.php" style="display: inline;"><input type="button" class="btn btn-danger" accesskey="T" value="'.__('Finish Transaction').' (T)" onclick="confSubmit(\'finishForm\', \''.__('Are you sure want to finish current transaction?').'\')" /><input type="hidden" name="finish" value="true" /></form>';
         echo '</td>';
         echo '</tr>'."\n";
         echo '<tr>'."\n";
@@ -500,16 +500,16 @@ if (isset($_POST['memberID']) OR isset($_SESSION['memberID'])) {
         }
         echo '</table>'."\n";
         // tab and iframe
-        echo '<input type="button" accesskey="L" style="width: 19%;" class="tab'.$add_style.'" value="'.__('Loans').' (L)" src="'.MWB.'circulation/loan.php" '.$disabled.' />';
-        echo '<input type="button" accesskey="C" style="width: 19%;" class="tab tabSelected" value="'.__('Current Loans').' (C)" src="'.MWB.'circulation/loan_list.php" />';
+				echo '<div class="btn-group circ-action-btn">';
+        echo '<input type="button" accesskey="L" class="btn btn-info tab'.$add_style.'" value="'.__('Loans').' (L)" src="'.MWB.'circulation/loan.php" '.$disabled.' />';
+        echo '<input type="button" accesskey="C" class="btn btn-warning tab" value="'.__('Current Loans').' (C)" src="'.MWB.'circulation/loan_list.php" />';
         if ($member_type_d['enable_reserve']) {
-          echo '<input type="button" accesskey="R" style="width: 19%;" class="tab'.$add_style.'" value="'.__('Reserve').' (R)" src="'.MWB.'circulation/reserve_list.php" '.$disabled.' />';
+          echo '<input type="button" class="btn btn-info" accesskey="R" class="btn btn-info tab'.$add_style.'" value="'.__('Reserve').' (R)" src="'.MWB.'circulation/reserve_list.php" '.$disabled.' />';
         }
-        echo '<input type="button" accesskey="F" style="width: 19%;" class="tab" value="'.__('Fines').' (F)" src="'.MWB.'circulation/fines_list.php" />';
-        echo '<input type="button" accesskey="H" style="width: 19%;" class="tab" value="'.__('Loan History').' (H)" src="'.MWB.'circulation/member_loan_hist.php" /><br />'."\n";
-        echo '<iframe src="modules/circulation/loan_list.php" id="listsFrame" class="expandable border"></iframe>'."\n";
+        echo '<input type="button" accesskey="F" class="btn btn-info tab" value="'.__('Fines').' (F)" src="'.MWB.'circulation/fines_list.php" />';
+        echo '<input type="button" accesskey="H" class="btn btn-info tab" value="'.__('Loan History').' (H)" src="'.MWB.'circulation/member_loan_hist.php" />'."\n";
+        echo '</div>';
+				echo '<iframe src="modules/circulation/loan_list.php" id="listsFrame" class="expandable border"></iframe>'."\n";
     }
     exit();
 }
-
-?>
