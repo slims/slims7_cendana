@@ -13,12 +13,11 @@ var ajaxFillSelect = function(str_handler_file, str_table_name, str_table_fields
   if (arguments[4] != undefined) {
     additionalParams = '&keywords=' + arguments[4];
   }
-
   // fill the select list
   jQuery.ajax({ url: str_handler_file, type: 'POST',
     data: 'tableName=' + str_table_name + '&tableFields=' + str_table_fields + additionalParams,
     success: function(ajaxRespond) { result = jQuery.trim(ajaxRespond); $('#'+str_container_ID).html(ajaxRespond); } });
-  
+
   if (result) {
     return true;
   }
@@ -107,22 +106,19 @@ var jsonToList = function(strURL, strElmntID) {
   }
   // escape single quotes
   strURL = strURL.replace(/\'/i, "\'");
-  jQuery.ajax({
-    url: strURL,
-    type: 'POST',
-    data: addParams, dataType: 'json',
+  jQuery.ajax({ url: strURL,
+    type: 'POST', data: addParams, dataType: 'json',
     success: function(ajaxRespond) {
         listID = strElmntID + 'List';
         if (!ajaxRespond) {
-          noResult = true;
-          return;
+          noResult = true; return;
         }
         noResult = false;
         // evaluate json respons
         var strListVal = '';
         jQuery.each(ajaxRespond, function(i) {
           vals = this;
-          strListVal += '<li><a class="DDlink" onclick="setInputValue(\'' + strElmntID + '\', \'' + vals.replace(/\'/i, "\'") + '\')">' + vals + '</a></li>';
+          strListVal += '<li><a class="DDlink notAJAX" onclick="setInputValue(\'' + strElmntID + '\', \'' + vals.replace(/\'/i, "\'") + '\')">' + vals + '</a></li>';
         });
         // update the list content
         $('#'+listID).html(strListVal);
@@ -156,5 +152,3 @@ var showDropDown = function(strURL, strElmntID, strAddParams) {
     if (!clickedElement.is('#' + strElmntID + 'List')) { listObj.hide(); }
   });
 }
-
-

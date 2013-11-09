@@ -68,16 +68,19 @@
 
 <!-- license info -->
 <div id="footer"><?php echo $sysconf['page_footer']; ?></div>
-<!-- license info end -->
+<!-- license info end --><!-- fake submit iframe for search form, DONT REMOVE THIS! -->
+<iframe name="blindSubmit" style="visibility: hidden; width: 0; height: 0;"></iframe>
+<!-- <iframe name="blindSubmit" style="visibility: visible; width: 100%; height: 300px;"></iframe> -->
+<!-- fake submit iframe -->
 
 <script type="text/javascript">
 jQuery(document).ready( function() {
 
  $('a.menuCurrent, .sidebar-open').sidr({
    name: 'sidepan',
-   side: 'left',
-   speed: 300
+   side: 'left'
 	});
+
  // $.sidr('open', 'sidepan');
  $(document).ajaxStart(function() { $('.loader').fadeIn('fast'); }).ajaxStop(function() {
 	  $.sidr('close', 'sidepan');
@@ -85,13 +88,7 @@ jQuery(document).ready( function() {
 	});
 
 })
-
 </script>
-
-<!-- fake submit iframe for search form, DONT REMOVE THIS! -->
-<iframe name="blindSubmit" style="visibility: hidden; width: 0; height: 0;"></iframe>
-<!-- <iframe name="blindSubmit" style="visibility: visible; width: 100%; height: 300px;"></iframe> -->
-<!-- fake submit iframe -->
 
 </body>
 </html>

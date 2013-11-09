@@ -863,3 +863,9 @@ input.small_input {
     width: 16%;
   }
 }
+
+@media (min-width: 1201px) and  (max-width: 1259px)  {
+  .circ-action-btn input[type=button] {
+    width: 17.5%;
+  }
+}

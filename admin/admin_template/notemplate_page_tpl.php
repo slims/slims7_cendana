@@ -2,6 +2,8 @@
 <html>
 <head><title><?php echo $page_title; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0" /><meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT" />
+<link rel="stylesheet" type="text/css" href="<?php echo SWB; ?>template/default/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo SWB; ?>template/default/css/bootstrap-responsive.min.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo SWB.'template/core.style.css'; ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo SWB.'admin/'.$sysconf['admin_template']['css']; ?>" />
 <?php if (isset($css)) { echo $css; } ?>
@@ -14,9 +16,7 @@ body { background: #FFFFFF; }
 <script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>chosen/chosen.jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>chosen/ajax-chosen.min.js"></script>
-<script type="text/javascript" src="<?php echo JWB; ?>tooltipsy.js"></script>
 <script type="text/javascript" src="<?php echo JWB; ?>colorbox/jquery.colorbox-min.js"></script>
-<script type="text/javascript" src="<?php echo JWB; ?>calendar.js"></script>
 <?php if (isset($js)) { echo $js; } ?>
 </head>
 <body>

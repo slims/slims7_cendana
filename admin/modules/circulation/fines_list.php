@@ -127,10 +127,12 @@ if (isset($_POST['saveData'])) {
 
 /* header */
 ?>
-<div style="padding: 5px; background-color: #ccc;">
-    <a href="fines_list.php?action=detail" class="headerText2" style="color: #FF0000;"><?php echo __('Add New Fines'); ?></a> &nbsp;
-    <a href="fines_list.php" class="headerText2"><?php echo __('Fines List'); ?></a>&nbsp;
-    <a href="fines_list.php?balance=true" class="headerText2"><?php echo __('View Balanced Overdue'); ?></a>
+<div class="sub_section">
+<div class="btn-group">
+    <a href="fines_list.php?action=detail" class="btn btn-default" style="color: #FF0000;"><i class="glyphicon glyphicon-plus"></i>&nbsp;<?php echo __('Add New Fines'); ?></a>
+    <a href="fines_list.php" class="btn btn-default"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;<?php echo __('Fines List'); ?></a>
+    <a href="fines_list.php?balance=true" class="btn btn-default"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;<?php echo __('View Balanced Overdue'); ?></a>
+</div>
 </div>
 <?php
 /* search form end */

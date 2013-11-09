@@ -192,30 +192,6 @@ jQuery.fn.registerAdminEvents = function(params) {
   // cache AJAX container
   var container = $(this);
 
-  // avoid conflict with tinyMCE
-  container.find('.mceEditor a, .chzn-container a').addClass('notAJAX');
-
-  if (options.ajaxifyLink) {
-    // change all anchor behaviour to AJAX in main content
-    container.find('a:not(.notAJAX)').click(function(evt) {
-      evt.preventDefault();
-      var anchor = $(this);
-      // get anchor href
-      var url = anchor.attr('href');
-      var postData = anchor.attr('postdata');
-      var loadContainer = anchor.attr('loadcontainer');
-      if (loadContainer) {
-        container = jQuery('#'+loadContainer);
-      }
-      // set ajax
-      if (postData) {
-        container.simbioAJAX(url, {method: 'post', addData: postData});
-      } else {
-        container.simbioAJAX(url, {addData: {ajaxload: 1}});
-      }
-    });
-  }
-
   // set all table with class datagrid
   container.find('table.datagrid,#dataList').each(function() {
     var datagrid = $(this);
@@ -240,39 +216,9 @@ jQuery.fn.registerAdminEvents = function(params) {
     $('.table-header', datagrid).parent().unbind();
   });
 
-  // change all search form submit behaviour to AJAX
+  // disable form with class "disabled"
 	var disabledForm = container.find('form.disabled');
 	if (disabledForm.length > 0) {  disabledForm.disableForm(); }
-
-  // change all search form submit behaviour to AJAX
-  container.find('.editFormLink').click(function(evt) {
-    evt.preventDefault();
-    var theForm = $(this).parents('form').enableForm().find('input,textarea').not(':submit,:button').first().focus();
-    $('.makeHidden').removeClass('makeHidden');
-    // enable hidden delete form
-    container.find('#deleteForm').enableForm();
-	  container.find('.select2').attr('disabled', false).trigger("liszt:updated");
-  });
-
-  if (options.ajaxifyForm) {
-    // change all search form submit behaviour to AJAX
-    container.find('.menuBox form:not(.notAJAX)').submit(function(evt) {
-      var theForm = $(this);
-      if (theForm.attr('target')) {
-        theForm[0].submit();
-        return;
-      }
-      evt.preventDefault();
-      var formAction = theForm.attr('action');
-      var formMethod = theForm.attr('method');
-      var formData = theForm.serialize();
-      var loadContainer = theForm.attr('loadcontainer');
-      if (loadContainer) {
-        container = jQuery('#'+loadContainer);
-      }
-      container.simbioAJAX(formAction, {method: formMethod, addData: formData});
-    });
-  }
 
   // focus first element
   container.find('input[type=text]:first').focus();
@@ -281,16 +227,6 @@ jQuery.fn.registerAdminEvents = function(params) {
   // disable form marked with disabled attribute
   container.find('form.disabled').disableForm().find('.cancelButton').removeAttr('disabled').click(function() {
     jQuery.ajaxPrevious(0);
-  });
-
-  container.find('input.tab').click(function() {
-    container.find('input.tab').removeClass('tabSelected');
-    var tabButton = $(this).addClass('tabSelected');
-    var tabSrc = tabButton.attr('src');
-    if (tabSrc) {
-      // set iframe content
-      setIframeContent('listsFrame', tabSrc);
-    }
   });
 
   return container;
@@ -310,51 +246,6 @@ var openWin = function(strURL, strWinName, intWidth, intHeight, boolScroll) {
   ",menubar=no, scrollbars=" + withScrollbar + ", location=no, toolbar=no," +
   "directories=no,resizable=no,screenY=" + yPos + ",screenX=" + xPos + ",top=" + yPos + ",left=" + xPos);
 }
-
-/* Javasript function to open pop-up window floating div
-var htmlPop = null;
-var blocker = null;
-var openHTMLpop = function(strURL, intWidth, intHeight, strPopTitle) {
-  // calculate the center of the page
-  var yPos = 30;
-  var xPos = ($(window).width() - intWidth)/2;
-  htmlPop = $('#htmlPop');
-  blocker = $('#blocker');
-  var htmlPopFrame = $('iframe#htmlPopFrame');
-  if (htmlPop.length > 0 && blocker.length > 0) {
-    if (htmlPopFrame.length) {
-      htmlPopFrame[0].src = strURL;
-    } else {
-      $('#htmlPopContainer').html(strURL);
-    }
-    $('#htmlPopTitle', htmlPop).text(strPopTitle);
-    htmlPop.css({'left': xPos+'px', 'width': intWidth+'px'}).fadeIn();
-    blocker.fadeIn();
-  } else {
-    // set pop content
-    var popContent = '<iframe id="htmlPopFrame" src="' + strURL + '" frameborder="0"></iframe>';
-    // if the 5th argument is set then it is straight content not URL
-    if (arguments[4] != undefined) { popContent = strURL; }
-    // append content to pop window
-    var toAdded = $('<div id="blocker"></div>'
-      + '<div id="htmlPop">'
-      + '<div id="htmlPopTitle" style="float: left; width: 70%">' + strPopTitle + '</div>'
-      + '<div style="float: right; width: 20%; text-align: right;">'
-      + '<a href="#" class="button button-danger" id="closePop">Close</a>'
-      + '</div>'
-      + '<div id="htmlPopContainer">' + popContent + '</div>'
-      + '</div>').hide().appendTo('body');
-    htmlPopFrame = $('iframe#htmlPopFrame');
-    htmlPop = $('#htmlPop').css({'position': 'fixed', 'top': 20+yPos+'px', 'left': xPos+'px', 'margin': 'auto', 'width': intWidth+'px', 'z-index': 1000}).fadeIn();
-    blocker = $('#blocker').css({'top': 0, 'left': 0, 'width': '100%', 'height': screen.height+'px', 'position': 'fixed', 'background-color': '#000', 'opacity': 0.5, 'z-index': 98}).fadeIn();
-  }
-  if (htmlPopFrame.length) { htmlPopFrame.css({'width': '100%', 'height': intHeight+'px'}); }
-  // register ESC button event handler
-  $('#closePop').click(function(evt) { evt.preventDefault(); closeHTMLpop(); });
-}
-
-var closeHTMLpop = function() { htmlPop.fadeOut(); blocker.fadeOut(); }
-*/
 
 /* set iframe content */
 var setIframeContent = function(strIframeID, strUrl) {
@@ -400,19 +291,80 @@ var showHideTableRows = function(str_table_id, int_start_row, obj_button, str_hi
  * Register all events
  */
 $('document').ready(function() {
-  // register submenu event
-  $('.subMenuItem').click(function(evt) {
+	var container = $('#mainContent,#pageContent,#sidepan');
+
+  // change all anchor behaviour to AJAX in main content
+  container.on('click', 'a', function(evt) {
+		// avoid conflict with tinyMCE and other non-AJAX anchor
+		container.find('.mceEditor a, .chzn-container a').addClass('notAJAX');
     evt.preventDefault();
+    var anchor = $(this);
+		if (anchor.hasClass('notAJAX')) {
+      return true;
+		}
+		var ajaxContainer = $('#mainContent,#pageContent');
+    // for submenu
     // remove other menu class
     $('.subMenuItem').removeClass('curModuleLink');
-    var subMenu = $(this).addClass('curModuleLink');
-    var subMenuHREF = subMenu.attr('href');
-    $('#mainContent').simbioAJAX(subMenuHREF, {method: 'get'});
+    var subMenu = anchor.addClass('curModuleLink');
+    // get anchor href
+    var url = anchor.attr('href');
+    var postData = anchor.attr('postdata');
+    var loadContainer = anchor.attr('loadcontainer');
+    if (loadContainer) {
+      ajaxContainer = $('#'+loadContainer);
+    }
+    // set ajax
+    if (postData) {
+      ajaxContainer.simbioAJAX(url, {method: 'post', addData: postData});
+    } else {
+      ajaxContainer.simbioAJAX(url, {addData: {ajaxload: 1}});
+    }
+  });
+
+  // change all search form submit behaviour to AJAX
+  container.on('submit', '.menuBox form:not(.notAJAX)', function(evt) {
+		var ajaxContainer = $('#mainContent,#pageContent');
+    var theForm = $(this);
+    if (theForm.attr('target')) {
+      theForm[0].submit();
+      return;
+    }
+    evt.preventDefault();
+    var formAction = theForm.attr('action');
+    var formMethod = theForm.attr('method');
+    var formData = theForm.serialize();
+    var loadContainer = theForm.attr('loadcontainer');
+    if (loadContainer) {
+      ajaxContainer = jQuery('#'+loadContainer);
+    }
+    ajaxContainer.simbioAJAX(formAction, {method: formMethod, addData: formData});
+  });
+
+	// form EDIT link behaviour
+  container.on('click', '.editFormLink', function(evt) {
+    evt.preventDefault();
+    var theForm = $(this).parents('form').enableForm().find('input,textarea').not(':submit,:button').first().focus();
+    $('.makeHidden').removeClass('makeHidden');
+    // enable hidden delete form
+    container.find('#deleteForm').enableForm();
+	  container.find('.select2').attr('disabled', false).trigger("liszt:updated");
+  });
+
+	// register event for tab buttons
+  container.on('click', 'input.tab', function() {
+    container.find('input.tab').removeClass('tabSelected');
+    var tabButton = $(this).addClass('tabSelected');
+    var tabSrc = tabButton.attr('src');
+    if (tabSrc) {
+      // set iframe content
+      setIframeContent('listsFrame', tabSrc);
+    }
   });
 
   // Register admin event for AJAX event
-  $('#mainContent,#pageContent').bind('simbioAJAXloaded', function(evt) {
-    $(this).registerAdminEvents({ajaxifyLink: true, ajaxifyForm: true});
+  container.not('#sidepan').on('simbioAJAXloaded', function(evt) {
+    $(this).registerAdminEvents();
     // report filter
     $('#filterForm').children('.divRow:gt(0)').wrapAll('<div class="hiddenFilter"></div>');
     var hiddenFilter = $('.hiddenFilter').hide();
@@ -465,10 +417,9 @@ $('document').ready(function() {
   // disable form with class "disabled"
 	var disabledForm = $('form.disabled');
 	if (disabledForm.length > 0) {  disabledForm.disableForm(); }
-  $(document).registerAdminEvents({ajaxifyLink: false, ajaxifyForm: false});
 
   // jquery colorbox
-  $('body').delegate( 'a.openPopUp', 'click', function(evt) {
+  $('body').on('click', 'a.openPopUp', function(evt) {
   	evt.preventDefault();
   	var popUpButton = $(this);
   	top.jQuery.colorbox({iframe:true,

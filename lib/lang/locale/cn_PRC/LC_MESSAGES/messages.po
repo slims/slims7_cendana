@@ -3,19 +3,18 @@ msgstr ""
 "Project-Id-Version: Senayan3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-23 21:00+0700\n"
-"PO-Revision-Date: 2012-12-17 09:41+0700\n"
-"Last-Translator: Arif Syamsudin <buitenzorg812@gmail.com>\n"
+"PO-Revision-Date: 2013-11-01 22:34+0700\n"
+"Last-Translator: Arie Nugraha <dicarve@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: __;_ngettext:1,2\n"
 "X-Poedit-Basepath: ../../../../../\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: sysconfig.inc.php:504
@@ -95,7 +94,9 @@ msgid "Contributor"
 msgstr ""
 
 #: index.php:43
-msgid "Web Online Public Access Catalog - Use the search options to find documents quickly"
+msgid ""
+"Web Online Public Access Catalog - Use the search options to find documents "
+"quickly"
 msgstr ""
 
 #: index.php:52
@@ -108,7 +109,7 @@ msgstr ""
 
 #: template/lightweight/index_template.inc.php:20
 msgid "Home"
-msgstr ""
+msgstr "套"
 
 #: template/lightweight/index_template.inc.php:21
 msgid "Library Information"
@@ -116,11 +117,11 @@ msgstr "图书馆资讯"
 
 #: template/lightweight/index_template.inc.php:22
 msgid "Help on Search"
-msgstr ""
+msgstr "找的帮助"
 
 #: template/lightweight/index_template.inc.php:39
 msgid "Search"
-msgstr ""
+msgstr "找"
 
 #: template/lightweight/custom_frontpage_record.inc.php:7
 #: template/lightweight/detail_template.php:12
@@ -205,11 +206,11 @@ msgstr ""
 
 #: template/default/index_template.inc.php:54
 msgid "Member Area"
-msgstr ""
+msgstr "图书馆员的地方"
 
 #: template/default/index_template.inc.php:55
 msgid "Librarian LOGIN"
-msgstr ""
+msgstr "登录的人"
 
 #: template/default/index_template.inc.php:98
 msgid "Select Language"
@@ -217,7 +218,7 @@ msgstr ""
 
 #: template/default/index_template.inc.php:110
 msgid "Advanced Search"
-msgstr ""
+msgstr "更多"
 
 #: template/default/index_template.inc.php:126
 msgid "Collection Type"
@@ -244,35 +245,56 @@ msgid "You Have Been Logged Out From Library Automation System"
 msgstr ""
 
 #: admin/index.php:66
-msgid "Welcome To The Library Automation System, you are currently logged in as"
+msgid ""
+"Welcome To The Library Automation System, you are currently logged in as"
 msgstr ""
 
 #: admin/default/home.php:35
-msgid "<strong>PHP GD</strong> extension is not installed. Please install it or application won't be able to create image thumbnail and barcode."
+msgid ""
+"<strong>PHP GD</strong> extension is not installed. Please install it or "
+"application won't be able to create image thumbnail and barcode."
 msgstr ""
 
 #: admin/default/home.php:39
-msgid "<strong>Freetype</strong> support is not enabled in PHP GD extension. Rebuild PHP GD extension with Freetype support or application won't be able to create barcode."
+msgid ""
+"<strong>Freetype</strong> support is not enabled in PHP GD extension. "
+"Rebuild PHP GD extension with Freetype support or application won't be able "
+"to create barcode."
 msgstr ""
 
 #: admin/default/home.php:46
-msgid "There is currently <strong>{num_overdue}</strong> library members having overdue. Please check at <b>Circulation</b> module at <b>Overdues</b> section for more detail"
+msgid ""
+"There is currently <strong>{num_overdue}</strong> library members having "
+"overdue. Please check at <b>Circulation</b> module at <b>Overdues</b> "
+"section for more detail"
 msgstr ""
 
 #: admin/default/home.php:51
-msgid "<strong>Images</strong> directory and directories under it is not writable. Make sure it is writable by changing its permission or you won't be able to upload any images and create barcodes"
+msgid ""
+"<strong>Images</strong> directory and directories under it is not writable. "
+"Make sure it is writable by changing its permission or you won't be able to "
+"upload any images and create barcodes"
 msgstr ""
 
 #: admin/default/home.php:55
-msgid "<strong>Repository</strong> directory is not writable. Make sure it is writable (and all directories under it) by changing its permission or you won't be able to upload any bibliographic attachments."
+msgid ""
+"<strong>Repository</strong> directory is not writable. Make sure it is "
+"writable (and all directories under it) by changing its permission or you "
+"won't be able to upload any bibliographic attachments."
 msgstr ""
 
 #: admin/default/home.php:59
-msgid "<strong>File upload</strong> directory is not writable. Make sure it is writable (and all directories under it) by changing its permission or you won't be able to upload any file, create report files and create database backups."
+msgid ""
+"<strong>File upload</strong> directory is not writable. Make sure it is "
+"writable (and all directories under it) by changing its permission or you "
+"won't be able to upload any file, create report files and create database "
+"backups."
 msgstr ""
 
 #: admin/default/home.php:63
-msgid "The PATH for <strong>mysqldump</strong> program is not right! Please check configuration file or you won't be able to do any database backups."
+msgid ""
+"The PATH for <strong>mysqldump</strong> program is not right! Please check "
+"configuration file or you won't be able to do any database backups."
 msgstr ""
 
 #: admin/default/session_check.inc.php:32
@@ -320,14 +342,12 @@ msgstr ""
 msgid "Quick Return Collection"
 msgstr ""
 
-#: admin/default/submenu.php:33
-#: admin/modules/membership/submenu.php:28
+#: admin/default/submenu.php:33 admin/modules/membership/submenu.php:28
 #: admin/modules/membership/index.php:285
 msgid "Add New Member"
 msgstr ""
 
-#: admin/default/submenu.php:33
-#: admin/modules/membership/submenu.php:28
+#: admin/default/submenu.php:33 admin/modules/membership/submenu.php:28
 msgid "Add New Library Member Data"
 msgstr ""
 
@@ -445,7 +465,9 @@ msgid "Print queue cleared!"
 msgstr ""
 
 #: admin/modules/membership/member_card_generator.php:98
-msgid "Selected items NOT ADDED to print queue. Only {max_print} can be printed at once"
+msgid ""
+"Selected items NOT ADDED to print queue. Only {max_print} can be printed at "
+"once"
 msgstr ""
 
 #: admin/modules/membership/member_card_generator.php:103
@@ -559,7 +581,8 @@ msgid "New Member Data Successfully Saved"
 msgstr ""
 
 #: admin/modules/membership/index.php:266
-msgid "Below member data can't be deleted because still have unreturned item(s)"
+msgid ""
+"Below member data can't be deleted because still have unreturned item(s)"
 msgstr ""
 
 #: admin/modules/membership/index.php:271
@@ -570,8 +593,8 @@ msgstr ""
 #: admin/modules/membership/index.php:274
 #: admin/modules/membership/member_type.php:125
 msgid ""
-"Some or All Data NOT deleted successfully!\\n"
-"Please contact system administrator"
+"Some or All Data NOT deleted successfully!\\nPlease contact system "
+"administrator"
 msgstr ""
 
 #: admin/modules/membership/index.php:286
@@ -749,7 +772,8 @@ msgstr ""
 
 #: admin/modules/membership/member_type.php:87
 #: admin/modules/membership/member_type.php:95
-msgid "Member Type Data FAILED to Save/Update. Please Contact System Administrator"
+msgid ""
+"Member Type Data FAILED to Save/Update. Please Contact System Administrator"
 msgstr ""
 
 #: admin/modules/membership/member_type.php:93
@@ -1064,7 +1088,9 @@ msgid "Last Update"
 msgstr ""
 
 #: admin/modules/circulation/index.php:57
-msgid "CIRCULATION - Insert a member ID to start transaction with keyboard or barcode reader"
+msgid ""
+"CIRCULATION - Insert a member ID to start transaction with keyboard or "
+"barcode reader"
 msgstr ""
 
 #: admin/modules/circulation/index.php:75
@@ -1159,7 +1185,8 @@ msgid "Reservation added"
 msgstr ""
 
 #: admin/modules/circulation/circulation_action.php:363
-msgid "Item for this title is already available or already on hold by this member!"
+msgid ""
+"Item for this title is already available or already on hold by this member!"
 msgstr ""
 
 #: admin/modules/circulation/circulation_action.php:382
@@ -1269,7 +1296,8 @@ msgid "Subscription Data Successfully Updated"
 msgstr ""
 
 #: admin/modules/serial_control/subscription.php:92
-msgid "Subscription Data FAILED to Updated. Please Contact System Administrator"
+msgid ""
+"Subscription Data FAILED to Updated. Please Contact System Administrator"
 msgstr ""
 
 #: admin/modules/serial_control/subscription.php:106
@@ -1390,7 +1418,9 @@ msgid "Finish Stock Take"
 msgstr ""
 
 #: admin/modules/stock_take/finish.php:164
-msgid "Are you sure to end current stock take proccess? Once it finished there is no way you can rollback this stock take"
+msgid ""
+"Are you sure to end current stock take proccess? Once it finished there is "
+"no way you can rollback this stock take"
 msgstr ""
 
 #: admin/modules/stock_take/finish.php:181
@@ -1404,7 +1434,9 @@ msgid "NO stock taking proccess initialized yet!"
 msgstr ""
 
 #: admin/modules/stock_take/current.php:68
-msgid "STOCK TAKE PROCCESS - Insert Item Code/Barcode with keyboard or barcode scanner"
+msgid ""
+"STOCK TAKE PROCCESS - Insert Item Code/Barcode with keyboard or barcode "
+"scanner"
 msgstr ""
 
 #: admin/modules/stock_take/current.php:70
@@ -1448,7 +1480,9 @@ msgid " item codes scanned!"
 msgstr ""
 
 #: admin/modules/stock_take/st_upload.php:125
-msgid "STOCK TAKE UPLOAD - Upload a plain text file (.txt) containing list of Item Code to stock take. Each Item Code separated by line."
+msgid ""
+"STOCK TAKE UPLOAD - Upload a plain text file (.txt) containing list of Item "
+"Code to stock take. Each Item Code separated by line."
 msgstr ""
 
 #: admin/modules/stock_take/st_upload.php:127
@@ -1559,8 +1593,7 @@ msgid "Download Report"
 msgstr ""
 
 #: admin/modules/stock_take/st_report.php:75
-#: admin/modules/stock_take/index.php:66
-#: admin/modules/stock_take/index.php:83
+#: admin/modules/stock_take/index.php:66 admin/modules/stock_take/index.php:83
 #: admin/modules/stock_take/index.php:115
 #: admin/modules/stock_take/init.php:157
 msgid "Stock Take Name"
@@ -1643,8 +1676,7 @@ msgstr ""
 msgid "Total Item Exists"
 msgstr ""
 
-#: admin/modules/stock_take/index.php:75
-#: admin/modules/stock_take/index.php:90
+#: admin/modules/stock_take/index.php:75 admin/modules/stock_take/index.php:90
 msgid "Status"
 msgstr ""
 
@@ -1670,9 +1702,7 @@ msgid "Stock Taking Initialized"
 msgstr ""
 
 #: admin/modules/stock_take/init.php:140
-msgid ""
-"Stock Taking FAILED to Initialized.\\n"
-"No item to stock take!"
+msgid "Stock Taking FAILED to Initialized.\\nNo item to stock take!"
 msgstr ""
 
 #: admin/modules/stock_take/init.php:148
@@ -1688,7 +1718,10 @@ msgid "Separate each class comma sign. Use * for wildcard"
 msgstr ""
 
 #: admin/modules/stock_take/resync.php:67
-msgid "Re-synchronize will only update current stock take's item data. It won't update any new bibliographic or item data that were inserted in the middle of stock take proccess"
+msgid ""
+"Re-synchronize will only update current stock take's item data. It won't "
+"update any new bibliographic or item data that were inserted in the middle "
+"of stock take proccess"
 msgstr ""
 
 #: admin/modules/stock_take/resync.php:70
@@ -1755,13 +1788,11 @@ msgstr ""
 msgid "Total Titles with items"
 msgstr ""
 
-#: admin/modules/reporting/index.php:70
-#: admin/modules/reporting/index.php:80
+#: admin/modules/reporting/index.php:70 admin/modules/reporting/index.php:80
 msgid "Total Items/Copies"
 msgstr ""
 
-#: admin/modules/reporting/index.php:77
-#: admin/modules/reporting/index.php:80
+#: admin/modules/reporting/index.php:77 admin/modules/reporting/index.php:80
 msgid "Total Checkout Items"
 msgstr ""
 
@@ -1769,8 +1800,7 @@ msgstr ""
 msgid "Total Items In Library"
 msgstr ""
 
-#: admin/modules/reporting/index.php:87
-#: admin/modules/reporting/index.php:101
+#: admin/modules/reporting/index.php:87 admin/modules/reporting/index.php:101
 #: admin/modules/reporting/loan_report.php:61
 #: admin/modules/reporting/loan_report.php:72
 #: admin/modules/reporting/member_report.php:66
@@ -2374,7 +2404,8 @@ msgid "Colllection Type Data Successfully Updated"
 msgstr ""
 
 #: admin/modules/master_file/coll_type.php:76
-msgid "Colllection Type Data FAILED to Updated. Please Contact System Administrator"
+msgid ""
+"Colllection Type Data FAILED to Updated. Please Contact System Administrator"
 msgstr ""
 
 #: admin/modules/master_file/coll_type.php:83
@@ -2931,8 +2962,7 @@ msgstr ""
 msgid "Content data FAILED to save!"
 msgstr ""
 
-#: admin/modules/system/content.php:140
-#: admin/modules/system/submenu.php:31
+#: admin/modules/system/content.php:140 admin/modules/system/submenu.php:31
 msgid "Content"
 msgstr ""
 
@@ -2944,14 +2974,12 @@ msgstr ""
 msgid "Content List"
 msgstr ""
 
-#: admin/modules/system/content.php:184
-#: admin/modules/system/content.php:217
+#: admin/modules/system/content.php:184 admin/modules/system/content.php:217
 #: admin/modules/system/content.php:221
 msgid "Content Title"
 msgstr ""
 
-#: admin/modules/system/content.php:186
-#: admin/modules/system/content.php:218
+#: admin/modules/system/content.php:186 admin/modules/system/content.php:218
 #: admin/modules/system/content.php:222
 msgid "Path (Must be unique)"
 msgstr ""
@@ -2965,8 +2993,7 @@ msgid "You are going to update Content data"
 msgstr ""
 
 #: admin/modules/system/module_priv_form.inc.php:31
-#: admin/modules/system/module.php:184
-#: admin/modules/system/module.php:204
+#: admin/modules/system/module.php:184 admin/modules/system/module.php:204
 msgid "Module Name"
 msgstr ""
 
@@ -2998,8 +3025,7 @@ msgstr ""
 msgid "Group Data FAILED to Save. Please Contact System Administrator"
 msgstr ""
 
-#: admin/modules/system/user_group.php:167
-#: admin/modules/system/submenu.php:37
+#: admin/modules/system/user_group.php:167 admin/modules/system/submenu.php:37
 msgid "User Group"
 msgstr ""
 
@@ -3028,8 +3054,7 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: admin/modules/system/submenu.php:29
-#: admin/modules/system/index.php:55
+#: admin/modules/system/submenu.php:29 admin/modules/system/index.php:55
 msgid "System Configuration"
 msgstr ""
 
@@ -3045,8 +3070,7 @@ msgstr ""
 msgid "Bibliographic Indexes management"
 msgstr ""
 
-#: admin/modules/system/submenu.php:35
-#: admin/modules/system/module.php:144
+#: admin/modules/system/submenu.php:35 admin/modules/system/module.php:144
 msgid "Modules"
 msgstr ""
 
@@ -3054,8 +3078,7 @@ msgstr ""
 msgid "Configure Application Modules"
 msgstr ""
 
-#: admin/modules/system/submenu.php:36
-#: admin/modules/system/app_user.php:168
+#: admin/modules/system/submenu.php:36 admin/modules/system/app_user.php:168
 msgid "System Users"
 msgstr ""
 
@@ -3067,8 +3090,7 @@ msgstr ""
 msgid "Manage Group of Application User"
 msgstr ""
 
-#: admin/modules/system/submenu.php:39
-#: admin/modules/system/holiday.php:158
+#: admin/modules/system/submenu.php:39 admin/modules/system/holiday.php:158
 msgid "Holiday Setting"
 msgstr ""
 
@@ -3076,8 +3098,7 @@ msgstr ""
 msgid "Configure Holiday Setting"
 msgstr ""
 
-#: admin/modules/system/submenu.php:41
-#: admin/modules/system/sys_log.php:75
+#: admin/modules/system/submenu.php:41 admin/modules/system/sys_log.php:75
 msgid "System Log"
 msgstr ""
 
@@ -3085,8 +3106,7 @@ msgstr ""
 msgid "View Application System Log"
 msgstr ""
 
-#: admin/modules/system/submenu.php:42
-#: admin/modules/system/backup.php:54
+#: admin/modules/system/submenu.php:42 admin/modules/system/backup.php:54
 msgid "Database Backup"
 msgstr ""
 
@@ -3099,7 +3119,8 @@ msgid "System Log data completely cleared!"
 msgstr ""
 
 #: admin/modules/system/sys_log.php:77
-msgid "Are you SURE to completely clear system log data? This action cannot be undo!"
+msgid ""
+"Are you SURE to completely clear system log data? This action cannot be undo!"
 msgstr ""
 
 #: admin/modules/system/sys_log.php:77
@@ -3130,8 +3151,7 @@ msgstr ""
 msgid "Settings saved. Refreshing page"
 msgstr ""
 
-#: admin/modules/system/index.php:144
-#: admin/modules/system/holiday.php:312
+#: admin/modules/system/index.php:144 admin/modules/system/holiday.php:312
 msgid "Save Settings"
 msgstr ""
 
@@ -3216,12 +3236,15 @@ msgid "Index table truncated!"
 msgstr ""
 
 #: admin/modules/system/biblio_indexes.php:61
-msgid "Index table FAILED to truncated, probably because of database query error!"
+msgid ""
+"Index table FAILED to truncated, probably because of database query error!"
 msgstr ""
 
 #: admin/modules/system/biblio_indexes.php:75
 #, php-format
-msgid "<strong>%d</strong> records (from total of <strong>%d</strong>) re-indexed. Finished in %d minutes %d second(s)"
+msgid ""
+"<strong>%d</strong> records (from total of <strong>%d</strong>) re-indexed. "
+"Finished in %d minutes %d second(s)"
 msgstr ""
 
 #: admin/modules/system/biblio_indexes.php:77
@@ -3236,7 +3259,9 @@ msgstr ""
 
 #: admin/modules/system/biblio_indexes.php:97
 #, php-format
-msgid "<strong>%d</strong> records (from total of <strong>%d</strong>) re-indexed. Finished in %d second(s)"
+msgid ""
+"<strong>%d</strong> records (from total of <strong>%d</strong>) re-indexed. "
+"Finished in %d second(s)"
 msgstr ""
 
 #: admin/modules/system/biblio_indexes.php:109
@@ -3287,8 +3312,7 @@ msgstr ""
 msgid "Module Path"
 msgstr ""
 
-#: admin/modules/system/module.php:188
-#: admin/modules/system/module.php:205
+#: admin/modules/system/module.php:188 admin/modules/system/module.php:205
 msgid "Module Description"
 msgstr ""
 
@@ -3336,8 +3360,7 @@ msgstr ""
 msgid "You are going to edit user profile"
 msgstr ""
 
-#: admin/modules/system/app_user.php:269
-#: admin/modules/system/app_user.php:274
+#: admin/modules/system/app_user.php:269 admin/modules/system/app_user.php:274
 msgid "Last Login"
 msgstr ""
 
@@ -3369,8 +3392,7 @@ msgstr ""
 msgid "Add Special holiday"
 msgstr ""
 
-#: admin/modules/system/holiday.php:195
-#: admin/modules/system/holiday.php:219
+#: admin/modules/system/holiday.php:195 admin/modules/system/holiday.php:219
 #: admin/modules/system/holiday.php:223
 msgid "Holiday Date Start"
 msgstr ""
@@ -3379,8 +3401,7 @@ msgstr ""
 msgid "Holiday Date End"
 msgstr ""
 
-#: admin/modules/system/holiday.php:201
-#: admin/modules/system/holiday.php:220
+#: admin/modules/system/holiday.php:201 admin/modules/system/holiday.php:220
 #: admin/modules/system/holiday.php:224
 msgid "Holiday Description"
 msgstr ""
@@ -3389,8 +3410,7 @@ msgstr ""
 msgid "You are going to edit holiday data"
 msgstr ""
 
-#: admin/modules/system/holiday.php:218
-#: admin/modules/system/holiday.php:222
+#: admin/modules/system/holiday.php:218 admin/modules/system/holiday.php:222
 msgid "Day name"
 msgstr ""
 
@@ -3600,7 +3620,10 @@ msgid "IMPORT TOOL"
 msgstr ""
 
 #: admin/modules/bibliography/import.php:228
-msgid "Import for bibliographics data from CSV file. For guide on CVS fields order and format please refer to documentation or visit <a href=\"http://slims.web.id\" target=\"_blank\">Official Website</a>"
+msgid ""
+"Import for bibliographics data from CSV file. For guide on CVS fields order "
+"and format please refer to documentation or visit <a href=\"http://slims.web."
+"id\" target=\"_blank\">Official Website</a>"
 msgstr ""
 
 #: admin/modules/bibliography/z3950.php:279
@@ -3777,7 +3800,8 @@ msgid "Bibliography Data Successfully Updated"
 msgstr ""
 
 #: admin/modules/bibliography/index.php:222
-msgid "Bibliography Data FAILED to Updated. Please Contact System Administrator"
+msgid ""
+"Bibliography Data FAILED to Updated. Please Contact System Administrator"
 msgstr ""
 
 #: admin/modules/bibliography/index.php:255
@@ -3874,7 +3898,7 @@ msgstr ""
 
 #: admin/modules/bibliography/pop_topic.php:140
 msgid "Keyword"
-msgstr ""
+msgstr "关键字"
 
 #: admin/modules/bibliography/pop_topic.php:154
 msgid "Type to search for existing topics or to add a new one"
@@ -3944,8 +3968,7 @@ msgstr ""
 msgid "Click to view others documents with this subject"
 msgstr ""
 
-#: lib/biblio_list_model.inc.php:182
-#: lib/biblio_list_model.inc.php:203
+#: lib/biblio_list_model.inc.php:182 lib/biblio_list_model.inc.php:203
 msgid "Record Detail"
 msgstr ""
 
@@ -3965,17 +3988,20 @@ msgstr ""
 msgid "No Attachment"
 msgstr ""
 
-#: lib/contents/default.inc.php:132
-#: lib/contents/default.inc.php:145
+#: lib/contents/default.inc.php:132 lib/contents/default.inc.php:145
 msgid "Found  <strong>{biblio_list->num_rows}</strong> from your keywords"
 msgstr ""
 
 #: lib/contents/default.inc.php:178
-msgid "You currently on page <strong>{page}</strong> of <strong>{total_pages}</strong> page(s)"
+msgid ""
+"You currently on page <strong>{page}</strong> of <strong>{total_pages}</"
+"strong> page(s)"
 msgstr ""
 
 #: lib/contents/member.inc.php:39
-msgid "Welcome to Member's Area where you can view your current loan information and view your membership status."
+msgid ""
+"Welcome to Member's Area where you can view your current loan information "
+"and view your membership status."
 msgstr ""
 
 #: lib/contents/member.inc.php:65
@@ -3995,7 +4021,10 @@ msgid "Wrong Captcha Code entered, Please write the right code!"
 msgstr ""
 
 #: lib/contents/member.inc.php:122
-msgid "Please insert your member ID and password given by library system administrator. If you are library's member and don't have a password yet, please contact library staff."
+msgid ""
+"Please insert your member ID and password given by library system "
+"administrator. If you are library's member and don't have a password yet, "
+"please contact library staff."
 msgstr ""
 
 #: lib/contents/member.inc.php:151
@@ -4014,8 +4043,7 @@ msgstr ""
 msgid "Confirm Password"
 msgstr ""
 
-#: lib/contents/member.inc.php:203
-#: lib/contents/member.inc.php:602
+#: lib/contents/member.inc.php:203 lib/contents/member.inc.php:602
 msgid "Change Password"
 msgstr ""
 
@@ -4040,7 +4068,8 @@ msgid "Your Membership Already EXPIRED! Please extend your membership."
 msgstr ""
 
 #: lib/contents/member.inc.php:401
-msgid "Membership currently in pending state, no loan transaction can be made yet."
+msgid ""
+"Membership currently in pending state, no loan transaction can be made yet."
 msgstr ""
 
 #: lib/contents/member.inc.php:434
@@ -4070,7 +4099,9 @@ msgid "Current password entered WRONG! Please insert the right password!"
 msgstr ""
 
 #: lib/contents/member.inc.php:530
-msgid "Password confirmation FAILED! Make sure to check undercase or uppercase letters!"
+msgid ""
+"Password confirmation FAILED! Make sure to check undercase or uppercase "
+"letters!"
 msgstr ""
 
 #: lib/contents/member.inc.php:532
@@ -4103,7 +4134,9 @@ msgid ", thank you for inserting your data to our visitor log"
 msgstr ""
 
 #: lib/contents/visitor.inc.php:101
-msgid "Your membership already EXPIRED, please renew/extend your membership immediately"
+msgid ""
+"Your membership already EXPIRED, please renew/extend your membership "
+"immediately"
 msgstr ""
 
 #: lib/contents/visitor.inc.php:104
@@ -4147,7 +4180,9 @@ msgid "Wrong Username or Password. ACCESS DENIED"
 msgstr ""
 
 #: lib/contents/login.inc.php:119
-msgid "Your browser does not support Javascript or Javascript is disabled. Application won't run without Javascript!"
+msgid ""
+"Your browser does not support Javascript or Javascript is disabled. "
+"Application won't run without Javascript!"
 msgstr ""
 
 #: lib/contents/download_current_loan.inc.php:88
@@ -4267,4 +4302,3 @@ msgstr ""
 #: simbio2/simbio_DB/datagrid/simbio_dbgrid.inc.php:373
 msgid "Uncheck All"
 msgstr ""
-

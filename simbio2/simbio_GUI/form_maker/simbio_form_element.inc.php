@@ -24,7 +24,7 @@
 // be sure that this file not accessed directly
 if (!defined('INDEX_AUTH')) {
   die("can not access this file directly");
-} elseif (INDEX_AUTH != 1) { 
+} elseif (INDEX_AUTH != 1) {
   die("can not access this file directly");
 }
 
@@ -150,7 +150,7 @@ class simbio_fe_AJAX_select extends abs_simbio_form_element
 
   public function out()
   {
-    $_buffer = '<input type="text" id="'.$this->element_name.'" name="'.$this->element_name.'" class="'.$this->element_css_class.'" onkeyup="showDropDown(\''.$this->handler_URL.'\', \''.$this->element_name.'\', \''.$this->additional_params.'\')" value="'.$this->element_value.'" />';
+    $_buffer = '<input type="text" autocomplete="off" id="'.$this->element_name.'" name="'.$this->element_name.'" class="'.$this->element_css_class.' notAJAX" onkeyup="showDropDown(\''.$this->handler_URL.'\', \''.$this->element_name.'\', \''.$this->additional_params.'\')" value="'.$this->element_value.'" />';
     $_buffer .= '<ul class="'.$this->element_dd_list_class.'" id="'.$this->element_name.'List"><li style="padding: 2px; font-weight: bold;">'.$this->element_dd_list_default_text.'</li></ul>';
 
     return $_buffer;
@@ -244,13 +244,13 @@ class simbio_fe_radio extends abs_simbio_form_element
     } else {
       $_elmnt_each_column = 2;
     }
-    
+
     $_helptext = '';
 
     if ($this->element_helptext) {
       $_helptext .= ' title="'.$this->element_helptext.'"';
     }
-    
+
     // chunk the array into pieces of array
     $_chunked_array = array_chunk($this->element_options, $_elmnt_each_column, true);
 
