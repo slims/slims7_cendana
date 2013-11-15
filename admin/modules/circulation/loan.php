@@ -120,11 +120,11 @@ if (isset($_SESSION['memberID'])) {
     $memberID = trim($_SESSION['memberID']);
     ?>
     <!--item loan form-->
-    <div style="padding: 5px; background: #ccc;">
+    <div class="loanItemCodeInput">
         <form name="itemLoan" id="loanForm" action="circulation_action.php" method="post" style="display: inline;">
             <?php echo __('Insert Item Code/Barcode'); ?> :
             <input type="text" id="tempLoanID" name="tempLoanID" />
-            <input type="submit" value="<?php echo __('Loan'); ?>" class="button" />
+            <input type="submit" value="<?php echo __('Loan'); ?>" class="btn btn-warning button" />
         </form>
     </div>
     <script type="text/javascript">$('#tempLoanID').focus();</script>

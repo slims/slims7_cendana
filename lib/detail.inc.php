@@ -128,20 +128,22 @@ class detail extends content_list
 
         // get title and set it to public record_title property
         $this->record_title = $this->record_detail['title'];
-        $this->metadata .= '<meta name="Title" content="'.$this->record_title.'" />'."\n";
-        $this->metadata .= '<meta name="Edition" content="'.$this->record_detail['edition'].'" />'."\n";
-        $this->metadata .= '<meta name="Call Number" content="'.$this->record_detail['call_number'].'" />'."\n";
-        $this->metadata .= '<meta name="ISBN/ISSN" content="'.$this->record_detail['isbn_issn'].'" />'."\n";
-        $this->metadata .= '<meta name="Classification" content="'.$this->record_detail['classification'].'" />'."\n";
-        $this->metadata .= '<meta name="Series Title" content="'.$this->record_detail['series_title'].'" />'."\n";
-        $this->metadata .= '<meta name="Media" content="'.$this->record_detail['gmd_name'].'" />'."\n";
-        $this->metadata .= '<meta name="Language" content="'.$this->record_detail['language_name'].'" />'."\n";
-        $this->metadata .= '<meta name="Publisher" content="'.$this->record_detail['publisher_name'].'" />'."\n";
-        $this->metadata .= '<meta name="Publish Year" content="'.$this->record_detail['publish_year'].'" />'."\n";
-        $this->metadata .= '<meta name="Publish Place" content="'.$this->record_detail['publish_place'].'" />'."\n";
-        $this->metadata .= '<meta name="Physical Description" content="'.$this->record_detail['collation'].'" />'."\n";
-        $this->metadata .= '<meta name="Notes" content="'.strip_tags($this->record_detail['notes']).'" />'."\n";
-        $this->metadata .= '<meta name="Statement of Responsibility" content="'.$this->record_detail['sor'].'" />'."\n";
+        $this->metadata = '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />';
+        $this->metadata .= '<meta name="DC.title" content="'.$this->record_title.'" />';
+        $this->metadata .= '<meta name="DC.identifier" content="'.$this->record_detail['isbn_issn'].'" />';
+        $this->metadata .= '<meta name="DC.format" content="'.$this->record_detail['gmd_name'].'" />';
+        $this->metadata .= '<meta name="DC.type" content="'.$this->record_detail['gmd_name'].'" />';
+        $this->metadata .= '<meta name="DC.language" content="'.$this->record_detail['language_name'].'" />';
+        $this->metadata .= '<meta name="DC.publisher" content="'.$this->record_detail['publisher_name'].'" />';
+        $this->metadata .= '<meta name="DC.date" content="'.$this->record_detail['publish_year'].'" />';
+        $this->metadata .= '<meta name="DC.coverage" content="'.$this->record_detail['publish_place'].'" />';
+        $this->metadata .= '<meta name="DC.description" content="'.strip_tags($this->record_detail['notes']).'" />';
+        $this->metadata .= '<meta name="Physical Description" content="'.$this->record_detail['collation'].'" />';
+        $this->metadata .= '<meta name="Statement of Responsibility" content="'.$this->record_detail['sor'].'" />';
+        $this->metadata .= '<meta name="Classification" content="'.$this->record_detail['classification'].'" />';
+        $this->metadata .= '<meta name="Series Title" content="'.$this->record_detail['series_title'].'" />';
+        $this->metadata .= '<meta name="Edition" content="'.$this->record_detail['edition'].'" />';
+        $this->metadata .= '<meta name="Call Number" content="'.$this->record_detail['call_number'].'" />';
 
         // check image
         if (!empty($this->record_detail['image'])) {
@@ -161,7 +163,7 @@ class detail extends content_list
             .' LEFT JOIN biblio_author AS ba ON a.author_id=ba.author_id WHERE ba.biblio_id='.$this->detail_id.' ORDER BY level ASC');
         $authors = '';
         // authors for metadata
-        $this->metadata .= '<meta name="Authors" content="';
+        $this->metadata .= '<meta name="DC.creator" content="';
         while ($data = $_biblio_authors_q->fetch_row()) {
             if ($data[1] == 'p') {
                 $data[1] = "Personal Name";
@@ -182,7 +184,7 @@ class detail extends content_list
         $_biblio_topics_q = $this->obj_db->query('SELECT topic FROM mst_topic AS a
             LEFT JOIN biblio_topic AS ba ON a.topic_id=ba.topic_id WHERE ba.biblio_id='.$this->detail_id);
         $topics = '';
-        $this->metadata .= '<meta name="topics" content="';
+        $this->metadata .= '<meta name="DC.subject" content="';
         while ($data = $_biblio_topics_q->fetch_row()) {
             $topics .= '<a href="?subject='.urlencode('"'.$data[0].'"').'&search=Search" title="'.__('Click to view others documents with this subject').'">'.$data[0]."</a><br />";
             $this->metadata .= $data[0].'; ';

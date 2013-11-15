@@ -386,7 +386,8 @@ form {
 	background: #000 !important;
 	margin: 0 !important;
 	padding: 10px 10px 10px 20px !important;
-	height: 5px !important;
+	height: 25px;
+	clear: both;
 }
 
 .biblioCheck {
@@ -847,6 +848,13 @@ h4.title {
 
 .cluster-item:hover .cluster-item-count {
 	background-color: #000;
+}
+
+/*----------------------------------------------------------------*/
+/* Comment */
+/*----------------------------------------------------------------*/
+#comment {
+	width: 100%;
 }
 
 /*----------------------------------------------------------------*/

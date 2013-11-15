@@ -500,16 +500,16 @@ if (isset($_POST['memberID']) OR isset($_SESSION['memberID'])) {
         }
         echo '</table>'."\n";
         // tab and iframe
-				echo '<div class="btn-group circ-action-btn">';
-        echo '<input type="button" accesskey="L" class="btn btn-info tab'.$add_style.'" value="'.__('Loans').' (L)" src="'.MWB.'circulation/loan.php" '.$disabled.' />';
-        echo '<input type="button" accesskey="C" class="btn btn-warning tab" value="'.__('Current Loans').' (C)" src="'.MWB.'circulation/loan_list.php" />';
+				echo '<ul class="nav nav-tabs nav-justified circ-action-btn">';
+        echo '<li><a accesskey="L" class="tab notAJAX" href="'.MWB.'circulation/loan.php" target="listsFrame">'.__('Loans').' (L)</a></li>';
+        echo '<li class="active"><a accesskey="C" class="tab notAJAX" href="'.MWB.'circulation/loan_list.php" target="listsFrame">'.__('Current Loans').' (C)</a></li>';
         if ($member_type_d['enable_reserve']) {
-          echo '<input type="button" class="btn btn-info" accesskey="R" class="btn btn-info tab'.$add_style.'" value="'.__('Reserve').' (R)" src="'.MWB.'circulation/reserve_list.php" '.$disabled.' />';
+          echo '<li><a accesskey="R" class="tab notAJAX" href="'.MWB.'circulation/reserve_list.php" target="listsFrame">'.__('Reserve').' (R)</a></li>';
         }
-        echo '<input type="button" accesskey="F" class="btn btn-info tab" value="'.__('Fines').' (F)" src="'.MWB.'circulation/fines_list.php" />';
-        echo '<input type="button" accesskey="H" class="btn btn-info tab" value="'.__('Loan History').' (H)" src="'.MWB.'circulation/member_loan_hist.php" />'."\n";
-        echo '</div>';
-				echo '<iframe src="modules/circulation/loan_list.php" id="listsFrame" class="expandable border"></iframe>'."\n";
+        echo '<li><a accesskey="F" class="tab notAJAX" href="'.MWB.'circulation/fines_list.php" target="listsFrame">'.__('Fines').' (F)</a></li>';
+        echo '<li><a accesskey="H" class="tab notAJAX" href="'.MWB.'circulation/member_loan_hist.php" target="listsFrame">'.__('Loan History').' (H)</a></li>'."\n";
+        echo '</ul>';
+				echo '<iframe src="modules/circulation/loan_list.php" id="listsFrame" name="listsFrame" class="expandable border"></iframe>'."\n";
     }
     exit();
 }

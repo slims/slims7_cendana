@@ -845,27 +845,18 @@ input.small_input {
 .circ-action-btn {
 	clear: both;
 	width: 100%;
+}
+
+.circ-action-btn li a {
+	font-size: 120%;
+	font-weight: bold;
+}
+
+.circ-action-btn li {
+	background: #f9f9f9;
+}
+
+.loanItemCodeInput, #pageContent .loanItemCodeInput {
 	padding: 5px;
-}
-
-.circ-action-btn input[type=button] {
-  width: 18%;
-}
-
-@media (max-width: 1200px)  {
-  .circ-action-btn input[type=button] {
-    width: 16.8%;
-  }
-}
-
-@media (max-width: 800px)  {
-  .circ-action-btn input[type=button] {
-    width: 16%;
-  }
-}
-
-@media (min-width: 1201px) and  (max-width: 1259px)  {
-  .circ-action-btn input[type=button] {
-    width: 17.5%;
-  }
+	background: rgb(48, 192, 251) !important;
 }

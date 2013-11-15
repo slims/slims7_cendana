@@ -1,10 +1,9 @@
 /**
- * Arie Nugraha 2009
+ * Arie Nugraha 2013
  * Simbio GUI related functions
  *
  * Require : jQuery library
- */
-
+ **/
 
 /**
  * jQuery Plugins function to set row event on datagrid table
@@ -297,11 +296,11 @@ $('document').ready(function() {
   container.on('click', 'a', function(evt) {
 		// avoid conflict with tinyMCE and other non-AJAX anchor
 		container.find('.mceEditor a, .chzn-container a').addClass('notAJAX');
-    evt.preventDefault();
     var anchor = $(this);
 		if (anchor.hasClass('notAJAX')) {
       return true;
 		}
+		evt.preventDefault();
 		var ajaxContainer = $('#mainContent,#pageContent');
     // for submenu
     // remove other menu class
@@ -352,14 +351,11 @@ $('document').ready(function() {
   });
 
 	// register event for tab buttons
-  container.on('click', 'input.tab', function() {
-    container.find('input.tab').removeClass('tabSelected');
-    var tabButton = $(this).addClass('tabSelected');
-    var tabSrc = tabButton.attr('src');
-    if (tabSrc) {
-      // set iframe content
-      setIframeContent('listsFrame', tabSrc);
-    }
+  container.on('click', 'a.tab', function() {
+    var tab = $(this);
+		var parentContainer = tab.parents('ul');
+		parentContainer.find('li').removeClass('active');
+    tab.parent().addClass('active');
   });
 
   // Register admin event for AJAX event

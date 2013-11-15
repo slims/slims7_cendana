@@ -280,7 +280,7 @@ class biblio_list extends biblio_list_model {
 
     $_add_sql_str .= ' WHERE opac_hide=0 ';
     // promoted flag
-    if ($this->only_promoted) { $_add_sql_str .= ' AND promoted=1'; }
+    // if ($this->only_promoted) { $_add_sql_str .= ' AND promoted=1'; }
     // main search criteria
     if ($this->criteria) {
       $_add_sql_str .= ' AND ('.$this->criteria['sql_criteria'].') ';

@@ -90,26 +90,26 @@ $social = array (
 
 ?>
 <!DOCTYPE html>
-<html><head>
- <title><?php echo $page_title; ?></title>
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
- <meta name="description" content="SLiMS (Senayan Library Management System) is an open source Library Management System. It is build on Open source technology like PHP and MySQL">
- <meta name="keywords" content="senayan,slims,library automation,free library application, library, perpustakaan, aplikasi perpustakaan">
- <meta name="viewport" content="width=device-width,initial-scale=1">
- <meta name="robots" content="index, nofollow">
- <!-- load style -->
- <link rel="shortcut icon" href="webicon.ico" type="image/x-icon" />
- <link href="template/core.style.css" rel="stylesheet" type="text/css" />
- <link href="<?php echo $sysconf['template']['css']; ?>" rel="stylesheet" type="text/css" />
- <!--[if IE]>
- <link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie.css"/>
- <![endif]-->
- <!--[if IE 6]>
- <link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie6.css"/>
- <![endif]-->
- <script type="text/javascript" src="<?php echo JWB; ?>jquery.js"></script>
- <script type="text/javascript" src="<?php echo JWB; ?>form.js"></script>
- <script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
+<html><head><title><?php echo $page_title; ?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="SLiMS (Senayan Library Management System) is an open source Library Management System. It is build on Open source technology like PHP and MySQL">
+<meta name="keywords" content="senayan,slims,library automation,free library application, library, perpustakaan, aplikasi perpustakaan">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index, nofollow">
+<!-- load style -->
+<link rel="shortcut icon" href="webicon.ico" type="image/x-icon" />
+<link href="template/core.style.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $sysconf['template']['css']; ?>" rel="stylesheet" type="text/css" />
+<!--[if IE]>
+<link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie.css"/>
+<![endif]-->
+<!--[if IE 6]>
+<link type="text/css" rel="stylesheet" media="all" href="<?php echo SWB; ?>template/default/ie6.css"/>
+<![endif]-->
+<?php echo $metadata; ?>
+<script type="text/javascript" src="<?php echo JWB; ?>jquery.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>form.js"></script>
+<script type="text/javascript" src="<?php echo JWB; ?>gui.js"></script>
 
 </head>
 
@@ -166,7 +166,7 @@ $social = array (
     <?php if (utility::isMemberLogin()) { ?>
     <div class="info">
 	    <?php echo $header_info; ?>
-    </div>	    
+    </div>
     <?php } ?>
 
       <?php if ($sysconf['enable_search_clustering'] && !isset($_GET['fromcluster'])) { ?>
@@ -208,7 +208,7 @@ $social = array (
 		    </div>
 		    <div id="advance-search" style="display:none;" >
 			<form name="advSearchForm" id="advSearchForm" action="index.php" method="get">
-		    <input type="hidden" name="search" value="Search" />				
+		    <input type="hidden" name="search" value="Search" />
 			<div class="simply" >
 			    <input type="text" name="title" id="title" placeholder="Title" />
 			</div>
@@ -289,7 +289,7 @@ $social = array (
 	    <div class="info">
 		    <?php echo $info; ?>
 	    </div>
-	    <?php if (utility::isMemberLogin()) { ?>	    
+	    <?php if (utility::isMemberLogin()) { ?>
 	    <div class="tagline">
 		    <?php echo __('User Login'); ?>
 	    </div>
@@ -316,7 +316,7 @@ $social = array (
 		    <?php if (utility::isMemberLogin()) { ?>
 		    <div class="search-result-info">
 			    <?php echo $header_info; ?>
-		    </div>	    
+		    </div>
 		    <?php } ?>
 		    <div class="section page">
 			    <div class="collection-detail">
@@ -329,12 +329,12 @@ $social = array (
     <div class="tagline">
 	    <?php echo $info; ?>
     </div>
-    <?php if (utility::isMemberLogin()) { ?>	    
+    <?php if (utility::isMemberLogin()) { ?>
     <div class="search-result-info">
 	    <?php echo $header_info; ?>
-    </div>	    
+    </div>
     <?php } ?>
-    
+
     <div class="search">
 	    <div id="simply-search">
 			<div class="simply" >
@@ -346,8 +346,8 @@ $social = array (
 	    </div>
 	    <div id="advance-search" style="display:none;" >
 		<form name="advSearchForm" id="advSearchForm" action="index.php" method="get">
-	    <input type="hidden" name="search" value="Search" />				
-	
+	    <input type="hidden" name="search" value="Search" />
+
 		<div class="simply" >
 		    <input type="text" name="title" id="title" placeholder="<?php echo __('Title'); ?>" />
 		</div>
@@ -467,15 +467,15 @@ $social = array (
 	$(document).ready(function()
 	{
 		$('#keyword').keyup(function(){
-			$('#title').val();		
-			$('#title').val($('#keyword').val());		
+			$('#title').val();
+			$('#title').val($('#keyword').val());
 		});
 
 		$('#title').keyup(function(){
-			$('#keyword').val();		
-			$('#keyword').val($('#title').val());		
+			$('#keyword').val();
+			$('#keyword').val($('#title').val());
 		});
-		
+
 		$('#advSearchForm input').attr('autocomplete','off');
 		$('#title').attr('style','');
 

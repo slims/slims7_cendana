@@ -86,7 +86,7 @@ class biblio_list extends biblio_list_model
       $_add_sql_str .= ' `index`.`opac_hide`=0';
 	  }
     // promoted flag
-    if ($this->only_promoted) { $_add_sql_str .= ' AND promoted=1'; }
+    // if ($this->only_promoted) { $_add_sql_str .= ' AND promoted=1'; }
 
     $_sql_str .= ' FROM `search_biblio` AS `index` '.$_add_sql_str.' ORDER BY `index`.`last_update` DESC LIMIT '.$_offset.', '.$this->num2show;
     // for debugging purpose only
