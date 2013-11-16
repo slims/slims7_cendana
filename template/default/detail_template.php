@@ -13,6 +13,7 @@ ob_start(); /* <- DONT REMOVE THIS COMMAND */
   </div>
   <div class="span10">
     <h4 class="title">{title}</h4>
+    <div>{social_shares}</div>
     <span class="abstract">
     <hr/>
     {notes}

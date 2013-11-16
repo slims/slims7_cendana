@@ -116,6 +116,7 @@ class detail extends content_list
     {
         // get global configuration vars array
         global $sysconf;
+        $_detail_link = SWB.'index.php?p=show_detail&id='.$this->detail_id;
 
         foreach ($this->record_detail as $idx => $data) {
             if ($idx == 'notes') {
@@ -209,6 +210,24 @@ class detail extends content_list
                 type: \'POST\',
                 data: \'id='.$this->detail_id.'&ajaxsec_user='.$sysconf['ajaxsec_user'].'&ajaxsec_passwd='.$sysconf['ajaxsec_passwd'].'\',
                 success: function(ajaxRespond) { jQuery(\'#attachListLoad\').html(ajaxRespond); } }); });</script>';
+
+        if ($sysconf['social_shares']) {
+			    // share buttons
+			    $_detail_link_encoded = urlencode('http://'.$_SERVER['SERVER_NAME'].$_detail_link);
+			    $_share_btns = "\n".'<ul class="share-buttons">'.
+            '<li>'.__('Share to').': </li>'.
+            '<li><a href="http://www.facebook.com/sharer.php?u='.$_detail_link_encoded.'" title="Facebook" target="_blank"><img src="./images/default/fb.gif" alt="Facebook" /></a></li>'.
+            '<li><a href="http://twitter.com/share?url='.$_detail_link_encoded.'&text='.urlencode($this->record_title).'" title="Twitter" target="_blank"><img src="./images/default/tw.gif" alt="Twitter" /></a></li>'.
+            '<li><a href="https://plus.google.com/share?url='.$_detail_link_encoded.'" title="Google Plus" target="_blank"><img src="./images/default/gplus.gif" alt="Google" /></a></li>'.
+            '<li><a href="http://www.digg.com/submit?url='.$_detail_link_encoded.'" title="Digg It" target="_blank"><img src="./images/default/digg.gif" alt="Digg" /></a></li>'.
+            '<li><a href="http://reddit.com/submit?url='.$_detail_link_encoded.'&title='.urlencode($this->record_title).'" title="Reddit" target="_blank"><img src="./images/default/rdit.gif" alt="Reddit" /></a></li>'.
+            '<li><a href="http://www.linkedin.com/shareArticle?mini=true&url='.$_detail_link_encoded.'" title="LinkedIn" target="_blank"><img src="./images/default/lin.gif" alt="LinkedIn" /></a></li>'.
+            '<li><a href="http://www.stumbleupon.com/submit?url='.$_detail_link_encoded.'&title='.urlencode($this->record_title).'" title="Stumbleupon" target="_blank"><img src="./images/default/su.gif" alt="StumbleUpon" /></a></li>'.
+            '</ul>'."\n";
+
+          $this->record_detail['social_shares'] = $_share_btns;
+			  }
+
 
         return $this->record_detail;
     }

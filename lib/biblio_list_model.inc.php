@@ -183,6 +183,7 @@ abstract class biblio_list_model
 		}
     while ($_biblio_d = $this->resultset->fetch_assoc()) {
 			$_detail_link = SWB.'index.php?p=show_detail&id='.$_biblio_d['biblio_id'].'&keywords='.$_keywords;
+			$_title_plain = $_biblio_d['title'];
       $_biblio_d['title'] = '<a href="'.$_detail_link.'" class="titleField" title="'.__('Record Detail').'">'.$_biblio_d['title'].'</a>';
       // label
       if ($this->show_labels AND !empty($_biblio_d['labels'])) {
@@ -281,12 +282,12 @@ abstract class biblio_list_model
 			  $_share_btns = "\n".'<ul class="share-buttons">'.
           '<li>'.__('Share to').': </li>'.
           '<li><a href="http://www.facebook.com/sharer.php?u='.$_detail_link_encoded.'" title="Facebook" target="_blank"><img src="./images/default/fb.gif" alt="Facebook" /></a></li>'.
-          '<li><a href="http://twitter.com/share?url='.$_detail_link_encoded.'&text=Share+to+Twitter" title="Twitter" target="_blank"><img src="./images/default/tw.gif" alt="Twitter" /></a></li>'.
+          '<li><a href="http://twitter.com/share?url='.$_detail_link_encoded.'&text='.urlencode($_title_plain).'" title="Twitter" target="_blank"><img src="./images/default/tw.gif" alt="Twitter" /></a></li>'.
           '<li><a href="https://plus.google.com/share?url='.$_detail_link_encoded.'" title="Google Plus" target="_blank"><img src="./images/default/gplus.gif" alt="Google" /></a></li>'.
           '<li><a href="http://www.digg.com/submit?url='.$_detail_link_encoded.'" title="Digg It" target="_blank"><img src="./images/default/digg.gif" alt="Digg" /></a></li>'.
-          '<li><a href="http://reddit.com/submit?url='.$_detail_link_encoded.'&title=Share+to+Reddit" title="Reddit" target="_blank"><img src="./images/default/rdit.gif" alt="Reddit" /></a></li>'.
+          '<li><a href="http://reddit.com/submit?url='.$_detail_link_encoded.'&title='.urlencode($_title_plain).'" title="Reddit" target="_blank"><img src="./images/default/rdit.gif" alt="Reddit" /></a></li>'.
           '<li><a href="http://www.linkedin.com/shareArticle?mini=true&url='.$_detail_link_encoded.'" title="LinkedIn" target="_blank"><img src="./images/default/lin.gif" alt="LinkedIn" /></a></li>'.
-          '<li><a href="http://www.stumbleupon.com/submit?url='.$_detail_link_encoded.'&title=Share+to+Stumbleupon" title="Stumbleupon" target="_blank"><img src="./images/default/su.gif" alt="StumbleUpon" /></a></li>'.
+          '<li><a href="http://www.stumbleupon.com/submit?url='.$_detail_link_encoded.'&title='.urlencode($_title_plain).'" title="Stumbleupon" target="_blank"><img src="./images/default/su.gif" alt="StumbleUpon" /></a></li>'.
           '</ul>'."\n";
 
         $_buffer .= $_share_btns;
