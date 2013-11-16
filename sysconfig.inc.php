@@ -595,6 +595,9 @@ $sysconf['authority_level'][10] = __('Contributor');
 // comment
 $sysconf['comment']['enable'] =  true;
 
+// social apps sharing
+$sysconf['social_shares'] = true;
+
 // redirect to mobile template on mobile mode
 if (defined('LIGHTWEIGHT_MODE') AND !isset($_COOKIE['FULLSITE_MODE']) AND $sysconf['template']['responsive'] === false) {
   $sysconf['template']['theme'] = 'lightweight';

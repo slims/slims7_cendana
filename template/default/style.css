@@ -1207,3 +1207,19 @@ h4.title {
 .topbook-container {
 	margin-top: 20px;
 }
+
+.share-buttons {
+	clear: both;
+	float: right;
+	list-style: none;
+	margin: 3px;
+}
+
+.share-buttons li {
+	display: inline;
+}
+
+.share-buttons li a {
+	display: inline-block;
+	margin-right: 2px;
+}

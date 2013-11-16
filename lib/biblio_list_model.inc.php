@@ -182,7 +182,8 @@ abstract class biblio_list_model
 		  $_keywords = urlencode(trim(urldecode($_GET['keywords'])));
 		}
     while ($_biblio_d = $this->resultset->fetch_assoc()) {
-      $_biblio_d['title'] = '<a href="'.$sysconf['baseurl'].'index.php?p=show_detail&id='.$_biblio_d['biblio_id'].'&keywords='.$_keywords.'" class="titleField" title="'.__('Record Detail').'">'.$_biblio_d['title'].'</a>';
+			$_detail_link = SWB.'index.php?p=show_detail&id='.$_biblio_d['biblio_id'].'&keywords='.$_keywords;
+      $_biblio_d['title'] = '<a href="'.$_detail_link.'" class="titleField" title="'.__('Record Detail').'">'.$_biblio_d['title'].'</a>';
       // label
       if ($this->show_labels AND !empty($_biblio_d['labels'])) {
         $arr_labels = @unserialize($_biblio_d['labels']);
@@ -203,9 +204,9 @@ abstract class biblio_list_model
 				}
       }
       // button
-      $_biblio_d['detail_button'] = '<a href="'.$sysconf['baseurl'].'index.php?p=show_detail&id='.$_biblio_d['biblio_id'].'&keywords='.$_keywords.'" class="detailLink" title="'.__('Record Detail').'">'.__('Record Detail').'</a>';
+      $_biblio_d['detail_button'] = '<a href="'.$_detail_link.'" class="detailLink" title="'.__('Record Detail').'">'.__('Record Detail').'</a>';
       if ($this->xml_detail) {
-        $_biblio_d['xml_button'] = '<a href="'.$sysconf['baseurl'].'index.php?p=show_detail&inXML=true&id='.$_biblio_d['biblio_id'].'&keywords='.$_keywords.'" class="xmlDetailLink" title="View Detail in XML Format" target="_blank">XML Detail</a>';
+        $_biblio_d['xml_button'] = '<a href="'.$_detail_link.'&inXML=true" class="xmlDetailLink" title="View Detail in XML Format" target="_blank">XML Detail</a>';
       } else {
         $_biblio_d['xml_button'] = '';
       }
@@ -268,11 +269,29 @@ abstract class biblio_list_model
 			  			$_buffer .= '<div class="customField locationField"><b>'.$_field_opts[1].'</b> : '.$sysconf['node'][$_biblio_d['node_id']]['name'].'</div>';
 						}
         	}
-    	}
-		}
-	  // checkbox for marking collection
-	  $_check_mark = (utility::isMemberLogin() && $this->enable_mark)?' <input type="checkbox" id="biblioCheck'.$_i.'" name="biblio[]" class="biblioCheck" value="'.$_biblio_d['biblio_id'].'" /> <label for="biblioCheck'.$_i.'">'.__('mark this').'</label>':'';
+    	  }
+		  }
+	    // checkbox for marking collection
+	    $_check_mark = (utility::isMemberLogin() && $this->enable_mark)?' <input type="checkbox" id="biblioCheck'.$_i.'" name="biblio[]" class="biblioCheck" value="'.$_biblio_d['biblio_id'].'" /> <label for="biblioCheck'.$_i.'">'.__('mark this').'</label>':'';
       $_buffer .= '<div class="subItem">'.$_biblio_d['detail_button'].' '.$_biblio_d['xml_button'].$_check_mark.'</div>';
+
+      if ($sysconf['social_shares']) {
+			  // share buttons
+			  $_detail_link_encoded = urlencode('http://'.$_SERVER['SERVER_NAME'].$_detail_link);
+			  $_share_btns = "\n".'<ul class="share-buttons">'.
+          '<li>'.__('Share to').': </li>'.
+          '<li><a href="http://www.facebook.com/sharer.php?u='.$_detail_link_encoded.'" title="Facebook" target="_blank"><img src="./images/default/fb.gif" alt="Facebook" /></a></li>'.
+          '<li><a href="http://twitter.com/share?url='.$_detail_link_encoded.'&text=Share+to+Twitter" title="Twitter" target="_blank"><img src="./images/default/tw.gif" alt="Twitter" /></a></li>'.
+          '<li><a href="https://plus.google.com/share?url='.$_detail_link_encoded.'" title="Google Plus" target="_blank"><img src="./images/default/gplus.gif" alt="Google" /></a></li>'.
+          '<li><a href="http://www.digg.com/submit?url='.$_detail_link_encoded.'" title="Digg It" target="_blank"><img src="./images/default/digg.gif" alt="Digg" /></a></li>'.
+          '<li><a href="http://reddit.com/submit?url='.$_detail_link_encoded.'&title=Share+to+Reddit" title="Reddit" target="_blank"><img src="./images/default/rdit.gif" alt="Reddit" /></a></li>'.
+          '<li><a href="http://www.linkedin.com/shareArticle?mini=true&url='.$_detail_link_encoded.'" title="LinkedIn" target="_blank"><img src="./images/default/lin.gif" alt="LinkedIn" /></a></li>'.
+          '<li><a href="http://www.stumbleupon.com/submit?url='.$_detail_link_encoded.'&title=Share+to+Stumbleupon" title="Stumbleupon" target="_blank"><img src="./images/default/su.gif" alt="StumbleUpon" /></a></li>'.
+          '</ul>'."\n";
+
+        $_buffer .= $_share_btns;
+			}
+
       $_buffer .= "</div></div>\n";
       $_i++;
     }
