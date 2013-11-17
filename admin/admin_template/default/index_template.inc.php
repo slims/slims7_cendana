@@ -87,6 +87,13 @@ jQuery(document).ready( function() {
 		setTimeout(function() { $('.loader').fadeOut('slow'); },  1000);
 	});
 
+ // bind arrow button event to show sidebar
+ $(document).on('keypress', function(evt) {
+   if (evt.altKey && (evt.keyCode == 39 || evt.keyCode == 37)) {
+     $('.sidebar-open').trigger('click');
+	 }
+ });
+
 })
 </script>
 

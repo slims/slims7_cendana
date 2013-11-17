@@ -294,8 +294,8 @@ if (isset($_POST['saveData']) AND $can_read AND $can_write) {
         $itemcode = preg_replace('@0{'.$len.'}$@i', $b, $pattern);
       } else { $itemcode = $pattern.$b; }
 
-      $item_insert_sql = sprintf("INSERT IGNORE INTO item (biblio_id, item_code, call_number)
-        VALUES (%d, '%s', '%s')", $updateRecordID?$updateRecordID:$last_biblio_id, $itemcode, $data['call_number']);
+      $item_insert_sql = sprintf("INSERT IGNORE INTO item (biblio_id, item_code, call_number, coll_type_id)
+        VALUES (%d, '%s', '%s', %d)", $updateRecordID?$updateRecordID:$last_biblio_id, $itemcode, $data['call_number'], $_POST['collTypeID']);
       @$dbs->query($item_insert_sql);
       }
     }
@@ -480,8 +480,15 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   // biblio specific detail info/area
   $form->addTextField('textarea', 'specDetailInfo', __('Specific Detail Info'), $rec_d['spec_detail_info'], 'rows="2" style="width: 100%"', __('explain more details about an item e.g. scale within a map, running time in a movie dvd.'));
   // biblio item batch add
-  $str_input = __('Pattern').': <input type="text" class="small_input" name="itemCodePattern" value="'.$sysconf['batch_item_code_pattern'].'" /> &nbsp;&nbsp;';
-  $str_input .= __('From').': <input type="text" class="small_input" name="itemCodeStart" value="0" /> '.__('To').' <input type="text" class="small_input" name="itemCodeEnd" value="0" />';
+  $str_input = __('Pattern').': <input type="text" class="small_input" name="itemCodePattern" value="'.$sysconf['batch_item_code_pattern'].'" /> &nbsp;';
+  $str_input .= __('From').': <input type="text" class="small_input" name="itemCodeStart" value="0" /> '.__('To').' <input type="text" class="small_input" name="itemCodeEnd" value="0" /> &nbsp;';
+    // get collection type data related to this record from database
+    $coll_type_q = $dbs->query("SELECT coll_type_id, coll_type_name FROM mst_coll_type");
+    $coll_type_options = array();
+    while ($coll_type_d = $coll_type_q->fetch_row()) {
+        $coll_type_options[] = array($coll_type_d[0], $coll_type_d[1]);
+    }
+  $str_input .= __('Collection Type').': '.simbio_form_element::selectList('collTypeID', $coll_type_options, '', 'style="width: 100px;"');;
   $form->addAnything(__('Item(s) code batch generator'), $str_input);
   // biblio item add
   if (!$in_pop_up AND $form->edit_mode) {

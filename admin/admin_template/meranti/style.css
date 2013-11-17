@@ -1191,3 +1191,30 @@ input.small_input {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#62cffc', endColorstr='#30c0fb', GradientType=0);
 	border: 0;
 }
+
+.container {
+	margin: 0 auto;
+	width: 99%;
+}
+
+.row {
+	width: 100%;
+	clear: both;
+	margin-top: 10px;
+}
+
+.col-md-4 {
+	width: 30%;
+	float: left;
+	margin-left: 10px;
+}
+
+.col-sm-2 {
+	width: 30%;
+	float: left;
+}
+
+.col-sm-8 {
+	width: 70%;
+	float: left;
+}
