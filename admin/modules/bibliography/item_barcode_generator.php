@@ -286,7 +286,7 @@ $datagrid->table_header_attr = 'class="dataListHeader" style="font-weight: bold;
 // edit and checkbox property
 $datagrid->edit_property = false;
 $datagrid->chbox_property = array('itemID', __('Add'));
-$datagrid->chbox_btn = __('Add To Print Queue');
+$datagrid->chbox_action_button = __('Add To Print Queue');
 $datagrid->chbox_confirm_msg = __('Add to print queue?');
 $datagrid->column_width = array('10%', '85%');
 // set checkbox action URL

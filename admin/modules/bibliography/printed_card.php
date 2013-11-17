@@ -373,7 +373,7 @@ $datagrid->table_header_attr = 'class="dataListHeader" style="font-weight: bold;
 // edit and checkbox property
 $datagrid->edit_property = false;
 $datagrid->chbox_property = array('itemID', __('Add'));
-$datagrid->chbox_btn = __('Add To Print Queue');
+$datagrid->chbox_action_button = __('Add To Print Queue');
 $datagrid->chbox_confirm_msg = __('Add to print queue?');
 // set delete proccess URL
 $datagrid->chbox_form_URL = $_SERVER['PHP_SELF'];
