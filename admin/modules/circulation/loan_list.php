@@ -87,8 +87,7 @@ if (isset($_SESSION['memberID'])) {
         LEFT JOIN mst_member_type AS mt ON m.member_type_id=mt.member_type_id
         LEFT JOIN mst_loan_rules AS lr ON mt.member_type_id=lr.member_type_id AND i.coll_type_id = lr.coll_type_id
         LEFT JOIN biblio AS b ON i.biblio_id=b.biblio_id
-        WHERE L.is_lent=1 AND L.is_return=0 AND L.member_id='%s'
-        GROUP BY ct.coll_type_id", $memberID)); // query modified by Indra Sutriadi
+        WHERE L.is_lent=1 AND L.is_return=0 AND L.member_id='%s'", $memberID)); // query modified by Indra Sutriadi
 
     // create table object
     $loan_list = new simbio_table();

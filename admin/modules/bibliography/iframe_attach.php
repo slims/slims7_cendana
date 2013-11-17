@@ -117,7 +117,7 @@ if ($biblioID) {
     $remove_link = '<a href="#" onclick="confirmProcess('.$biblioID.', '.$biblio_attach_d['file_id'].', \''.addslashes($biblio_attach_d['file_name']).'\')" class="notAJAX btn button btn-danger btn-delete">Delete</a>';
 
     // edit link
-    $edit_link = '<a class="notAJAX button btn openPopUp" href="'.MWB.'bibliography/pop_attach.php?biblioID='.$biblioID.'&fileID='.$biblio_attach_d['file_id'].'" width="600" height="300" title="'.__('File Attachments').'">Edit</a>';
+    $edit_link = '<a class="notAJAX button btn btn-default openPopUp" href="'.MWB.'bibliography/pop_attach.php?biblioID='.$biblioID.'&fileID='.$biblio_attach_d['file_id'].'" width="600" height="300" title="'.__('File Attachments').'">Edit</a>';
 
     // file link
     if (preg_match('@(video|audio|image)/.+@i', $biblio_attach_d['mime_type'])) {
