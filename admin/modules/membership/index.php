@@ -453,7 +453,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     // member photo
     $str_input = '';
     if ($rec_d['member_image']) {
-        $str_input = '<a href="'.SWB.'images/persons/'.$rec_d['member_image'].'" target="_blank"><strong>'.$rec_d['member_image'].'</strong></a><br />';
+        $str_input = '<div><a href="'.SWB.'images/persons/'.$rec_d['member_image'].'" class="openPopUp notAJAX"><strong>'.$rec_d['member_image'].'</strong></a> <a href="'.MWB.'membership/index.php?removeImage=true" image="'.$rec_d['image'].'" class="notAJAX removeImage">REMOVE IMAGE</a></div>';
     }
     $str_input .= simbio_form_element::textField('file', 'image');
     $str_input .= ' '.__('Maximum').' '.$sysconf['max_image_upload'].' KB';

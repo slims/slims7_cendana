@@ -568,7 +568,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   // biblio cover image
   $str_input = '';
   if ($rec_d['image']) {
-    $str_input = '<a href="'.SWB.'images/docs/'.$rec_d['image'].'" target="_blank"><strong>'.$rec_d['image'].'</strong></a><br />';
+    $str_input = '<div class="filename"><a href="'.SWB.'images/docs/'.$rec_d['image'].'" class="openPopUp notAJAX"><strong>'.$rec_d['image'].'</strong></a> <a href="'.MWB.'bibliography/index.php?removeImage=true" image="'.$rec_d['image'].'" class="notAJAX removeImage">REMOVE IMAGE</a></div>';
   }
   $str_input .= simbio_form_element::textField('file', 'image');
   $str_input .= ' Maximum '.$sysconf['max_image_upload'].' KB';

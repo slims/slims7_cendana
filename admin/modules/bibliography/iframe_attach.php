@@ -123,7 +123,7 @@ if ($biblioID) {
     if (preg_match('@(video|audio|image)/.+@i', $biblio_attach_d['mime_type'])) {
         $file = '<a class="notAJAX openPopUp" href="'.SWB.'index.php?p=multimediastream&fid='.$biblio_attach_d['file_id'].'&bid='.$biblio_attach_d['biblio_id'].'" width="640" height="480" title="'.$biblio_attach_d['file_title'].'">'.$biblio_attach_d['file_title'].'</a>';
     } else {
-        $file = '<a href="'.SWB.'admin/view.php?fid='.urlencode($biblio_attach_d['file_id']).'" target="_blank">'.$biblio_attach_d['file_title'].'</a>';
+        $file = '<a class="notAJAX openPopUp" href="'.SWB.'admin/view.php?fid='.urlencode($biblio_attach_d['file_id']).'" width="640" height="480" target="_blank">'.$biblio_attach_d['file_title'].'</a>';
     }
 
     $table->appendTableRow(array($remove_link, $edit_link, $file, $biblio_attach_d['file_desc']));

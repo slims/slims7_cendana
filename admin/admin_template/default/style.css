@@ -876,3 +876,8 @@ input.small_input {
 .col-md-4 {
 	width: 30%;
 }
+
+.removeImage {
+  color: #f00;
+	font-weight: bold;
+}

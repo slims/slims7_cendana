@@ -598,6 +598,11 @@ $sysconf['comment']['enable'] =  true;
 // social apps sharing
 $sysconf['social_shares'] = true;
 
+// system user type
+$sysconf['system_user_type'][1] = __('Librarian');
+$sysconf['system_user_type'][2] = __('Senior Librarian');
+$sysconf['system_user_type'][3] = __('Library Staff');
+
 // redirect to mobile template on mobile mode
 if (defined('LIGHTWEIGHT_MODE') AND !isset($_COOKIE['FULLSITE_MODE']) AND $sysconf['template']['responsive'] === false) {
   $sysconf['template']['theme'] = 'lightweight';
