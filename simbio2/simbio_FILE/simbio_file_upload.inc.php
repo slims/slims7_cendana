@@ -24,7 +24,7 @@
 // be sure that this file not accessed directly
 if (!defined('INDEX_AUTH')) {
   die("can not access this file directly");
-} elseif (INDEX_AUTH != 1) { 
+} elseif (INDEX_AUTH != 1) {
   die("can not access this file directly");
 }
 
@@ -105,8 +105,7 @@ class simbio_file_upload extends simbio
     if (empty($str_new_filename)) {
       $this->new_filename = basename($_FILES[$file_input_name]['name']);
     } else {
-      // $this->new_filename = $str_new_filename.$file_ext;
-      $this->new_filename = $str_new_filename;
+      $this->new_filename = $str_new_filename.$file_ext;
     }
 
     $_isTypeAllowed = 0;

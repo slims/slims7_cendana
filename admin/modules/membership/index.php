@@ -53,6 +53,15 @@ if (!$can_read) {
     die('<div class="errorBox">You dont have enough privileges to view this section</div>');
 }
 
+/* REMOVE IMAGE */
+if (isset($_POST['removeImage']) && isset($_POST['mimg']) && isset($_POST['img'])) {
+  $_delete = $dbs->query(sprintf('UPDATE member SET member_image=NULL WHERE member_id=%d', $_POST['mimg']));
+  if ($_delete) {
+    @unlink(sprintf(IMGBS.'persons/%s',$_POST['img']));
+    exit('<script type="text/javascript">alert(\''.$_POST['img'].' successfully removed!\'); $(\'#memberImage, #imageFilename\').remove();</script>');
+  }
+  exit();
+}
 /* member update process */
 if (isset($_POST['saveData']) AND $can_read AND $can_write) {
     // check form validity
@@ -453,7 +462,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     // member photo
     $str_input = '';
     if ($rec_d['member_image']) {
-        $str_input = '<div><a href="'.SWB.'images/persons/'.$rec_d['member_image'].'" class="openPopUp notAJAX"><strong>'.$rec_d['member_image'].'</strong></a> <a href="'.MWB.'membership/index.php?removeImage=true" image="'.$rec_d['image'].'" class="notAJAX removeImage">REMOVE IMAGE</a></div>';
+        $str_input = '<div id="imageFilename"><a href="'.SWB.'images/persons/'.$rec_d['member_image'].'" class="openPopUp notAJAX"><strong>'.$rec_d['member_image'].'</strong></a> <a href="'.MWB.'membership/index.php" postdata="removeImage=true&mimg='.$itemID.'&img='.$rec_d['member_image'].'" loadcontainer="imageFilename" class="makeHidden removeImage">'.__('REMOVE IMAGE').'</a></div>';
     }
     $str_input .= simbio_form_element::textField('file', 'image');
     $str_input .= ' '.__('Maximum').' '.$sysconf['max_image_upload'].' KB';
@@ -498,7 +507,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
             .'</div>';
             if ($rec_d['member_image']) {
                 if (file_exists(IMGBS.'persons/'.$rec_d['member_image'])) {
-                    echo '<div style="float: right;"><img src="../lib/phpthumb/phpThumb.php?src=../../images/persons/'.urlencode($rec_d['member_image']).'&w=53&timestamp='.date('his').'" style="border: 1px solid #999999" /></div>';
+                    echo '<div id="memberImage" style="float: right;"><img src="../lib/phpthumb/phpThumb.php?src=../../images/persons/'.urlencode($rec_d['member_image']).'&w=53&timestamp='.date('his').'" style="border: 1px solid #999999" /></div>';
                 }
             }
         echo '</div>'."\n";
