@@ -116,7 +116,7 @@ class simbio_form_table_AJAX extends simbio_form_maker
       // check if form tag is included
       if ($this->with_form_tag) {
           $_buttons = '<table cellspacing="0" cellpadding="3" style="width: 100%; background-color: #dcdcdc;">'
-              .'<tr><td><input type="submit" class="button btn btn-success" '.$this->submit_button_attr.' /> '.$_back_button.' '.$_delete_button.'</td><td align="right">'.$_edit_link.'</td>'
+              .'<tr><td><input type="submit" class="button btn btn-success" '.$this->submit_button_attr.' /> '.$_back_button.' '.$_delete_button.'</td><td class="edit-link-area">'.$_edit_link.'</td>'
               .'</tr></table>'."\n";
       }
       // get the table result

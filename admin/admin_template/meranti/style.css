@@ -1219,3 +1219,32 @@ input.small_input {
 	width: 70%;
 	float: left;
 }
+
+.removeImage {
+  color: #f00;
+	font-weight: bold;
+}
+
+.social-input {
+	clear: both;
+	margin-bottom: 5px;
+}
+
+.social-label, .social-form {
+	display: block;
+	float: left;
+	width: 100px;
+	margin-right: 5px;
+}
+
+.social-form {
+	width: 200px;
+}
+
+.social-form input[type=text] {
+	margin-bottom: 5px;
+}
+
+.edit-link-area {
+	text-align: right;
+}

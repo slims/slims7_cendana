@@ -603,6 +603,17 @@ $sysconf['system_user_type'][1] = __('Librarian');
 $sysconf['system_user_type'][2] = __('Senior Librarian');
 $sysconf['system_user_type'][3] = __('Library Staff');
 
+// social media for user and member
+$sysconf['social']['fb'] = 'Facebook';
+$sysconf['social']['tw'] = 'Twitter';
+$sysconf['social']['li'] = 'LinkedIn';
+$sysconf['social']['rd'] = 'Reddit';
+$sysconf['social']['pn'] = 'Pinterest';
+$sysconf['social']['gp'] = 'Google Plus+';
+$sysconf['social']['yt'] = 'YouTube';
+$sysconf['social']['bl'] = 'Blog';
+$sysconf['social']['ym'] = 'Yahoo! Messenger';
+
 // redirect to mobile template on mobile mode
 if (defined('LIGHTWEIGHT_MODE') AND !isset($_COOKIE['FULLSITE_MODE']) AND $sysconf['template']['responsive'] === false) {
   $sysconf['template']['theme'] = 'lightweight';

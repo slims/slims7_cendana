@@ -380,7 +380,7 @@ class simbio_datagrid extends simbio_table
 
             // paging
             if ($_paging) {
-                $_button_grp .= '<td align="right">'.$_paging."\n".'</td>';
+                $_button_grp .= '<td class="paging-area">'.$_paging."\n".'</td>';
             }
             $_button_grp .= '</tr></table>'."\n";
 
@@ -398,7 +398,7 @@ class simbio_datagrid extends simbio_table
             $_button_grp = '';
             if ($_paging) {
                 $_button_grp .= '<table cellspacing="0" cellpadding="5" class="notprinted" style="background-color: #dcdcdc; width: 100%;">'
-                    .'<tr><td align="right">'.$_paging."\n".'</td></tr></table>';
+                    .'<tr><td>'.$_paging."\n".'</td></tr></table>';
             }
 
             $_buffer .= $_button_grp.$this->printTable().$_button_grp;

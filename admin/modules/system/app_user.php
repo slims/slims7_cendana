@@ -94,6 +94,16 @@ if (isset($_POST['saveData'])) {
         $data['realname'] = $dbs->escape_string(trim($realName));
         $data['user_type'] = (integer)$_POST['userType'];
         $data['email'] = $dbs->escape_string(trim($_POST['eMail']));
+        $social_media = array();
+        foreach ($_POST['social'] as $id => $social) {
+          $social_val = $dbs->escape_string(trim($social));
+          if ($social_val != '') {
+            $social_media[$id] = $social_val;
+          }
+        }
+        if ($social_media) {
+          $data['social_media'] = $dbs->escape_string(serialize($social_media));
+        }
         if (isset($_POST['noChangeGroup'])) {
             // parsing groups data
             $groups = '';
@@ -305,11 +315,21 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     }
     $form->addSelectList('userType', __('User Type').'*', $utype_options, $rec_d['user_type']);
     // user e-mail
-    $form->addTextField('text', 'eMail', __('E-Mail').'*', $rec_d['email'], 'style="width: 50%;"');
+    $form->addTextField('text', 'eMail', __('E-Mail'), $rec_d['email'], 'style="width: 50%;"');
+    // social media link
+    $str_input = '';
+    $social_media = array();
+    if ($rec_d['social_media']) {
+      $social_media = @unserialize($rec_d['social_media']);
+    }
+    foreach ($sysconf['social'] as $id => $social) {
+      $str_input .= '<div class="social-input"><span class="social-label">'.$social.'</span><span class="social-form"><input type="text" name="social['.$id.']" value="'.(isset($social_media[$id])?$social_media[$id]:'').'" placeholder="'.$social.'" /></span></div>'."\n";
+    }
+    $form->addAnything(__('Social Media'), $str_input);
     // user photo
     $str_input = '';
     if ($rec_d['user_image']) {
-        $str_input = '<div id="imageFilename"><a href="'.SWB.'images/persons/'.$rec_d['user_image'].'" class="openPopUp notAJAX"><strong>'.$rec_d['user_image'].'</strong></a> <a href="'.MWB.'system/app_user.php" postdata="removeImage=true&uimg='.$itemID.'&img='.$rec_d['user_image'].'" loadcontainer="imageFilename" class="makeHidden removeImage">'.__('REMOVE IMAGE').'</a></div>';
+      $str_input = '<div id="imageFilename"><a href="'.SWB.'images/persons/'.$rec_d['user_image'].'" class="openPopUp notAJAX"><strong>'.$rec_d['user_image'].'</strong></a> <a href="'.MWB.'system/app_user.php" postdata="removeImage=true&uimg='.$itemID.'&img='.$rec_d['user_image'].'" loadcontainer="imageFilename" class="makeHidden removeImage">'.__('REMOVE IMAGE').'</a></div>';
     }
     $str_input .= simbio_form_element::textField('file', 'image');
     $str_input .= ' '.__('Maximum').' '.$sysconf['max_image_upload'].' KB';
