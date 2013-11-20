@@ -38,6 +38,7 @@ require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
 require SIMBIO.'simbio_GUI/paging/simbio_paging.inc.php';
 require SIMBIO.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
 require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
+require SIMBIO.'simbio_FILE/simbio_file_upload.inc.php';
 
 // privileges checking
 $can_read = utility::havePrivilege('system', 'r');
@@ -91,6 +92,33 @@ if (isset($_POST['saveData'])) {
         $data['input_date'] = date('Y-m-d');
         $data['last_update'] = date('Y-m-d');
 
+        if (!empty($_FILES['image']) AND $_FILES['image']['size']) {
+          // create upload object
+          $upload = new simbio_file_upload();
+          $upload->setAllowableFormat($sysconf['allowed_images']);
+          $upload->setMaxSize($sysconf['max_image_upload']*1024); // approx. 100 kb
+          $upload->setUploadDir(IMGBS.'persons');
+          // give new name for upload file
+          $new_filename = 'user_'.str_replace(array(',', '.', ' ', '-'), '_', strtolower($data['username']));
+          $upload_status = $upload->doUpload('image', $new_filename);
+          if ($upload_status == UPLOAD_SUCCESS) {
+            $data['user_image'] = $dbs->escape_string($upload->new_filename);
+          }
+        } else if (!empty($_POST['base64picstring'])) {
+			    list($filedata, $filedom) = explode('#image/type#', $_POST['base64picstring']);
+          $filedata = base64_decode($filedata);
+          $fileinfo = getimagesizefromstring($filedata);
+          $valid = strlen($filedata)/1024 < $sysconf['max_image_upload'];
+          $valid = (!$fileinfo || $valid === false) ? false : in_array($fileinfo['mime'], $sysconf['allowed_images_mimetype']);
+			    $new_filename = 'user_'.str_replace(array(',', '.', ' ', '-'), '_', strtolower($data['username'])).'.'.strtolower($filedom);
+
+			    if ($valid AND file_put_contents(IMGBS.'persons/'.$new_filename, $filedata)) {
+				    $data['user_image'] = $dbs->escape_string($new_filename);
+				    if (!defined('UPLOAD_SUCCESS')) define('UPLOAD_SUCCESS', 1);
+				    $upload_status = UPLOAD_SUCCESS;
+			    }
+		    }
+
         // create sql op object
         $sql_op = new simbio_dbop($dbs);
         if (isset($_POST['updateRecordID'])) {
@@ -105,6 +133,18 @@ if (isset($_POST['saveData'])) {
                 // write log
                 utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'system', $_SESSION['realname'].' update user data ('.$data['realname'].') with username ('.$data['username'].')');
                 utility::jsAlert(__('User Data Successfully Updated'));
+                // upload status alert
+                if (isset($upload_status)) {
+                    if ($upload_status == UPLOAD_SUCCESS) {
+                        // write log
+                        utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'system/user', $_SESSION['realname'].' upload image file '.$upload->new_filename);
+                        utility::jsAlert(__('Image Uploaded Successfully'));
+                    } else {
+                        // write log
+                        utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'system/user', 'ERROR : '.$_SESSION['realname'].' FAILED TO upload image file '.$upload->new_filename.', with error ('.$upload->error.')');
+                        utility::jsAlert(__('Image FAILED to upload'));
+                    }
+                }
                 echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(parent.$.ajaxHistory[0].url);</script>';
             } else { utility::jsAlert(__('User Data FAILED to Updated. Please Contact System Administrator')."\nDEBUG : ".$sql_op->error); }
             exit();
@@ -115,6 +155,18 @@ if (isset($_POST['saveData'])) {
                 // write log
                 utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'system', $_SESSION['realname'].' add new user ('.$data['realname'].') with username ('.$data['username'].')');
                 utility::jsAlert(__('New User Data Successfully Saved'));
+                // upload status alert
+                if (isset($upload_status)) {
+                    if ($upload_status == UPLOAD_SUCCESS) {
+                        // write log
+                        utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'system/user', $_SESSION['realname'].' upload image file '.$upload->new_filename);
+                        utility::jsAlert(__('Image Uploaded Successfully'));
+                    } else {
+                        // write log
+                        utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'system/user', 'ERROR : '.$_SESSION['realname'].' FAILED TO upload image file '.$upload->new_filename.', with error ('.$upload->error.')');
+                        utility::jsAlert(__('Image FAILED to upload'));
+                    }
+                }
                 echo '<script type="text/javascript">parent.$(\'#mainContent\').simbioAJAX(\''.$_SERVER['PHP_SELF'].'\');</script>';
             } else { utility::jsAlert(__('User Data FAILED to Save. Please Contact System Administrator')."\n".$sql_op->error); }
             exit();
@@ -238,7 +290,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     $form->addTextField('text', 'eMail', __('E-Mail').'*', $rec_d['email'], 'style="width: 50%;"');
     // user photo
     $str_input = '';
-    if ($rec_d['member_image']) {
+    if ($rec_d['user_image']) {
         $str_input = '<div><a href="'.SWB.'images/persons/'.$rec_d['user_image'].'" class="openPopUp notAJAX"><strong>'.$rec_d['user_image'].'</strong></a> <a href="'.MWB.'system/app_user.php?removeImage=true" image="'.$rec_d['image'].'" class="notAJAX removeImage">REMOVE IMAGE</a></div>';
     }
     $str_input .= simbio_form_element::textField('file', 'image');

@@ -59,6 +59,16 @@ if (isset($_GET['inPopUp'])) {
   $in_pop_up = true;
 }
 
+/* REMOVE IMAGE */
+if (isset($_POST['removeImage']) && isset($_POST['bimg']) && isset($_POST['img'])) {
+  $_delete = $dbs->query(sprintf('UPDATE biblio SET image=NULL WHERE biblio_id=%d', $_POST['bimg']));
+  $_delete2 = $dbs->query(sprintf('UPDATE search_biblio SET image=NULL WHERE biblio_id=%d', $_POST['bimg']));
+  if ($_delete) {
+    @unlink(sprintf(IMGBS.'docs/%s',$_POST['img']));
+    exit('<script type="text/javascript">alert(\''.$_POST['img'].' successfully removed!\'); $(\'#biblioImage, #imageFilename\').remove();</script>');
+  }
+  exit();
+}
 /* RECORD OPERATION */
 if (isset($_POST['saveData']) AND $can_read AND $can_write) {
   $title = trim(strip_tags($_POST['title']));
@@ -568,7 +578,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
   // biblio cover image
   $str_input = '';
   if ($rec_d['image']) {
-    $str_input = '<div class="filename"><a href="'.SWB.'images/docs/'.$rec_d['image'].'" class="openPopUp notAJAX"><strong>'.$rec_d['image'].'</strong></a> <a href="'.MWB.'bibliography/index.php?removeImage=true" image="'.$rec_d['image'].'" class="notAJAX removeImage">REMOVE IMAGE</a></div>';
+    $str_input = '<div id="imageFilename"><a href="'.SWB.'images/docs/'.$rec_d['image'].'" class="openPopUp notAJAX"><strong>'.$rec_d['image'].'</strong></a> <a href="'.MWB.'bibliography/index.php" postdata="removeImage=true&bimg='.$itemID.'&img='.$rec_d['image'].'" loadcontainer="imageFilename" class="makeHidden removeImage">REMOVE IMAGE</a></div>';
   }
   $str_input .= simbio_form_element::textField('file', 'image');
   $str_input .= ' Maximum '.$sysconf['max_image_upload'].' KB';
@@ -674,7 +684,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
       if ($in_pop_up) {
       $upper_dir = '../../';
       }
-      echo '<div style="float: right;"><img src="'.$upper_dir.'../lib/phpthumb/phpThumb.php?src=../../images/docs/'.urlencode($rec_d['image']).'&w=53" style="border: 1px solid #999999" /></div>';
+      echo '<div id="biblioImage" style="float: right;"><img src="'.$upper_dir.'../lib/phpthumb/phpThumb.php?src=../../images/docs/'.urlencode($rec_d['image']).'&w=53" style="border: 1px solid #999999" /></div>';
     }
     }
   echo '</div>'."\n";
