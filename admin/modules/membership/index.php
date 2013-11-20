@@ -501,7 +501,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
 
     // edit mode messagge
     if ($form->edit_mode) {
-        echo '<div class="infoBox" style="overflow: auto;">'
+        echo '<div class="infoBox">'
             .'<div style="float: left; width: 80%;">'.__('You are going to edit member data').' : <b>'.$rec_d['member_name'].'</b> <br />'.__('Last Updated').' '.$rec_d['last_update'].' '.$expired_message
             .'<div>'.__('Leave Password field blank if you don\'t want to change the password').'</div>'
             .'</div>';

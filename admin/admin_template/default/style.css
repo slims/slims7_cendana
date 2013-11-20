@@ -405,6 +405,7 @@ contentdisk
   background-color: #d9f5a4;
   padding: 10px;
   color: #7fba14;
+	overflow: auto;
 }
 
 .infoBox img {

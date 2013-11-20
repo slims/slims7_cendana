@@ -676,7 +676,7 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
 
   // edit mode messagge
   if ($form->edit_mode) {
-  echo '<div class="infoBox" style="overflow: auto;">'
+  echo '<div class="infoBox">'
     .'<div style="float: left; width: 80%;">'.__('You are going to edit biblio data').' : <b>'.$rec_d['title'].'</b>  <br />'.__('Last Updated').'&nbsp;'. $rec_d['last_update'].'</div>'; //mfc
     if ($rec_d['image']) {
     if (file_exists(IMGBS.'docs/'.$rec_d['image'])) {

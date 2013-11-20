@@ -44,6 +44,13 @@ require SIMBIO.'simbio_FILE/simbio_file_upload.inc.php';
 $can_read = utility::havePrivilege('system', 'r');
 $can_write = utility::havePrivilege('system', 'w');
 
+function getUserType($obj_db, $array_data, $col) {
+  global $sysconf;
+  if (isset($sysconf['system_user_type'][$array_data[$col]])) {
+    return $sysconf['system_user_type'][$array_data[$col]];
+  }
+}
+
 // check if we want to change current user profile
 $changecurrent = false;
 if (isset($_GET['changecurrent'])) {
@@ -57,6 +64,15 @@ if (!$changecurrent) {
     }
 }
 
+/* REMOVE IMAGE */
+if (isset($_POST['removeImage']) && isset($_POST['uimg']) && isset($_POST['img'])) {
+  $_delete = $dbs->query(sprintf('UPDATE user SET user_image=NULL WHERE user_id=%d', $_POST['uimg']));
+  if ($_delete) {
+    @unlink(sprintf(IMGBS.'persons/%s',$_POST['img']));
+    exit('<script type="text/javascript">alert(\''.$_POST['img'].' successfully removed!\'); $(\'#userImage, #imageFilename\').remove();</script>');
+  }
+  exit();
+}
 /* RECORD OPERATION */
 if (isset($_POST['saveData'])) {
     $userName = trim(strip_tags($_POST['userName']));
@@ -74,8 +90,10 @@ if (isset($_POST['saveData'])) {
         utility::jsAlert(__('Password confirmation does not match. See if your Caps Lock key is on!'));
         exit();
     } else {
-        $data['username'] = $dbs->escape_string($userName);
-        $data['realname'] = $dbs->escape_string($realName);
+        $data['username'] = $dbs->escape_string(trim($userName));
+        $data['realname'] = $dbs->escape_string(trim($realName));
+        $data['user_type'] = (integer)$_POST['userType'];
+        $data['email'] = $dbs->escape_string(trim($_POST['eMail']));
         if (isset($_POST['noChangeGroup'])) {
             // parsing groups data
             $groups = '';
@@ -285,13 +303,13 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
     foreach ($sysconf['system_user_type'] as $id => $name) {
       $utype_options[] = array($id, $name);
     }
-    $form->addSelectList('userTypeID', __('User Type').'*', $utype_options, $rec_d['user_type']);
+    $form->addSelectList('userType', __('User Type').'*', $utype_options, $rec_d['user_type']);
     // user e-mail
     $form->addTextField('text', 'eMail', __('E-Mail').'*', $rec_d['email'], 'style="width: 50%;"');
     // user photo
     $str_input = '';
     if ($rec_d['user_image']) {
-        $str_input = '<div><a href="'.SWB.'images/persons/'.$rec_d['user_image'].'" class="openPopUp notAJAX"><strong>'.$rec_d['user_image'].'</strong></a> <a href="'.MWB.'system/app_user.php?removeImage=true" image="'.$rec_d['image'].'" class="notAJAX removeImage">REMOVE IMAGE</a></div>';
+        $str_input = '<div id="imageFilename"><a href="'.SWB.'images/persons/'.$rec_d['user_image'].'" class="openPopUp notAJAX"><strong>'.$rec_d['user_image'].'</strong></a> <a href="'.MWB.'system/app_user.php" postdata="removeImage=true&uimg='.$itemID.'&img='.$rec_d['user_image'].'" loadcontainer="imageFilename" class="makeHidden removeImage">'.__('REMOVE IMAGE').'</a></div>';
     }
     $str_input .= simbio_form_element::textField('file', 'image');
     $str_input .= ' '.__('Maximum').' '.$sysconf['max_image_upload'].' KB';
@@ -334,8 +352,14 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
 
     // edit mode messagge
     if ($form->edit_mode) {
-        echo '<div class="infoBox">'.__('You are going to edit user profile'),' : <b>'.$rec_d['realname'].'</b> <br />'.__('Last Update').'&nbsp;'.$rec_d['last_update'].'
-            <br />'.__('Leave Password field blank if you don\'t want to change the password').'</div>';
+        echo '<div class="infoBox"><div style="float: left; width: 80%;">'.__('You are going to edit user profile'),' : <b>'.$rec_d['realname'].'</b> <br />'.__('Last Update').'&nbsp;'.$rec_d['last_update'].'
+          <div>'.__('Leave Password field blank if you don\'t want to change the password').'</div></div>';
+        if ($rec_d['user_image']) {
+          if (file_exists(IMGBS.'persons/'.$rec_d['user_image'])) {
+            echo '<div id="userImage" style="float: right;"><img src="../lib/phpthumb/phpThumb.php?src=../../images/persons/'.urlencode($rec_d['user_image']).'&w=53&timestamp='.date('his').'" style="border: 1px solid #999999" /></div>';
+          }
+        }
+        echo '</div>';
     }
     // print out the form object
     echo $form->printOut();
@@ -355,14 +379,19 @@ if (isset($_POST['detail']) OR (isset($_GET['action']) AND $_GET['action'] == 'd
         $datagrid->setSQLColumn('u.user_id',
             'u.realname AS \''.__('Real Name').'\'',
             'u.username AS \''.__('Login Username').'\'',
+            'u.user_type AS \''.__('User Type').'\'',
             'u.last_login AS \''.__('Last Login').'\'',
             'u.last_update AS \''.__('Last Update').'\'');
+        $col = 3;
     } else {
         $datagrid->setSQLColumn('u.realname AS \''.__('Real Name').'\'',
             'u.username AS \''.__('Real Name').'\'',
+            'u.user_type AS \''.__('User Type').'\'',
             'u.last_login AS \''.__('Last Login').'\'',
             'u.last_update AS \''.__('Last Update').'\'');
+        $col = 2;
     }
+    $datagrid->modifyColumnContent($col, 'callback{getUserType}');
     $datagrid->setSQLorder('username ASC');
 
     // is there any search
