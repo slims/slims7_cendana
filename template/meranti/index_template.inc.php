@@ -41,6 +41,8 @@ if (isset($_GET['p']))
   $p = 'member';
  } elseif ($_GET['p'] == 'login') {
   $p = 'login';
+ } else {
+  $p = $_GET['p'];   
  }
 }
 
@@ -55,11 +57,14 @@ $menus = array (
   'libinfo'  => array('url'  => 'index.php?p=libinfo',
         'text' => __('Library Information')
        ),
-  'help'   => array('url'  => 'index.php?p=help',
-        'text' => __('Help on Search')
+  'librarian'   => array('url'  => 'index.php?p=librarian',
+        'text' => __('Librarian')
        ),
   'member'   => array('url'  => 'index.php?p=member',
         'text' => __('Member Area')
+       ),
+  'help'   => array('url'  => 'index.php?p=help',
+        'text' => __('Help on Search')
        ),
   'login'   => array('url'  => 'index.php?p=login',
         'text' => __('Librarian LOGIN')
