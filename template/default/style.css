@@ -1223,3 +1223,19 @@ h4.title {
 	display: inline-block;
 	margin-right: 2px;
 }
+
+.librarian {
+	margin-bottom: 20px;
+}
+
+.librarian-image {
+    width: 144px;
+    -webkit-box-shadow: 4px 4px 5px rgba(100, 100, 100, 0.75);
+    -moz-box-shadow:    4px 4px 5px rgba(100, 100, 100, 0.75);
+     box-shadow:        4px 4px 5px rgba(100, 100, 100, 0.75);
+	 overflow: hidden;
+}
+
+.librarian-image img {
+    width: 144px;
+}
