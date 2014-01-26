@@ -76,7 +76,7 @@ function setCounter($str_member_ID) {
       $member_name = $_d['member_name'];
       $member_name = preg_replace("/'/", "\'", $member_name);
       $photo = trim($_d['member_image'])?trim($_d['member_image']):'person.png';
-      $_institution = $dbs->escape_string(trim($_d['inst_name']))?:null;
+      $_institution = $dbs->escape_string(trim($_d['inst_name']))?$dbs->escape_string(trim($_d['inst_name'])):null;
       
       $_checkin_date = date('Y-m-d H:i:s');
       $_i = $dbs->query("INSERT INTO visitor_count (member_id, member_name, institution, checkin_date) VALUES ('$member_id', '$member_name', '$_institution', '$_checkin_date')");
