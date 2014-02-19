@@ -158,5 +158,3 @@ class simbio_paging
         return $_buffer;
     }
 }
-
-?>

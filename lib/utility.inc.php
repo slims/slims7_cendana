@@ -283,6 +283,16 @@ class utility
             } else {
                 $mix_input = filter_input(INPUT_GET, $mix_input);
             }
+        } else {
+            if ($str_input_type == 'get') {
+                $mix_input = $_GET[$mix_input];
+            } else if ($str_input_type == 'post') {
+                $mix_input = $_POST[$mix_input];
+            } else if ($str_input_type == 'cookie') {
+                $mix_input = $_COOKIE[$mix_input];
+            } else if ($str_input_type == 'session') {
+                $mix_input = $_SESSION[$mix_input];
+            }
         }
 
         // trim whitespace on string

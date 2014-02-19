@@ -290,18 +290,21 @@ var showHideTableRows = function(str_table_id, int_start_row, obj_button, str_hi
  * Register all events
  */
 $('document').ready(function() {
-	var container = $('#mainContent,#pageContent,#sidepan');
+  var container = $('#mainContent,#pageContent,#sidepan');
 
   // change all anchor behaviour to AJAX in main content
   container.on('click', 'a', function(evt) {
-		// avoid conflict with tinyMCE and other non-AJAX anchor
-		container.find('.mceEditor a, .chzn-container a').addClass('notAJAX');
+    // avoid conflict with tinyMCE and other non-AJAX anchor
+	container.find('.mceEditor a, .chzn-container a').addClass('notAJAX');
     var anchor = $(this);
-		if (anchor.hasClass('notAJAX')) {
+	if (anchor.hasClass('notAJAX')) {
       return true;
-		}
-		evt.preventDefault();
-		var ajaxContainer = $('#mainContent,#pageContent');
+	}
+	if (anchor.attr('target')) {
+	  return true;
+	}
+	evt.preventDefault();
+	var ajaxContainer = $('#mainContent,#pageContent');
     // for submenu
     // remove other menu class
     $('.subMenuItem').removeClass('curModuleLink');
