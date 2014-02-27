@@ -371,7 +371,7 @@ if (!$is_member_login) {
             $_actions = '<div class="memberBasketAction">';
             $_actions .= '<a href="index.php?p=member" class="basket reserve">'.__('Reserve title(s) on Basket').'</a> :: ';
             $_actions .= '<a href="index.php?p=member" class="basket clearAll" postdata="clear_biblio=1">'.__('Clear Basket').'</a> :: ';
-            $_actions .= '<a href="index.php?p=member" class="basket clear">'.__('Remove selected title(s) from Basket').'</a>';
+            $_actions .= '<a href="index.php?p=member" class="basket clearOne">'.__('Remove selected title(s) from Basket').'</a>';
             $_actions .= '</div>';
             $_result .= '<div class="memberBasketInfo">'.$_loan_list->num_rows.' '.__('title(s) on basket').$_actions.'</div>'."\n".$_datagrid;
         }
@@ -637,7 +637,7 @@ if (!$is_member_login) {
             }
         });
 
-		$('.clear').click(function(evt) {
+		$('.clearOne').click(function(evt) {
             evt.preventDefault();
 			var basketForm = $('#memberBasketListForm');
 			var basketData = basketForm.serialize() + '&basketRemove=1';
