@@ -300,7 +300,7 @@ $('document').ready(function() {
 	if (anchor.hasClass('notAJAX')) {
       return true;
 	}
-	if (anchor.attr('target')) {
+	if (anchor.attr('target') && anchor.attr('target') != '_self') {
 	  return true;
 	}
 	evt.preventDefault();

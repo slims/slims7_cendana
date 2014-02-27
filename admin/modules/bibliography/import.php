@@ -33,6 +33,7 @@ do_checkIP('smc');
 do_checkIP('smc-bibliography');
 // start the session
 require SB.'admin/default/session.inc.php';
+require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 require SIMBIO.'simbio_GUI/table/simbio_table.inc.php';
 require SIMBIO.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
 require SIMBIO.'simbio_FILE/simbio_file_upload.inc.php';

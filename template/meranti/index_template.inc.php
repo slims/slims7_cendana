@@ -160,7 +160,7 @@ $social = array (
   <div class="content">
    <div class="container_12">
     <div class="grid_12 welcome">
-     <?php if(isset($_GET['search']) || isset($_GET['title']) || isset($_GET['keywords'])) { ?>
+     <?php if($_GET['p'] != 'show_detail' && (isset($_GET['search']) || isset($_GET['title']) || isset($_GET['keywords']))) { ?>
      <div class="sidebar">
       <div class="tagline">
        <?php echo __('Information'); ?>
