@@ -92,8 +92,8 @@ table td {
             foreach ($_SESSION['receipt_record']['loan'] as $loan) {
                 echo '<tr>';
                 echo '<td>'.$loan['itemCode'].'</td>';
-                echo '<td>'.substr($loan['title'], 0, $receipt_titleLength);
-                if (strlen($loan['title']) > $receipt_titleLength) {
+                echo '<td>'.substr($loan['title'], 0, $sysconf['print']['receipt']['receipt_titleLength']);
+                if (strlen($loan['title']) > $sysconf['print']['receipt']['receipt_titleLength']) {
                     echo ' ...';
                 }
                 echo '.</td>';
@@ -110,8 +110,8 @@ table td {
                 echo '<td>'.$ext['itemCode'].'</td>';
                 #echo '<td>'.substr($ext['title'], 0, 50).'...<br />-- extended --</td>';
 
-                echo '<td>'.substr($ext['title'], 0, $receipt_titleLength);
-                if (strlen($ext['title']) > $receipt_titleLength) {
+                echo '<td>'.substr($ext['title'], 0, $sysconf['print']['receipt']['receipt_titleLength']);
+                if (strlen($ext['title']) > $sysconf['print']['receipt']['receipt_titleLength']) {
                     echo ' ...';
                 }
                 echo '. <strong>(Loan Extended)</strong></td>';
@@ -146,8 +146,8 @@ table td {
         foreach ($_SESSION['receipt_record']['return'] as $ret) {
             echo '<tr>';
             echo '<td>'.$ret['itemCode'].'</td>';
-            echo '<td>'.substr($ret['title'], 0, $receipt_titleLength);
-            if (strlen($ret['title']) > $receipt_titleLength) {
+            echo '<td>'.substr($ret['title'], 0, $sysconf['print']['receipt']['receipt_titleLength']);
+            if (strlen($ret['title']) > $sysconf['print']['receipt']['receipt_titleLength']) {
                 echo ' ...';
             }
             echo '.</td>';
