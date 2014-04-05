@@ -53,6 +53,19 @@ if (!$can_read) {
     die('<div class="errorBox">You dont have enough privileges to view this section</div>');
 }
 
+/* Just In Case for PHP < 5.4 */
+/* Taken From imageman (http://www.php.net/manual/en/function.getimagesizefromstring.php#113976) */
+/* Make sure to set allow_url_fopen = on inside your php.ini */
+if (version_compare(phpversion(), '5.4', '<')) 
+{
+    function getimagesizefromstring($string_data)
+    {
+        $uri = 'data://application/octet-stream;base64,'  . base64_encode($string_data);
+        return getimagesize($uri);
+    }
+}
+
+
 /* REMOVE IMAGE */
 if (isset($_POST['removeImage']) && isset($_POST['mimg']) && isset($_POST['img'])) {
   $_delete = $dbs->query(sprintf('UPDATE member SET member_image=NULL WHERE member_id=%d', $_POST['mimg']));
