@@ -72,6 +72,11 @@ if (!is_writable(UPLOAD)) {
 if (!file_exists($sysconf['mysqldump'])) {
     $warnings[] = __('The PATH for <strong>mysqldump</strong> program is not right! Please check configuration file or you won\'t be able to do any database backups.');
 }
+// check installer directory
+if (is_dir('../install/')) {
+    $warnings[] = __('Installer folder is still exist inside your server. Please remove it or rename to another name for security reason.');
+}
+
 
 // check need to be repaired mysql database
 $query_of_tables = $dbs->query('SHOW TABLES');
