@@ -121,7 +121,7 @@ exit();
                     <hr/>
                     <div class="info"><?php echo __('Please insert your library member ID otherwise your full name instead'); ?></div>
                     <hr/>
-                    <img id="visitorCounterPhoto" src="./images/persons/photo.png" class="photo img-circle" />
+                    <img id="visitorCounterPhoto" src="./images/persons/person.png" class="photo img-circle" />
                     <hr/>
                     <div id="counterInfo">&nbsp;</div>
                     <form action="index.php?p=visitor" name="visitorCounterForm" id="visitorCounterForm" method="post" class="form-inline">
@@ -148,7 +148,7 @@ exit();
                         <div class="marginTop" ></div>
                     </form>
                     <hr/>
-                    <small>Powered By SLiMS 7 Cendana</small>
+                    <small>Powered By <?php echo SENAYAN_VERSION; ?></small>
                 </div>
             </div>
         </div>
