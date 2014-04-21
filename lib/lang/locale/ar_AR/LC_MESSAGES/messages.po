@@ -72,17 +72,17 @@ msgstr "النوع"
 #: sysconfig.inc.php:347
 #: ucs/ucsysconfig.inc.php:262
 msgid "Occupation"
-msgstr "الاحتلال"
+msgstr "مهنة"
 
 #: sysconfig.inc.php:350
 #: ucs/ucsysconfig.inc.php:265
 msgid "Primary Author"
-msgstr "كاتب الابتدائية"
+msgstr "المؤلف الرئيسي"
 
 #: sysconfig.inc.php:351
 #: ucs/ucsysconfig.inc.php:266
 msgid "Additional Author"
-msgstr "كاتب إضافية"
+msgstr "المؤلف الثانوي"
 
 #: sysconfig.inc.php:352
 #: ucs/ucsysconfig.inc.php:267
@@ -153,7 +153,7 @@ msgstr "سلسلة العنوان"
 #: ucs/themes/default/detail_template.php:20
 #: ucs/themes/lightweight/custom_frontpage_record.inc.php:11
 msgid "Call Number"
-msgstr "رقم التصنيف"
+msgstr "رقم الطلب"
 
 #: ucs/themes/default/custom_frontpage_record.inc.php:12
 #: ucs/themes/default/detail_template.php:12
@@ -202,7 +202,7 @@ msgstr "مكان النشر"
 
 #: ucs/themes/default/detail_template.php:68
 msgid "Abstract/Notes"
-msgstr "مجردة / ملاحظات"
+msgstr "مستخلص / ملاحظات"
 
 #: ucs/themes/default/detail_template.php:72
 msgid "Specific Detail Info"
@@ -222,7 +222,7 @@ msgstr " الصفحة الرئيسية"
 
 #: ucs/themes/default/index_template.inc.php:25
 msgid "Union Catalog Information"
-msgstr ""
+msgstr "معلومات الفهرس المشترك"
 
 #: ucs/themes/default/index_template.inc.php:26
 msgid "Help"
@@ -263,11 +263,11 @@ msgstr "مساعدة فى البحث"
 
 #: ucs/includes/localisation.php:57
 msgid "English"
-msgstr ""
+msgstr "اﻹنجليزية"
 
 #: ucs/includes/localisation.php:58
 msgid "Indonesian"
-msgstr ""
+msgstr "اﻷندونيسية"
 
 #: ucs/includes/common.inc.php:25
 msgid "All Locations"
@@ -283,7 +283,7 @@ msgstr "اكتب اسم المستخدم وكلمةالسر صالحة"
 
 #: ucs/includes/contents/login.inc.php:61
 msgid "Welcome to Union Catalog Server administration,"
-msgstr ""
+msgstr "أهلا بك في إدارة خادم الفهرس المشترك"
 
 #: ucs/includes/contents/login.inc.php:70
 msgid "Wrong Username or Password. ACCESS DENIED"
@@ -295,7 +295,7 @@ msgstr "المتصفة غير مدعو مة Javascript او تم إيقاف Java
 
 #: ucs/admin/index.php:57
 msgid "Union Catalog Server administration console. you are currently logged in as"
-msgstr ""
+msgstr "وحدة إدارة خادم الفهرس الموحد. تم تسجيل دخولك حاليا كـ"
 
 #: ucs/admin/logout.php:32
 msgid "You Have Been Logged Out From Union Catalog Server console"
