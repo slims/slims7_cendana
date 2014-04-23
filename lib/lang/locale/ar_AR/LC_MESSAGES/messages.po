@@ -23,7 +23,7 @@ msgstr ""
 
 #: index.php:46
 msgid "You are currently Logged on as member"
-msgstr "أنت بصدد تسجيل دخول كالأعضاء "
+msgstr "أنت بصدد تسجيل دخول كعضو "
 
 #: index.php:46
 msgid "LOGOUT"
