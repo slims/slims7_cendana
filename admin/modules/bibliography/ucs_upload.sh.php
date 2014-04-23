@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 /**
  * Copyright (C) 2010  Arie Nugraha (dicarve@yahoo.com)
@@ -21,14 +20,21 @@
 
 /* Send ALL Catalog data to UCS server */
 
+// check if we are running from command line or not
+if (php_sapi_name() != 'cli') {
+  die('This script intended to be run on command line interface only!');
+}
+
 set_time_limit(0);
+
+define('INDEX_AUTH', 1);
 
 // main system configuration
 require '../../../sysconfig.inc.php';
 
 // check if UCS is enabled or not
 if (!$sysconf['ucs']['enable']) {
-	die(__('UCS is not enabled! Change global system configuration to enable UCS'));
+  die(__('UCS is not enabled! Change global system configuration to enable UCS'));
 }
 
 require SB.'ucnode.inc.php';
@@ -99,3 +105,4 @@ if ($data) {
 } else {
     exit(0);
 }
+?>

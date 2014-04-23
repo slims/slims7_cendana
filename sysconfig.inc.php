@@ -45,7 +45,7 @@ if (get_magic_quotes_gpc()) {
   $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
 }
 // turn off all error messages for security reason
-@ini_set('display_errors',true);
+@ini_set('display_errors', true);
 // check if safe mode is on
 if ((bool) ini_get('safe_mode')) {
     define('SENAYAN_IN_SAFE_MODE', 1);
@@ -104,7 +104,7 @@ define('LANG', LIB.'lang'.DS);
 // senayan web doc root dir
 /* Custom base URL */
 $sysconf['baseurl'] = '';
-$temp_senayan_web_root_dir = preg_replace('@admin.*@i', '', dirname($_SERVER['PHP_SELF']));
+$temp_senayan_web_root_dir = preg_replace('@admin.*@i', '', dirname(@$_SERVER['PHP_SELF']));
 define('SWB', $sysconf['baseurl'].$temp_senayan_web_root_dir.(preg_match('@\/$@i', $temp_senayan_web_root_dir)?'':'/'));
 
 // admin section web root dir
@@ -153,12 +153,12 @@ $sysconf['spellchecker_enabled'] = false;
 header('Content-type: text/html; charset=UTF-8');
 
 /* GUI Template config */
-ob_start();
-include $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/tinfo.inc.php';
-ob_end_clean();
 $sysconf['template']['dir'] = 'template';
 $sysconf['template']['theme'] = 'default';
 $sysconf['template']['css'] = $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/style.css';
+ob_start();
+include $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/tinfo.inc.php';
+ob_end_clean();
 
 /* ADMIN SECTION GUI Template config */
 $sysconf['admin_template']['dir'] = 'admin_template';
@@ -484,7 +484,7 @@ $sysconf['ipaccess']['smc-serialcontrol'] = 'all';
 // OAI-PMH settings
 $sysconf['OAI']['enable'] = false;
 $sysconf['OAI']['identifierPrefix'] = 'oai:slims/';
-$sysconf['OAI']['Identify']['baseURL'] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].SWB.'oai.php';
+$sysconf['OAI']['Identify']['baseURL'] = 'http://'.@$_SERVER['SERVER_NAME'].':'.@$_SERVER['SERVER_PORT'].SWB.'oai.php';
 $sysconf['OAI']['Identify']['repositoryName'] = 'SLiMS Senayan Library Management System OAI-PMh';
 $sysconf['OAI']['Identify']['adminEmail'] = 'admin@slims.web.id';
 $sysconf['OAI']['Identify']['granularity'] = 'YYYY-MM-DDThh:mm:ssZ';
@@ -528,7 +528,7 @@ if (extension_loaded('mysqli')) {
     /* MYSQLI */
     $dbs = @new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_PORT);
     if (mysqli_connect_error()) {
-        die('<div style="border: 1px dotted #FF0000; color: #FF0000; padding: 5px;">Error Connecting to Database. Please check your configuration</div>');
+        die("Error Connecting to Database with message: ".mysqli_connect_error().". Please check your configuration!\n");
     }
 } else {
     /* MYSQL */

@@ -104,4 +104,4 @@ if (isset($_GET['p'])) {
 $main_content = ob_get_clean();
 
 // template output
-require $sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/index_template.inc.php';
+require SB.$sysconf['template']['dir'].'/'.$sysconf['template']['theme'].'/index_template.inc.php';
