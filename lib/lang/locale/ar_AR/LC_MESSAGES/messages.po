@@ -4217,7 +4217,7 @@ msgstr "تغيير كلمة السر"
 
 #: lib/contents/member.inc.php:174
 msgid "Your Membership Already EXPIRED! Please extend your membership."
-msgstr "إنهت ا لعضوية!"
+msgstr "عضويتك إنتهت صلاحيتها الرجاء التجديد!"
 
 #: lib/contents/member.inc.php:177
 msgid "Membership currently in pending state, no loan transaction can be made yet."
@@ -4233,11 +4233,11 @@ msgstr "العناصرعلى الإعارةحالياً"
 
 #: lib/contents/member.inc.php:263
 msgid "Your password have been changed successfully."
-msgstr "تم تغييركلمةالسر"
+msgstr "تم تغير كلمة السر بنجاح"
 
 #: lib/contents/member.inc.php:266
 msgid "Current password entered WRONG! Please insert the right password!"
-msgstr "ادخال كلمةالسرغيرصحيحين!رجاءادخال كلمةالصحيحة"
+msgstr "ادخال كلمةالسرغيرصحيحة!الرجاءادخال كلمة سرصحيحة"
 
 #: lib/contents/member.inc.php:268
 msgid "Password confirmation FAILED! Make sure to check undercase or uppercase letters!"
@@ -4249,11 +4249,11 @@ msgstr "لم يتم تحديث كلمةالسر! خطأ قاعدة البيان�
 
 #: lib/contents/member.inc.php:277
 msgid "Member Detail"
-msgstr "تفاصيل الأعضاء"
+msgstr "تفاصيل العضو"
 
 #: lib/contents/member.inc.php:279
 msgid "Your Current Loan"
-msgstr "اﻹعارةاحاالحالي"
+msgstr "إعارتك الحالية"
 
 #: lib/contents/item_list.php:48
 msgid "There is no item/copy for this title yet"
