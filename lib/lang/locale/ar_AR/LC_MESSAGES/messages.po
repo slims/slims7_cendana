@@ -363,7 +363,7 @@ msgstr "تم تحديث بيانات الناشر"
 
 #: ucs/admin/modules/master_file/publisher.php:67
 msgid "PUBLISHER Data FAILED to Updated. Please Contact System Administrator"
-msgstr "لم يتم تحديث بيانات الناشر. رجاء الاتصال بنظام البيانات"
+msgstr "بمديريث بيانات الناشر. رجاء الاتصال بنظام البيانات"
 
 #: ucs/admin/modules/master_file/publisher.php:74
 msgid "New Publisher Data Successfully Saved"
@@ -4192,7 +4192,7 @@ msgstr "اسم المستخدم للأعضاءالمكتبة"
 
 #: lib/contents/member.inc.php:80
 msgid "Please insert your member ID and password given by library system administrator. If you are library's member and don't have a password yet, please contact library staff."
-msgstr "رجاءادخل تعريف الأعضاء وكلمةالسر يعطى من نظام إدارة بيانات للمكتبة. فإذاكنث اعضاءالمكتبة ولم تنال كلمةالسر, رجاء الإصال أمين المكتبة."
+msgstr "إدراج معرف العضو وكلمة المرور التي قدمها مسؤول نظام المكتبة. إذا كنت عضو بالمكتبة وليس لديك كلمة مرور حتى الآن، يرجى الاتصال بموظفي المكتبة."
 
 #: lib/contents/member.inc.php:84
 msgid "Password"
@@ -4221,7 +4221,7 @@ msgstr "عضويتك إنتهت صلاحيتها الرجاء التجديد!"
 
 #: lib/contents/member.inc.php:177
 msgid "Membership currently in pending state, no loan transaction can be made yet."
-msgstr "الأعضاء معلق حاليا! يتعذر اجراءاﻹعارة"
+msgstr "عضوية معلقة حاليا ، و لايمكن إجراء أي إعارة الآن"
 
 #: lib/contents/member.inc.php:210
 msgid "OVERDUED"
