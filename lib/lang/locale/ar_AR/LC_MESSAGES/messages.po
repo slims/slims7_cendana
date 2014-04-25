@@ -32,7 +32,7 @@ msgstr "تسجيل الخروج"
 #: sysconfig.inc.php:337
 #: ucs/ucsysconfig.inc.php:252
 msgid "Personal Name"
-msgstr "اسم الشخصية"
+msgstr "اﻹسم الشخصي"
 
 #: sysconfig.inc.php:338
 #: ucs/ucsysconfig.inc.php:253
@@ -52,17 +52,17 @@ msgstr "الموضوع"
 #: sysconfig.inc.php:343
 #: ucs/ucsysconfig.inc.php:258
 msgid "Geographic"
-msgstr "الجغرافية"
+msgstr "جغرافي"
 
 #: sysconfig.inc.php:344
 #: ucs/ucsysconfig.inc.php:259
 msgid "Name"
-msgstr "اسم"
+msgstr "إسم"
 
 #: sysconfig.inc.php:345
 #: ucs/ucsysconfig.inc.php:260
 msgid "Temporal"
-msgstr "الزمانية"
+msgstr "زمني"
 
 #: sysconfig.inc.php:346
 #: ucs/ucsysconfig.inc.php:261
@@ -72,7 +72,7 @@ msgstr "النوع"
 #: sysconfig.inc.php:347
 #: ucs/ucsysconfig.inc.php:262
 msgid "Occupation"
-msgstr "الاحتلال"
+msgstr "المهنة"
 
 #: sysconfig.inc.php:350
 #: ucs/ucsysconfig.inc.php:265
