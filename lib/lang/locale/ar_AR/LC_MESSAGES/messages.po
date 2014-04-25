@@ -19,7 +19,7 @@ msgstr ""
 #: index.php:37
 #: ucs/index.php:30
 msgid "Web Online Public Access Catalog - Use the search options to find documents quickly"
-msgstr ""
+msgstr " فهرس متاح على الخط- إستخدم خيارات البحث للعثور على الوثائق بسرعة"
 
 #: index.php:46
 msgid "You are currently Logged on as member"
@@ -62,7 +62,7 @@ msgstr "اسم"
 #: sysconfig.inc.php:345
 #: ucs/ucsysconfig.inc.php:260
 msgid "Temporal"
-msgstr "الزمانية"
+msgstr "زمني"
 
 #: sysconfig.inc.php:346
 #: ucs/ucsysconfig.inc.php:261
@@ -315,11 +315,11 @@ msgstr "تغييراسم الوضع و كلمة السر"
 
 #: ucs/admin/default/submenu.php:24
 msgid "Bibliography List"
-msgstr "قائمة ببليوجرافي"
+msgstr "قائمة ببليوجرافية"
 
 #: ucs/admin/default/submenu.php:24
 msgid "View existing Union Server Catalog data"
-msgstr ""
+msgstr "عرض بينات خادم الفهرس الموحد"
 
 #: ucs/admin/default/home.php:30
 msgid "<strong>PHP GD</strong> extension is not installed. Please install it or application won't be able to create image thumbnail."
@@ -336,7 +336,7 @@ msgstr "أنت غير مخول لعرض هذا القسم"
 
 #: ucs/admin/default/session_check.inc.php:56
 msgid "Your Login Session has already timeout!"
-msgstr "الدخول وسيتم تعدى الوقت"
+msgstr "جلسة دخولك تعدت الوقت"
 
 #: ucs/admin/modules/master_file/publisher.php:39
 #: ucs/admin/modules/master_file/publisher.php:131
@@ -351,7 +351,7 @@ msgstr "الدخول وسيتم تعدى الوقت"
 #: ucs/admin/modules/master_file/place.php:39
 #: ucs/admin/modules/master_file/place.php:131
 msgid "You don't have enough privileges to access this area!"
-msgstr "لست اﻹمتياز لنظرهذا المقطع"
+msgstr "لا تملك صلاحيات  للإ طلاع"
 
 #: ucs/admin/modules/master_file/publisher.php:47
 msgid "Publisher Name can't be empty"
