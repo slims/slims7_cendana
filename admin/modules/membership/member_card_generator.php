@@ -225,8 +225,8 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
           $html_str .= ''.( $sysconf['print']['membercard']['include_barcode_label']?'':'<!--').'<div class="barcode_div">';
           $html_str .= '<img  width="175px" height="40px" src="'.SWB.IMG.'/barcodes/'.str_replace(array(' '), '_', $card['member_id']).'.png" style="width: '.$sysconf['print']['membercard']['barcode_scale'].'%; border="0px" /></img></div>'.( $sysconf['print']['membercard']['include_barcode_label']?'':'-->').'';
           $html_str .= '<div class="stamp_div">';
-          $html_str .= '<div class="stamp_file_div"><img class="" height="35px" width="35px" src="'.SWB.'/files/membercard/'.$sysconf['print']['membercard']['stamp_file'].'"></img></div>';
-          $html_str .= '<div class="sign_file_div"><img class="" height="30px" width="100px" src="'.SWB.'/files/membercard/'.$sysconf['print']['membercard']['signature_file'].'"></img></div>';
+          $html_str .= '<div class="stamp_file_div"><img class="" height="35px" width="35px" src="'.SWB.'files/membercard/'.$sysconf['print']['membercard']['stamp_file'].'"></img></div>';
+          $html_str .= '<div class="sign_file_div"><img class="" height="30px" width="100px" src="'.SWB.'files/membercard/'.$sysconf['print']['membercard']['signature_file'].'"></img></div>';
           $html_str .= '<p class="stamp city">'.$sysconf['print']['membercard']['city'].', '.$card['register_date'].'</p><p class="stamp title">'.$sysconf['print']['membercard']['title'].'</p><br>';
           $html_str .= '<p class="stamp officials">'.$sysconf['print']['membercard']['officials'].'<br />'.$sysconf['print']['membercard']['officials_id'].'</p></div></div></td>';
           $html_str .= '<td valign="top">';
