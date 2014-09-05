@@ -54,14 +54,14 @@ if (isset($_GET['inXML']) AND !empty($_GET['inXML'])) {
 //		die('It\'s true');
 		include LIB.'comment.inc.php';
     }
-	if (isset($_POST['comment']) && $_POST['comment']<>"" && ISSET($_SESSION['mid'])) {
+	if (isset($_POST['comment']) && $_POST['comment']<>"" && ISSET($_SESSION['mid']) && isset($_SESSION['token']) && $_POST['Validation'] == $_SESSION['token']) {
 		require SIMBIO.'simbio_DB/simbio_dbop.inc.php';
 		$data['comment'] = trim(strip_tags($_POST['comment']));
 		$data['biblio_id'] = $detail_id;
 		$data['member_id'] = $_SESSION['mid'];
 		
 		$data['input_date'] = date('Y-m-d H:i:s');
-        $data['last_update'] = date('Y-m-d H:i:s');
+                $data['last_update'] = date('Y-m-d H:i:s');
 
 		/* INSERT RECORD MODE */
 		// insert the data
