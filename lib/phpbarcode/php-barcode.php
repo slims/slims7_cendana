@@ -59,6 +59,8 @@ if (stripos(PHP_OS, 'Darwin') !== false) {
     } else {
         $genbarcode_loc = './bin/nix/genbarcode';
     }
+} else if (stripos(PHP_OS, 'FreeBSD') !== false) {    // FreeBSD OS information.
+		$genbarcode_loc = './bin/nix/genbarcode';
 } else {
     $genbarcode_loc = '.\bin\win\genbarcode.exe';
 }
