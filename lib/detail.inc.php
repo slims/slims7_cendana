@@ -259,12 +259,10 @@ class detail extends content_list
 
         // parse title
         $_title_sub = '';
-        $_title_statement_resp = '';
+        $_title_statement_resp = trim($this->record_detail['sor']);
         if (stripos($this->record_detail['title'], ':') !== false) {
             $_title_main = trim(substr_replace($this->record_detail['title'], '', stripos($this->record_detail['title'], ':')+1));
             $_title_sub = trim(substr_replace($this->record_detail['title'], '', 0, stripos($this->record_detail['title'], ':')+1));
-        } else if (stripos($this->record_detail['title'], '/') !== false) {
-            $_title_statement_resp = trim(substr_replace($this->record_detail['title'], '', stripos($this->record_detail['title'], '/')+1));
         } else {
             $_title_main = trim($this->record_detail['title']);
         }
