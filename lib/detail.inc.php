@@ -258,6 +258,7 @@ class detail extends content_list
         $_xml_output = '<mods version="3.3" ID="'.$this->detail_id.'">'."\n";
 
         // parse title
+        $this->record_detail['title'] = preg_replace('/\//i', '&#47;', $this->record_detail['title']);
         $_title_sub = '';
         $_title_statement_resp = '';
         if (stripos($this->record_detail['title'], ':') !== false) {
