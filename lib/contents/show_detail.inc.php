@@ -68,7 +68,7 @@ if (isset($_GET['inXML']) AND !empty($_GET['inXML'])) {
 		$insert = $sql_op->insert('comment', $data);
 		if ($insert) {
 			utility::jsAlert(__('Thank you for your comment.'));
-		} else { utility::jsAlert(__('FAILED to strore you comment. Please Contact System Administrator')."\nDEBUG : ".$sql_op->error); }
+		} else { utility::jsAlert(__('FAILED to store you comment. Please Contact System Administrator')."\nDEBUG : ".$sql_op->error); }
 	}
 
   if (isset($_GET['keywords'])) {
