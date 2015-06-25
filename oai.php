@@ -2,7 +2,9 @@
 /**
  * OAI-PMH
  *
- * Copyright (C) 2012  Arie Nugraha (dicarve@yahoo.com)
+ * Copyright (C) 2012  Arie Nugraha (dicarve@gmail.com)
+ *
+ * Patch by: Ismail Fahmi
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +27,12 @@ define('INDEX_AUTH', '1');
 
 // required file
 require 'sysconfig.inc.php';
-$date_respons = date('Y-m-d').'T'.date('H:i:s').'Z';
+if (class_exists('DateTime')) {
+  $date = new DateTime();
+  $date_respons = $date->format('Y-m-d').'T'.$date->format('H:i:s').'Z';
+} else {
+  $date_respons = date('Y-m-d').'T'.date('H:i:s').'Z';  
+}
 
 if (!$sysconf['OAI']['enable']) {
   header('Content-type: text/xml');
@@ -80,7 +87,11 @@ if (isset($_GET['verb']) || isset($_POST['verb'])) {
         break;
       case 'ListRecords';
         $metadataPrefix = isset($_GET['metadataPrefix'])?$dbs->escape_string(trim($_GET['metadataPrefix'])):'oai_dc';
-        echo $oai_respon_handlers->ListRecords($_GET['metadataPrefix']);
+
+        // ismail: metadataPrefix is not mandatory with resumptionToken
+        //echo $oai_respon_handlers->ListRecords($_GET['metadataPrefix']);
+        echo $oai_respon_handlers->ListRecords($metadataPrefix);
+
         break;
       case 'GetRecord';
         $identifier = isset($_GET['identifier'])?$dbs->escape_string(trim($_GET['identifier'])):'0';

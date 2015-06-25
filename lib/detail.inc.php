@@ -447,8 +447,11 @@ class detail extends content_list
         // imprint/publication data
         $_xml_output .= '<dc:publisher><![CDATA['.$this->record_detail['publisher_name'].']]></dc:publisher>'."\n";
 
-        // date
-        $_xml_output .= '<dc:date><![CDATA['.$this->record_detail['publish_year'].']]></dc:date>'."\n";
+        if ($this->record_detail['publish_year']) {
+          $_xml_output .= '<dc:date><![CDATA['.$this->record_detail['publish_year'].']]></dc:date>'."\n";
+        } else {
+          $_xml_output .= '<dc:date></dc:date>'."\n";  
+        }
 
         // edition
         $_xml_output .= '<dc:hasVersion><![CDATA['.$this->record_detail['edition'].']]></dc:hasVersion>'."\n";

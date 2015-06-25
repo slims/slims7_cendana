@@ -2,7 +2,9 @@
 /**
  * Class for OAI-PMH Web Services
  *
- * Copyright (C) 2012  Arie Nugraha (dicarve@yahoo.com)
+ * Copyright (C) 2012  Arie Nugraha (dicarve@gmail.com)
+ *
+ * Patch by: Ismail Fahmi
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -153,8 +155,10 @@ class OAI_Web_Service {
     $where = '';
 
     if (isset($_GET['resumptionToken'])) {
-      echo 'resumption';
-      parse_str($_GET['resumptionToken'], $resumptionToken);
+      // commented by Ismail
+      //echo 'resumption';
+      // we need to urldecode the parameter
+      parse_str(urldecode($_GET['resumptionToken']), $resumptionToken);
       if (isset($resumptionToken['offset'])) {
         $offset = (integer)$resumptionToken['offset'];
       }
@@ -294,27 +298,28 @@ class OAI_Web_Service {
     if ($metadataPrefix == 'oai_dc') {
       $detail = new detail($this->db, $recordID, 'dc');
       $rec_detail = $detail->DublinCoreOutput();
-    }
+    
 
-    // mulai output XML
-    ob_start();
-    echo '<record>'
-     ."<header><identifier>".$sysconf['OAI']['identifierPrefix'].$recordID."</identifier></header>";
-    echo "<metadata>";
-    if ($metadataPrefix == 'oai_dc') {
-      echo '<oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
-    }
+      // mulai output XML
+      ob_start();
+      echo '<record>'
+       ."<header><identifier>".$sysconf['OAI']['identifierPrefix'].$recordID."</identifier></header>";
+      echo "<metadata>";
+      if ($metadataPrefix == 'oai_dc') {
+        echo '<oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
+      }
 
-    echo $rec_detail;
+      echo $rec_detail;
 
-    if ($metadataPrefix == 'oai_dc') {
-      echo '</oai_dc:dc>';
-    }
+      if ($metadataPrefix == 'oai_dc') {
+        echo '</oai_dc:dc>';
+      }
 
-    echo "</metadata>\n";
-    echo "</record>\n";
-    $recordXML = ob_get_clean();
+      echo "</metadata>\n";
+      echo "</record>\n";
+      $recordXML = ob_get_clean();
 
-    return $recordXML;
+      return $recordXML;
+    } // ismail: put the closing bracket here to prevent undefined $rec_detail
   }
 }
