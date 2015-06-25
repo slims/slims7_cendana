@@ -116,6 +116,9 @@ define('JWB', SWB.'js/');
 // library automation module web root dir
 define('MWB', SWB.'admin/'.MDL.'/');
 
+// repository web base dir
+define('REPO_WBS', SWB.REPO.'/');
+
 // item status rules
 define('NO_LOAN_TRANSACTION', 1);
 define('SKIP_STOCK_TAKE', 2);
@@ -482,7 +485,7 @@ $sysconf['ipaccess']['smc-reporting'] = 'all';
 $sysconf['ipaccess']['smc-serialcontrol'] = 'all';
 
 // OAI-PMH settings
-$sysconf['OAI']['enable'] = false;
+$sysconf['OAI']['enable'] = true;
 $sysconf['OAI']['identifierPrefix'] = 'oai:slims/';
 $sysconf['OAI']['Identify']['baseURL'] = 'http://'.@$_SERVER['SERVER_NAME'].':'.@$_SERVER['SERVER_PORT'].SWB.'oai.php';
 $sysconf['OAI']['Identify']['repositoryName'] = 'SLiMS Senayan Library Management System OAI-PMh';

@@ -232,7 +232,16 @@ if (isset($_POST['doImport'])) {
             $data['collation'] .= $dimension[0]->getData();
           }
         }
-
+        
+        // RDA Content type
+        $rct_fld = $record->getField('336');
+        if ($rct_fld) {
+          $content_type = $rct_fld->getSubfields('a');
+          // get ID
+          $q = $dbs->query(sprintf('SELECT id FROM mst_content_type WHERE content_type=\'%s\'', $content_type));
+          $data['content_type_id'] = $rct_fld->getSubfields('a');
+        }
+        
         // Series title
         $series_fld = $record->getField('440');
         if ($series_fld) {

@@ -226,7 +226,7 @@ class detail extends content_list
             '</ul>'."\n";
 
           $this->record_detail['social_shares'] = $_share_btns;
-			  }
+        }
 
 
         return $this->record_detail;
@@ -242,14 +242,6 @@ class detail extends content_list
     {
         // get global configuration vars array
         global $sysconf;
-
-        // convert to htmlentities
-        foreach ($this->record_detail as $_field => $_value) {
-            if (is_string($_value)) {
-                $this->record_detail[$_field] = preg_replace_callback('/&([a-zA-Z][a-zA-Z0-9]+);/S',
-                  'utility::convertXMLentities', htmlspecialchars(trim($_value)));
-            }
-        }
 
         // set prefix and suffix
         $this->detail_prefix = '<modsCollection xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" xmlns:slims="http://slims.web.id" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd">'."\n";
@@ -270,9 +262,9 @@ class detail extends content_list
             $_title_main = trim($this->record_detail['title']);
         }
 
-        $_xml_output .= '<titleInfo>'."\n".'<title>'.$_title_main.'</title>'."\n";
+        $_xml_output .= '<titleInfo>'."\n".'<title><![CDATA['.$_title_main.']]></title>'."\n";
         if ($_title_sub) {
-            $_xml_output .= '<subTitle>'.$_title_sub.'</subTitle>'."\n";
+            $_xml_output .= '<subTitle><![CDATA['.$_title_sub.']]></subTitle>'."\n";
         }
         $_xml_output .= '</titleInfo>'."\n";
 
@@ -289,42 +281,42 @@ class detail extends content_list
         $_biblio_authors_q->free_result();
 
         // resources type
-        $_xml_output .= '<typeOfResource manuscript="yes" collection="yes">mixed material</typeOfResource>'."\n";
+        $_xml_output .= '<typeOfResource manuscript="yes" collection="yes"><![CDATA[mixed material]]></typeOfResource>'."\n";
 
         // gmd
-        $_xml_output .= '<genre authority="marcgt">bibliography</genre>'."\n";
+        $_xml_output .= '<genre authority="marcgt"><![CDATA[bibliography]]></genre>'."\n";
 
         // imprint/publication data
         $_xml_output .= '<originInfo>'."\n";
-        $_xml_output .= '<place><placeTerm type="text">'.$this->record_detail['publish_place'].'</placeTerm></place>'."\n"
-          .'<publisher>'.$this->record_detail['publisher_name'].'</publisher>'."\n"
-          .'<dateIssued>'.$this->record_detail['publish_year'].'</dateIssued>'."\n";
+        $_xml_output .= '<place><placeTerm type="text"><![CDATA['.$this->record_detail['publish_place'].']]></placeTerm></place>'."\n"
+          .'<publisher><![CDATA['.$this->record_detail['publisher_name'].']]></publisher>'."\n"
+          .'<dateIssued><![CDATA['.$this->record_detail['publish_year'].']]></dateIssued>'."\n";
         if ((integer)$this->record_detail['frequency_id'] > 0) {
-            $_xml_output .= '<issuance>continuing</issuance>'."\n";
-            $_xml_output .= '<frequency>'.$this->record_detail['frequency'].'</frequency>'."\n";
+            $_xml_output .= '<issuance><![CDATA[continuing]]></issuance>'."\n";
+            $_xml_output .= '<frequency><![CDATA['.$this->record_detail['frequency'].']]></frequency>'."\n";
         } else {
-            $_xml_output .= '<issuance>monographic</issuance>'."\n";
+            $_xml_output .= '<issuance><![CDATA[monographic]]></issuance>'."\n";
         }
-        $_xml_output .= '<edition>'.$this->record_detail['edition'].'</edition>'."\n";
+        $_xml_output .= '<edition><![CDATA['.$this->record_detail['edition'].']]></edition>'."\n";
         $_xml_output .= '</originInfo>'."\n";
 
         // language
         $_xml_output .= '<language>'."\n";
-        $_xml_output .= '<languageTerm type="code">'.$this->record_detail['language_id'].'</languageTerm>'."\n";
-        $_xml_output .= '<languageTerm type="text">'.$this->record_detail['language_name'].'</languageTerm>'."\n";
+        $_xml_output .= '<languageTerm type="code"><![CDATA['.$this->record_detail['language_id'].']]></languageTerm>'."\n";
+        $_xml_output .= '<languageTerm type="text"><![CDATA['.$this->record_detail['language_name'].']]></languageTerm>'."\n";
         $_xml_output .= '</language>'."\n";
 
         // Physical Description/Collation
         $_xml_output .= '<physicalDescription>'."\n";
-        $_xml_output .= '<form authority="gmd">'.$this->record_detail['gmd_name'].'</form>'."\n";
-        $_xml_output .= '<extent>'.$this->record_detail['collation'].'</extent>'."\n";
+        $_xml_output .= '<form authority="gmd"><![CDATA['.$this->record_detail['gmd_name'].']]></form>'."\n";
+        $_xml_output .= '<extent><![CDATA['.$this->record_detail['collation'].']]></extent>'."\n";
         $_xml_output .= '</physicalDescription>'."\n";
 
         // Series title
         if ($this->record_detail['series_title']) {
             $_xml_output .= '<relatedItem type="series">'."\n";
             $_xml_output .= '<titleInfo>'."\n";
-            $_xml_output .= '<title>'.$this->record_detail['series_title'].'</title>'."\n";
+            $_xml_output .= '<title><![CDATA['.$this->record_detail['series_title'].']]></title>'."\n";
             $_xml_output .= '</titleInfo>'."\n";
             $_xml_output .= '</relatedItem>'."\n";
         }
@@ -332,7 +324,7 @@ class detail extends content_list
         // Note
         $_xml_output .= '<note>'.$this->record_detail['notes'].'</note>'."\n";
         if ($_title_statement_resp) {
-            $_xml_output .= '<note type="statement of responsibility">'.$_title_statement_resp.'</note>';
+            $_xml_output .= '<note type="statement of responsibility"><![CDATA['.$_title_statement_resp.']]></note>';
         }
 
         // subject/topic
@@ -341,21 +333,21 @@ class detail extends content_list
         while ($_topic_d = $_biblio_topics_q->fetch_assoc()) {
             $_subject_type = strtolower($sysconf['subject_type'][$_topic_d['topic_type']]);
             $_xml_output .= '<subject authority="'.$_topic_d['auth_list'].'">';
-            $_xml_output .= '<'.$_subject_type.'>'.$_topic_d['topic'].'</'.$_subject_type.'>';
+            $_xml_output .= '<'.$_subject_type.'><![CDATA['.$_topic_d['topic'].']]></'.$_subject_type.'>';
             $_xml_output .= '</subject>'."\n";
         }
 
         // classification
-        $_xml_output .= '<classification>'.$this->record_detail['classification'].'</classification>';
+        $_xml_output .= '<classification><![CDATA['.$this->record_detail['classification'].']]></classification>';
 
         // ISBN/ISSN
-        $_xml_output .= '<identifier type="isbn">'.str_replace(array('-', ' '), '', $this->record_detail['isbn_issn']).'</identifier>';
+        $_xml_output .= '<identifier type="isbn"><![CDATA['.str_replace(array('-', ' '), '', $this->record_detail['isbn_issn']).']]></identifier>';
 
 
         // Location and Copies information
         $_xml_output .= '<location>'."\n";
-        $_xml_output .= '<physicalLocation>'.$sysconf['library_name'].' '.$sysconf['library_subname'].'</physicalLocation>'."\n";
-        $_xml_output .= '<shelfLocator>'.$this->record_detail['call_number'].'</shelfLocator>'."\n";
+        $_xml_output .= '<physicalLocation><![CDATA['.$sysconf['library_name'].' '.$sysconf['library_subname'].']]></physicalLocation>'."\n";
+        $_xml_output .= '<shelfLocator><![CDATA['.$this->record_detail['call_number'].']]></shelfLocator>'."\n";
         $_copy_q = $this->obj_db->query('SELECT i.item_code, i.call_number, stat.item_status_name, loc.location_name, stat.rules, i.site FROM item AS i '
             .'LEFT JOIN mst_item_status AS stat ON i.item_status_id=stat.item_status_id '
             .'LEFT JOIN mst_location AS loc ON i.location_id=loc.location_id '
@@ -364,9 +356,9 @@ class detail extends content_list
             $_xml_output .= '<holdingSimple>'."\n";
             while ($_copy_d = $_copy_q->fetch_assoc()) {
                 $_xml_output .= '<copyInformation>'."\n";
-                $_xml_output .= '<numerationAndChronology type="1">'.$_copy_d['item_code'].'</numerationAndChronology>'."\n";
-                $_xml_output .= '<sublocation>'.$_copy_d['location_name'].( $_copy_d['site']?' ('.$_copy_d['site'].')':'' ).'</sublocation>'."\n";
-                $_xml_output .= '<shelfLocator>'.$_copy_d['call_number'].'</shelfLocator>'."\n";
+                $_xml_output .= '<numerationAndChronology type="1"><![CDATA['.$_copy_d['item_code'].']]></numerationAndChronology>'."\n";
+                $_xml_output .= '<sublocation><![CDATA['.$_copy_d['location_name'].( $_copy_d['site']?' ('.$_copy_d['site'].')':'' ).']]></sublocation>'."\n";
+                $_xml_output .= '<shelfLocator><![CDATA['.$_copy_d['call_number'].']]></shelfLocator>'."\n";
                 $_xml_output .= '</copyInformation>'."\n";
             }
             $_xml_output .= '</holdingSimple>'."\n";
@@ -383,7 +375,7 @@ class detail extends content_list
                 if ($attachment_d['access_limit']) { continue; }
                 $_xml_output .= '<slims:digital_item id="'.$attachment_d['file_id'].'" url="'.trim($attachment_d['file_url']).'" '
                     .'path="'.htmlentities($attachment_d['file_dir'].'/'.$attachment_d['file_name']).'" mimetype="'.$attachment_d['mime_type'].'">';
-                $_xml_output .= htmlentities($attachment_d['file_title']);
+                $_xml_output .= '<![CDATA['.$attachment_d['file_title'].']]>';
                 $_xml_output .= '</slims:digital_item>'."\n";
             }
             $_xml_output .= '</slims:digitals>';
@@ -392,15 +384,15 @@ class detail extends content_list
         // image
         if (!empty($this->record_detail['image'])) {
           $_image = urlencode($this->record_detail['image']);
-			    $_xml_output .= '<slims:image>'.htmlentities($_image).'</slims:image>'."\n";
+	  $_xml_output .= '<slims:image><![CDATA['.$_image.']]></slims:image>'."\n";
         }
 
         // record info
         $_xml_output .= '<recordInfo>'."\n";
-        $_xml_output .= '<recordIdentifier>'.$this->detail_id.'</recordIdentifier>'."\n";
-        $_xml_output .= '<recordCreationDate encoding="w3cdtf">'.$this->record_detail['input_date'].'</recordCreationDate>'."\n";
-        $_xml_output .= '<recordChangeDate encoding="w3cdtf">'.$this->record_detail['last_update'].'</recordChangeDate>'."\n";
-        $_xml_output .= '<recordOrigin>machine generated</recordOrigin>'."\n";
+        $_xml_output .= '<recordIdentifier><![CDATA['.$this->detail_id.']]></recordIdentifier>'."\n";
+        $_xml_output .= '<recordCreationDate encoding="w3cdtf"><![CDATA['.$this->record_detail['input_date'].']]></recordCreationDate>'."\n";
+        $_xml_output .= '<recordChangeDate encoding="w3cdtf"><![CDATA['.$this->record_detail['last_update'].']]></recordChangeDate>'."\n";
+        $_xml_output .= '<recordOrigin><![CDATA[machine generated]]></recordOrigin>'."\n";
         $_xml_output .= '</recordInfo>';
 
         $_xml_output .= '</mods>';
@@ -410,7 +402,7 @@ class detail extends content_list
 
 
     /**
-     * Record detail output in MODS (Metadata Object Description Schema) XML mode
+     * Record detail output in Dublin Core XML mode
      * @return  array
      *
      */
@@ -418,14 +410,7 @@ class detail extends content_list
     {
         // get global configuration vars array
         global $sysconf;
-
-        // convert to htmlentities
-        foreach ($this->record_detail as $_field => $_value) {
-            if (is_string($_value)) {
-              $this->record_detail[$_field] = preg_replace_callback('/&([a-zA-Z][a-zA-Z0-9]+);/S',
-                'utility::convertXMLentities', htmlspecialchars(trim($_value)));
-            }
-        }
+        $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
 
         // set prefix and suffix
         $this->detail_prefix = '';
@@ -445,11 +430,11 @@ class detail extends content_list
             $_title_main = trim($this->record_detail['title']);
         }
 
-        $_xml_output .= '<dc:title>'.$_title_main;
+        $_xml_output .= '<dc:title><![CDATA['.$_title_main;
         if ($_title_sub) {
             $_xml_output .= ' '.$_title_sub;
         }
-        $_xml_output .= '</dc:title>'."\n";
+        $_xml_output .= ']]></dc:title>'."\n";
 
         // get the authors data
         $_biblio_authors_q = $this->obj_db->query('SELECT a.*,ba.level FROM mst_author AS a'
@@ -460,52 +445,52 @@ class detail extends content_list
         $_biblio_authors_q->free_result();
 
         // imprint/publication data
-        $_xml_output .= '<dc:publisher>'.$this->record_detail['publisher_name'].'</dc:publisher>'."\n";
+        $_xml_output .= '<dc:publisher><![CDATA['.$this->record_detail['publisher_name'].']]></dc:publisher>'."\n";
 
         // date
-        $_xml_output .= '<dc:date>'.$this->record_detail['publish_year'].'</dc:date>'."\n";
+        $_xml_output .= '<dc:date><![CDATA['.$this->record_detail['publish_year'].']]></dc:date>'."\n";
 
         // edition
-        $_xml_output .= '<dc:hasVersion>'.$this->record_detail['edition'].'</dc:hasVersion>'."\n";
+        $_xml_output .= '<dc:hasVersion><![CDATA['.$this->record_detail['edition'].']]></dc:hasVersion>'."\n";
 
         // language
-        $_xml_output .= '<dc:language>'.$this->record_detail['language_name'].'</dc:language>'."\n";
+        $_xml_output .= '<dc:language><![CDATA['.$this->record_detail['language_name'].']]></dc:language>'."\n";
 
         // Physical Description/Collation
-        $_xml_output .= '<dc:medium>'.$this->record_detail['gmd_name'].'</dc:medium>'."\n";
-        $_xml_output .= '<dc:format>'.$this->record_detail['gmd_name'].'</dc:format>'."\n";
+        $_xml_output .= '<dc:medium><![CDATA['.$this->record_detail['gmd_name'].']]></dc:medium>'."\n";
+        $_xml_output .= '<dc:format><![CDATA['.$this->record_detail['gmd_name'].']]></dc:format>'."\n";
         if ((integer)$this->record_detail['frequency_id'] > 0) {
-            $_xml_output .= '<dc:format>Serial</dc:format>'."\n";
+            $_xml_output .= '<dc:format><![CDATA[Serial]]></dc:format>'."\n";
         }
         $_xml_output .= '<dc:extent>'.$this->record_detail['collation'].'</dc:extent>'."\n";
 
         // Series title
         if ($this->record_detail['series_title']) {
-          $_xml_output .= '<dc:isPartOf>'.$this->record_detail['series_title'].'</dc:isPartOf>'."\n";
+          $_xml_output .= '<dc:isPartOf><![CDATA['.$this->record_detail['series_title'].']]></dc:isPartOf>'."\n";
         }
 
         // Note
-        $_xml_output .= '<dc:description>'.$this->record_detail['notes'].'</dc:description>'."\n";
-        $_xml_output .= '<dc:abstract>'.$this->record_detail['notes'].'</dc:abstract>'."\n";
+        $_xml_output .= '<dc:description><![CDATA['.$this->record_detail['notes'].']]></dc:description>'."\n";
+        $_xml_output .= '<dc:abstract><![CDATA['.$this->record_detail['notes'].']]></dc:abstract>'."\n";
 
         // subject/topic
         $_biblio_topics_q = $this->obj_db->query('SELECT t.topic, t.topic_type, t.auth_list, bt.level FROM mst_topic AS t
           LEFT JOIN biblio_topic AS bt ON t.topic_id=bt.topic_id WHERE bt.biblio_id='.$this->detail_id.' ORDER BY t.auth_list');
         while ($_topic_d = $_biblio_topics_q->fetch_assoc()) {
-          $_xml_output .= '<dc:subject>'.$_topic_d['topic'].'</dc:subject>'."\n";
+          $_xml_output .= '<dc:subject><![CDATA['.$_topic_d['topic'].']]></dc:subject>'."\n";
         }
 
         // classification
-        $_xml_output .= '<dc:subject>'.$this->record_detail['classification'].'</dc:subject>';
+        $_xml_output .= '<dc:subject><![CDATA['.$this->record_detail['classification'].']]></dc:subject>';
 
         // Permalink
-        $_xml_output .= '<dc:identifier><![CDATA[http://'.$_SERVER['SERVER_NAME'].SWB.'index.php?p=show_detail&id='.$this->detail_id.']]></dc:identifier>';
+        $_xml_output .= '<dc:identifier><![CDATA['.$protocol.'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].SWB.'index.php?p=show_detail&id='.$this->detail_id.']]></dc:identifier>';
 
         // ISBN/ISSN
-        $_xml_output .= '<dc:identifier>'.str_replace(array('-', ' '), '', $this->record_detail['isbn_issn']).'</dc:identifier>';
+        $_xml_output .= '<dc:identifier><![CDATA['.str_replace(array('-', ' '), '', $this->record_detail['isbn_issn']).']]></dc:identifier>';
 
         // Call Number
-        $_xml_output .= '<dc:identifier>'.$this->record_detail['call_number'].'</dc:identifier>'."\n";
+        $_xml_output .= '<dc:identifier><![CDATA['.$this->record_detail['call_number'].']]></dc:identifier>'."\n";
 
         $_copy_q = $this->obj_db->query('SELECT i.item_code, i.call_number, stat.item_status_name, loc.location_name, stat.rules, i.site FROM item AS i '
             .'LEFT JOIN mst_item_status AS stat ON i.item_status_id=stat.item_status_id '
@@ -513,7 +498,7 @@ class detail extends content_list
             .'WHERE i.biblio_id='.$this->detail_id);
         if ($_copy_q->num_rows > 0) {
             while ($_copy_d = $_copy_q->fetch_assoc()) {
-                $_xml_output .= '<dc:hasPart>'.$_copy_d['item_code'].'</dc:hasPart>'."\n";
+                $_xml_output .= '<dc:hasPart><![CDATA['.$_copy_d['item_code'].']]></dc:hasPart>'."\n";
             }
         }
 
@@ -522,11 +507,14 @@ class detail extends content_list
             LEFT JOIN files AS f ON att.file_id=f.file_id WHERE att.biblio_id='.$this->detail_id.' AND att.access_type=\'public\' LIMIT 20');
         if ($attachment_q->num_rows > 0) {
           while ($attachment_d = $attachment_q->fetch_assoc()) {
+              $dir = '';
+              if ($attachment_d['file_dir']) {
+                $dir = $attachment_d['file_dir'].'/';
+              }
               $_xml_output .= '<dc:relation><![CDATA[';
               // check member type privileges
               if ($attachment_d['access_limit']) { continue; }
-              $_xml_output .= preg_replace_callback('/&([a-zA-Z][a-zA-Z0-9]+);/S',
-                  'utility::convertXMLentities', htmlspecialchars(trim($attachment_d['file_title'])));
+              $_xml_output .= $protocol.'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].REPO_WBS.$dir.trim(urlencode($attachment_d['file_name']));
               $_xml_output .= ']]></dc:relation>'."\n";
           }
         }
@@ -534,7 +522,7 @@ class detail extends content_list
         // image
         if (!empty($this->record_detail['image'])) {
           $_image = urlencode($this->record_detail['image']);
-			    $_xml_output .= '<dc:relation><![CDATA['.htmlentities($_image).']]></dc:relation>'."\n";
+	  $_xml_output .= '<dc:relation><![CDATA['.htmlentities($_image).']]></dc:relation>'."\n";
         }
 
         return $_xml_output;
