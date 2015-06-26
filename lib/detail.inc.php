@@ -418,23 +418,9 @@ class detail extends content_list
 
         $_xml_output = '';
 
-        // parse title
-        $_title_sub = '';
-        $_title_statement_resp = '';
-        if (stripos($this->record_detail['title'], ':') !== false) {
-            $_title_main = trim(substr_replace($this->record_detail['title'], '', stripos($this->record_detail['title'], ':')+1));
-            $_title_sub = trim(substr_replace($this->record_detail['title'], '', 0, stripos($this->record_detail['title'], ':')+1));
-        } else if (stripos($this->record_detail['title'], '/') !== false) {
-            $_title_statement_resp = trim(substr_replace($this->record_detail['title'], '', stripos($this->record_detail['title'], '/')+1));
-        } else {
-            $_title_main = trim($this->record_detail['title']);
-        }
-
-        $_xml_output .= '<dc:title><![CDATA['.$_title_main;
-        if ($_title_sub) {
-            $_xml_output .= ' '.$_title_sub;
-        }
-        $_xml_output .= ']]></dc:title>'."\n";
+        // title
+        $_title_main = $this->record_detail['title'];
+        $_xml_output .= '<dc:title><![CDATA['.$_title_main.']]></dc:title>'."\n";
 
         // get the authors data
         $_biblio_authors_q = $this->obj_db->query('SELECT a.*,ba.level FROM mst_author AS a'
@@ -465,7 +451,7 @@ class detail extends content_list
         if ((integer)$this->record_detail['frequency_id'] > 0) {
             $_xml_output .= '<dc:format><![CDATA[Serial]]></dc:format>'."\n";
         }
-        $_xml_output .= '<dc:extent>'.$this->record_detail['collation'].'</dc:extent>'."\n";
+        $_xml_output .= '<dc:extent><![CDATA['.$this->record_detail['collation'].']]></dc:extent>'."\n";
 
         // Series title
         if ($this->record_detail['series_title']) {
@@ -525,7 +511,7 @@ class detail extends content_list
         // image
         if (!empty($this->record_detail['image'])) {
           $_image = urlencode($this->record_detail['image']);
-	  $_xml_output .= '<dc:relation><![CDATA['.htmlentities($_image).']]></dc:relation>'."\n";
+	  $_xml_output .= '<dc:relation><![CDATA['.$protocol.'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].SWB.'images/docs/'.urlencode($_image).']]></dc:relation>'."\n";
         }
 
         return $_xml_output;
