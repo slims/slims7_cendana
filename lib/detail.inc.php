@@ -419,67 +419,67 @@ class detail extends content_list
         $_xml_output = '';
 
         // title
-        $_title_main = $this->record_detail['title'];
+        $_title_main = utf8_encode($this->record_detail['title']);
         $_xml_output .= '<dc:title><![CDATA['.$_title_main.']]></dc:title>'."\n";
 
         // get the authors data
         $_biblio_authors_q = $this->obj_db->query('SELECT a.*,ba.level FROM mst_author AS a'
             .' LEFT JOIN biblio_author AS ba ON a.author_id=ba.author_id WHERE ba.biblio_id='.$this->detail_id);
         while ($_auth_d = $_biblio_authors_q->fetch_assoc()) {
-            $_xml_output .= '<dc:creator><![CDATA['.$_auth_d['author_name'].']]></dc:creator>'."\n";
+            $_xml_output .= '<dc:creator><![CDATA['.utf8_encode($_auth_d['author_name']).']]></dc:creator>'."\n";
         }
         $_biblio_authors_q->free_result();
 
         // imprint/publication data
-        $_xml_output .= '<dc:publisher><![CDATA['.$this->record_detail['publisher_name'].']]></dc:publisher>'."\n";
+        $_xml_output .= '<dc:publisher><![CDATA['.utf8_encode($this->record_detail['publisher_name']).']]></dc:publisher>'."\n";
 
         if ($this->record_detail['publish_year']) {
-          $_xml_output .= '<dc:date><![CDATA['.$this->record_detail['publish_year'].']]></dc:date>'."\n";
+          $_xml_output .= '<dc:date><![CDATA['.utf8_encode($this->record_detail['publish_year']).']]></dc:date>'."\n";
         } else {
           $_xml_output .= '<dc:date></dc:date>'."\n";  
         }
 
         // edition
-        $_xml_output .= '<dc:hasVersion><![CDATA['.$this->record_detail['edition'].']]></dc:hasVersion>'."\n";
+        $_xml_output .= '<dc:hasVersion><![CDATA['.utf8_encode($this->record_detail['edition']).']]></dc:hasVersion>'."\n";
 
         // language
-        $_xml_output .= '<dc:language><![CDATA['.$this->record_detail['language_name'].']]></dc:language>'."\n";
+        $_xml_output .= '<dc:language><![CDATA['.utf8_encode($this->record_detail['language_name']).']]></dc:language>'."\n";
 
         // Physical Description/Collation
-        $_xml_output .= '<dc:medium><![CDATA['.$this->record_detail['gmd_name'].']]></dc:medium>'."\n";
-        $_xml_output .= '<dc:format><![CDATA['.$this->record_detail['gmd_name'].']]></dc:format>'."\n";
+        $_xml_output .= '<dc:medium><![CDATA['.utf8_encode($this->record_detail['gmd_name']).']]></dc:medium>'."\n";
+        $_xml_output .= '<dc:format><![CDATA['.utf8_encode($this->record_detail['gmd_name']).']]></dc:format>'."\n";
         if ((integer)$this->record_detail['frequency_id'] > 0) {
             $_xml_output .= '<dc:format><![CDATA[Serial]]></dc:format>'."\n";
         }
-        $_xml_output .= '<dc:extent><![CDATA['.$this->record_detail['collation'].']]></dc:extent>'."\n";
+        $_xml_output .= '<dc:extent><![CDATA['.utf8_encode($this->record_detail['collation']).']]></dc:extent>'."\n";
 
         // Series title
         if ($this->record_detail['series_title']) {
-          $_xml_output .= '<dc:isPartOf><![CDATA['.$this->record_detail['series_title'].']]></dc:isPartOf>'."\n";
+          $_xml_output .= '<dc:isPartOf><![CDATA['.utf8_encode($this->record_detail['series_title']).']]></dc:isPartOf>'."\n";
         }
 
         // Note
-        $_xml_output .= '<dc:description><![CDATA['.$this->record_detail['notes'].']]></dc:description>'."\n";
-        $_xml_output .= '<dc:abstract><![CDATA['.$this->record_detail['notes'].']]></dc:abstract>'."\n";
+        $_xml_output .= '<dc:description><![CDATA['.utf8_encode($this->record_detail['notes']).']]></dc:description>'."\n";
+        $_xml_output .= '<dc:abstract><![CDATA['.utf8_encode($this->record_detail['notes']).']]></dc:abstract>'."\n";
 
         // subject/topic
         $_biblio_topics_q = $this->obj_db->query('SELECT t.topic, t.topic_type, t.auth_list, bt.level FROM mst_topic AS t
           LEFT JOIN biblio_topic AS bt ON t.topic_id=bt.topic_id WHERE bt.biblio_id='.$this->detail_id.' ORDER BY t.auth_list');
         while ($_topic_d = $_biblio_topics_q->fetch_assoc()) {
-          $_xml_output .= '<dc:subject><![CDATA['.$_topic_d['topic'].']]></dc:subject>'."\n";
+          $_xml_output .= '<dc:subject><![CDATA['.utf8_encode($_topic_d['topic']).']]></dc:subject>'."\n";
         }
 
         // classification
-        $_xml_output .= '<dc:subject><![CDATA['.$this->record_detail['classification'].']]></dc:subject>';
+        $_xml_output .= '<dc:subject><![CDATA['.utf8_encode($this->record_detail['classification']).']]></dc:subject>';
 
         // Permalink
         $_xml_output .= '<dc:identifier><![CDATA['.$protocol.'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].SWB.'index.php?p=show_detail&id='.$this->detail_id.']]></dc:identifier>';
 
         // ISBN/ISSN
-        $_xml_output .= '<dc:identifier><![CDATA['.str_replace(array('-', ' '), '', $this->record_detail['isbn_issn']).']]></dc:identifier>';
+        $_xml_output .= '<dc:identifier><![CDATA['.str_replace(array('-', ' '), '', utf8_encode($this->record_detail['isbn_issn'])).']]></dc:identifier>';
 
         // Call Number
-        $_xml_output .= '<dc:identifier><![CDATA['.$this->record_detail['call_number'].']]></dc:identifier>'."\n";
+        $_xml_output .= '<dc:identifier><![CDATA['.utf8_encode($this->record_detail['call_number']).']]></dc:identifier>'."\n";
 
         $_copy_q = $this->obj_db->query('SELECT i.item_code, i.call_number, stat.item_status_name, loc.location_name, stat.rules, i.site FROM item AS i '
             .'LEFT JOIN mst_item_status AS stat ON i.item_status_id=stat.item_status_id '
@@ -487,7 +487,7 @@ class detail extends content_list
             .'WHERE i.biblio_id='.$this->detail_id);
         if ($_copy_q->num_rows > 0) {
             while ($_copy_d = $_copy_q->fetch_assoc()) {
-                $_xml_output .= '<dc:hasPart><![CDATA['.$_copy_d['item_code'].']]></dc:hasPart>'."\n";
+                $_xml_output .= '<dc:hasPart><![CDATA['.utf8_encode($_copy_d['item_code']).']]></dc:hasPart>'."\n";
             }
         }
 
