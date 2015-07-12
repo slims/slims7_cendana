@@ -411,13 +411,18 @@ class detail extends content_list
         // get global configuration vars array
         global $sysconf;
         $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
+        $xml = new XMLWriter();
+        $xml->openMemory();
+        $xml->setIndent(true);
 
         // set prefix and suffix
         $this->detail_prefix = '';
         $this->detail_suffix = '';
 
         $_xml_output = '';
-
+        
+        $_title_main = utf8_encode($this->record_detail['title']);
+        /*
         // title
         $_title_main = utf8_encode($this->record_detail['title']);
         $_xml_output .= '<dc:title><![CDATA['.$_title_main.']]></dc:title>'."\n";
@@ -513,8 +518,152 @@ class detail extends content_list
           $_image = urlencode($this->record_detail['image']);
 	  $_xml_output .= '<dc:relation><![CDATA['.$protocol.'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].SWB.'images/docs/'.urlencode($_image).']]></dc:relation>'."\n";
         }
+        */
+        // title
+        $xml->startElementNS('dc', 'title', null);
+        $xml->writeCdata($_title_main);
+        $xml->endElement();
+        
+        // get the authors data
+        $_biblio_authors_q = $this->obj_db->query('SELECT a.*,ba.level FROM mst_author AS a'
+            .' LEFT JOIN biblio_author AS ba ON a.author_id=ba.author_id WHERE ba.biblio_id='.$this->detail_id);
+        while ($_auth_d = $_biblio_authors_q->fetch_assoc()) {
+          $xml->startElementNS('dc', 'creator', null);
+          $xml->writeCdata($_auth_d['author_name']);
+          $xml->endElement();
+        }
+        $_biblio_authors_q->free_result();
 
-        return $_xml_output;
+        // imprint/publication data
+        $xml->startElementNS('dc', 'publisher', null);
+        $xml->writeCdata($this->record_detail['publisher_name']);
+        $xml->endElement();
+
+        if ($this->record_detail['publish_year']) {
+          $xml->startElementNS('dc', 'date', null);
+          $xml->writeCdata($this->record_detail['publish_year']);
+          $xml->endElement();
+        } else {
+          $xml->startElementNS('dc', 'date', null);
+          $xml->fullEndElement();  
+        }
+
+        // edition
+        $xml->startElementNS('dc', 'hasVersion', null);
+        $xml->writeCdata($this->record_detail['edition']);
+        $xml->endElement();
+
+        // language
+        $xml->startElementNS('dc', 'language', null);
+        $xml->writeCdata($this->record_detail['language_name']);
+        $xml->endElement();
+
+        // Physical Description/Collation
+        $xml->startElementNS('dc', 'medium', null);
+        $xml->writeCdata($this->record_detail['gmd_name']);
+        $xml->endElement();
+
+        $xml->startElementNS('dc', 'format', null);
+        $xml->writeCdata($this->record_detail['gmd_name']);
+        $xml->endElement();
+
+        $xml->startElementNS('dc', 'extent', null);
+        $xml->writeCdata($this->record_detail['collation']);
+        $xml->endElement();
+
+        if ((integer)$this->record_detail['frequency_id'] > 0) {
+          $xml->startElementNS('dc', 'format', null);
+          $xml->writeCdata('serial');
+          $xml->endElement();
+        }
+        
+        // Series title
+        if ($this->record_detail['series_title']) {
+          $xml->startElementNS('dc', 'isPartOf', null);
+          $xml->writeCdata($this->record_detail['series_title']);
+          $xml->endElement();
+        }
+        
+        // Note
+        $xml->startElementNS('dc', 'description', null);
+        $xml->writeCdata($this->record_detail['notes']);
+        $xml->endElement();
+
+        $xml->startElementNS('dc', 'abstract', null);
+        $xml->writeCdata($this->record_detail['notes']);
+        $xml->endElement();
+        
+        // subject/topic
+        $_biblio_topics_q = $this->obj_db->query('SELECT t.topic, t.topic_type, t.auth_list, bt.level FROM mst_topic AS t
+          LEFT JOIN biblio_topic AS bt ON t.topic_id=bt.topic_id WHERE bt.biblio_id='.$this->detail_id.' ORDER BY t.auth_list');
+        while ($_topic_d = $_biblio_topics_q->fetch_assoc()) {
+          $xml->startElementNS('dc', 'subject', null);
+          $xml->writeCdata($_topic_d['topic']);
+          $xml->endElement();
+        }
+        $_biblio_topics_q->free_result();
+
+        // classification
+        $xml->startElementNS('dc', 'subject', null);
+        $xml->writeCdata($this->record_detail['classification']);
+        $xml->endElement();
+
+        // Permalink
+        $permalink = $protocol.'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].SWB.'index.php?p=show_detail&id='.$this->detail_id;
+        $xml->startElementNS('dc', 'identifier', null);
+        $xml->writeCdata($permalink);
+        $xml->endElement();
+
+        // ISBN/ISSN
+        $xml->startElementNS('dc', 'identifier', null);
+        $xml->writeCdata(str_replace(array('-', ' '), '', $this->record_detail['isbn_issn']));
+        $xml->endElement();
+
+        // Call Number
+        $xml->startElementNS('dc', 'identifier', null);
+        $xml->writeCdata($this->record_detail['call_number']);
+        $xml->endElement();
+
+        $_copy_q = $this->obj_db->query('SELECT i.item_code, i.call_number, stat.item_status_name, loc.location_name, stat.rules, i.site FROM item AS i '
+            .'LEFT JOIN mst_item_status AS stat ON i.item_status_id=stat.item_status_id '
+            .'LEFT JOIN mst_location AS loc ON i.location_id=loc.location_id '
+            .'WHERE i.biblio_id='.$this->detail_id);
+        if ($_copy_q->num_rows > 0) {
+            while ($_copy_d = $_copy_q->fetch_assoc()) {
+              $xml->startElementNS('dc', 'hasPart', null);
+              $xml->writeCdata($_copy_d['item_code']);
+              $xml->endElement();
+            }
+        }
+        $_copy_q->free_result();
+
+        // digital files
+        $attachment_q = $this->obj_db->query('SELECT att.*, f.* FROM biblio_attachment AS att
+            LEFT JOIN files AS f ON att.file_id=f.file_id WHERE att.biblio_id='.$this->detail_id.' AND att.access_type=\'public\' LIMIT 20');
+        if ($attachment_q->num_rows > 0) {
+          while ($attachment_d = $attachment_q->fetch_assoc()) {
+              $dir = '';
+              if ($attachment_d['file_dir']) {
+                $dir = $attachment_d['file_dir'].'/';
+              }
+              $_xml_output .= '<dc:relation><![CDATA[';
+              // check member type privileges
+              if ($attachment_d['access_limit']) { continue; }
+              $xml->startElementNS('dc', 'relation', null);
+              $xml->writeCdata($protocol.'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].REPO_WBS.$dir.trim(urlencode($attachment_d['file_name'])));
+              $xml->endElement();
+          }
+        }
+
+        // image
+        if (!empty($this->record_detail['image'])) {
+          $_image = $protocol.'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].IMGBS.'docs/'.urlencode($this->record_detail['image']);
+          $xml->startElementNS('dc', 'relation', null);
+          $xml->writeCdata($_image);
+          $xml->endElement();
+        }
+
+        return $xml->outputMemory();
     }
 
 
