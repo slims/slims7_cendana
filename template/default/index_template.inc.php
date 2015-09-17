@@ -429,7 +429,7 @@ if (isset($_GET['p']))
   if(  !( isset($_GET['search']) || isset($_GET['title']) || isset($_GET['keywords']) || isset($_GET['p']) ) ) :
     // query top book
     $topbook = $dbs->query('SELECT biblio_id, title, image FROM biblio WHERE
-        promoted=1 ORDER BY last_update LIMIT 10');
+        promoted=1 ORDER BY input_date DESC LIMIT 10');
     if ($num_rows = $topbook->num_rows) :
   ?>
   <div class="row topbook-container">
