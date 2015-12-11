@@ -1,9 +1,10 @@
-<?php
+﻿<?php
 /**
  * Slims Installer files
  *
- * Copyright � 2006 - 2012 Advanced Power of PHP
+ * Copyright © 2006 - 2012 Advanced Power of PHP
  * Some modifications & patches by Eddy Subratha (eddy.subratha@gmail.com)
+ * modified    : kouider bounama kouiderbounama{at}gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,70 +26,70 @@ require 'settings.php';
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Step 1 | Slims Installer</title>
+    <title>الخطوة 1 | تثبيت سينيان</title>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
     <div class="wrapper">
 	<div class="title">
-	    <h2>Step 1 - Generate the database </h2>
+	    <h2>الخطوة 1 - إنشاء قاعدة بيانات </h2>
 	</div>
-	<p class="message">Please complete following form with your database connection information</p>
+	<p class="message">يرجى ملء الاستمارة التالية مع معلومات اتصال قاعدة البيانات الخاصة بك</p>
 	<div class="content hastable">
     <form method="post" action="install2.php">
         <input type="hidden" name="submit" value="step2" />
         <table class=text width="100%" border="0" cellspacing="0" cellpadding="2" class="main_text">
             <tr>
-                <td>&nbsp;Database Host</td>
+                <td>&nbsp;مضيف قاعدة البيانات</td>
                 <td>
-                    <input type="text" class="form_text" name="database_host" value='localhost' size="30">&nbsp; <em>default : localhost</em>
+                    <input type="text" class="form_text" name="database_host" value='localhost' size="30">&nbsp; <em>الافتراضي : localhost</em>
                 </td>
             </tr>
             <tr>
-                <td>&nbsp;Database Name</td>
+                <td>&nbsp;إسم قاعدة البيانات</td>
                 <td>
                     <input type="text" class="form_text" name="database_name" size="30" value="">
                 </td>
             </tr>
             <tr>
-                <td>&nbsp;Database Username</td>
+                <td>&nbsp;مستخدم قاعدة البيانات</td>
                 <td>
                     <input type="text" class="form_text" name="database_username" size="30" value="">
                 </td>
             </tr>
             <tr>
-                <td>&nbsp;Database Password</td>
+                <td>&nbsp;كلمة سر قاعدة البيانات</td>
                 <td>
                     <input type="password" class="form_text" name="database_password" size="30" value="">
                 </td>
             </tr>
             <tr>
-				<td>Generate Sample Data</td>
+				<td>توليد البيانات النموذجية</td>
                                 <td>
-				    <input type="radio" name="install_sample" value="yes" /> Yes
-				    <input type="radio" name="install_sample" value="no" checked="checked" /> No
+				    <input type="radio" name="install_sample" value="yes" /> نعم
+				    <input type="radio" name="install_sample" value="no" checked="checked" /> لا
 				</td>
             </tr>
         </table>
     </div>
-    <p class="message">Please complete following form with user login and password (Optional)</p>
+    <p class="message">أكمل معلومات الدخول:إختياري</p>
     <div class="content hastable">
         <table class=text width="100%" border="0" cellspacing="0" cellpadding="2" class="main_text">
             <tr>
-                <td>&nbsp;Username</td>
+                <td>&nbsp;إسم المستخدم</td>
                 <td>
-                    <input type="text" class="form_text" name="username" size="30" value="admin">&nbsp; <em>default : admin</em>
+                    <input type="text" class="form_text" name="username" size="30" value="admin">&nbsp; <em>الافتراضي : admin</em>
                 </td>
             </tr>
             <tr>
-                <td>Password</td>
+                <td>كلمة المرور</td>
                 <td>
-                    <input type="password" class="form_text" name="password" size="30" value="">&nbsp; <em>default : admin</em>
+                    <input type="password" class="form_text" name="password" size="30" value="">&nbsp; <em>الافتراضي : admin</em>
                 </td>
             </tr>
             <tr>
-                <td>Retype Password</td>
+                <td>إعادة كلمة المرور</td>
                 <td>
                     <input type="password" class="form_text" name="retype_password" size="30" value="">
                 </td>
@@ -96,8 +97,8 @@ require 'settings.php';
         </table>
 		<br/>
 		<div class="toright">
-			<input type="button" class="button" name="btn_cancel" value="Cancel" onclick="document.location.href='index.php'">
-            <input type="submit" class="button" name="btn_submit" value="Continue">
+			<input type="button" class="button" name="btn_cancel" value="إلغاء" onclick="document.location.href='index.php'">
+            <input type="submit" class="button" name="btn_submit" value="المتابعة">
 		</div>
     </form>
 	</div>
