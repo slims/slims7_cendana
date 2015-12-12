@@ -60,9 +60,6 @@ if (isset($_GET['p']))
     'member'   => array('url'  => 'index.php?p=member',
       'text' => __('Member Area')
       ),
-      'Permintaan'   => array('url'  => 'index.php?p=visitor',
-      'text' => __('register')
-      ),
     'librarian'   => array('url'  => 'index.php?p=librarian',
       'text' => __('Librarian')
       ),
@@ -79,20 +76,20 @@ if (isset($_GET['p']))
   you may modified as you need.
   ----------------------------------------------------*/
   $social = array (
-    'facebook'  => array('url'  => 'http://www.facebook.com/groups/senayan.slims/',
+    'facebook'  => array('url'  => 'https://www.facebook.com/Slims4arab',
       'text' => 'Facebook'
       ),
     'twitter'  => array('url'  => 'http://twitter.com/#!/slims_official',
       'text' => 'Twitter'
       ),
-    'youtube'  => array('url'  => 'http://www.youtube.com/user/senayanslims',
+    'youtube'  => array('url'  => 'https://www.youtube.com/user/foss4lib',
       'text' => 'Youtube'
       ),
-    'gihub'  => array('url'  => 'https://github.com/slims/',
+    'gihub'  => array('url'  => 'https://github.com/kouiderbounama/slims7_cendana',
       'text' => 'Github'
       ),
-    'forum'  => array('url'  => 'http://slims.web.id/forum/',
-      'text' => 'Forum'
+    'forum'  => array('url'  => 'http://www.bounama.com/p/blog-page_12.html',
+      'text' => 'الدعم العربي'
       )
     );
 ?>
@@ -454,15 +451,6 @@ if (isset($_GET['p']))
         </ul>
       </div>
   </div>
-    <div class="row topbook-container">
-      <div class="span8 offset2">
-	      <div class="tagline">وثائق تهمك</div>
-        <div class="simply">
-			<center> <a href="index.php?p=progcul" target="blank"><img src='<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/garuda.png'></img></a> <a href="index.php?p=yourcard" target="blank"><img src='<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/proquest.jpg'></img></a> <a href="index.php?p=plpl" target="blank"><img src='<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/ebsco.png'></img></a>
-		</div>
-		</div>
-	</div>
-</div>
     <?php endif; ?>
   <?php endif; ?>
 
@@ -472,7 +460,7 @@ if (isset($_GET['p']))
  <div class="container">
   <div class="row">
     <div class="span12 lisence">
-     المكتبة الرئيسية للمطالعة العمومية جمال الدين بن سعد ولاية الجلفة 2015
+     This software and this template are released Under GNU GPL License Version 3 - The Winner in the Category of OSS Indonesia ICT Award 2009
    </div>
  </div>
 </div>
