@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*------------------------------------------------------------
 
 Template    : Slims Cendana Template
@@ -460,7 +460,7 @@ if (isset($_GET['p']))
  <div class="container">
   <div class="row">
     <div class="span12 lisence">
-     This software and this template are released Under GNU GPL License Version 3 - The Winner in the Category of OSS Indonesia ICT Award 2009
+     تعريب وتعديل للمكتبات العربية :bounama.com
    </div>
  </div>
 </div>
