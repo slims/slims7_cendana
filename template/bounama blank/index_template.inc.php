@@ -60,18 +60,15 @@ if (isset($_GET['p']))
     'member'   => array('url'  => 'index.php?p=member',
       'text' => __('Member Area')
       ),
-      'Permintaan'   => array('url'  => 'index.php?p=visitor',
-      'text' => __('register')
-      ),
     'librarian'   => array('url'  => 'index.php?p=librarian',
       'text' => __('Librarian')
       ),
     'help'   => array('url'  => 'index.php?p=help',
       'text' => __('Help on Search')
       ),
-    'login'   => array('url'  => 'index.php?p=login',
-      'text' => __('Librarian LOGIN')
-      )
+	'Permintaan'   => array('url'  => 'index.php?p=daftar',
+      'text' => __('register')
+      ),	  
     );
 
 /*----------------------------------------------------
@@ -437,6 +434,7 @@ if (isset($_GET['p']))
   ?>
   <div class="row topbook-container">
       <div class="span8 offset2">
+	      <div class="tagline">Koleksi Buku</div>
         <ul id="topbook" class="jcarousel-skin-tango">
           <?php
           while ($book = $topbook->fetch_assoc()) {
@@ -456,15 +454,17 @@ if (isset($_GET['p']))
   </div>
     <div class="row topbook-container">
       <div class="span8 offset2">
-	      <div class="tagline">وثائق تهمك</div>
+	      <div class="tagline">Koleksi Jurnal</div>
         <div class="simply">
-			<center> <a href="index.php?p=progcul" target="blank"><img src='<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/garuda.png'></img></a> <a href="index.php?p=yourcard" target="blank"><img src='<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/proquest.jpg'></img></a> <a href="index.php?p=plpl" target="blank"><img src='<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/ebsco.png'></img></a>
-		</div>
-		</div>
+			<center> <a href="http://garuda.dikti.go.id/" target="blank"><img src='<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/garuda.png'></img></a> <a href="http://www.proquest.com/" target="blank"><img src='<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/proquest.jpg'></img></a> <a href="https://www.ebsco.com/" target="blank"><img src='<?php echo $sysconf['template']['dir'].'/'.$sysconf['template']['theme']; ?>/img/ebsco.png'></img></a> 
+		</div>	
+		</div>	
 	</div>
 </div>
     <?php endif; ?>
   <?php endif; ?>
+  
+  
 
 </div>  <!--// End Content Ouput //-->
 
@@ -472,9 +472,9 @@ if (isset($_GET['p']))
  <div class="container">
   <div class="row">
     <div class="span12 lisence">
-     المكتبة الرئيسية للمطالعة العمومية جمال الدين بن سعد ولاية الجلفة 2015
+     This software and this template are released Under GNU GPL License Version 3 - The Winner in the Category of OSS Indonesia ICT Award 2009
    </div>
- </div>
+  </div>
 </div>
 </div>
 
