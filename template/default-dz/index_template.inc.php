@@ -472,7 +472,7 @@ if (isset($_GET['p']))
  <div class="container">
   <div class="row">
     <div class="span12 lisence">
-     المكتبة الرئيسية للمطالعة العمومية جمال الدين بن سعد ولاية الجلفة 2015
+     مكتبة المطالعة العمومية-بلدية حاسي العش 2016
    </div>
  </div>
 </div>
