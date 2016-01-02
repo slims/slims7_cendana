@@ -80,7 +80,10 @@ if (isset($_POST['remove'])) {
     echo 'self.location.href = \'iframe_item_list.php?biblioID='.$bid.'\';';
     echo '</script>';
   } else {
+    $collection = utility::collection_load($dbs, $bid);
+    $item = utility::item_load_by_id($dbs, $id);
     if ($sql_op->delete('item', 'item_id='.$id)) {
+      utility::writeLogs($dbs, 'staff', $_SESSION['uid'], 'bibliography', $_SESSION['realname'].' DELETE item data ('.$item['item_code'].') with title ('.$collection['title'].')');
       echo '<script type="text/javascript">';
       echo 'alert(\''.__('Item succesfully removed!').'\');';
       echo 'self.location.href = \'iframe_item_list.php?biblioID='.$bid.'\';';
