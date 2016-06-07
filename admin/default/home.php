@@ -77,39 +77,42 @@ if (is_dir('../install/')) {
     $warnings[] = __('Installer folder is still exist inside your server. Please remove it or rename to another name for security reason.');
 }
 
+if ($_SESSION['uid'] === '1') {
+  $warnings[] = __('<strong><i>You are logged in as Super User. With great power comes great responsibility.</i></strong>');
+  // check need to be repaired mysql database
+  $query_of_tables = $dbs->query('SHOW TABLES');
+  $num_of_tables = $query_of_tables->num_rows;
+  $prevtable = '';
+  $is_repaired = false;
 
-// check need to be repaired mysql database
-$query_of_tables = $dbs->query('SHOW TABLES');
-$num_of_tables = $query_of_tables->num_rows;
-$prevtable = '';
-$is_repaired = false;
-
-if (isset ($_POST['do_repair'])) {
+  if (isset ($_POST['do_repair'])) {
     if ($_POST['do_repair'] == 1) {
-        while ($row = $query_of_tables->fetch_row()) {
-            $sql_of_repair = 'REPAIR TABLE '.$row[0];
-            $query_of_repair = $dbs->query ($sql_of_repair);
-        }
+      while ($row = $query_of_tables->fetch_row()) {
+        $sql_of_repair = 'REPAIR TABLE '.$row[0];
+        $query_of_repair = $dbs->query ($sql_of_repair);
+      }
     }
-}
+  }
 
-while ($row = $query_of_tables->fetch_row()) {
+  while ($row = $query_of_tables->fetch_row()) {
     $query_of_check = $dbs->query('CHECK TABLE '.$row[0]);
     while ($rowcheck = $query_of_check->fetch_assoc()) {
-        if (!(($rowcheck['Msg_type'] == "status") && ($rowcheck['Msg_text'] == "OK"))) {
-            if ($row[0] != $prevtable) {
-                echo '<li class="warning">Table '.$row[0].' might need to be repaired.</li>';
-            }
-            $prevtable = $row[0];
-            $is_repaired = true;
+      if (!(($rowcheck['Msg_type'] == "status") && ($rowcheck['Msg_text'] == "OK"))) {
+        if ($row[0] != $prevtable) {
+          echo '<li class="warning">Table '.$row[0].' might need to be repaired.</li>';
         }
+        $prevtable = $row[0];
+        $is_repaired = true;
+      }
     }
-}
-if (($is_repaired) && !isset($_POST['do_repair'])) {
-     echo '<li class="warning"><form method="POST"><input type="hidden" name="do_repair" value="1"><input value="Repaire Tables" type="submit"></form></li>';
+  }
+  if (($is_repaired) && !isset($_POST['do_repair'])) {
+    echo '<li class="warning"><form method="POST"><input type="hidden" name="do_repair" value="1"><input value="Repair Tables" type="submit"></form></li>';
+  }
 }
 
-// if there any warnings
+
+// if there are any warnings
 if ($warnings) {
     echo '<div class="message">';
     echo '<ul>';
