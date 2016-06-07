@@ -57,7 +57,7 @@ if (isset($_POST['counter'])) {
     $photo = 'person.png';
     $expire = 0;
 // sleep for a while
-    sleep(2);
+    sleep(0);
 /**
 * Insert counter data to database
 */

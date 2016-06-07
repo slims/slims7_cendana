@@ -54,10 +54,12 @@ CREATE TABLE IF NOT EXISTS `biblio` (
   `spec_detail_info` text collate utf8_unicode_ci,
   `input_date` datetime default NULL,
   `last_update` datetime default NULL,
+  `uid` int(11) default NULL,
   PRIMARY KEY  (`biblio_id`),
   KEY `references_idx` (`gmd_id`,`publisher_id`,`language_id`,`publish_place_id`),
   KEY `classification` (`classification`),
   KEY `biblio_flag_idx` (`opac_hide`,`promoted`),
+  KEY `uid` (`uid`),
   FULLTEXT KEY `title_ft_idx` (`title`,`series_title`),
   FULLTEXT KEY `notes_ft_idx` (`notes`),
   FULLTEXT KEY `labels` (`labels`)
