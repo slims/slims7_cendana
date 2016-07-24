@@ -72,4 +72,5 @@ $available_languages[] = array('id_ID', __('Indonesian'), 'Indonesia');
 $available_languages[] = array('jp_JP', __('Japanese'), 'Japanese');
 $available_languages[] = array('th_TH', __('Thai'), 'Thai');
 $available_languages[] = array('my_MY', __('Malay'), 'Malay');
+$available_languages[] = array('ar_DZ', __('Arabicdz'), 'Arabicdz');
 $available_languages[] = array('fa_IR', __('Persian'), 'Persian');

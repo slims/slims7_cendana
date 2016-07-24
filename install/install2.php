@@ -4,6 +4,7 @@
  *
  * Copyright © 2006 - 2012 Advanced Power of PHP
  * Some modifications & patches by Eddy Subratha (eddy.subratha@gmail.com)
+ * modified    : kouider bounama kouiderbounama{at}gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -164,15 +165,15 @@
 		$retype_password	= isset($_POST['retype_password'])?$_POST['retype_password']:"";
 		
 		if (empty($database_host)){
-			$error_mg[] = "<li>Database host can not be empty </li>";	
+			$error_mg[] = "<li>مضيف قاعدة البيانات لا يمكن أن يكون فارغا </li>";	
 		}
 		
 		if (empty($database_name)){
-			$error_mg[] = "<li>Database name can not be empty</li>";	
+			$error_mg[] = "<li>اسم قاعدة البيانات لا يمكن أن يكون فارغا</li>";	
 		}
 		
 		if (empty($database_username)){
-			$error_mg[] = "<li>Database username can not be empty</li>";	
+			$error_mg[] = "<li>اسم المستخدم قاعدة البيانات لا يمكن أن يكون فارغا</li>";	
 		}
 
 		if(trim($username) <> 'admin')
@@ -274,7 +275,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>Step 2 | Slims Installer</title>
+	<title>الخطوة 2 | تثبيت سينيان</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
 	<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
@@ -282,9 +283,9 @@
     <div class="wrapper">
 	    <?php if(!$completed) { ?>
 	    <div class="title">
-		<h2>Step 2 - Installation Not Completed</h2>	    
+		<h2>الخطوة 2 - تثبيت لم تكتمل</h2>	    
 	    </div>
-	    <p class="error">Please correct your information according to this message</p>
+	    <p class="error">يرجى تصحيح المعلومات الخاصة بك وفقا لهذه الرسالة</p>
 	    <div class="content">	    
 	    <?php
 	    foreach($error_mg as $msg){
@@ -292,22 +293,22 @@
 	    }
 	    ?>
 	    <div class="toright">
-		<input type="button" class="button" value="Back" name="submit" onclick="javascript: history.go(-1);">
-		<input type="button" class="button" value="Retry" name="submit" onclick="javascript: location.reload();">
+		<input type="button" class="button" value="العودة" name="submit" onclick="javascript: history.go(-1);">
+		<input type="button" class="button" value="إعادة المحاولة" name="submit" onclick="javascript: location.reload();">
 	    </div>
 	    <br/>
 	    </div>		    
 	    <?php } else { ?>
 	    <div class="title">
-		<h2>Step 2 - Installation Completed</h2>	    
+		<h2>الخطوة 2 - تثبيت مكتمل</h2>	    
 	    </div>
-	    <p class="success">Hooray, the installation was successful</p>
+	    <p class="success">هايلة والله،تم التثبيت بنجاح </p>
 	    <div class="content">
-		<p>The <?php echo $config_file_name;?> file was sucessfully created.</p>
-		<p>For security reasons, please remove <code style="font-weight: bold;">install/</code> folder from your server.</p>
+		<p>ملف <?php echo $config_file_name;?> تم تكوينه بنجاح</p>
+		<p>لأسباب أمنية الرجاء إزالة مجلد <code style="font-weight: bold;">install/</code> من الخادم الخاص بك</p>
 		<br/>
 		<div class="toright">
-		    <?php if($application_start_file != ""){ ?><a href="<?php echo $application_start_file;?>" class="button">OK, start the SLiMS</a><?php } ?>
+		    <?php if($application_start_file != ""){ ?><a href="<?php echo $application_start_file;?>" class="button">لنبدأ العمل إذا</a><?php } ?>
 		</div>
 		<br/>
 	    <?php } ?>

@@ -45,27 +45,27 @@ foreach($matches as $match)
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>Start | Slims Installer</title>
+	<title>البدء في التثبيت</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
 	<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
     <div class="wrapper">
 	<div class="title">
-	    <h2>Welcome to SLiMS Installer</h2>	    
+	    <h2>أهلا بك مع تثبيت نظام سنيان لإدارة المكتبات</h2>	    
 	</div>
-	<p class="message">Before getting started, you must get some information of following items</p>
+	<p class="message">قبل البدء ستحتاج المعلومات التالية</p>
 	<div class="content">	    
 	    <ul class="list">
-		<li>Database Name (must be set before running this installation)</li>
-		<li>Database Username</li>
-		<li>Database Password</li>
-		<li>Username Login (optional)</li>
-		<li>Password Login (optional)</li>
+		<li>إسم قاعدة البيانات</li>
+		<li>مستخدم قاعدة البيانات</li>
+		<li>كلمة السر لقاعدة البيانات</li>
+		<li>إسم المستخدم للدخول</li>
+		<li>كلمة السر المستخدم للدخول</li>
 	    </ul>
 	    <br/>
 	    <div class="toright">
-	    <input type="button" class="button" value="Let's Start The Installation" name="submit" title="Click to start installation" onclick="document.location.href='install.php'">	    
+	    <input type="button" class="button" value="لنبدأ التثبيت" name="submit" title="إنقر هنا للتثبيت" onclick="document.location.href='install.php'">	    
 	    </div>
 	</div>
 	    <?php include_once("footer.php"); ?>

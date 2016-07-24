@@ -3,6 +3,7 @@
 	Theme Name	: Slims Installer Template
 	Version		: 1.0.0
 	Author		: Eddy Subratha
+	modified    : kouider bounama kouiderbounama{at}gmail.com
 	Tags		: senayan, slims, themes, template, meranti
 	Copyrights	: (c) 2012 Eddy Subratha - eddy.subratha{at}gmail.com
 
@@ -13,12 +14,13 @@ http://meyerweb.com/eric/tools/css/reset/
 v2.0 | 20110126
 License: none (public domain)
 ----------------------------------------------*/
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;font-weight:normal;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;font-weight:normal;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none;padding:20px;}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 /*----------------------------------------------------------------*/
 /* General */
 /*----------------------------------------------------------------*/
 body {
+	direction:rtl;
 	color: #999999;
 	font: 12pt/1.5 Calibri, Arial, sans-serif;
         padding-top:30px;
@@ -177,7 +179,7 @@ h4
 
 .toright
 {
-    text-align: right;
+    text-align: left;
     clear: both;
     display: block;
 }
