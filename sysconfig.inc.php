@@ -371,10 +371,44 @@ $sysconf['z3950_max_result'] = 50;
 $sysconf['z3950_source'][1] = array('uri' => 'z3950.loc.gov:7090/voyager', 'name' => 'Library of Congress Voyager');
 $sysconf['z3950_SRU_source'][1] = array('uri' => 'http://z3950.loc.gov:7090/voyager', 'name' => 'Library of Congress SRU Voyager');
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * Peer to peer server config
  */
 $sysconf['p2pserver'][1] = array('uri' => 'http://127.0.0.1/slims7_cendana', 'name' => 'SLiMS Library');
+$sysconf['p2pserver'][2] = array('uri' => 'http://192.168.70.117:8089/cendana', 'name' => 'Perpustakaan XYZ');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * User and member login method
