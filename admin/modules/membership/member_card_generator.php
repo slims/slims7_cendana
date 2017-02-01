@@ -289,7 +289,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
 	    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
 	    </form>
     </div>
-    <div class="infoBox">
+    <div class="infodrajathasan-patch-1Box">
     <?php
     echo __('Maximum').' <font style="color: #f00">'.$max_print.'</font> '.__('records can be printed at once. Currently there is').' '; //mfc
     if (isset($_SESSION['card'])) {
@@ -298,7 +298,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     echo ' '.__('in queue waiting to be printed.'); //mfc
     ?>
     </div>
-</div>
+</div>drajathasan-patch-1
 </fieldset>
 <?php
 /* search form end */
