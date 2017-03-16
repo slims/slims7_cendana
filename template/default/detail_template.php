@@ -1,4 +1,6 @@
 <?php
+$_GET['id'] = (integer) htmlspecialchars($_GET['id']);
+#$_GET['id'] = (integer) $_GET['id'];
 // biblio/record detail
 // output the buffer
 ob_start(); /* <- DONT REMOVE THIS COMMAND */
