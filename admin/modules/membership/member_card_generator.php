@@ -213,11 +213,24 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
           $html_str .= ''.( $sysconf['print']['membercard']['include_id_label']?'':'<!--').'<p class="bio"><label class="bio_label">'.__('Member ID').'</label><span>: </span>'.$card['member_id'].'</p>'.( $sysconf['print']['membercard']['include_id_label']?'':'-->').'';
           $html_str .= ''.( $sysconf['print']['membercard']['include_name_label']?'':'<!--').'<p class="bio"><label class="bio_label">'.__('Member Name').'</label><span>: </span>'.$card['member_name'].'</p>'.( $sysconf['print']['membercard']['include_name_label']?'':'-->').'';
           $html_str .= ''.( $sysconf['print']['membercard']['include_pin_label']?'':'<!--').'<p class="bio"><label class="bio_label">'.__('Personal ID Number').'</label><span>: </span>'.$card['pin'].'</p>'.( $sysconf['print']['membercard']['include_pin_label']?'':'-->').'';
-          $html_str .= ''.( $sysconf['print']['membercard']['include_inst_label']?'':'<!--').'<p class="bio_address"><label class="bio_label">'.__('Institution').'</label><span style="float:left">: </span>'.( $sysconf['print']['membercard']['include_inst_label']?'':'-->').'';
-          $html_str .= ''.( $sysconf['print']['membercard']['include_inst_label']?'':'<!--').'<span class="label_address">'.$card['inst_name'].'</span></p>'.( $sysconf['print']['membercard']['include_inst_label']?'':'-->').'';
-          $html_str .= ''.( $sysconf['print']['membercard']['include_email_label']?'':'<!--').'<p class="bio"><label class="bio_label">'.__('E-mail').'</label><span>: </span>'.$card['member_email'].'</p>'.( $sysconf['print']['membercard']['include_email_label']?'':'-->').'';
-          $html_str .= ''.( $sysconf['print']['membercard']['include_address_label']?'':'<!--').'<p class="bio_address"><label class="bio_label">'.__('Address').' / '.__('Phone Number').'</label><span style="float:left">: </span>'.( $sysconf['print']['membercard']['include_address_label']?'':'-->').'';
-          $html_str .= ''.( $sysconf['print']['membercard']['include_address_label']?'':'<!--').'<span class="label_address">'.$card['member_address'].' / '.$card['member_phone'].'</span></p>'.( $sysconf['print']['membercard']['include_address_label']?'':'-->').'';
+          // Menghilangkan tag komentar html '<!--' diawal dan akhir '-->'
+          // pada baris 219 dan 220 adalah cara menampilkan informasi instasi dari member
+          // dan ini juga berlaku di bagian Email member.
+          $html_str .= ''.( $sysconf['print']['membercard']['include_inst_label']?'':'').'<p class="bio_address"><label class="bio_label">'.__('Institution').'</label><span style="float:left">: </span>'.( $sysconf['print']['membercard']['include_inst_label']?'':'').'';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_inst_label']?'':'').'<span class="label_address">'.$card['inst_name'].'</span></p>'.( $sysconf['print']['membercard']['include_inst_label']?'':'').'';
+          // Opsi Email dimatikan karena informasi identitas terlalu memanjang kebawah
+          // menutupi bagian foto dan tanda tangan pustakawan
+          // jika hendak diaktifkan kembali, hilangkan tanda // pada awal baris 221 pada file ini.
+          //$html_str .= ''.( $sysconf['print']['membercard']['include_name_label']?'':'<!--').'<p class="bio"><label class="bio_label">'.__('E-mail').'</label><span>: </span>'.$card['member_email'].'</p>'.( $sysconf['print']['membercard']['include_email_label']?'':'').'';
+          // Perbaikan pada informasi Alamat dan nomor telepon
+          // memisahkan kode $card['member_phone'] dan $card['member_address'] 
+          // Menjadi dua baris yang berbeda
+          // Baris Alamat member
+          $html_str .= ''.( $sysconf['print']['membercard']['include_address_label']?'':'<!--').'<p class="bio_address"><label class="bio_label">'.__('Address').'</label><span style="float:left">: </span>'.( $sysconf['print']['membercard']['include_address_label']?'':'-->').'';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_address_label']?'':'<!--').'<span class="label_address">'.$card['member_address'].'</span></p>'.( $sysconf['print']['membercard']['include_address_label']?'':'-->').'';
+          // Baris Nomor Telpon Member
+          $html_str .= ''.( $sysconf['print']['membercard']['include_address_label']?'':'<!--').'<p class="bio_address"><label class="bio_label">'.__('Phone Number').'</label><span style="float:left">: </span>'.( $sysconf['print']['membercard']['include_address_label']?'':'-->').'';
+          $html_str .= ''.( $sysconf['print']['membercard']['include_address_label']?'':'<!--').'<span class="label_address">'.$card['member_phone'].'</span></p>'.( $sysconf['print']['membercard']['include_address_label']?'':'-->').'';
           $html_str .= '</div>';
           $html_str .= '<div id="photo_blank_div"><br />Photo size:<br />'.$sysconf['print']['membercard']['photo_width'].' X '.$sysconf['print']['membercard']['photo_height'].' cm</div>';
           $html_str .= '<div id="photo_div"><img width="'.($sysconf['print']['membercard']['photo_width']*$sysconf['print']['membercard']['factor']).'px" height="'.($sysconf['print']['membercard']['photo_height']*$sysconf['print']['membercard']['factor']).'px" src="'.SWB.IMG.'/persons/'.$card['member_image'].'" /></div>';
@@ -276,7 +289,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
 	    <input type="submit" id="doSearch" value="<?php echo __('Search'); ?>" class="button" />
 	    </form>
     </div>
-    <div class="infoBox">
+    <div class="infodrajathasan-patch-1Box">
     <?php
     echo __('Maximum').' <font style="color: #f00">'.$max_print.'</font> '.__('records can be printed at once. Currently there is').' '; //mfc
     if (isset($_SESSION['card'])) {
@@ -285,7 +298,7 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
     echo ' '.__('in queue waiting to be printed.'); //mfc
     ?>
     </div>
-</div>
+</div>drajathasan-patch-1
 </fieldset>
 <?php
 /* search form end */
