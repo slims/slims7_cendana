@@ -82,7 +82,7 @@ if (isset($_POST['itemID']) AND !empty($_POST['itemID']) AND isset($_POST['itemA
       /* replace invalid characters */
       $barcode_text = str_replace(array(':', ',', '*', '@'), '', $barcode_text);
       // send ajax request
-      echo 'jQuery.ajax({ url: \''.SWB.'lib/phpbarcode/barcode.php?code='.$itemID.'&encoding='.$sysconf['barcode_encoding'].'&scale='.$size.'&mode=png\', type: \'GET\', error: function() { alert(\'Error creating barcode!\'); } });'."\n";
+      echo 'jQuery.ajax({ url: \''.SWB.'lib/phpbarcode/barcode.php?code='.$barcode_text.'&encoding='.$sysconf['barcode_encoding'].'&scale='.$size.'&mode=png\', type: \'GET\', error: function() { alert(\'Error creating barcode!\'); } });'."\n";
       // add to sessions
       $_SESSION['barcodes'][$itemID] = $itemID;
       $print_count++;
@@ -180,7 +180,9 @@ if (isset($_GET['action']) AND $_GET['action'] == 'print') {
         $html_str .= substr($barcode[0], 0, $sysconf['print']['barcode']['barcode_cut_title']).'...';
       } else { $html_str .= $barcode[0]; }
       $html_str .= '</div>';
-      $html_str .= '<img src="'.SWB.IMG.'/barcodes/'.str_replace(array(' '), '_', $barcode[1]).'.png" style="width: '.$sysconf['print']['barcode']['barcode_scale'].'%;" border="0" />';
+      $barcode_text = str_replace(array(' ', '/', '\/'), '_', $barcode[1]);
+      $barcode_text = str_replace(array(':', ',', '*', '@'), '', $barcode_text);	    
+      $html_str .= '<img src="'.SWB.IMG.'/barcodes/'.$barcode_text.'.png" style="width: '.$sysconf['print']['barcode']['barcode_scale'].'%;" border="0" />';
       $html_str .= '</div>';
       $html_str .= '</td>';
     }
