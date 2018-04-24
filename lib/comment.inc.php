@@ -68,8 +68,16 @@ function showComment($_detail_id)
 
 		if (ISSET($_SESSION['mid'])) {
 		// Comment form
+		
+			//add heru
+			//create unique ticket
+			$token = md5(uniqid(rand(), TRUE));
+			$_SESSION['token']      = $token;
+			$_SESSION['token_time'] = time();
+			
 			$_forms  = '<form method="post" action="index.php?p=show_detail&id='.$_detail_id.'" class="comment-form">';
 			$_forms .=  simbio_form_element::textField('textarea','comment','','placeholder="Add your comment" class="comment-input"'). '<br />';
+			$_forms .= '<input type="hidden" name="Validation" value="'.$token.'">';
 			$_forms .= '<input type="submit" name="SaveComment" value="Save comment" class="button">';
 			$_forms .= '</form>';
 			return $_list_comment.$_forms;
